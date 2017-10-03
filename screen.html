@@ -49,20 +49,16 @@
 	<div class="py-5">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-12">
 					<h1 class="text-center text-uppercase text-secondary">
 						{{ room }}
 					</h1>
 				</div>
-				<div class="col-md-6">
-					<h1 class="text-center text-secondary">
-						{{ start }}
-					</h1>
-					<h1 class="text-uppercase text-center text-secondary">
-						to
-					</h1>
-					<h1 class="text-center text-secondary">
-						{{ end }}
+			</div>
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="text-center text-uppercase text-secondary">
+						{{ start }} - {{ end }}
 					</h1>
 				</div>
 			</div>
@@ -93,12 +89,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous" type="text/javascript"></script>
 <script>
 
-	function dateToLocaleString(UTCTime, timeZone) {
+    function dateToLocaleString(UTCTime, timeZone) {
         var epoch = new Date(0);
         epoch.setUTCSeconds(parseInt(UTCTime));
         var date = new Date(epoch);
-	    return date.toLocaleString([], { timeZone: timeZone, hour: '2-digit', minute:'2-digit' });
-	}
+        return date.toLocaleString([], { timeZone: timeZone, hour: '2-digit', minute:'2-digit' });
+    }
 
     var router = new VueRouter({
         mode: 'history',
@@ -112,7 +108,7 @@
             var query = this.$route.query;
 
             this.now = query.now;
-			this.room = query.room;
+            this.room = query.room;
             this.start = dateToLocaleString(query.start, query.timeZone);
             this.end = dateToLocaleString(query.end, query.timeZone);
         },
