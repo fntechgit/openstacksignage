@@ -8,16 +8,25 @@ import { $router } from './router'
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()
 
+    if ($store.getters.schedule) {
+        $store.commit('setSchedule', null)
+    }
+
+    if ($store.getters.error) {
+        $store.commit('setError', null)
+    }
+
     schedule.setup(to).then(() => {
         $store.commit('setSchedule', schedule); next()
     }).catch(error => {
+        console.error(error)
         $store.commit('setError', error); next()
     })
 })
 
 new Vue({
-  el: '#app',
-  store: $store,
-  router: $router,
-  render: h => h(App)
+    el: '#app',
+    store: $store,
+    router: $router,
+    render: h => h(App)
 })

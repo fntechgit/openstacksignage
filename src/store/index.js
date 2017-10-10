@@ -11,6 +11,7 @@ Vue.use(Vuex)
 export const $store = new Vuex.Store({
     state: {
         error: null,
+        summit: null,
         schedule: null,
     },
     modules: {
@@ -28,17 +29,22 @@ export const $store = new Vuex.Store({
         loadDate() {
             return axios.get('http://www.convert-unix-time.com/api?timestamp=now')
         },
-        // loadEvents(context, location) {
-        //     return new Promise((resolve, reject) => {
-        //         new Request(`summits/current/locations`).send().then(reject)
-        //     })
-        // }
+        loadSummit(context) {
+            if (context.state.summit) {
+                return new Promise(
+                    resolve => resolve(context.state.summit)
+                )
+            }
+            return new Request('summits/current').send().then(response => {
+                return context.state.summit = response
+            })
+        },
         loadEvents(context, location) {
             const query = qs.stringify({
-                'filter[]': [
-                    'start_date>' + moment.utc().startOf('day').unix(),
-                    'start_date<' + moment.utc().endOf('day').unix()
-                ],
+                // 'filter[]': [
+                //     'start_date>' + moment.utc().startOf('day').unix(),
+                //     'start_date<' + moment.utc().endOf('day').unix()
+                // ],
                 page: 1,
                 per_page: 100
             }, { indices: false })

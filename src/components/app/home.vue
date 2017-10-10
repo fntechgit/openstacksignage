@@ -1,30 +1,37 @@
 <template>
     <div>
         <pre>
-            Now: {{ format(schedule.state.now) }}
-            Unix: {{ schedule.state.now }}
-            <button @click="reset">Reset</button>
-        </pre>
-        <pre v-if="schedule.state.prev">
-            <b>PREVIOUS:</b> {{ schedule.state.prev.title }}
-            Starts in: {{ schedule.state.prev._ds }}
-            Start: {{ format(schedule.state.prev.start_date) }}
-            End: {{ format(schedule.state.prev.end_date )}}
-            <button @click="sync(schedule.state.prev)">5 seconds before</button>
-        </pre>
-        <pre v-if="schedule.state.curr">
-            <b>CURRENT:</b> {{ schedule.state.curr.title }}
-            Starts in: {{ schedule.state.curr._ds }}
-            Start: {{ format(schedule.state.curr.start_date) }}
-            End: {{ format(schedule.state.curr.end_date )}}
-            <button @click="sync(schedule.state.curr)">5 seconds before</button>
-        </pre>
-        <pre v-if="schedule.state.next">
-            <b>NEXT:</b> {{ schedule.state.next.title }}
-            Starts in: {{ schedule.state.next._ds }}
-            Start: {{ format(schedule.state.next.start_date) }}
-            End: {{ format(schedule.state.next.end_date )}}
-            <button @click="sync(schedule.state.next)">5 seconds before</button>
+            <table width="50%" border="1" cellpadding="5">
+                <tr><th colspan="2">Clock</th></tr>
+                <tr>
+                    <th colspan="2">{{ schedule.events.length }} Events</th>
+                </tr>
+                <tr>
+                    <th>UTC</th>
+                    <td align="center" v-html="schedule.format(schedule.state.now, true)"></td>
+                </tr>
+                <tr>
+                    <th>Summit</th>
+                    <td align="center" v-html="schedule.format(schedule.state.now)"></td>
+                </tr>
+                <tr>
+                    <td align="center" colspan="2"><a href="" @click.prevent="schedule.setOffset(0)">Reset</a></td>
+                </tr>
+            </table>
+            <table width="50%" border="1" cellpadding="10">
+                <tr>
+                    <th>Previous</th>
+                    <td><event :schedule="schedule" :event="schedule.state.prev" /></td>
+                </tr>
+                <tr bgcolor="#7DCEA0">
+                    <th>Current</th>
+                    <td><event :schedule="schedule" :event="schedule.state.curr" /></td>
+                </tr>
+                <tr>
+                    <th>Next</th>
+                    <td><event :schedule="schedule" :event="schedule.state.next" /></td>
+                </tr>
+            </table>
         </pre>
     </div>
 </template>
@@ -34,21 +41,11 @@
     import moment from 'moment'
     import { mapGetters } from 'vuex'
 
+    import Event from './event.vue'
+
     export default {
         computed: mapGetters({ schedule: 'schedule' }),
-        methods: {
-            format(date) {
-                return moment.unix(date).utc().format()
-            },
-            sync(event) {
-                this.schedule.offset = event.start_date - moment.utc().unix() - 5
-                this.schedule.update()
-            },
-            reset() {
-                this.schedule.offset = 0
-                this.schedule.update()
-            }
-        }
+        components: { Event }
     }
 
 </script>
