@@ -6,6 +6,8 @@ import axios from 'axios'
 import moment from 'moment'
 import Request from '../model/request'
 
+import { TIME_URL } from '../config'
+
 Vue.use(Vuex)
 
 export const $store = new Vuex.Store({
@@ -27,7 +29,11 @@ export const $store = new Vuex.Store({
     },
     actions: {
         loadDate() {
-            return axios.get('http://www.convert-unix-time.com/api?timestamp=now')
+            return axios.get(TIME_URL).then(payload => {
+                payload.data.timestamp = Math.ceil(
+                    payload.data.timestamp
+                ); return payload
+            })
         },
         loadSummit(context) {
             if (context.state.summit) {
