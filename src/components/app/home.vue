@@ -2,9 +2,8 @@
     <div>
         <pre>
             <table width="50%" border="1" cellpadding="5">
-                <tr><th colspan="2">Clock</th></tr>
                 <tr>
-                    <th colspan="2">{{ schedule.events.length }} Events</th>
+                    <th colspan="2">Clock ({{ schedule.events.length }} Events)</th>
                 </tr>
                 <tr>
                     <th>UTC</th>
@@ -13,6 +12,10 @@
                 <tr>
                     <th>Summit</th>
                     <td align="center" v-html="schedule.format(schedule.state.now)"></td>
+                </tr>
+                <tr>
+                    <th>Time Offset</th>
+                    <td align="center" v-html="schedule.offset + ' seconds'"></td>
                 </tr>
                 <tr>
                     <td align="center" colspan="2"><a href="" @click.prevent="schedule.setOffset(0)">Reset</a></td>
