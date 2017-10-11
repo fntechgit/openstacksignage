@@ -47,8 +47,8 @@ export default class Schedule {
     }
 
     loadSummit() {
-        return $store.dispatch('loadSummit').then(payload => {
-            this.timezone = payload.data.time_zone.offset; return this
+        return $store.dispatch('loadSummit').then(summit => {
+            this.timezone = summit.time_zone.offset; return this
         })
     }
 

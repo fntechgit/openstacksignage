@@ -1,12 +1,10 @@
 import qs from 'qs'
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Auth from './auth'
 import axios from 'axios'
 import moment from 'moment'
-import Request from '../model/request'
 
-import { TIME_URL } from '../config'
+import { API_URL, API_VERSION, TIME_URL } from '../config'
 
 Vue.use(Vuex)
 
@@ -15,9 +13,6 @@ export const $store = new Vuex.Store({
         error: null,
         summit: null,
         schedule: null,
-    },
-    modules: {
-        auth: { ...Auth, namespaced: true }
     },
     getters: {
         error(state) {
@@ -41,8 +36,8 @@ export const $store = new Vuex.Store({
                     resolve => resolve(context.state.summit)
                 )
             }
-            return new Request('summits/current').send().then(response => {
-                return context.state.summit = response
+            return axios.get(getEndpoint('summits')).then(response => {
+                return context.state.summit = response.data.data.pop()
             })
         },
         loadEvents(context, location) {
@@ -55,9 +50,9 @@ export const $store = new Vuex.Store({
                 per_page: 100
             }, { indices: false })
 
-            return new Request(
+            return axios.get(getEndpoint(
                 `summits/current/locations/${location}/events/published?${query}`
-            ).send()
+            ))
         }
     },
     mutations: {
@@ -69,3 +64,7 @@ export const $store = new Vuex.Store({
         }
     }
 })
+
+function getEndpoint(resource) {
+    return `${API_URL}/api/public/${API_VERSION}/${resource}`
+}
