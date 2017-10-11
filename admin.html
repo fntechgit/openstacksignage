@@ -330,13 +330,9 @@
 						},
 						screen_link: function (column, row) {
 
-                            var link = "screen.html" +
-                                "?now=" + encodeURI(row['title']) +
-                                "&room=" + encodeURI($("#locations option:selected").text()) +
-                                "&start=" + encodeURI(row['start_date']) +
-                                "&end=" + encodeURI(row['end_date']) +
-                                "&next=" + encodeURI(row['title']) +
-                                "&timeZone=" + encodeURI(timeZone);
+                            var link = "https://signage.openstack.org/#/" +
+                                "?location=" + encodeURI($("#locations option:selected").val());
+                      
 
 						    return "<a href='" + link + "'>View</a>";
 						},
