@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>OpenStack Signage - Event listing by room</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.6/moment-timezone-with-data.min.js"></script>
+	<script src="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
+	<link rel="stylesheet" href="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/css/bootstrap-editable.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/URI.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css">
+	<style>
+	.searchBox {
+		width: 200px;
+		display: inline-block;
+		margin: 0px 10px;
+	}
+	input[type="search"] {
+		-webkit-appearance: searchfield;
+	}
+	input[type="search"]::-webkit-search-cancel-button {
+		-webkit-appearance: searchfield-cancel-button;
+	}
+	thead {
+		font-size: 12px;
+	}
+	tbody {
+		font-size: 12px;
+	}
+	.eventColumn {
+		width: 8%;
+	}
+	.titleColumn {
+		width: 20%;
+	}
+	.speakersColumn {
+		width: 20%;
+	}
+	.screenLinkColumn {
+		width: 10%;
+	}
+	.tagsColumn {
+		width: 18%;
+	}
+	.dateColumn {
+		width: 8%;
+	}
+	.venue{
+                font-weight: bold !important;
+		text-transform: uppercase;
+	}
+	.location{
+		padding-left: 20px !important;
+	}
+	.wheel{
+		width:30px;
+	}
+	.loading{
+		background-image: url(ring-alt.gif);
+		background-repeat: no-repeat;
+		background-size: contain;
+	}
+	</style>
+</head>
+
+<body>
+<div>
+    <a class="connect" style="margin: 20px;
+    border: 1px solid silver;
+    border-radius: 10px;
+    padding: 10px;cursor: pointer">Connect</a>
+</div>
+
+<div class="authenticated" style="margin: 20px;
+    border: 1px solid silver;
+    border-radius: 10px;
+    padding: 10px;">
+    <p>
+        <span class="token">Please authenticate by clicking on the Connect button above.</span>
+		
+		<div>
+		Summit <select id="summits" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select>
+		Venues <select id="locations" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select>
+		</div>
+    </p>
+	<table id="grid-data"  data-ajax="true"  class="table table-condensed table-hover table-striped" >
+		<thead>
+			<tr>
+				<th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
+				<th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
+				<th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
+				<th data-column-id="screen_link" data-formatter="screen_link" data-header-css-class="screenLinkColumn" >Screen Link</th>
+				<th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
+				<th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
+				<th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
+			</tr>
+		</thead>
+	</table>
+    <button class="btn btn-default submit-event" type="button" title="Submit">Submit<span class="icon glyphicon"></span></button>
+	<script type="text/javascript" charset="utf-8">
+		
+	    $( document ).ready(function() {
+		
+			var timeZone = "Australia/Melbourne";
+			
+			var spanWithTooltips = function(text){
+				return "<span title='"+ text + "'>"+text+"</span>";
+			};
+			
+			var extractToken = function() {
+	            var uri = new URI();
+				return URI.parseQuery(uri.fragment()).access_token;
+	        };
+
+	        var extractSummitID = function(){
+	        	return $("#summit_id").val();
+	        	/*
+	        	var uri = new URI();
+				return URI.parseQuery(uri.query()).summit_id;
+				*/
+	        };
+
+			var extractLocationID = function(){
+				return $("#location_id").val();
+				/*
+				var uri = new URI();
+				return URI.parseQuery(uri.query()).location_id;
+				*/
+	        };
+			
+			var fillSummitList =  function(){
+	        	$.ajax({
+					url: summits_resource,
+					type: "GET",
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+						xhr.setRequestHeader('Accept', "application/json");
+						xhr.setRequestHeader('Content-Type', 'application/json"');
+					}, 
+					success: function (response, textStatus, jqXHR ) {
+						var data = response.data;
+						$("#summits").empty();
+						$("#summits").prop("disabled", false);
+						$("#summits").append($("<option></option>").attr("value", 'current').text('Current'));
+						$.each(data, function(index, value) {
+							if(value.active)
+								$("#summits").append($("<option></option>").attr("value", value.id).text(value.name));
+						});	
+						$("#summits").change();
+						$("#summits").trigger("chosen:updated");
+					},
+					error:function (jqXHR, textStatus, errorThrown ){
+						console.log(errorThrown);
+					}						
+				});
+			};
+			
+			var fillLocationList =  function(summit_id){
+	        	$.ajax({
+					url: locations_resource.replace("{summit_id}", summit_id) + '?order=name+',
+					type: "GET",
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+						xhr.setRequestHeader('Accept', "application/json");
+						xhr.setRequestHeader('Content-Type', 'application/json');
+					}, 
+					success: function (response, textStatus, jqXHR ) {
+						$("#locations").empty();
+						$("#locations").prop("disabled", false);
+						var data = response.data;
+						$.each(data, function(index, value) {
+							//<option value="115" title="Hotel" data-venue-name="AC Hotel" class="location-hotel">AC Hotel</option>
+							//title - hotel (hotel_type primary)
+							if(value.class_name == 'SummitVenue'){
+								$("#locations").append($("<option></option>").attr("value", value.id).attr("class", "venue").text(value.name));
+								$.each(value.rooms, function(room_idx, room_value) {
+									$("#locations").append($("<option></option>").attr("value", room_value.id).attr("class", "location").text(room_value.name));
+								});
+							}
+								
+						});	
+						$("#locations").html($("#locations").children('option').sort(function (x, y) {
+							return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
+						}));
+						$("#locations").prepend($("<option></option>").attr("value", '').prop("selected", true).text('Please select a location'));
+						$("#locations").trigger("chosen:updated");
+					},
+					error:function (jqXHR, textStatus, errorThrown ){
+						console.log(errorThrown);
+					}						
+				});
+			};
+
+            var client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
+            var setting =
+                {
+                    'host': "testopenstackid.openstack.org",
+                    'rserver_host': "testresource-server.openstack.org",
+                    'clientId': client_id,
+                    'scopes' : 'https://testresource-server.openstack.org/summits/read'
+                };
+
+            //these values might be taken from query string, however auth2 redirection is not returning second parameter
+            var summit_id = extractSummitID();
+            var location_id = extractLocationID();
+
+            var authHost     = "https://" + setting.host;
+            var summits_resource = "https://" + setting.rserver_host + "/api/v1/summits";
+            var locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations";
+            var events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
+            var endUserAuthorizationEndpoint = authHost + "/oauth2/auth";
+			
+
+	        var token = extractToken();
+	        var authUrl = endUserAuthorizationEndpoint +
+	                    "?response_type=token id_token" +
+	                    "&approval_prompt=force"+
+	                    "&scope=" + encodeURI(setting.scopes)+
+	                    "&client_id="  + encodeURI(setting.clientId) +
+	                    "&redirect_uri=" + window.location;
+
+			$("a.connect").attr("href", authUrl);
+			
+			$("#summits").on('change', function() {
+			  fillLocationList(this.value);
+			});
+			
+			$("#locations").on('change', function() {
+				var new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+				$("#grid-data").bootgrid("destroy");
+				initializeGrid();
+			});
+			
+			if (token) {
+				$('span.token').text("You are authenticated");
+	            $("a.connect").text('Re-connect');
+				fillSummitList();
+	        }
+			 
+			function initializeGrid(){
+				$("#grid-data").bootgrid({
+					ajax: true,
+					ajaxSettings: {
+						method: "GET",
+						cache: false,
+						beforeSend: function (xhr) {
+							xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+							xhr.setRequestHeader('Accept', "application/json");
+							xhr.setRequestHeader('Content-Type', 'text/plain');
+						}
+					},
+					url: events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()),
+					requestHandler:function (request) { 
+							var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
+							var keyword = $('#tb_keyword').val().length ? 'tags=@' + $('#tb_keyword').val().trim() : '';
+							var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
+							var isSorted = (request.sort);
+							var orderBy = '';
+							if(isSorted){
+								var order = Object.keys(request.sort)[0];
+								var asc = request.sort[Object.keys(request.sort)[0]];
+								orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
+								
+								var request = {
+									filter : filters,
+									page: request.current, 
+									per_page: request.rowCount,
+									order: orderBy,
+									expand:"speakers,location",
+								};
+							}else{
+								var request = {
+									filter: filters,
+									page: request.current, 
+									per_page: request.rowCount
+								};
+							}
+							return request; 
+						},
+					responseHandler:function (response) { 
+						var response = {
+							current: response.current_page,
+							rowCount: response.per_page,
+							rows: response.data,
+							total: response.total
+						};
+
+						return response; 
+				
+					},
+					 formatters: {
+						eventtitle: function (column, row){
+							return spanWithTooltips(row[column.id]); 
+						},
+						csvspeakers: function (column, row){
+							if(row[column.id]){
+								var arr = jQuery.map( $(row[column.id]), function( speaker ) {
+								   return speaker.first_name + ' ' + speaker.last_name;
+								});
+								return spanWithTooltips(arr.join(", ")); 
+							}else{
+								return "";
+							}
+						},
+						csvtags: function (column, row){
+							if(row[column.id]){
+								var arr = jQuery.map( $(row['tags']), function( tag ) {
+								   return tag.tag;
+								});
+								return spanWithTooltips(arr.join(",")); 
+							}else{
+								return "";
+							}
+						},
+						screen_link: function (column, row) {
+
+                            var link = "screen.html" +
+                                "?now=" + encodeURI(row['title']) +
+                                "&room=" + encodeURI($("#locations option:selected").text()) +
+                                "&start=" + encodeURI(row['start_date']) +
+                                "&end=" + encodeURI(row['end_date']) +
+                                "&next=" + encodeURI(row['title']) +
+                                "&timeZone=" + encodeURI(timeZone);
+
+						    return "<a href='" + link + "'>View</a>";
+						},
+						date: function(column, row){
+							var utc_date = row[column.id];
+							var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+							date.setUTCSeconds(utc_date);
+							
+							var date = moment.unix(utc_date);
+							return date.tz(timeZone).format('MM/DD HH:mm');
+						}
+					},
+					rowCount: [10, 25, 50, 100],
+					templates: {
+						header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='keyword'><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><p class=\"{{css.actions}}\"></p></div></div></div>"    
+					},
+					selection: true,
+					multiSelect: true,
+					
+				}).on("selected.rs.jquery.bootgrid", function (e, rows) {
+					console.log(rows);
+					console.log("selected");
+				}).on("deselected.rs.jquery.bootgrid", function (e, rows) {
+					console.log("deselected");
+				}).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
+					console.log("click");
+				}).on("loaded.rs.jquery.bootgrid", function (e){
+                    console.log("loaded");
+				});
+			}
+			
+			function reloadGrid()
+			{
+				$("#grid-data").bootgrid("reload");
+			}
+			$(".submit-event").on('click', function (){
+				var selectedRows = $("#grid-data").bootgrid("getSelectedRows");
+				$.each(selectedRows, function( index, value ) {
+					var event_id = value;
+				});
+			});
+
+			$(".chosen-select").chosen({ width:"200px", "white-space": "nowrap"});
+
+			$( document ).tooltip({
+			  show: null,
+			  position: {
+				my: "left top",
+				at: "left bottom"
+			  },
+			  open: function( event, ui ) {
+				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+			  }
+			});
+			
+			$(document).on({
+				ajaxStart: function() { $(".actionBar").addClass("loading");    },
+				ajaxStop: function() { $(".actionBar").removeClass("loading"); }    
+			});
+	    });
+	</script>
+</div>
+</body>
+</html>
