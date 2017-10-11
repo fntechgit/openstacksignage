@@ -30,8 +30,9 @@ export default class Schedule {
             // // Uncomment for offline debugging.
             // this.offset = 10*60
             // this.timezone = -3*60*60
-            // this.events = EVENTS; this.update()
-            // setInterval(() => this.tick(), 1000)
+            // this.events = EVENTS
+            // this.setupClock()
+            // this.update()
             // return resolve()
 
             this.loadSummit().then(() => {
@@ -42,8 +43,14 @@ export default class Schedule {
                 })
             }).catch(reject)
 
-            setInterval(() => this.tick(), 1000)
+            this.setupClock()
         })
+    }
+
+    setupClock() {
+        setTimeout(() => { // Start at .0000
+            setInterval(() => this.tick(), 1000); this.update()
+        }, 1000 - new Date().getTime() % 1000)
     }
 
     loadSummit() {
@@ -112,8 +119,10 @@ export default class Schedule {
     setTimeout(interval) {
         this.timeout && clearTimeout(this.timeout)
 
+        const msOffset = new Date().getTime() % 1000
+
         this.timeout = setTimeout(() => this.update(),
-            Math.min(interval, 5 * 60 * 1000)
+            Math.min(interval, (5 * 60 * 1000)) - msOffset
         )
     }
 
