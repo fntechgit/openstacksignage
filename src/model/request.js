@@ -14,11 +14,11 @@ export default class Request {
 
     send() {
         return new Promise((resolve, reject) => {
-            $store.dispatch('auth/login').then(oauth => {
-                axios({ ...this.config, headers: {
+            return $store.dispatch('auth/login').then(oauth => {
+                return axios({ ...this.config, headers: {
                     Authorization: 'Bearer ' + oauth.access_token
-                }}).then(resolve).catch(reject)
-            })
+                }}).then(resolve)
+            }).catch(reject)
         })
     }
 }
