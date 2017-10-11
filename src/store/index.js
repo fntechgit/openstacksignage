@@ -20,6 +20,11 @@ export const $store = new Vuex.Store({
         },
         schedule(state) {
             return state.schedule
+        },
+        room(state) {
+            return locationId => state.summit.locations.filter(
+                location => location.id === locationId
+            ).shift()
         }
     },
     actions: {

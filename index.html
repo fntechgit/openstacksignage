@@ -2,9 +2,22 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>os-signage</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/theme.css" type="text/css">
+    <style>
+        .fill {
+            min-height: 100vh;
+            height: 100%;
+            background: url(assets/images/RoomDisplay_background.png) center bottom;
+            background-size: cover;
+        }
+    </style>
   </head>
-  <body>
+  <body class="fill">
     <div id="app"></div>
     <script src="/dist/build.js"></script>
   </body>
