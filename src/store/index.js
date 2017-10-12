@@ -64,6 +64,9 @@ export const $store = new Vuex.Store({
         setError(state, error) {
             state.error = error
         },
+        setSummit(state, summit) {
+            state.summit = summit
+        },
         setSchedule(state, schedule) {
             state.schedule = schedule
         }

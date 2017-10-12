@@ -1,6 +1,6 @@
 import moment from 'moment'
-import { EVENTS } from '../data'
 import { $store } from '../store'
+import { SUMMIT, EVENTS } from '../data'
 
 export default class Schedule {
 
@@ -31,6 +31,7 @@ export default class Schedule {
             // this.offset = 10*60
             // this.timezone = -3*60*60
             // this.events = EVENTS
+            // $store.commit('setSummit', SUMMIT)
             // this.setupClock()
             // this.update()
             // return resolve()
