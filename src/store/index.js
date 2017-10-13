@@ -30,9 +30,7 @@ export const $store = new Vuex.Store({
     actions: {
         loadDate() {
             return axios.get(TIME_URL).then(payload => {
-                payload.data.timestamp = Math.ceil(
-                    payload.data.timestamp
-                ); return payload
+                return Math.ceil(payload.data.timestamp)
             })
         },
         loadSummit(context) {
@@ -58,6 +56,25 @@ export const $store = new Vuex.Store({
             return axios.get(getEndpoint(
                 `summits/current/locations/${location}/events/published?${query}`
             ))
+        },
+        updateTime(context, { location, timestamp }) {
+            const schedule = context.state.schedule
+
+            if ( ! schedule) {
+                return
+            }
+
+            if (location !== 0 && location !== schedule.location) {
+                return
+            }
+
+            if (timestamp) {
+                return schedule.setOffset(
+                    timestamp - moment.utc().unix()
+                )
+            }
+
+            schedule.syncTime()
         }
     },
     mutations: {

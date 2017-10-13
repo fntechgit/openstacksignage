@@ -25,7 +25,7 @@ export default class Schedule {
                 return reject('Missing location')
             }
 
-            this.location = route.query.location
+            this.location = parseInt(route.query.location)
 
             // // Uncomment for offline debugging.
             // this.offset = 10*60
@@ -67,8 +67,8 @@ export default class Schedule {
     }
 
     syncTime() {
-        return $store.dispatch('loadDate').then(payload => {
-            this.offset = moment.unix(payload.data.timestamp).diff(
+        return $store.dispatch('loadDate').then(timestamp => {
+            this.offset = moment.unix(timestamp).diff(
                 moment.utc(), 'seconds'
             ); return this
         })
