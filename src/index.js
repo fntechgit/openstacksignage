@@ -5,6 +5,8 @@ import Schedule from './model/schedule'
 import { $store } from './store'
 import { $router } from './router'
 
+require('./firebase')
+
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()
 
