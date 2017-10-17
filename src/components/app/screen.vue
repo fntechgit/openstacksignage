@@ -35,6 +35,15 @@
             </tr>
         </table>
 
+        <div class="info">
+            <div class="info-item">
+                {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
+            </div>
+            <div class="info-item" v-if="schedule.room">
+                {{ schedule.room.name }}
+            </div>
+        </div>
+
         <div class="py-5">
             <div class="container">
                 <div class="row">
@@ -44,66 +53,53 @@
                 </div>
             </div>
         </div>
-        <div class="pt-5">
+
+        <template v-if="schedule.state.curr">
+            <main-event :schedule="schedule"
+            :event="schedule.state.curr" title="Now"></main-event>
+
+            <div class="py-5" v-if="schedule.state.next">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-secondary text-uppercase text-center">
+                                Next
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="text-center text-uppercase">
+                                {{ schedule.state.next && schedule.state.next.title || 'None' }}
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <main-event v-else-if="schedule.state.next" :schedule="schedule"
+        :event="schedule.state.next" title="Next"></main-event>
+
+        <div v-else class="pt-3 pb-5">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="text-center text-uppercase text-secondary">
-                            Now
-                        </h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-1 text-center text-uppercase">
-                            {{ schedule.state.curr && schedule.state.curr.title || 'None' }}
+                        <h1 class="display-3 text-center text-uppercase">
+                            No more events for the day
                         </h1>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="pt-3 pb-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-3 text-center text-uppercase text-secondary">
-                            {{ room(schedule.state.curr).name }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-3 text-center text-lowercase text-secondary">
-                            {{ time(schedule.state.curr) }}
-                        </h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="py-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="text-secondary text-uppercase text-center">
-                            Next
-                        </h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="text-center text-uppercase" style="color: black;">
-                            {{ schedule.state.next && schedule.state.next.title || 'None' }}
-                        </h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </template>
 
 <script>
 
     import moment from 'moment'
+    import MainEvent from './event/main.vue'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -111,17 +107,6 @@
             ...mapGetters({
                 schedule: 'schedule'
             }),
-            room() {
-                return event => event && this.$store.getters.room(
-                    event.location_id
-                ) || { name: 'N/A' }
-            },
-            time() {
-                return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm A'),
-                    this.schedule.getDate(event.end_date).format('h:mm A')
-                ].join(' - ') || 'N/A'
-            }
         },
         methods: {
             syncStart(event) {
@@ -134,12 +119,31 @@
                     event.end_date - moment.utc().unix() - 5
                 )
             }
-        }
+        },
+        components: { MainEvent }
     }
 
 </script>
 
 <style>
+
+    .info {
+        display: flex;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        flex-direction: column;
+    }
+
+    .info-item {
+        border: 2px solid white;
+        color: white;
+        font-size: 4ex;
+        margin-bottom: 10px;
+        padding: 15px;
+        text-align: center;
+        border-radius: 10px;
+    }
 
     .debug {
         background: rgba(0, 0, 0, 0.5);

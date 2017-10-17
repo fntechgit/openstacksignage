@@ -32,11 +32,13 @@ export default class Schedule {
             // this.timezone = -3*60*60
             // this.events = EVENTS
             // $store.commit('setSummit', SUMMIT)
+            // this.room = $store.getters.room(this.location)
             // this.setupClock()
             // this.update()
             // return resolve()
 
-            this.loadSummit().then(() => {
+            this.loadSummit().then(summit => {
+                this.room = $store.getters.room(this.location)
                 return this.loadEvents().then(() => {
                     return this.syncTime().then(() => {
                         this.update(); resolve()
