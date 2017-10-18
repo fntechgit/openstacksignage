@@ -42,6 +42,9 @@
             <div class="info-item" v-if="schedule.room">
                 {{ schedule.room.name }}
             </div>
+            <div class="info-item" v-if="schedule.floor">
+                {{ schedule.floor.name }}
+            </div>
         </div>
 
         <div class="py-5">
@@ -58,7 +61,7 @@
             <main-event :schedule="schedule"
             :event="schedule.state.curr" title="Now"></main-event>
 
-            <div class="py-5" v-if="schedule.state.next">
+            <div class="py-5" v-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
@@ -70,7 +73,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h1 class="text-center text-uppercase">
-                                {{ schedule.state.next && schedule.state.next.title || 'None' }}
+                                {{ schedule.state.next.title }}
                             </h1>
                         </div>
                     </div>
@@ -78,7 +81,7 @@
             </div>
         </template>
 
-        <main-event v-else-if="schedule.state.next" :schedule="schedule"
+        <main-event v-else-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)" :schedule="schedule"
         :event="schedule.state.next" title="Next"></main-event>
 
         <div v-else class="pt-3 pb-5">
@@ -118,7 +121,7 @@
                 this.schedule.setOffset(
                     event.end_date - moment.utc().unix() - 5
                 )
-            }
+            },
         },
         components: { MainEvent }
     }

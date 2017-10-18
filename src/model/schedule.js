@@ -38,7 +38,10 @@ export default class Schedule {
             // return resolve()
 
             this.loadSummit().then(summit => {
+
                 this.room = $store.getters.room(this.location)
+                this.floor = $store.getters.floor(this.location)
+
                 return this.loadEvents().then(() => {
                     return this.syncTime().then(() => {
                         this.update(); resolve()
@@ -78,6 +81,10 @@ export default class Schedule {
 
     tick() {
         this.state.now = moment.utc().unix() + parseInt(this.offset)
+    }
+
+    now() {
+        return this.getDate(this.state.now)
     }
 
     update() {
@@ -139,6 +146,10 @@ export default class Schedule {
         return this.getDate(ts, raw).format(
             raw ? 'Y-MM-DD h:mm:ss A' : 'Y-MM-DD <b>h:mm:ss A</b>'
         )
+    }
+
+    isToday(timestamp) {
+        return this.getDate(timestamp).isSame(this.now(), 'd')
     }
 
     setOffset(offset) {
