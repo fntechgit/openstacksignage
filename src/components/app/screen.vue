@@ -35,60 +35,47 @@
             </tr>
         </table>
 
-        <div class="info">
-            <div class="info-item">
-                {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
-            </div>
-            <div class="info-item" v-if="schedule.room">
-                {{ schedule.room.name }}
-            </div>
-            <div class="info-item" v-if="schedule.floor">
-                {{ schedule.floor.name }}
-            </div>
-        </div>
-
         <div class="py-5">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <img class="img-fluid d-block mx-auto" src="assets/images/RoomDisplay_logo.png">
+                        <img class="img-fluid d-block mx-auto logo" src="assets/images/OpenStack_Sydney.svg">
                     </div>
                 </div>
             </div>
         </div>
 
-        <template v-if="schedule.state.curr">
-            <main-event :schedule="schedule"
-            :event="schedule.state.curr" title="Now"></main-event>
-
-            <div class="py-5" v-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="text-secondary text-uppercase text-center">
-                                Next
-                            </h1>
+        <div class="location">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="text-uppercase label">Room</div>
+                        <div class="text-uppercase value">
+                            {{ schedule.floor.name }}
+                            ({{ schedule.room.name }})
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h1 class="text-center text-uppercase">
-                                {{ schedule.state.next.title }}
-                            </h1>
+                    <div class="col-md-4 text-center">
+                        <div class="text-uppercase label">Current Time</div>
+                        <div class="text-uppercase value">
+                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
                         </div>
                     </div>
                 </div>
             </div>
-        </template>
+        </div>
 
-        <main-event v-else-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)" :schedule="schedule"
-        :event="schedule.state.next" title="Next"></main-event>
+        <main-event v-if="schedule.state.curr" :schedule="schedule"
+        :event="schedule.state.curr"></main-event>
 
-        <div v-else class="pt-3 pb-5">
+        <main-event v-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)" :schedule="schedule"
+        :event="schedule.state.next" :next=true></main-event>
+
+        <div v-else-if="! schedule.state.curr" class="empty">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-3 text-center text-uppercase">
+                        <h1 class="display-4 text-center text-uppercase font-weight-bold">
                             No more events for the day
                         </h1>
                     </div>
@@ -130,22 +117,30 @@
 
 <style>
 
-    .info {
-        display: flex;
-        position: absolute;
-        right: 20px;
-        top: 20px;
-        flex-direction: column;
+    .logo {
+        width: 60%;
     }
 
-    .info-item {
-        border: 2px solid white;
+    .location {
         color: white;
-        font-size: 4ex;
-        margin-bottom: 10px;
-        padding: 15px;
-        text-align: center;
-        border-radius: 10px;
+        border-top: 5px solid white;
+        border-bottom: 15px solid red;
+        padding: 40px 30px;
+    }
+
+    .location .label {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .location .value {
+        font-size: 3rem;
+    }
+
+    .empty {
+        color: white;
+        background: rgba(0,0,0,0.4);
+        padding: 12rem 0;
     }
 
     .debug {

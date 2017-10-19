@@ -1,36 +1,25 @@
 <template>
-    <div>
+    <div class="event pb-5" :class="{ next }">
         <div class="pt-5">
-            <div class="container">
-                <div class="row">
+            <div class="container-fluid pl-5 pr-5">
+                <div class="row pb-3">
                     <div class="col-md-12">
-                        <h1 class="text-center text-uppercase text-secondary">
-                            {{ title }}
+                        <h1 class="text-uppercase text-secondary">
+                            {{ next ? 'Next' : 'Now' }}: {{ time(event) }}
                         </h1>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-1 text-center text-uppercase">
+                        <h1 class="text-primary name">
                             {{ event.title }}
                         </h1>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="pt-3 pb-5">
-            <div class="container">
-                <div class="row">
+                <div class="row pt-4">
                     <div class="col-md-12">
-                        <h1 class="display-3 text-center text-uppercase text-secondary">
-                            {{ room(event).name }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-3 text-center text-lowercase text-secondary">
-                            {{ time(event) }}
+                        <h1 class="text-uppercase type">
+                            {{ event.class_name }}
                         </h1>
                     </div>
                 </div>
@@ -42,7 +31,7 @@
 <script>
 
     export default {
-        props: ['title', 'event', 'schedule'],
+        props: ['next', 'event', 'schedule'],
         computed: {
             room() {
                 return event => event && this.$store.getters.room(
@@ -59,3 +48,28 @@
     }
 
 </script>
+
+<style>
+
+    .event {
+        background: white;
+        border-top: 3px solid gray;
+    }
+
+    .event h1 {
+        font-weight: bold;
+    }
+
+    .event .name {
+        font-size: 4.3rem;
+    }
+
+    .event .type {
+        color: gray;
+    }
+
+    .event.next {
+        background: rgba(255,255,255,0.7)
+    }
+
+</style>
