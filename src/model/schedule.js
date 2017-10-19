@@ -26,6 +26,7 @@ export default class Schedule {
             }
 
             this.location = parseInt(route.query.location)
+            this.debug = route.query.debug
 
             // // Uncomment for offline debugging.
             // this.offset = 10*60

@@ -1,7 +1,7 @@
 <template>
     <div id="app">
 
-        <table border="1" width="100%" class="debug">
+        <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
                 <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
             </tr>
