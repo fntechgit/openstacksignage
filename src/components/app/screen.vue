@@ -76,7 +76,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="display-4 text-center text-uppercase font-weight-bold">
-                            There are no additional sessions today
+                            All presentations are finished for today
                         </h1>
                     </div>
                 </div>
