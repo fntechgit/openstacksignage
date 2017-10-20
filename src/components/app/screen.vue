@@ -65,17 +65,17 @@
             </div>
         </div>
 
-        <main-event v-if="schedule.state.curr" :schedule="schedule"
-        :event="schedule.state.curr"></main-event>
+        <event :schedule="schedule" :event="schedule.state.curr"
+        v-if="schedule.state.curr"></event>
 
-        <main-event v-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)" :schedule="schedule"
-        :event="schedule.state.next" :next=true></main-event>
+        <event :schedule="schedule" :event="schedule.state.next" :next=true
+        v-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)"></event>
 
         <div v-else-if="! schedule.state.curr" class="empty">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-4 text-center text-uppercase font-weight-bold">
+                        <h1 class="display-4 text-center font-weight-bold">
                             All presentations are finished for today
                         </h1>
                     </div>
@@ -88,8 +88,8 @@
 
 <script>
 
+    import Event from './event.vue'
     import moment from 'moment'
-    import MainEvent from './event/main.vue'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -110,7 +110,7 @@
                 )
             },
         },
-        components: { MainEvent }
+        components: { Event }
     }
 
 </script>
@@ -138,9 +138,9 @@
     }
 
     .empty {
-        color: white;
-        background: rgba(0,0,0,0.4);
-        padding: 12rem 0;
+        background: white;
+        padding: 6rem 0;
+        border-bottom: 3px solid gray;
     }
 
     .debug {

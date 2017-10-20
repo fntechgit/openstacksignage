@@ -1,7 +1,7 @@
 import firebase from 'firebase'
 import { $store } from './store'
 
-let firstRun = true
+let firstRun = {}
 
 import {
     FIREBASE_API_KEY,
@@ -16,8 +16,8 @@ const db = firebase.initializeApp({
 }).database()
 
 db.ref('time').on('value', snapshot => {
-    if (firstRun) {
-        return firstRun = false
+    if ( ! firstRun['time']) {
+        return firstRun['time'] = true
     }
 
     const [ location, timestamp ] = snapshot.val().split('&')
@@ -26,4 +26,12 @@ db.ref('time').on('value', snapshot => {
         location: parseInt(location),
         timestamp: parseInt(timestamp),
     })
+})
+
+db.ref('reload').on('value', snapshot => {
+    if ( ! firstRun['reload']) {
+        return firstRun['reload'] = true
+    }
+
+    window.location.reload()
 })
