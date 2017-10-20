@@ -76,7 +76,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="display-4 text-center text-uppercase font-weight-bold">
-                            No more events for the day
+                            There are no additional sessions today
                         </h1>
                     </div>
                 </div>
