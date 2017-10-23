@@ -62,14 +62,19 @@ export const $store = new Vuex.Store({
                 `summits/current/locations/${location}/events/published?${query}`
             ))
         },
-        updateTime(context, { location, timestamp }) {
+        reload(context, location) {
             const schedule = context.state.schedule
 
-            if ( ! schedule) {
+            if ( ! handleFirebaseEvent(schedule, location)) {
                 return
             }
 
-            if (location !== 0 && location !== schedule.location) {
+            window.location.reload()
+        },
+        updateTime(context, { location, timestamp }) {
+            const schedule = context.state.schedule
+
+            if ( ! handleFirebaseEvent(schedule, location)) {
                 return
             }
 
@@ -97,4 +102,16 @@ export const $store = new Vuex.Store({
 
 function getEndpoint(resource) {
     return `${API_URL}/api/public/${API_VERSION}/${resource}`
+}
+
+function handleFirebaseEvent(schedule, location) {
+    if ( ! schedule) {
+        return false
+    }
+
+    if (location !== 0 && location !== schedule.location) {
+        return false
+    }
+
+    return true
 }

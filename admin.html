@@ -22,6 +22,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css">
 	<style>
 	.searchBox {
@@ -48,6 +49,9 @@
 		width: 20%;
 	}
 	.speakersColumn {
+		width: 20%;
+	}
+	.floorRoomColumn {
 		width: 20%;
 	}
 	.screenLinkColumn {
@@ -103,7 +107,8 @@
 				<th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
 				<th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
 				<th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
-				<th data-column-id="screen_link" data-formatter="screen_link" data-header-css-class="screenLinkColumn" >Screen Link</th>
+				<th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" >Actions</th>
+				<th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" >Floor/Room</th>
 				<th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
 				<th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
 				<th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
@@ -114,7 +119,15 @@
 	<script type="text/javascript" charset="utf-8">
 		
 	    $( document ).ready(function() {
-		
+
+			const db = firebase.initializeApp({
+				apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
+				projectId: 'open-signage-staging',
+				databaseURL: 'https://open-signage-staging.firebaseio.com/',
+			}).database()
+
+			var conventionCenter = null
+
 			var timeZone = "Australia/Melbourne";
 			
 			var spanWithTooltips = function(text){
@@ -183,7 +196,17 @@
 					success: function (response, textStatus, jqXHR ) {
 						$("#locations").empty();
 						$("#locations").prop("disabled", false);
+
+						$("#locations").append(
+							$("<option></option>")
+							.attr("value", 0)
+							.attr("class", "location")
+							.text('All Rooms')
+						)
+
 						var data = response.data;
+						conventionCenter = data[0]
+
 						$.each(data, function(index, value) {
 							//<option value="115" title="Hotel" data-venue-name="AC Hotel" class="location-hotel">AC Hotel</option>
 							//title - hotel (hotel_type primary)
@@ -207,7 +230,7 @@
 				});
 			};
 
-            var client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
+            var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
             var setting =
                 {
                     'host': "testopenstackid.openstack.org",
@@ -223,6 +246,7 @@
             var authHost     = "https://" + setting.host;
             var summits_resource = "https://" + setting.rserver_host + "/api/v1/summits";
             var locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations";
+            var summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
             var events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
             var endUserAuthorizationEndpoint = authHost + "/oauth2/auth";
 			
@@ -242,9 +266,17 @@
 			});
 			
 			$("#locations").on('change', function() {
-				var new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
 				$("#grid-data").bootgrid("destroy");
-				initializeGrid();
+
+				if ($('#locations').val() === '0') {
+					return initializeGrid(summit_events_resource.replace(
+						'{summit_id}', $("#summits").val()
+					))
+				}
+
+				var new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+
+				initializeGrid(new_url);
 			});
 			
 			if (token) {
@@ -253,7 +285,7 @@
 				fillSummitList();
 	        }
 			 
-			function initializeGrid(){
+			function initializeGrid(url){
 				$("#grid-data").bootgrid({
 					ajax: true,
 					ajaxSettings: {
@@ -265,7 +297,7 @@
 							xhr.setRequestHeader('Content-Type', 'text/plain');
 						}
 					},
-					url: events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()),
+					url: url,
 					requestHandler:function (request) { 
 							var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
 							var keyword = $('#tb_keyword').val().length ? 'tags=@' + $('#tb_keyword').val().trim() : '';
@@ -273,8 +305,8 @@
 							var isSorted = (request.sort);
 							var orderBy = '';
 							if(isSorted){
-								var order = Object.keys(request.sort)[0];
-								var asc = request.sort[Object.keys(request.sort)[0]];
+								var order = Object.keys(request.sort)[0] || 'start_date';
+								var asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
 								orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
 								
 								var request = {
@@ -328,7 +360,25 @@
 								return "";
 							}
 						},
-						screen_link: function (column, row) {
+						floorroom: function(column, row) {
+							var floor = 'N/A'
+							var room = 'N/A'
+
+							if (row.location) {
+								room = row.location.name
+
+								var f = (conventionCenter.floors || []).filter(function(f) {
+									return f.id === row.location.floor_id
+								}).shift()
+
+								if (f) { floor = f.name }
+							}
+
+							var title = floor + ' / ' + room
+							return '<span title="' + title + '">' + title + '</span>';
+						},
+						event_actions: function (column, row) {
+							return '<button class="event-jump" data-ts="' + row.start_date + '">Jump</button>'
 
                             var link = "https://signage.openstack.org/#/" +
                                 "?location=" + encodeURI($("#locations option:selected").val());
@@ -360,6 +410,11 @@
 				}).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
 					console.log("click");
 				}).on("loaded.rs.jquery.bootgrid", function (e){
+					$('.event-jump').on('click', e => {
+						db.ref('time').set(
+							$("#locations").val() + '&' + $(e.target).data('ts')
+						)
+					})
                     console.log("loaded");
 				});
 			}

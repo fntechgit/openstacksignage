@@ -33,5 +33,5 @@ db.ref('reload').on('value', snapshot => {
         return firstRun['reload'] = true
     }
 
-    window.location.reload()
+    $store.dispatch('reload', parseInt(snapshot.val()))
 })
