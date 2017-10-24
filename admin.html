@@ -30,6 +30,14 @@
 		display: inline-block;
 		margin: 0px 10px;
 	}
+	table#filters td {
+		padding: 0 10px;
+		padding-bottom: 5px;
+	}
+	table#filters td button {
+		margin-right: 5px;
+		min-width: 80px;
+	}
 	input[type="search"] {
 		-webkit-appearance: searchfield;
 	}
@@ -97,8 +105,22 @@
         <span class="token">Please authenticate by clicking on the Connect button above.</span>
 		
 		<div>
-		Summit <select id="summits" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select>
-		Venues <select id="locations" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select>
+		<table id="filters">
+			<tr>
+				<th width="60">Summit</th>
+				<td><select id="summits" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
+				<th width="60">Venues</th>
+				<td><select id="locations" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
+				<td><button id="btn-view" disabled>View</button></td>
+			</tr>
+			<tr id="filters-actions">
+				<th>Date</th>
+				<td><input type="date" id="input-date" disabled /></td>
+				<th>Time</th>
+				<td><input type="time" id="input-time" disabled /></td>
+				<td><button id="btn-jump" disabled>Jump</button><button id="btn-reset" disabled>Reset</button></td>
+			</tr>
+		</table>
 		</div>
     </p>
 	<table id="grid-data"  data-ajax="true"  class="table table-condensed table-hover table-striped" >
@@ -107,8 +129,8 @@
 				<th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
 				<th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
 				<th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
-				<th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" >Actions</th>
-				<th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" >Floor/Room</th>
+				<th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
+				<th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Room</th>
 				<th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
 				<th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
 				<th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
@@ -120,11 +142,40 @@
 		
 	    $( document ).ready(function() {
 
+			$('#input-date').val(moment().format('Y-M-D'))
+			$('#input-time').val(moment().format('HH:mm'))
+
 			const db = firebase.initializeApp({
 				apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
 				projectId: 'open-signage-staging',
 				databaseURL: 'https://open-signage-staging.firebaseio.com/',
 			}).database()
+
+			$('#btn-view').on('click', function(e) {
+				window.open('/#?location=' + $('#locations').val())
+			});
+
+			$('#btn-reset').on('click', function(e) {
+				firebaseUpdate('reload', $('#locations').val())
+			});
+
+			$('#btn-jump').on('click', function(e) {
+				var date = moment.tz([
+					$('#input-date').val(),
+					$('#input-time').val()
+				].join(' '), 'Y-M-D HH:mm', timeZone)
+
+				date.isValid() && firebaseUpdate('time',
+					$("#locations").val() + '&' + date.unix()
+				) || alert('Invalid date')
+			});
+
+			var firebaseUpdate = function(field, value) {
+				// We need the value to *change* so clear it first.
+				return db.ref(field).set('').then(function() {
+					db.ref(field).set(value)
+				})
+			};
 
 			var conventionCenter = null
 
@@ -231,6 +282,8 @@
 			};
 
             var client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
+            // var client_id = 'TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client';
+
             var setting =
                 {
                     'host': "testopenstackid.openstack.org",
@@ -267,6 +320,13 @@
 			
 			$("#locations").on('change', function() {
 				$("#grid-data").bootgrid("destroy");
+
+				$("#view").prop(
+					"disabled", isNaN(parseInt($('#locations').val()))
+				);
+				$("#filters-actions input,button").prop(
+					"disabled", isNaN(parseInt($('#locations').val()))
+				);
 
 				if ($('#locations').val() === '0') {
 					return initializeGrid(summit_events_resource.replace(
@@ -411,7 +471,7 @@
 					console.log("click");
 				}).on("loaded.rs.jquery.bootgrid", function (e){
 					$('.event-jump').on('click', e => {
-						db.ref('time').set(
+						firebaseUpdate('time',
 							$("#locations").val() + '&' + $(e.target).data('ts')
 						)
 					})
