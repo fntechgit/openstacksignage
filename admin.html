@@ -97,6 +97,20 @@
     padding: 10px;cursor: pointer">Connect</a>
 </div>
 
+<div id="firebase-dialog" title="Firebase Authentication" style="display: none;">
+    <form>
+    <div class="form-group">
+        <label for="username">Email:</label>
+        <input type="email" name="username" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" name="password" class="form-control" />
+    </div>
+    <input type="submit" name="" style="position:absolute; top:-1000px;">
+    </form>
+</div>
+
 <div class="authenticated" style="margin: 20px;
     border: 1px solid silver;
     border-radius: 10px;
@@ -147,6 +161,7 @@
 
 			const db = firebase.initializeApp({
 				apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
+				authDomain: 'open-signage-staging.firebaseapp.com',
 				projectId: 'open-signage-staging',
 				databaseURL: 'https://open-signage-staging.firebaseio.com/',
 			}).database()
@@ -165,17 +180,72 @@
 					$('#input-time').val()
 				].join(' '), 'Y-M-D HH:mm', timeZone)
 
-				date.isValid() && firebaseUpdate('time',
-					$("#locations").val() + '&' + date.unix()
-				) || alert('Invalid date')
+				if ( ! date.isValid()) {
+					return alert('Invalid date')
+				}
+
+				firebaseUpdate('time', $("#locations").val() + '&' + date.unix())
 			});
 
 			var firebaseUpdate = function(field, value) {
 				// We need the value to *change* so clear it first.
-				return db.ref(field).set('').then(function() {
-					db.ref(field).set(value)
+				firebaseLogin().then(function() {
+					return db.ref(field).set('').then(function() {
+						return db.ref(field).set(value)
+					})
+				}).catch(function(err) {
+					console.error(err)
 				})
 			};
+
+			var firebaseLogin = function() {
+				return new Promise(function(resolve, reject) {
+					if (firebase.auth().currentUser) {
+						return resolve(firebase.auth().currentUser)
+					}
+
+                    $('#firebase-dialog input[name=username]').val('')
+                    $('#firebase-dialog input[name=password]').val('')
+
+					var dialog = $('#firebase-dialog').dialog({
+						modal: true,
+						width: 300,
+						resizable: false,
+						buttons: [{
+						text: 'Login',
+						click: function() {
+								$('#firebase-dialog form').submit()
+							}
+						},{
+							text: 'Cancel',
+							click: function() {
+								$(this).dialog('close')
+							}
+						}]
+					})
+
+                    $('#firebase-dialog form').off('submit').on('submit', function(e) {
+                        e.preventDefault()
+
+                        firebase.auth().signInWithEmailAndPassword(
+                            $('#firebase-dialog input[name=username]').val(),
+                            $('#firebase-dialog input[name=password]').val()
+                        ).then(function() {
+                            dialog.dialog('close')
+                        }).catch(function(err) {
+                            alert('Firebase: ' + err.message)
+                            $('#firebase-dialog input[name=username]').focus()
+                        })
+                    })
+
+                    dialog.off('dialogclose').on('dialogclose', function(e) {
+						if (firebase.auth().currentUser) {
+							return resolve()
+						}
+						reject()
+					})
+				})
+			}
 
 			var conventionCenter = null
 
