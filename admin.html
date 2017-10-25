@@ -5,88 +5,88 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>OpenStack Signage - Event listing by room</title>
 
-	<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.6/moment-timezone-with-data.min.js"></script>
-	<script src="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
-	<link rel="stylesheet" href="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/css/bootstrap-editable.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/URI.js"></script>
-	<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css">
-	<style>
-	.searchBox {
-		width: 200px;
-		display: inline-block;
-		margin: 0px 10px;
-	}
-	table#filters td {
-		padding: 0 10px;
-		padding-bottom: 5px;
-	}
-	table#filters td button {
-		margin-right: 5px;
-		min-width: 80px;
-	}
-	input[type="search"] {
-		-webkit-appearance: searchfield;
-	}
-	input[type="search"]::-webkit-search-cancel-button {
-		-webkit-appearance: searchfield-cancel-button;
-	}
-	thead {
-		font-size: 12px;
-	}
-	tbody {
-		font-size: 12px;
-	}
-	.eventColumn {
-		width: 8%;
-	}
-	.titleColumn {
-		width: 20%;
-	}
-	.speakersColumn {
-		width: 20%;
-	}
-	.floorRoomColumn {
-		width: 20%;
-	}
-	.screenLinkColumn {
-		width: 10%;
-	}
-	.tagsColumn {
-		width: 18%;
-	}
-	.dateColumn {
-		width: 8%;
-	}
-	.venue{
+    <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.6/moment-timezone-with-data.min.js"></script>
+    <script src="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
+    <link rel="stylesheet" href="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/css/bootstrap-editable.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/URI.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css">
+    <style>
+    .searchBox {
+        width: 200px;
+        display: inline-block;
+        margin: 0px 10px;
+    }
+    table#filters td {
+        padding: 0 10px;
+        padding-bottom: 5px;
+    }
+    table#filters td button {
+        margin-right: 5px;
+        min-width: 80px;
+    }
+    input[type="search"] {
+        -webkit-appearance: searchfield;
+    }
+    input[type="search"]::-webkit-search-cancel-button {
+        -webkit-appearance: searchfield-cancel-button;
+    }
+    thead {
+        font-size: 12px;
+    }
+    tbody {
+        font-size: 12px;
+    }
+    .eventColumn {
+        width: 8%;
+    }
+    .titleColumn {
+        width: 20%;
+    }
+    .speakersColumn {
+        width: 20%;
+    }
+    .floorRoomColumn {
+        width: 20%;
+    }
+    .screenLinkColumn {
+        width: 10%;
+    }
+    .tagsColumn {
+        width: 18%;
+    }
+    .dateColumn {
+        width: 8%;
+    }
+    .venue{
                 font-weight: bold !important;
-		text-transform: uppercase;
-	}
-	.location{
-		padding-left: 20px !important;
-	}
-	.wheel{
-		width:30px;
-	}
-	.loading{
-		background-image: url(ring-alt.gif);
-		background-repeat: no-repeat;
-		background-size: contain;
-	}
-	</style>
+        text-transform: uppercase;
+    }
+    .location{
+        padding-left: 20px !important;
+    }
+    .wheel{
+        width:30px;
+    }
+    .loading{
+        background-image: url(ring-alt.gif);
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    </style>
 </head>
 
 <body>
@@ -117,112 +117,112 @@
     padding: 10px;">
     <p>
         <span class="token">Please authenticate by clicking on the Connect button above.</span>
-		
-		<div>
-		<table id="filters">
-			<tr>
-				<th width="60">Summit</th>
-				<td><select id="summits" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
-				<th width="60">Venues</th>
-				<td><select id="locations" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
-				<td><button id="btn-view" disabled>View</button></td>
-			</tr>
-			<tr id="filters-actions">
-				<th>Date</th>
-				<td><input type="date" id="input-date" disabled /></td>
-				<th>Time</th>
-				<td><input type="time" id="input-time" disabled /></td>
-				<td><button id="btn-jump" disabled>Jump</button><button id="btn-reset" disabled>Reset</button></td>
-			</tr>
-		</table>
-		</div>
+        
+        <div>
+        <table id="filters">
+            <tr>
+                <th width="60">Summit</th>
+                <td><select id="summits" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
+                <th width="60">Venues</th>
+                <td><select id="locations" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
+                <td><button id="btn-view" disabled>View</button></td>
+            </tr>
+            <tr id="filters-actions">
+                <th>Date</th>
+                <td><input type="date" id="input-date" disabled /></td>
+                <th>Time</th>
+                <td><input type="time" id="input-time" disabled /></td>
+                <td><button id="btn-jump" disabled>Jump</button><button id="btn-reset" disabled>Reset</button></td>
+            </tr>
+        </table>
+        </div>
     </p>
-	<table id="grid-data"  data-ajax="true"  class="table table-condensed table-hover table-striped" >
-		<thead>
-			<tr>
-				<th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
-				<th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
-				<th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
-				<th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
-				<th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Room</th>
-				<th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
-				<th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
-				<th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
-			</tr>
-		</thead>
-	</table>
+    <table id="grid-data"  data-ajax="true"  class="table table-condensed table-hover table-striped" >
+        <thead>
+            <tr>
+                <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
+                <th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
+                <th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
+                <th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
+                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Room</th>
+                <th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
+                <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
+                <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
+            </tr>
+        </thead>
+    </table>
     <button class="btn btn-default submit-event" type="button" title="Submit">Submit<span class="icon glyphicon"></span></button>
-	<script type="text/javascript" charset="utf-8">
-		
-	    $( document ).ready(function() {
+    <script type="text/javascript" charset="utf-8">
+        
+        $( document ).ready(function() {
 
-			$('#input-date').val(moment().format('Y-M-D'))
-			$('#input-time').val(moment().format('HH:mm'))
+            $('#input-date').val(moment().format('Y-M-D'))
+            $('#input-time').val(moment().format('HH:mm'))
 
-			const db = firebase.initializeApp({
-				apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
-				authDomain: 'open-signage-staging.firebaseapp.com',
-				projectId: 'open-signage-staging',
-				databaseURL: 'https://open-signage-staging.firebaseio.com/',
-			}).database()
+            const db = firebase.initializeApp({
+                apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
+                authDomain: 'open-signage-staging.firebaseapp.com',
+                projectId: 'open-signage-staging',
+                databaseURL: 'https://open-signage-staging.firebaseio.com/',
+            }).database()
 
-			$('#btn-view').on('click', function(e) {
-				window.open('/#?location=' + $('#locations').val())
-			});
+            $('#btn-view').on('click', function(e) {
+                window.open('/#?location=' + $('#locations').val())
+            });
 
-			$('#btn-reset').on('click', function(e) {
-				firebaseUpdate('reload', $('#locations').val())
-			});
+            $('#btn-reset').on('click', function(e) {
+                firebaseUpdate('reload', $('#locations').val())
+            });
 
-			$('#btn-jump').on('click', function(e) {
-				var date = moment.tz([
-					$('#input-date').val(),
-					$('#input-time').val()
-				].join(' '), 'Y-M-D HH:mm', timeZone)
+            $('#btn-jump').on('click', function(e) {
+                var date = moment.tz([
+                    $('#input-date').val(),
+                    $('#input-time').val()
+                ].join(' '), 'Y-M-D HH:mm', timeZone)
 
-				if ( ! date.isValid()) {
-					return alert('Invalid date')
-				}
+                if ( ! date.isValid()) {
+                    return alert('Invalid date')
+                }
 
-				firebaseUpdate('time', $("#locations").val() + '&' + date.unix())
-			});
+                firebaseUpdate('time', $("#locations").val() + '&' + date.unix())
+            });
 
-			var firebaseUpdate = function(field, value) {
-				// We need the value to *change* so clear it first.
-				firebaseLogin().then(function() {
-					return db.ref(field).set('').then(function() {
-						return db.ref(field).set(value)
-					})
-				}).catch(function(err) {
-					console.error(err)
-				})
-			};
+            var firebaseUpdate = function(field, value) {
+                // We need the value to *change* so clear it first.
+                firebaseLogin().then(function() {
+                    return db.ref(field).set('').then(function() {
+                        return db.ref(field).set(value)
+                    })
+                }).catch(function(err) {
+                    console.error(err)
+                })
+            };
 
-			var firebaseLogin = function() {
-				return new Promise(function(resolve, reject) {
-					if (firebase.auth().currentUser) {
-						return resolve(firebase.auth().currentUser)
-					}
+            var firebaseLogin = function() {
+                return new Promise(function(resolve, reject) {
+                    if (firebase.auth().currentUser) {
+                        return resolve(firebase.auth().currentUser)
+                    }
 
                     $('#firebase-dialog input[name=username]').val('')
                     $('#firebase-dialog input[name=password]').val('')
 
-					var dialog = $('#firebase-dialog').dialog({
-						modal: true,
-						width: 300,
-						resizable: false,
-						buttons: [{
-						text: 'Login',
-						click: function() {
-								$('#firebase-dialog form').submit()
-							}
-						},{
-							text: 'Cancel',
-							click: function() {
-								$(this).dialog('close')
-							}
-						}]
-					})
+                    var dialog = $('#firebase-dialog').dialog({
+                        modal: true,
+                        width: 300,
+                        resizable: false,
+                        buttons: [{
+                        text: 'Login',
+                        click: function() {
+                                $('#firebase-dialog form').submit()
+                            }
+                        },{
+                            text: 'Cancel',
+                            click: function() {
+                                $(this).dialog('close')
+                            }
+                        }]
+                    })
 
                     $('#firebase-dialog form').off('submit').on('submit', function(e) {
                         e.preventDefault()
@@ -239,117 +239,117 @@
                     })
 
                     dialog.off('dialogclose').on('dialogclose', function(e) {
-						if (firebase.auth().currentUser) {
-							return resolve()
-						}
-						reject()
-					})
-				})
-			}
+                        if (firebase.auth().currentUser) {
+                            return resolve()
+                        }
+                        reject()
+                    })
+                })
+            }
 
-			var conventionCenter = null
+            var conventionCenter = null
 
-			var timeZone = "Australia/Melbourne";
-			
-			var spanWithTooltips = function(text){
-				return "<span title='"+ text + "'>"+text+"</span>";
-			};
-			
-			var extractToken = function() {
-	            var uri = new URI();
-				return URI.parseQuery(uri.fragment()).access_token;
-	        };
+            var timeZone = "Australia/Melbourne";
+            
+            var spanWithTooltips = function(text){
+                return "<span title='"+ text + "'>"+text+"</span>";
+            };
+            
+            var extractToken = function() {
+                var uri = new URI();
+                return URI.parseQuery(uri.fragment()).access_token;
+            };
 
-	        var extractSummitID = function(){
-	        	return $("#summit_id").val();
-	        	/*
-	        	var uri = new URI();
-				return URI.parseQuery(uri.query()).summit_id;
-				*/
-	        };
+            var extractSummitID = function(){
+                return $("#summit_id").val();
+                /*
+                var uri = new URI();
+                return URI.parseQuery(uri.query()).summit_id;
+                */
+            };
 
-			var extractLocationID = function(){
-				return $("#location_id").val();
-				/*
-				var uri = new URI();
-				return URI.parseQuery(uri.query()).location_id;
-				*/
-	        };
-			
-			var fillSummitList =  function(){
-	        	$.ajax({
-					url: summits_resource,
-					type: "GET",
-					contentType: "application/json; charset=utf-8",
-					beforeSend: function (xhr) {
-						xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-						xhr.setRequestHeader('Accept', "application/json");
-						xhr.setRequestHeader('Content-Type', 'application/json"');
-					}, 
-					success: function (response, textStatus, jqXHR ) {
-						var data = response.data;
-						$("#summits").empty();
-						$("#summits").prop("disabled", false);
-						$("#summits").append($("<option></option>").attr("value", 'current').text('Current'));
-						$.each(data, function(index, value) {
-							if(value.active)
-								$("#summits").append($("<option></option>").attr("value", value.id).text(value.name));
-						});	
-						$("#summits").change();
-						$("#summits").trigger("chosen:updated");
-					},
-					error:function (jqXHR, textStatus, errorThrown ){
-						console.log(errorThrown);
-					}						
-				});
-			};
-			
-			var fillLocationList =  function(summit_id){
-	        	$.ajax({
-					url: locations_resource.replace("{summit_id}", summit_id) + '?order=name+',
-					type: "GET",
-					contentType: "application/json; charset=utf-8",
-					beforeSend: function (xhr) {
-						xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-						xhr.setRequestHeader('Accept', "application/json");
-						xhr.setRequestHeader('Content-Type', 'application/json');
-					}, 
-					success: function (response, textStatus, jqXHR ) {
-						$("#locations").empty();
-						$("#locations").prop("disabled", false);
+            var extractLocationID = function(){
+                return $("#location_id").val();
+                /*
+                var uri = new URI();
+                return URI.parseQuery(uri.query()).location_id;
+                */
+            };
+            
+            var fillSummitList =  function(){
+                $.ajax({
+                    url: summits_resource,
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                        xhr.setRequestHeader('Accept', "application/json");
+                        xhr.setRequestHeader('Content-Type', 'application/json"');
+                    }, 
+                    success: function (response, textStatus, jqXHR ) {
+                        var data = response.data;
+                        $("#summits").empty();
+                        $("#summits").prop("disabled", false);
+                        $("#summits").append($("<option></option>").attr("value", 'current').text('Current'));
+                        $.each(data, function(index, value) {
+                            if(value.active)
+                                $("#summits").append($("<option></option>").attr("value", value.id).text(value.name));
+                        }); 
+                        $("#summits").change();
+                        $("#summits").trigger("chosen:updated");
+                    },
+                    error:function (jqXHR, textStatus, errorThrown ){
+                        console.log(errorThrown);
+                    }                       
+                });
+            };
+            
+            var fillLocationList =  function(summit_id){
+                $.ajax({
+                    url: locations_resource.replace("{summit_id}", summit_id) + '?order=name+',
+                    type: "GET",
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                        xhr.setRequestHeader('Accept', "application/json");
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                    }, 
+                    success: function (response, textStatus, jqXHR ) {
+                        $("#locations").empty();
+                        $("#locations").prop("disabled", false);
 
-						$("#locations").append(
-							$("<option></option>")
-							.attr("value", 0)
-							.attr("class", "location")
-							.text('All Rooms')
-						)
+                        $("#locations").append(
+                            $("<option></option>")
+                            .attr("value", 0)
+                            .attr("class", "location")
+                            .text('All Rooms')
+                        )
 
-						var data = response.data;
-						conventionCenter = data[0]
+                        var data = response.data;
+                        conventionCenter = data[0]
 
-						$.each(data, function(index, value) {
-							//<option value="115" title="Hotel" data-venue-name="AC Hotel" class="location-hotel">AC Hotel</option>
-							//title - hotel (hotel_type primary)
-							if(value.class_name == 'SummitVenue'){
-								$("#locations").append($("<option></option>").attr("value", value.id).attr("class", "venue").text(value.name));
-								$.each(value.rooms, function(room_idx, room_value) {
-									$("#locations").append($("<option></option>").attr("value", room_value.id).attr("class", "location").text(room_value.name));
-								});
-							}
-								
-						});	
-						$("#locations").html($("#locations").children('option').sort(function (x, y) {
-							return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-						}));
-						$("#locations").prepend($("<option></option>").attr("value", '').prop("selected", true).text('Please select a location'));
-						$("#locations").trigger("chosen:updated");
-					},
-					error:function (jqXHR, textStatus, errorThrown ){
-						console.log(errorThrown);
-					}						
-				});
-			};
+                        $.each(data, function(index, value) {
+                            //<option value="115" title="Hotel" data-venue-name="AC Hotel" class="location-hotel">AC Hotel</option>
+                            //title - hotel (hotel_type primary)
+                            if(value.class_name == 'SummitVenue'){
+                                $("#locations").append($("<option></option>").attr("value", value.id).attr("class", "venue").text(value.name));
+                                $.each(value.rooms, function(room_idx, room_value) {
+                                    $("#locations").append($("<option></option>").attr("value", room_value.id).attr("class", "location").text(room_value.name));
+                                });
+                            }
+                                
+                        }); 
+                        $("#locations").html($("#locations").children('option').sort(function (x, y) {
+                            return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
+                        }));
+                        $("#locations").prepend($("<option></option>").attr("value", '').prop("selected", true).text('Please select a location'));
+                        $("#locations").trigger("chosen:updated");
+                    },
+                    error:function (jqXHR, textStatus, errorThrown ){
+                        console.log(errorThrown);
+                    }                       
+                });
+            };
 
             var client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
             // var client_id = 'TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client';
@@ -372,213 +372,213 @@
             var summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
             var events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
             var endUserAuthorizationEndpoint = authHost + "/oauth2/auth";
-			
+            
 
-	        var token = extractToken();
-	        var authUrl = endUserAuthorizationEndpoint +
-	                    "?response_type=token id_token" +
-	                    "&approval_prompt=force"+
-	                    "&scope=" + encodeURI(setting.scopes)+
-	                    "&client_id="  + encodeURI(setting.clientId) +
-	                    "&redirect_uri=" + window.location;
+            var token = extractToken();
+            var authUrl = endUserAuthorizationEndpoint +
+                        "?response_type=token id_token" +
+                        "&approval_prompt=force"+
+                        "&scope=" + encodeURI(setting.scopes)+
+                        "&client_id="  + encodeURI(setting.clientId) +
+                        "&redirect_uri=" + window.location;
 
-			$("a.connect").attr("href", authUrl);
-			
-			$("#summits").on('change', function() {
-			  fillLocationList(this.value);
-			});
-			
-			$("#locations").on('change', function() {
-				$("#grid-data").bootgrid("destroy");
+            $("a.connect").attr("href", authUrl);
+            
+            $("#summits").on('change', function() {
+              fillLocationList(this.value);
+            });
+            
+            $("#locations").on('change', function() {
+                $("#grid-data").bootgrid("destroy");
 
-				$("#view").prop(
-					"disabled", isNaN(parseInt($('#locations').val()))
-				);
-				$("#filters-actions input,button").prop(
-					"disabled", isNaN(parseInt($('#locations').val()))
-				);
+                $("#view").prop(
+                    "disabled", isNaN(parseInt($('#locations').val()))
+                );
+                $("#filters-actions input,button").prop(
+                    "disabled", isNaN(parseInt($('#locations').val()))
+                );
 
-				if ($('#locations').val() === '0') {
-					return initializeGrid(summit_events_resource.replace(
-						'{summit_id}', $("#summits").val()
-					))
-				}
+                if ($('#locations').val() === '0') {
+                    return initializeGrid(summit_events_resource.replace(
+                        '{summit_id}', $("#summits").val()
+                    ))
+                }
 
-				var new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+                var new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
 
-				initializeGrid(new_url);
-			});
-			
-			if (token) {
-				$('span.token').text("You are authenticated");
-	            $("a.connect").text('Re-connect');
-				fillSummitList();
-	        }
-			 
-			function initializeGrid(url){
-				$("#grid-data").bootgrid({
-					ajax: true,
-					ajaxSettings: {
-						method: "GET",
-						cache: false,
-						beforeSend: function (xhr) {
-							xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-							xhr.setRequestHeader('Accept', "application/json");
-							xhr.setRequestHeader('Content-Type', 'text/plain');
-						}
-					},
-					url: url,
-					requestHandler:function (request) { 
-							var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
-							var keyword = $('#tb_keyword').val().length ? 'tags=@' + $('#tb_keyword').val().trim() : '';
-							var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
-							var isSorted = (request.sort);
-							var orderBy = '';
-							if(isSorted){
-								var order = Object.keys(request.sort)[0] || 'start_date';
-								var asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
-								orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
-								
-								var request = {
-									filter : filters,
-									page: request.current, 
-									per_page: request.rowCount,
-									order: orderBy,
-									expand:"speakers,location",
-								};
-							}else{
-								var request = {
-									filter: filters,
-									page: request.current, 
-									per_page: request.rowCount
-								};
-							}
-							return request; 
-						},
-					responseHandler:function (response) { 
-						var response = {
-							current: response.current_page,
-							rowCount: response.per_page,
-							rows: response.data,
-							total: response.total
-						};
+                initializeGrid(new_url);
+            });
+            
+            if (token) {
+                $('span.token').text("You are authenticated");
+                $("a.connect").text('Re-connect');
+                fillSummitList();
+            }
+             
+            function initializeGrid(url){
+                $("#grid-data").bootgrid({
+                    ajax: true,
+                    ajaxSettings: {
+                        method: "GET",
+                        cache: false,
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                            xhr.setRequestHeader('Accept', "application/json");
+                            xhr.setRequestHeader('Content-Type', 'text/plain');
+                        }
+                    },
+                    url: url,
+                    requestHandler:function (request) { 
+                            var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
+                            var keyword = $('#tb_keyword').val().length ? 'tags=@' + $('#tb_keyword').val().trim() : '';
+                            var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
+                            var isSorted = (request.sort);
+                            var orderBy = '';
+                            if(isSorted){
+                                var order = Object.keys(request.sort)[0] || 'start_date';
+                                var asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
+                                orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
+                                
+                                var request = {
+                                    filter : filters,
+                                    page: request.current, 
+                                    per_page: request.rowCount,
+                                    order: orderBy,
+                                    expand:"speakers,location",
+                                };
+                            }else{
+                                var request = {
+                                    filter: filters,
+                                    page: request.current, 
+                                    per_page: request.rowCount
+                                };
+                            }
+                            return request; 
+                        },
+                    responseHandler:function (response) { 
+                        var response = {
+                            current: response.current_page,
+                            rowCount: response.per_page,
+                            rows: response.data,
+                            total: response.total
+                        };
 
-						return response; 
-				
-					},
-					 formatters: {
-						eventtitle: function (column, row){
-							return spanWithTooltips(row[column.id]); 
-						},
-						csvspeakers: function (column, row){
-							if(row[column.id]){
-								var arr = jQuery.map( $(row[column.id]), function( speaker ) {
-								   return speaker.first_name + ' ' + speaker.last_name;
-								});
-								return spanWithTooltips(arr.join(", ")); 
-							}else{
-								return "";
-							}
-						},
-						csvtags: function (column, row){
-							if(row[column.id]){
-								var arr = jQuery.map( $(row['tags']), function( tag ) {
-								   return tag.tag;
-								});
-								return spanWithTooltips(arr.join(",")); 
-							}else{
-								return "";
-							}
-						},
-						floorroom: function(column, row) {
-							var floor = 'N/A'
-							var room = 'N/A'
+                        return response; 
+                
+                    },
+                     formatters: {
+                        eventtitle: function (column, row){
+                            return spanWithTooltips(row[column.id]); 
+                        },
+                        csvspeakers: function (column, row){
+                            if(row[column.id]){
+                                var arr = jQuery.map( $(row[column.id]), function( speaker ) {
+                                   return speaker.first_name + ' ' + speaker.last_name;
+                                });
+                                return spanWithTooltips(arr.join(", ")); 
+                            }else{
+                                return "";
+                            }
+                        },
+                        csvtags: function (column, row){
+                            if(row[column.id]){
+                                var arr = jQuery.map( $(row['tags']), function( tag ) {
+                                   return tag.tag;
+                                });
+                                return spanWithTooltips(arr.join(",")); 
+                            }else{
+                                return "";
+                            }
+                        },
+                        floorroom: function(column, row) {
+                            var floor = 'N/A'
+                            var room = 'N/A'
 
-							if (row.location) {
-								room = row.location.name
+                            if (row.location) {
+                                room = row.location.name
 
-								var f = (conventionCenter.floors || []).filter(function(f) {
-									return f.id === row.location.floor_id
-								}).shift()
+                                var f = (conventionCenter.floors || []).filter(function(f) {
+                                    return f.id === row.location.floor_id
+                                }).shift()
 
-								if (f) { floor = f.name }
-							}
+                                if (f) { floor = f.name }
+                            }
 
-							var title = floor + ' / ' + room
-							return '<span title="' + title + '">' + title + '</span>';
-						},
-						event_actions: function (column, row) {
-							return '<button class="event-jump" data-ts="' + row.start_date + '">Jump</button>'
+                            var title = floor + ' / ' + room
+                            return '<span title="' + title + '">' + title + '</span>';
+                        },
+                        event_actions: function (column, row) {
+                            return '<button class="event-jump" data-ts="' + row.start_date + '">Jump</button>'
 
                             var link = "https://signage.openstack.org/#/" +
                                 "?location=" + encodeURI($("#locations option:selected").val());
                       
 
-						    return "<a href='" + link + "'>View</a>";
-						},
-						date: function(column, row){
-							var utc_date = row[column.id];
-							var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-							date.setUTCSeconds(utc_date);
-							
-							var date = moment.unix(utc_date);
-							return date.tz(timeZone).format('MM/DD HH:mm');
-						}
-					},
-					rowCount: [10, 25, 50, 100],
-					templates: {
-						header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='keyword'><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><p class=\"{{css.actions}}\"></p></div></div></div>"    
-					},
-					selection: true,
-					multiSelect: true,
-					
-				}).on("selected.rs.jquery.bootgrid", function (e, rows) {
-					console.log(rows);
-					console.log("selected");
-				}).on("deselected.rs.jquery.bootgrid", function (e, rows) {
-					console.log("deselected");
-				}).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
-					console.log("click");
-				}).on("loaded.rs.jquery.bootgrid", function (e){
-					$('.event-jump').on('click', e => {
-						firebaseUpdate('time',
-							$("#locations").val() + '&' + $(e.target).data('ts')
-						)
-					})
+                            return "<a href='" + link + "'>View</a>";
+                        },
+                        date: function(column, row){
+                            var utc_date = row[column.id];
+                            var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                            date.setUTCSeconds(utc_date);
+                            
+                            var date = moment.unix(utc_date);
+                            return date.tz(timeZone).format('MM/DD HH:mm');
+                        }
+                    },
+                    rowCount: [10, 25, 50, 100],
+                    templates: {
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='keyword'><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><p class=\"{{css.actions}}\"></p></div></div></div>"    
+                    },
+                    selection: true,
+                    multiSelect: true,
+                    
+                }).on("selected.rs.jquery.bootgrid", function (e, rows) {
+                    console.log(rows);
+                    console.log("selected");
+                }).on("deselected.rs.jquery.bootgrid", function (e, rows) {
+                    console.log("deselected");
+                }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
+                    console.log("click");
+                }).on("loaded.rs.jquery.bootgrid", function (e){
+                    $('.event-jump').on('click', e => {
+                        firebaseUpdate('time',
+                            $("#locations").val() + '&' + $(e.target).data('ts')
+                        )
+                    })
                     console.log("loaded");
-				});
-			}
-			
-			function reloadGrid()
-			{
-				$("#grid-data").bootgrid("reload");
-			}
-			$(".submit-event").on('click', function (){
-				var selectedRows = $("#grid-data").bootgrid("getSelectedRows");
-				$.each(selectedRows, function( index, value ) {
-					var event_id = value;
-				});
-			});
+                });
+            }
+            
+            function reloadGrid()
+            {
+                $("#grid-data").bootgrid("reload");
+            }
+            $(".submit-event").on('click', function (){
+                var selectedRows = $("#grid-data").bootgrid("getSelectedRows");
+                $.each(selectedRows, function( index, value ) {
+                    var event_id = value;
+                });
+            });
 
-			$(".chosen-select").chosen({ width:"200px", "white-space": "nowrap"});
+            $(".chosen-select").chosen({ width:"200px", "white-space": "nowrap"});
 
-			$( document ).tooltip({
-			  show: null,
-			  position: {
-				my: "left top",
-				at: "left bottom"
-			  },
-			  open: function( event, ui ) {
-				ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-			  }
-			});
-			
-			$(document).on({
-				ajaxStart: function() { $(".actionBar").addClass("loading");    },
-				ajaxStop: function() { $(".actionBar").removeClass("loading"); }    
-			});
-	    });
-	</script>
+            $( document ).tooltip({
+              show: null,
+              position: {
+                my: "left top",
+                at: "left bottom"
+              },
+              open: function( event, ui ) {
+                ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+              }
+            });
+            
+            $(document).on({
+                ajaxStart: function() { $(".actionBar").addClass("loading");    },
+                ajaxStop: function() { $(".actionBar").removeClass("loading"); }    
+            });
+        });
+    </script>
 </div>
 </body>
 </html>
