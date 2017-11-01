@@ -55,7 +55,8 @@ export const $store = new Vuex.Store({
                 //     'start_date<' + moment.utc().endOf('day').unix()
                 // ],
                 page: 1,
-                per_page: 100
+                per_page: 100,
+                expand: 'track'
             }, { indices: false })
 
             return axios.get(getEndpoint(

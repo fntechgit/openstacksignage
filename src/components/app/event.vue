@@ -19,7 +19,7 @@
                 <div class="row pt-4">
                     <div class="col-md-12">
                         <h1 class="text-uppercase type">
-                            {{ event.class_name }}
+                            {{ event.track.name }}
                         </h1>
                     </div>
                 </div>
