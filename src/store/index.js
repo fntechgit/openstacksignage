@@ -49,6 +49,8 @@ export const $store = new Vuex.Store({
             })
         },
         loadEvents(context, location) {
+			var summit_id = context.state.summit ? context.state.summit.id : 'current'
+			
             const query = qs.stringify({
                 // 'filter[]': [
                 //     'start_date>' + moment.utc().startOf('day').unix(),
@@ -60,7 +62,7 @@ export const $store = new Vuex.Store({
             }, { indices: false })
 
             return axios.get(getEndpoint(
-                `summits/current/locations/${location}/events/published?${query}`
+                `summits/${summit_id}/locations/${location}/events/published?${query}`
             ))
         },
         reload(context, location) {
