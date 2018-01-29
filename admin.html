@@ -292,7 +292,7 @@
                         $("#summits").prop("disabled", false);
                         $("#summits").append($("<option></option>").attr("value", 'current').text('Current'));
                         $.each(data, function(index, value) {
-                            if(value.active)
+                            //if(value.active)
                                 $("#summits").append($("<option></option>").attr("value", value.id).text(value.name));
                         }); 
                         $("#summits").change();
