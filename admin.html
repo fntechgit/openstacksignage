@@ -351,14 +351,27 @@
                 });
             };
 
-            //var idp_host = "openstackid.org";
-            var idp_host = "testopenstackid.openstack.org";
+            const environment = "staging";
 
-            //var resource_server_host = "openstackid-resources.openstack.org";
-            var resource_server_host = "testresource-server.openstack.org";
-
-            //var client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
-            var client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
+            switch (environment) {
+                case "staging":
+                    var idp_host = "testopenstackid.openstack.org";
+                    var resource_server_host = "testresource-server.openstack.org";
+                    var client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
+                    // client configured for https://signage.openstack.org/
+                    break;
+                case "production":
+                    var idp_host = "openstackid.org";
+                    var resource_server_host = "openstackid-resources.openstack.org";
+                    var client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
+                    // client configured for https://signage.openstack.org/
+                    break;
+                default:
+                    var idp_host = "testopenstackid.openstack.org";
+                    var resource_server_host = "testresource-server.openstack.org";
+                    var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
+                    // client configured for https://local.openstack.org/
+            }
 
             var setting =
                 {
