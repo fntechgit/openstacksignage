@@ -359,7 +359,10 @@
                     'host': "openstackid.org",
                     'rserver_host': "openstackid-resources.openstack.org",
                     'clientId': client_id,
-                    'scopes' : 'https://openstackid-resources.openstack.org/summits/read'
+                    'scopes':   'https://openstackid-resources.openstack.org/summits/read ' +
+                                'https://openstackid-resources.openstack.org/summits/write ' +
+                                'https://openstackid-resources.openstack.org/locations/write ' +
+                                'https://openstackid-resources.openstack.org/locations/banners/write'
                 };
 
             //these values might be taken from query string, however auth2 redirection is not returning second parameter
