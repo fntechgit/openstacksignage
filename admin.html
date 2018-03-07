@@ -351,18 +351,24 @@
                 });
             };
 
-            var client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
-            // var client_id = 'TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client';
+            //var idp_host = "openstackid.org";
+            var idp_host = "testopenstackid.openstack.org";
+
+            //var resource_server_host = "openstackid-resources.openstack.org";
+            var resource_server_host = "testresource-server.openstack.org";
+
+            //var client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
+            var client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
 
             var setting =
                 {
-                    'host': "openstackid.org",
-                    'rserver_host': "openstackid-resources.openstack.org",
+                    'host': idp_host,
+                    'rserver_host': resource_server_host,
                     'clientId': client_id,
-                    'scopes':   'https://openstackid-resources.openstack.org/summits/read ' +
-                                'https://openstackid-resources.openstack.org/summits/write ' +
-                                'https://openstackid-resources.openstack.org/locations/write ' +
-                                'https://openstackid-resources.openstack.org/locations/banners/write'
+                    'scopes':   'https://' + resource_server_host + '/summits/read ' +
+                                'https://' + resource_server_host + '/summits/write ' +
+                                'https://' + resource_server_host + '/locations/write ' +
+                                'https://' + resource_server_host + '/locations/banners/write'
                 };
 
             //these values might be taken from query string, however auth2 redirection is not returning second parameter
