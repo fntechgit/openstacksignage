@@ -306,7 +306,7 @@
             
             var fillLocationList =  function(summit_id){
                 $.ajax({
-                    url: locations_resource.replace("{summit_id}", summit_id) + "?order=" + encodeURIComponent("+name"),
+                    url: locations_resource.replace("{summit_id}", summit_id),
                     type: "GET",
                     contentType: "application/json; charset=utf-8",
                     beforeSend: function (xhr) {
