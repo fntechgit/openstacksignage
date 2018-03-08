@@ -179,6 +179,7 @@
             </tr>
             </thead>
         </table>
+        <button class="btn btn-default new-banner" type="button">New Random Message<span class="icon glyphicon"></span></button>
     </div>
 
     <script type="text/javascript" charset="utf-8">
@@ -377,6 +378,38 @@
                         console.log(errorThrown);
                     }                       
                 });
+            };
+
+            var newBanner = function() {
+                $.ajax({
+                    url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()),
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                        xhr.setRequestHeader('Accept', "application/json");
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                    },
+                    data: {
+                        "content": "Banner content. Hello World " + Math.random().toString(36).substring(7) + "!", //Random values
+                        "enabled": "true",
+                        "start_date": "1520533791",
+                        "title": Math.random().toString(36).substring(3) + "Banner", //Random values
+                        "class_name": "SummitLocationBanner",
+                        "type": "Primary",
+                        "end_date": "1520543791",
+                    },
+                })
+                    .done(function(data, textStatus, jqXHR) {
+                        console.log("HTTP Request Succeeded: " + jqXHR.status);
+                        console.log(data);
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("HTTP Request Failed");
+                    })
+                    .always(function() {
+                        /* ... */
+                    });
             };
 
             const environment = "staging";
@@ -607,7 +640,7 @@
                     },
                     rowCount: [10, 25, 50, 100],
                     templates: {
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='keyword'><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><p class=\"{{css.actions}}\"></p></div></div></div>"
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='Tag keyword'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
                     selection: true,
                     multiSelect: true,
@@ -630,18 +663,124 @@
             }
 
             function initializeBannersGrid(url){
-                //TODO: Implement!
+
+                $("#grid-data-banners").bootgrid({
+                    ajax: true,
+                    ajaxSettings: {
+                        method: "GET",
+                        cache: false,
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                            xhr.setRequestHeader('Accept', "application/json");
+                            xhr.setRequestHeader('Content-Type', 'text/plain');
+                        }
+                    },
+                    url: url,
+                    requestHandler:function (request) {
+                        var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
+                        var keyword = $('#tb_keyword').val().length ? 'content=@' + $('#tb_keyword').val().trim() : '';
+                        var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
+                        var isSorted = (request.sort);
+                        var orderBy = '';
+                        if(isSorted){
+                            var order = Object.keys(request.sort)[0] || 'start_date';
+                            var asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
+                            orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
+
+                            var request = {
+                                filter : filters,
+                                page: request.current,
+                                per_page: request.rowCount,
+                                order: orderBy,
+                                expand:"location",
+                            };
+                        }else{
+                            var request = {
+                                filter: filters,
+                                page: request.current,
+                                per_page: request.rowCount
+                            };
+                        }
+                        return request;
+                    },
+                    responseHandler:function (response) {
+                        var response = {
+                            current: response.current_page,
+                            rowCount: response.per_page,
+                            rows: response.data,
+                            total: response.total
+                        };
+
+                        return response;
+
+                    },
+                    formatters: {
+                        bannertitle: function (column, row){
+                            return spanWithTooltips(row[column.id]);
+                        },
+                        floorroom: function(column, row) {
+                            var floor = 'N/A'
+                            var room = 'N/A'
+
+                            if (row.location) {
+                                room = row.location.name
+
+                                var f = (conventionCenter.floors || []).filter(function(f) {
+                                    return f.id === row.location.floor_id
+                                }).shift()
+
+                                if (f) { floor = f.name }
+                            }
+
+                            var title = floor + ' / ' + room
+                            return '<span title="' + title + '">' + title + '</span>';
+                        },
+                        banner_actions: function (column, row) {
+                            return '<button class="event-jump" data-ts="' + row.start_date + '">Jump</button>'
+
+                            var link = "https://signage.openstack.org/#/" +
+                                "?location=" + encodeURI($("#locations option:selected").val());
+
+
+                            return "<a href='" + link + "'>View</a>";
+                        },
+                        date: function(column, row){
+                            var utc_date = row[column.id];
+                            var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
+                            date.setUTCSeconds(utc_date);
+
+                            var date = moment.unix(utc_date);
+                            return date.tz(timeZone).format('MM/DD HH:mm');
+                        }
+                    },
+                    rowCount: [10, 25, 50, 100],
+                    templates: {
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='Content'><p class=\"{{css.actions}}\"></p></div></div></div>"
+                    },
+                    selection: true,
+                    multiSelect: true,
+
+                }).on("selected.rs.jquery.bootgrid", function (e, rows) {
+                    console.log(rows);
+                    console.log("selected");
+                }).on("deselected.rs.jquery.bootgrid", function (e, rows) {
+                    console.log("deselected");
+                }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
+                    console.log("click");
+                }).on("loaded.rs.jquery.bootgrid", function (e){
+                    //TODO: Implement firebase update
+                });
             }
 
-            function reloadGrid()
-            {
-                $("#grid-data-events").bootgrid("reload");
-            }
             $(".submit-event").on('click', function (){
                 var selectedRows = $("#grid-data-events").bootgrid("getSelectedRows");
                 $.each(selectedRows, function( index, value ) {
                     var event_id = value;
                 });
+            });
+
+            $(".new-banner").on('click', function (){
+                newBanner()
             });
 
             $(".chosen-select").chosen({ width:"200px", "white-space": "nowrap"});
@@ -658,7 +797,7 @@
             });
             
             $(document).on({
-                ajaxStart: function() { $(".actionBar").addClass("loading");    },
+                ajaxStart: function() { $(".actionBar").addClass("loading"); },
                 ajaxStop: function() { $(".actionBar").removeClass("loading"); }    
             });
         });
