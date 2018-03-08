@@ -551,8 +551,8 @@
                     },
                     url: url,
                     requestHandler:function (request) {
-                            var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
-                            var keyword = $('#tb_keyword').val().length ? 'tags=@' + $('#tb_keyword').val().trim() : '';
+                            var title = $('#event_title').val().length ? 'title=@' + $('#event_title').val().trim() : '';
+                            var keyword = $('#event_keyword').val().length ? 'tags=@' + $('#event_keyword').val().trim() : '';
                             var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
                             var isSorted = (request.sort);
                             var orderBy = '';
@@ -649,7 +649,7 @@
                     },
                     rowCount: [10, 25, 50, 100],
                     templates: {
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='Tag keyword'><p class=\"{{css.actions}}\"></p></div></div></div>"
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='event_title'><input type='search' class='search-field form-control searchBox' id='event_keyword' placeholder='Tag keyword'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
                     selection: true,
                     multiSelect: true,
@@ -686,8 +686,8 @@
                     },
                     url: url,
                     requestHandler:function (request) {
-                        var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
-                        var keyword = $('#tb_keyword').val().length ? 'content=@' + $('#tb_keyword').val().trim() : '';
+                        var title = $('#banner_title').val().length ? 'title=@' + $('#banner_title').val().trim() : '';
+                        var keyword = $('#banner_content').val().length ? 'content=@' + $('#banner_content').val().trim() : '';
                         var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
                         var isSorted = (request.sort);
                         var orderBy = '';
@@ -764,7 +764,7 @@
                     },
                     rowCount: [10, 25, 50, 100],
                     templates: {
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='Content'><p class=\"{{css.actions}}\"></p></div></div></div>"
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='banner_title'><input type='search' class='search-field form-control searchBox' id='banner_content' placeholder='Content'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
                     selection: true,
                     multiSelect: true,
