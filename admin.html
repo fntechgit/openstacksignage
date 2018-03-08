@@ -147,8 +147,9 @@
         </table>
         </div>
     </p>
-    <table id="grid-data-events" data-ajax="true" class="table table-condensed table-hover table-striped">
-        <thead>
+    <div id="events" style="display: none;">
+        <table id="grid-data-events" data-ajax="true" class="table table-condensed table-hover table-striped">
+            <thead>
             <tr>
                 <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
                 <th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
@@ -159,9 +160,10 @@
                 <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
                 <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
             </tr>
-        </thead>
-    </table>
-    <button class="btn btn-default submit-event" type="button" title="Submit">Submit<span class="icon glyphicon"></span></button>
+            </thead>
+        </table>
+        <button class="btn btn-default submit-event" type="button" title="Submit">Submit<span class="icon glyphicon"></span></button>
+    </div>
     <script type="text/javascript" charset="utf-8">
         
         $( document ).ready(function() {
@@ -429,6 +431,8 @@
 
                 if (grid === "events") {
 
+                    $("#events").show();
+
                     $("#grid-data-events").bootgrid("destroy");
 
                     $("#view").prop(
@@ -450,6 +454,7 @@
 
                 } else if (grid === "banners") {
 
+                    $("#events").hide();
                 }
             });
             
