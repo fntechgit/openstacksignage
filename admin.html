@@ -403,9 +403,14 @@
                     .done(function(data, textStatus, jqXHR) {
                         console.log("HTTP Request Succeeded: " + jqXHR.status);
                         console.log(data);
+
+                        $("#view").change();
                     })
                     .fail(function(jqXHR, textStatus, errorThrown) {
                         console.log("HTTP Request Failed");
+                        alert(jqXHR.responseText);
+
+                        $("#view").change();
                     })
                     .always(function() {
                         /* ... */
