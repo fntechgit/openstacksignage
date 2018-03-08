@@ -155,7 +155,7 @@
                 <th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
                 <th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
                 <th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
-                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Room</th>
+                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Location</th>
                 <th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
                 <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
                 <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
@@ -164,6 +164,23 @@
         </table>
         <button class="btn btn-default submit-event" type="button" title="Submit">Submit<span class="icon glyphicon"></span></button>
     </div>
+
+    <div id="banners" style="display: none;">
+        <table id="grid-data-banners" data-ajax="true" class="table table-condensed table-hover table-striped">
+            <thead>
+            <tr>
+                <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="messageColumn">ID</th>
+                <th data-column-id="title" searchable="true" data-formatter="bannertitle" data-header-css-class="titleColumn">Message Title</th>
+                <th data-column-id="content" searchable="true" data-formatter="bannercontent" data-header-css-class="bannerColumn">Message Content</th>
+                <th data-column-id="banner_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
+                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Location</th>
+                <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
+                <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
     <script type="text/javascript" charset="utf-8">
         
         $( document ).ready(function() {
@@ -431,6 +448,7 @@
 
                 if (grid === "events") {
 
+                    $("#banners").hide();
                     $("#events").show();
 
                     $("#grid-data-events").bootgrid("destroy");
@@ -455,6 +473,7 @@
                 } else if (grid === "banners") {
 
                     $("#events").hide();
+                    $("#banners").show();
                 }
             });
             
