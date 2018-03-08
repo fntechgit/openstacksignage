@@ -419,6 +419,7 @@
             var locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations";
             var summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
             var events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
+            var banners_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/banners';
             var endUserAuthorizationEndpoint = authHost + "/oauth2/auth";
             
 
@@ -461,19 +462,30 @@
                     );
 
                     if ($('#locations').val() === '0') {
-                        return initializeGrid(summit_events_resource.replace(
+                        return initializeEventsGrid(summit_events_resource.replace(
                             '{summit_id}', $("#summits").val()
                         ))
                     }
 
                     var new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
 
-                    initializeGrid(new_url);
+                    initializeEventsGrid(new_url);
 
                 } else if (grid === "banners") {
 
                     $("#events").hide();
                     $("#banners").show();
+
+                    $("#grid-data-banners").bootgrid("destroy");
+
+                    if ($('#locations').val() === '0') {
+
+                        return;
+                    }
+
+                    var new_url = banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+
+                    initializeBannersGrid(new_url);
                 }
             });
             
@@ -482,8 +494,8 @@
                 $("a.connect").text('Re-connect');
                 fillSummitList();
             }
-             
-            function initializeGrid(url){
+
+            function initializeEventsGrid(url){
                 $("#grid-data-events").bootgrid({
                     ajax: true,
                     ajaxSettings: {
@@ -496,7 +508,7 @@
                         }
                     },
                     url: url,
-                    requestHandler:function (request) { 
+                    requestHandler:function (request) {
                             var title = $('#tb_title').val().length ? 'title=@' + $('#tb_title').val().trim() : '';
                             var keyword = $('#tb_keyword').val().length ? 'tags=@' + $('#tb_keyword').val().trim() : '';
                             var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
@@ -506,10 +518,10 @@
                                 var order = Object.keys(request.sort)[0] || 'start_date';
                                 var asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
                                 orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
-                                
+
                                 var request = {
                                     filter : filters,
-                                    page: request.current, 
+                                    page: request.current,
                                     per_page: request.rowCount,
                                     order: orderBy,
                                     expand:"speakers,location",
@@ -517,13 +529,13 @@
                             }else{
                                 var request = {
                                     filter: filters,
-                                    page: request.current, 
+                                    page: request.current,
                                     per_page: request.rowCount
                                 };
                             }
-                            return request; 
+                            return request;
                         },
-                    responseHandler:function (response) { 
+                    responseHandler:function (response) {
                         var response = {
                             current: response.current_page,
                             rowCount: response.per_page,
@@ -531,19 +543,19 @@
                             total: response.total
                         };
 
-                        return response; 
-                
+                        return response;
+
                     },
                      formatters: {
                         eventtitle: function (column, row){
-                            return spanWithTooltips(row[column.id]); 
+                            return spanWithTooltips(row[column.id]);
                         },
                         csvspeakers: function (column, row){
                             if(row[column.id]){
                                 var arr = jQuery.map( $(row[column.id]), function( speaker ) {
                                    return speaker.first_name + ' ' + speaker.last_name;
                                 });
-                                return spanWithTooltips(arr.join(", ")); 
+                                return spanWithTooltips(arr.join(", "));
                             }else{
                                 return "";
                             }
@@ -553,7 +565,7 @@
                                 var arr = jQuery.map( $(row['tags']), function( tag ) {
                                    return tag.tag;
                                 });
-                                return spanWithTooltips(arr.join(",")); 
+                                return spanWithTooltips(arr.join(","));
                             }else{
                                 return "";
                             }
@@ -580,7 +592,7 @@
 
                             var link = "https://signage.openstack.org/#/" +
                                 "?location=" + encodeURI($("#locations option:selected").val());
-                      
+
 
                             return "<a href='" + link + "'>View</a>";
                         },
@@ -588,18 +600,18 @@
                             var utc_date = row[column.id];
                             var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
                             date.setUTCSeconds(utc_date);
-                            
+
                             var date = moment.unix(utc_date);
                             return date.tz(timeZone).format('MM/DD HH:mm');
                         }
                     },
                     rowCount: [10, 25, 50, 100],
                     templates: {
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='keyword'><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><p class=\"{{css.actions}}\"></p></div></div></div>"    
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' id='tb_keyword' placeholder='keyword'><input type='search' class='search-field form-control searchBox' placeholder='Title' id='tb_title'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
                     selection: true,
                     multiSelect: true,
-                    
+
                 }).on("selected.rs.jquery.bootgrid", function (e, rows) {
                     console.log(rows);
                     console.log("selected");
@@ -616,7 +628,11 @@
                     console.log("loaded");
                 });
             }
-            
+
+            function initializeBannersGrid(url){
+                //TODO: Implement!
+            }
+
             function reloadGrid()
             {
                 $("#grid-data-events").bootgrid("reload");
