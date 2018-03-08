@@ -381,6 +381,17 @@
             };
 
             var newBanner = function() {
+
+                var payload = {
+                        "content": "Banner content. Hello World " + Math.random().toString(36).substring(7) + "!", //Random values
+                        "enabled": "1",
+                        "start_date": "1509832800",
+                        "title": Math.random().toString(36).substring(3) + "Banner", //Random values
+                        "class_name": "ScheduledSummitLocationBanner",
+                        "type": "Primary",
+                        "end_date": "1509882800",
+                    };
+
                 $.ajax({
                     url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()),
                     type: "POST",
@@ -390,15 +401,8 @@
                         xhr.setRequestHeader('Accept', "application/json");
                         xhr.setRequestHeader('Content-Type', 'application/json');
                     },
-                    data: {
-                        "content": "Banner content. Hello World " + Math.random().toString(36).substring(7) + "!", //Random values
-                        "enabled": "true",
-                        "start_date": "1520533791",
-                        "title": Math.random().toString(36).substring(3) + "Banner", //Random values
-                        "class_name": "ScheduledSummitLocationBanner",
-                        "type": "Primary",
-                        "end_date": "1520543791",
-                    },
+                    dataType: "json",
+                    data: JSON.stringify(payload),
                 })
                     .done(function(data, textStatus, jqXHR) {
                         console.log("HTTP Request Succeeded: " + jqXHR.status);
