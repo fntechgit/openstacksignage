@@ -137,7 +137,7 @@
         </table>
         </div>
     </p>
-    <table id="grid-data"  data-ajax="true"  class="table table-condensed table-hover table-striped" >
+    <table id="grid-data-events"  data-ajax="true"  class="table table-condensed table-hover table-striped" >
         <thead>
             <tr>
                 <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
@@ -408,7 +408,7 @@
             });
             
             $("#locations").on('change', function() {
-                $("#grid-data").bootgrid("destroy");
+                $("#grid-data-events").bootgrid("destroy");
 
                 $("#view").prop(
                     "disabled", isNaN(parseInt($('#locations').val()))
@@ -435,7 +435,7 @@
             }
              
             function initializeGrid(url){
-                $("#grid-data").bootgrid({
+                $("#grid-data-events").bootgrid({
                     ajax: true,
                     ajaxSettings: {
                         method: "GET",
@@ -570,10 +570,10 @@
             
             function reloadGrid()
             {
-                $("#grid-data").bootgrid("reload");
+                $("#grid-data-events").bootgrid("reload");
             }
             $(".submit-event").on('click', function (){
-                var selectedRows = $("#grid-data").bootgrid("getSelectedRows");
+                var selectedRows = $("#grid-data-events").bootgrid("getSelectedRows");
                 $.each(selectedRows, function( index, value ) {
                     var event_id = value;
                 });
