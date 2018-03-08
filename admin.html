@@ -287,7 +287,7 @@
                         xhr.setRequestHeader('Content-Type', 'application/json"');
                     }, 
                     success: function (response, textStatus, jqXHR ) {
-                        var data = response.data;
+                        var data = response.data.reverse();
                         $("#summits").empty();
                         $("#summits").prop("disabled", false);
                         $.each(data, function(index, value) {
