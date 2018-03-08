@@ -123,7 +123,7 @@
             <tr>
                 <th width="60">Summit</th>
                 <td><select id="summits" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
-                <th width="60">Venues</th>
+                <th width="60">Locations</th>
                 <td><select id="locations" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
                 <td><button id="btn-view" disabled>View</button></td>
             </tr>
@@ -351,7 +351,7 @@
                             $("<option></option>")
                             .attr("value", 0)
                             .attr("class", "location")
-                            .text('All Rooms')
+                            .text('All Locations')
                         )
 
                         var data = response.data;
@@ -386,7 +386,7 @@
                         "content": "Banner content. Hello World " + Math.random().toString(36).substring(7) + "!", //Random values
                         "enabled": "1",
                         "start_date": "1509832800",
-                        "title": Math.random().toString(36).substring(3) + "Banner", //Random values
+                        "title": "Banner " + Math.random().toString(36).substring(3), //Random values
                         "class_name": "ScheduledSummitLocationBanner",
                         "type": "Primary",
                         "end_date": "1509882800",
