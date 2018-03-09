@@ -26,6 +26,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
     <style>
     .searchBox {
         width: 200px;
@@ -120,25 +121,26 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="message dialog title">New Message</h4>
             </div>
-            <form>
+            <form id="banner">
                 <div class="modal-body">
+                    <input type="hidden" name="class_name" value="ScheduledSummitLocationBanner">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="banner-title" aria-describedby="message title" placeholder="This is the message title. Required. (May be used on sign or only for reference)">
+                        <input type="text" class="form-control" name="title" aria-describedby="message title" placeholder="This is the message title. Required. (May be used on sign or only for reference)" required/>
                     </div>
                     <div class="form-group">
-                        <textarea class="form-control" id="banner-content" aria-describedby="message content" placeholder="This is the content of the message. Required."></textarea>
+                        <textarea class="form-control" name="content" aria-describedby="message content" placeholder="This is the content of the message. Required." required></textarea>
                     </div>
                     <div class="form-group row">
                         <label for="banner-start" class="col-sm-1 col-form-label">Start</label>
                         <div class="col-sm-5">
                             <div class='input-group date' id="banner-start" aria-describedby="message start date">
-                                <input type='text' class="form-control" />
+                                <input type='text' class="form-control" name="start" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                         <label for="banner-type" class="col-sm-1 col-form-label">Type</label>
                         <div class="col-sm-5">
-                            <select class="form-control" id="banner-type" aria-describedby="message type">
+                            <select class="form-control" id="banner-type" name="type" aria-describedby="message type">
                                 <option selected value="Primary">Top message</option>
                                 <option value="Secondary">Footer message</option>
                             </select>
@@ -148,18 +150,20 @@
                         <label for="banner-end" class="col-sm-1 col-form-label">End</label>
                         <div class="col-sm-5">
                             <div class='input-group date' id="banner-end" aria-describedby="message start date">
-                                <input type='text' class="form-control" />
+                                <input type='text' class="form-control" name="end" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
+                        <!--
                         <label for="banner-active" class="col-sm-1 col-form-label">Active</label>
                         <div class="col-sm-5">
-                            <input type="checkbox" class="form-check-input" id="banner-active" aria-describedby="message active">
-                        </div>
+                            <input type="checkbox" class="form-check-input" id="banner-active" name="active" aria-describedby="message active">
+                        </div> -->
+                        <input type="hidden" name="active" aria-describedby="message active" value="1">
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" aria-describedby="message submit">Submit</button>
+                    <button type="submit" class="btn btn-primary" aria-describedby="message submit">Submit</button>
                 </div>
             </form>
         </div>
@@ -860,7 +864,23 @@
                 var modal = $(this);
                 modal.find('.modal-title').text(modal_title);
                 //modal.find('.modal-body input').val(recipient);
-            })
+            });
+
+            $('#banner-dialog form').on('submit', function(ev) {
+
+                var data = $(this).serializeObject();
+
+                // active checkbox removed
+                // data["active"] = "active" in data ? 1 : 0;
+
+                var payload = JSON.stringify(data);
+
+                alert(payload);
+
+                // $('#banner-dialog').modal('hide');
+
+                ev.preventDefault();
+            });
 
             $(".chosen-select").chosen({ width:"200px", "white-space": "nowrap"});
 
