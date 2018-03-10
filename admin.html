@@ -231,10 +231,11 @@
                 <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="messageColumn">ID</th>
                 <th data-column-id="title" searchable="true" data-formatter="bannertitle" data-header-css-class="titleColumn">Message Title</th>
                 <th data-column-id="content" searchable="true" data-formatter="bannercontent" data-header-css-class="bannerColumn">Message Content</th>
-                <th data-column-id="banner_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
-                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Location</th>
                 <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
                 <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
+                <th data-column-id="banner_type" data-formatter="bannertype" data-sortable="true" data-header-css-class="dateColumn">Type</th>
+                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Location</th>
+                <th data-column-id="banner_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
             </tr>
             </thead>
         </table>
@@ -831,6 +832,10 @@
 
                             var title = floor + ' / ' + room
                             return '<span title="' + title + '">' + title + '</span>';
+                        },
+                        bannertype: function (column, row) {
+
+                            return (row.type == "Primary") ? "Top message" : "Footer message";
                         },
                         banner_actions: function (column, row) {
                             return '<button class="event-jump" data-ts="' + row.start_date + '">Jump</button>'
