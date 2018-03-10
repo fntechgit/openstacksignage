@@ -134,7 +134,7 @@
                         <label for="banner-start" class="col-sm-1 col-form-label">Start</label>
                         <div class="col-sm-5">
                             <div class='input-group date' id="banner-start" aria-describedby="message start date">
-                                <input type='text' class="form-control" name="start" required/>
+                                <input type='text' class="form-control" name="start_date" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
@@ -149,8 +149,8 @@
                     <div class="form-group row">
                         <label for="banner-end" class="col-sm-1 col-form-label">End</label>
                         <div class="col-sm-5">
-                            <div class='input-group date' id="banner-end" aria-describedby="message start date">
-                                <input type='text' class="form-control" name="end" required/>
+                            <div class='input-group date' id="banner-end" aria-describedby="message end date">
+                                <input type='text' class="form-control" name="end_date" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
@@ -159,7 +159,7 @@
                         <div class="col-sm-5">
                             <input type="checkbox" class="form-check-input" id="banner-active" name="active" aria-describedby="message active">
                         </div> -->
-                        <input type="hidden" name="active" aria-describedby="message active" value="1">
+                        <input type="hidden" name="enabled" aria-describedby="message enabled" value="1">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -341,7 +341,7 @@
 
             var conventionCenter = null
 
-            var timeZone = "America/Vancouver";
+            var timeZone = "UTC";
             
             var spanWithTooltips = function(text){
                 return "<span title='"+ text + "'>"+text+"</span>";
@@ -383,9 +383,21 @@
                         $("#summits").empty();
                         $("#summits").prop("disabled", false);
                         $.each(data, function(index, value) {
+
                             //if(value.active)
-                                $("#summits").append($("<option></option>").attr("value", value.id).text(value.name));
-                        }); 
+
+                            $('<option/>', {
+                                text: value.name,
+                                value: value.id,
+                                data: {
+                                    time_zone: value.time_zone.name,
+                                    start_date: value.start_date,
+                                    end_date: value.end_date
+                                }
+                            }).appendTo($("#summits"));
+
+                        });
+
                         $("#summits").change();
                         $("#summits").trigger("chosen:updated");
                     },
@@ -442,17 +454,7 @@
                 });
             };
 
-            var newBanner = function() {
-
-                var payload = {
-                        "content": "Banner content. Hello World " + Math.random().toString(36).substring(7) + "!", //Random values
-                        "enabled": "1",
-                        "start_date": "1509832800",
-                        "title": "Banner " + Math.random().toString(36).substring(3), //Random values
-                        "class_name": "ScheduledSummitLocationBanner",
-                        "type": "Primary",
-                        "end_date": "1509882800",
-                    };
+            var newBanner = function(payload) {
 
                 $.ajax({
                     url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()),
@@ -538,6 +540,33 @@
             $("a.connect").attr("href", authUrl);
             
             $("#summits").on('change', function() {
+
+                // Configure global time zone
+                // and banner dialog date pickers
+
+                let optionSelected = $("option:selected", this);
+
+                timeZone = optionSelected.data("time_zone");
+
+                let start_date = optionSelected.data("start_date");
+                let end_date = optionSelected.data("end_date");
+
+                var options_start = {
+                    useCurrent: false,
+                    minDate: moment.unix(start_date).tz(timeZone),
+                    maxDate: moment.unix(end_date).tz(timeZone),
+                };
+
+                var options_end = $.extend( true, {}, options_start );
+
+                options_start.defaultDate = options_start.minDate;
+                options_end.defaultDate = options_end.maxDate;
+
+                $('#banner-start').data("DateTimePicker").destroy();
+                $('#banner-end').data("DateTimePicker").destroy();
+
+                $('#banner-start').datetimepicker(options_start);
+                $('#banner-end').datetimepicker(options_end);
 
                 fillLocationList(this.value);
             });
@@ -702,9 +731,6 @@
                         },
                         date: function(column, row){
                             var utc_date = row[column.id];
-                            var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                            date.setUTCSeconds(utc_date);
-
                             var date = moment.unix(utc_date);
                             return date.tz(timeZone).format('MM/DD HH:mm');
                         }
@@ -817,9 +843,6 @@
                         },
                         date: function(column, row){
                             var utc_date = row[column.id];
-                            var date = new Date(0); // The 0 there is the key, which sets the date to the epoch
-                            date.setUTCSeconds(utc_date);
-
                             var date = moment.unix(utc_date);
                             return date.tz(timeZone).format('MM/DD HH:mm');
                         }
@@ -868,16 +891,20 @@
 
             $('#banner-dialog form').on('submit', function(ev) {
 
-                var data = $(this).serializeObject();
+                var payload = $(this).serializeObject();
 
-                // active checkbox removed
-                // data["active"] = "active" in data ? 1 : 0;
+                let format = 'MM/DD/YYYY h:mm A';
 
-                var payload = JSON.stringify(data);
+                let start_date = moment.tz(payload.start_date, format, timeZone);
+                let end_date = moment.tz(payload.end_date, format, timeZone);
 
-                alert(payload);
+                payload.start_date = start_date.unix();
+                payload.end_date = end_date.unix();
 
-                // $('#banner-dialog').modal('hide');
+                // Perform api call
+                newBanner(payload);
+
+                $('#banner-dialog').modal('hide');
 
                 ev.preventDefault();
             });
