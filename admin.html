@@ -75,7 +75,7 @@
         width: 8%;
     }
     .venue{
-                font-weight: bold !important;
+        font-weight: bold !important;
         text-transform: uppercase;
     }
     .location{
@@ -129,6 +129,7 @@
             </div>
             <form id="banner">
                 <div class="modal-body">
+                    <input type="hidden" name="id" value="0">
                     <input type="hidden" name="class_name" value="ScheduledSummitLocationBanner">
                     <div class="form-group">
                         <input type="text" class="form-control" name="title" aria-describedby="message title" placeholder="This is the message title. Required. (May be used on sign or only for reference)" required/>
@@ -244,7 +245,7 @@
             </tr>
             </thead>
         </table>
-        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#banner-dialog" data-action="@create-banner">New Message</button>
+        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#banner-dialog" data-action="create">New Message</button>
     </div>
 
     <script type="text/javascript" charset="utf-8">
@@ -253,9 +254,6 @@
 
             $('#input-date').val(moment().format('Y-M-D'));
             $('#input-time').val(moment().format('HH:mm'));
-
-            $('#banner-start').datetimepicker();
-            $('#banner-end').datetimepicker();
 
             const db = firebase.initializeApp({
                 apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
@@ -345,9 +343,10 @@
                 })
             }
 
-            var conventionCenter = null
+            var conventionCenter = null;
 
             var timeZone = "UTC";
+            var timePickerDateFormat = 'MM/DD/YYYY h:mm A';
             
             var spanWithTooltips = function(text){
                 return "<span title='"+ text + "'>"+text+"</span>";
@@ -460,11 +459,16 @@
                 });
             };
 
-            var createBanner = function(payload) {
+            var createOrUpdateBanner = function(payload) {
 
-                $.ajax({
-                    url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()),
-                    type: "POST",
+                let posfix = payload.id ? "/" + payload.id : "";
+                let method = payload.id ? "PUT" : "POST";
+
+                delete payload["id"];
+
+                    $.ajax({
+                    url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + posfix,
+                    type: method,
                     contentType: "application/json; charset=utf-8",
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
@@ -576,32 +580,12 @@
             
             $("#summits").on('change', function() {
 
-                // Configure global time zone
-                // and banner dialog date pickers
+                $("#events, #banners").hide();
 
-                let optionSelected = $("option:selected", this);
+                $("#view").prop("disabled", true);
+                $("#view > option:first-child").attr("selected", "selected");
 
-                timeZone = optionSelected.data("time_zone");
-
-                let start_date = optionSelected.data("start_date");
-                let end_date = optionSelected.data("end_date");
-
-                var options_start = {
-                    useCurrent: false,
-                    minDate: moment.unix(start_date).tz(timeZone),
-                    maxDate: moment.unix(end_date).tz(timeZone),
-                };
-
-                var options_end = $.extend( true, {}, options_start );
-
-                options_start.defaultDate = options_start.minDate;
-                options_end.defaultDate = options_end.maxDate;
-
-                $('#banner-start').data("DateTimePicker").destroy();
-                $('#banner-end').data("DateTimePicker").destroy();
-
-                $('#banner-start').datetimepicker(options_start);
-                $('#banner-end').datetimepicker(options_end);
+                initializeBannerModal();
 
                 fillLocationList(this.value);
             });
@@ -661,6 +645,73 @@
                 $('span.token').text("You are authenticated");
                 $("a.connect").text('Re-connect');
                 fillSummitList();
+            }
+
+            function initializeBannerModal() {
+
+                // Configure global time zone
+                // and banner dialog date pickers
+
+                let summitSelected = $("#summits > option:selected");
+
+                timeZone = summitSelected.data("time_zone");
+
+                let startDate = summitSelected.data("start_date");
+                let endDate = summitSelected.data("end_date");
+
+                var options = {
+                    minDate: moment.unix(startDate).tz(timeZone),
+                    maxDate: moment.unix(endDate).tz(timeZone),
+                    defaultDate: false,
+                };
+
+                let startTimePicker = $('#banner-start');
+                let startTimePickerData = startTimePicker.data("DateTimePicker");
+
+                if (startTimePickerData) {
+
+                    startTimePickerData.minDate(false);
+                    startTimePickerData.maxDate(false);
+
+                    startTimePickerData.minDate(options.minDate);
+                    startTimePickerData.maxDate(options.maxDate);
+
+                } else {
+
+                    startTimePicker.datetimepicker(options);
+                }
+
+                let endTimePicker = $('#banner-end');
+                let endTimePickerData = endTimePicker.data("DateTimePicker");
+
+                if (endTimePickerData) {
+
+                    endTimePickerData.minDate(false);
+                    endTimePickerData.maxDate(false);
+
+                    endTimePickerData.minDate(options.minDate);
+                    endTimePickerData.maxDate(options.maxDate);
+
+                } else {
+
+                    endTimePicker.datetimepicker(options);
+                }
+            }
+
+            function cleanBannerModal() {
+
+                let defaultStartDate = $('#banner-start').data("DateTimePicker").minDate();
+                let defaultEndDate = $('#banner-end').data("DateTimePicker").maxDate();
+
+                let modal = $("#banner-dialog");
+
+                modal.find('.modal-body input[name=id]').val(0);
+                modal.find('.modal-body input[name=title]').val("");
+                modal.find('.modal-body textarea[name=content]').val("");
+                modal.find('.modal-body input[name=start_date]').val(defaultStartDate.format(timePickerDateFormat));
+                modal.find('.modal-body input[name=end_date]').val(defaultEndDate.format(timePickerDateFormat));
+                modal.find('.modal-body select[name=type]').val(defaultEndDate.format(timePickerDateFormat));
+                modal.find('.modal-body select > option:first-child').prop("selected", true);
             }
 
             function initializeEventsGrid(url){
@@ -877,13 +928,15 @@
                         },
                         banner_actions: function (column, row) {
 
-                            /*var actions =
-                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"@edit-banner\" data-target=\"#banner-dialog\" aria-label=\"Edit\">\n" +
-                                "  <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\n" +
-                                "</button>";*/
+                            var encoded = btoa(JSON.stringify(row));
 
                             var actions =
-                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"delete-banner\" data-identifier=\"" + row.id + "\" aria-label=\"Delete\">\n" +
+                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"edit\" data-base64=\"" + encoded + "\" data-target=\"#banner-dialog\" aria-label=\"Edit\">\n" +
+                                "  <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\n" +
+                                "</button>";
+
+                            actions +=
+                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"delete\" data-identifier=\"" + row.id + "\" aria-label=\"Delete\">\n" +
                                 "  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
                                 "</button>";
 
@@ -911,12 +964,31 @@
 
                         switch (target.data("action")) {
 
-                            case "edit-banner":
+                            case "edit":
 
-                                target.modal("show");
+                                let encoded = target.data("base64");
+                                let decoded = JSON.parse(atob(encoded));
+
+                                if (decoded != null) {
+
+                                    let startDate = moment.unix(decoded.start_date);
+                                    let endDate = moment.unix(decoded.end_date);
+
+                                    let modal = $(target.data("target"));
+
+                                    modal.modal("show");
+                                    modal.find('.modal-title').text("Edit Message");
+                                    modal.find('.modal-body input[name=id]').val(decoded.id);
+                                    modal.find('.modal-body input[name=title]').val(decoded.title);
+                                    modal.find('.modal-body textarea[name=content]').val(decoded.content);
+                                    modal.find('.modal-body input[name=start_date]').val(startDate.tz(timeZone).format(timePickerDateFormat));
+                                    modal.find('.modal-body input[name=end_date]').val(endDate.tz(timeZone).format(timePickerDateFormat));
+                                    modal.find('.modal-body select > option[value="' + decoded.type + '"]').prop("selected", true);
+                                }
+
                                 break;
 
-                            case "delete-banner":
+                            case "delete":
 
                                 target.addClass("disabled");
                                 deleteBanner(target.data('identifier'));
@@ -935,32 +1007,27 @@
 
                 var action = button.data('action');
 
-                var modal_title = "New Message";
+                if (action === "create") {
 
-                if (action === "edit-banner") {
+                    cleanBannerModal();
 
-                    modal_title = "Edit Message";
+                    var modal = $(this);
+                    modal.find('.modal-title').text("New Message");
                 }
-
-                var modal = $(this);
-                modal.find('.modal-title').text(modal_title);
-                //modal.find('.modal-body input').val(recipient);
             });
 
             $('#banner-dialog form').on('submit', function(ev) {
 
                 var payload = $(this).serializeObject();
 
-                let format = 'MM/DD/YYYY h:mm A';
-
-                let start_date = moment.tz(payload.start_date, format, timeZone);
-                let end_date = moment.tz(payload.end_date, format, timeZone);
+                let start_date = moment.tz(payload.start_date, timePickerDateFormat, timeZone);
+                let end_date = moment.tz(payload.end_date, timePickerDateFormat, timeZone);
 
                 payload.start_date = start_date.unix();
                 payload.end_date = end_date.unix();
 
                 // Perform api call
-                createBanner(payload);
+                createOrUpdateBanner(payload);
 
                 $('#banner-dialog').modal('hide');
 
