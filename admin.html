@@ -84,10 +84,16 @@
     .wheel{
         width:30px;
     }
-    .loading{
-        background-image: url(ring-alt.gif);
-        background-repeat: no-repeat;
-        background-size: contain;
+    .wheel-loading {
+        animation: ani 2s infinite linear;
+    }
+    @keyframes ani {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(359deg);
+        }
     }
     </style>
 </head>
@@ -235,7 +241,7 @@
                 <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
                 <th data-column-id="banner_type" data-formatter="bannertype" data-sortable="true" data-header-css-class="dateColumn">Type</th>
                 <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor/Location</th>
-                <th data-column-id="banner_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
+                <th data-column-id="banner_actions" data-formatter="banner_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
             </tr>
             </thead>
         </table>
@@ -455,7 +461,7 @@
                 });
             };
 
-            var newBanner = function(payload) {
+            var createBanner = function(payload) {
 
                 $.ajax({
                     url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()),
@@ -468,6 +474,35 @@
                     },
                     dataType: "json",
                     data: JSON.stringify(payload),
+                })
+                    .done(function(data, textStatus, jqXHR) {
+                        console.log("HTTP Request Succeeded: " + jqXHR.status);
+                        console.log(data);
+
+                        $("#view").change();
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("HTTP Request Failed");
+                        alert(jqXHR.responseText);
+
+                        $("#view").change();
+                    })
+                    .always(function() {
+                        /* ... */
+                    });
+            };
+
+            var deleteBanner = function(id) {
+
+                $.ajax({
+                    url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + '/' + id,
+                    type: "DELETE",
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
+                        xhr.setRequestHeader('Accept', "application/json");
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                    }
                 })
                     .done(function(data, textStatus, jqXHR) {
                         console.log("HTTP Request Succeeded: " + jqXHR.status);
@@ -838,13 +873,13 @@
                             return (row.type == "Primary") ? "Top message" : "Footer message";
                         },
                         banner_actions: function (column, row) {
-                            return '<button class="event-jump" data-ts="' + row.start_date + '">Jump</button>'
 
-                            var link = "https://signage.openstack.org/#/" +
-                                "?location=" + encodeURI($("#locations option:selected").val());
+                            var actions =
+                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"delete\" data-target=\"" + row.id + "\" aria-label=\"Delete\">\n" +
+                                "  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+                                "</button>";
 
-
-                            return "<a href='" + link + "'>View</a>";
+                            return actions;
                         },
                         date: function(column, row){
                             var utc_date = row[column.id];
@@ -867,7 +902,20 @@
                 }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
                     console.log("click");
                 }).on("loaded.rs.jquery.bootgrid", function (e){
-                    //TODO: Implement firebase update
+
+                    $('.banner-action').on('click', e => {
+
+                        switch ($(e.target).data('action')) {
+
+                            case 'delete':
+
+                                $(e.target).addClass("disabled");
+                                deleteBanner($(e.target).data('target'));
+                                break;
+                            default:
+                                break;
+                        }
+                    });
                 });
             }
 
@@ -907,7 +955,7 @@
                 payload.end_date = end_date.unix();
 
                 // Perform api call
-                newBanner(payload);
+                createBanner(payload);
 
                 $('#banner-dialog').modal('hide');
 
@@ -928,8 +976,8 @@
             });
             
             $(document).on({
-                ajaxStart: function() { $(".actionBar").addClass("loading"); },
-                ajaxStop: function() { $(".actionBar").removeClass("loading"); }    
+                ajaxStart: function() { $(".glyphicon-refresh").addClass("wheel-loading"); },
+                ajaxStop: function() { $(".glyphicon-refresh").removeClass("wheel-loading"); }
             });
         });
     </script>
