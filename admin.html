@@ -461,8 +461,8 @@
 
             var createOrUpdateBanner = function(payload) {
 
-                let posfix = payload.id !== 0 ? "/" + payload.id : "";
-                let method = payload.id !== 0 ? "PUT" : "POST";
+                let posfix = payload.id != 0 ? "/" + payload.id : "";
+                let method = payload.id != 0 ? "PUT" : "POST";
 
                 delete payload["id"];
 
