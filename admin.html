@@ -227,7 +227,6 @@
             </tr>
             </thead>
         </table>
-        <button class="btn btn-default submit-event" type="button" title="Submit">Submit<span class="icon glyphicon"></span></button>
     </div>
 
     <div id="banners" style="display: none;">
@@ -245,7 +244,7 @@
             </tr>
             </thead>
         </table>
-        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#banner-dialog" data-action="@new-banner">New Message</button>
+        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#banner-dialog" data-action="@create-banner">New Message</button>
     </div>
 
     <script type="text/javascript" charset="utf-8">
@@ -775,8 +774,8 @@
                     templates: {
                         header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='event_title'><input type='search' class='search-field form-control searchBox' id='event_keyword' placeholder='Tag keyword'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
-                    selection: true,
-                    multiSelect: true,
+                    selection: false,
+                    multiSelect: false,
 
                 }).on("selected.rs.jquery.bootgrid", function (e, rows) {
                     console.log(rows);
@@ -786,11 +785,15 @@
                 }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
                     console.log("click");
                 }).on("loaded.rs.jquery.bootgrid", function (e){
+
                     $('.event-jump').on('click', e => {
+
                         firebaseUpdate('time',
-                            $("#locations").val() + '&' + $(e.target).data('ts')
+
+                            $("#locations").val() + '&' + $(e.currentTarget).data('ts')
                         )
-                    })
+                    });
+
                     console.log("loaded");
                 });
             }
@@ -874,8 +877,13 @@
                         },
                         banner_actions: function (column, row) {
 
+                            /*var actions =
+                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"@edit-banner\" data-target=\"#banner-dialog\" aria-label=\"Edit\">\n" +
+                                "  <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\n" +
+                                "</button>";*/
+
                             var actions =
-                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"delete\" data-target=\"" + row.id + "\" aria-label=\"Delete\">\n" +
+                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"delete-banner\" data-identifier=\"" + row.id + "\" aria-label=\"Delete\">\n" +
                                 "  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
                                 "</button>";
 
@@ -891,27 +899,29 @@
                     templates: {
                         header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='banner_title'><input type='search' class='search-field form-control searchBox' id='banner_content' placeholder='Content'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
-                    selection: true,
-                    multiSelect: true,
+                    selection: false,
 
-                }).on("selected.rs.jquery.bootgrid", function (e, rows) {
-                    console.log(rows);
-                    console.log("selected");
-                }).on("deselected.rs.jquery.bootgrid", function (e, rows) {
-                    console.log("deselected");
                 }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
                     console.log("click");
                 }).on("loaded.rs.jquery.bootgrid", function (e){
 
                     $('.banner-action').on('click', e => {
 
-                        switch ($(e.target).data('action')) {
+                        let target = $(e.currentTarget);
 
-                            case 'delete':
+                        switch (target.data("action")) {
 
-                                $(e.target).addClass("disabled");
-                                deleteBanner($(e.target).data('target'));
+                            case "edit-banner":
+
+                                target.modal("show");
                                 break;
+
+                            case "delete-banner":
+
+                                target.addClass("disabled");
+                                deleteBanner(target.data('identifier'));
+                                break;
+
                             default:
                                 break;
                         }
@@ -919,20 +929,15 @@
                 });
             }
 
-            $(".submit-event").on('click', function (){
-                var selectedRows = $("#grid-data-events").bootgrid("getSelectedRows");
-                $.each(selectedRows, function( index, value ) {
-                    var event_id = value;
-                });
-            });
-
             $('#banner-dialog').on('show.bs.modal', function (event) {
+
                 var button = $(event.relatedTarget);
+
                 var action = button.data('action');
 
                 var modal_title = "New Message";
 
-                if (action == "edit-message") {
+                if (action === "edit-banner") {
 
                     modal_title = "Edit Message";
                 }
