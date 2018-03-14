@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>OpenStack Signage - Event listing by room</title>
+    <title>OpenStack Signage</title>
 
     <link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -16,85 +16,91 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.6/moment-timezone-with-data.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
-    <script src="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/js/bootstrap-editable.js"></script>
     <link rel="stylesheet" href="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/css/bootstrap-editable.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/URI.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.6.2/chosen.jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/styles/metro/notify-metro.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
     <style>
-    .searchBox {
-        width: 200px;
-        display: inline-block;
-        margin: 0px 10px;
-    }
-    table#filters td {
-        padding: 0 10px;
-        padding-bottom: 5px;
-    }
-    table#filters td button {
-        margin-right: 5px;
-        min-width: 80px;
-    }
-    input[type="search"] {
-        -webkit-appearance: searchfield;
-    }
-    input[type="search"]::-webkit-search-cancel-button {
-        -webkit-appearance: searchfield-cancel-button;
-    }
-    thead {
-        font-size: 12px;
-    }
-    tbody {
-        font-size: 12px;
-    }
-    .eventColumn {
-        width: 8%;
-    }
-    .titleColumn {
-        width: 20%;
-    }
-    .speakersColumn {
-        width: 20%;
-    }
-    .floorRoomColumn {
-        width: 20%;
-    }
-    .screenLinkColumn {
-        width: 10%;
-    }
-    .tagsColumn {
-        width: 18%;
-    }
-    .dateColumn {
-        width: 8%;
-    }
-    .venue{
-        font-weight: bold !important;
-        text-transform: uppercase;
-    }
-    .location{
-        padding-left: 20px !important;
-    }
-    .wheel{
-        width:30px;
-    }
-    .wheel-loading {
-        animation: ani 2s infinite linear;
-    }
-    @keyframes ani {
-        0% {
-            transform: rotate(0deg);
+        .container {
+            padding:0;
+            padding-left:20px;
+            margin:0;
         }
-        100% {
-            transform: rotate(359deg);
+        body {
+            padding:0;
         }
-    }
+        .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom:0;
+        }
+        .searchBox {
+            width: 200px;
+            display: inline-block;
+            margin: 0px 10px;
+        }
+        table#filters td {
+            padding: 0 10px;
+            padding-bottom: 5px;
+        }
+        table#filters td button {
+            margin-right: 5px;
+            min-width: 80px;
+        }
+        input[type="search"] {
+            -webkit-appearance: searchfield;
+        }
+        input[type="search"]::-webkit-search-cancel-button {
+            -webkit-appearance: searchfield-cancel-button;
+        }
+        thead {
+            font-size: 12px;
+        }
+        tbody {
+            font-size: 12px;
+        }
+        .eventColumn {
+            width: 8%;
+        }
+        .titleColumn {
+            width: 20%;
+        }
+        .speakersColumn {
+            width: 20%;
+        }
+        .floorRoomColumn {
+            width: 20%;
+        }
+        .screenLinkColumn {
+            width: 10%;
+        }
+        .tagsColumn {
+            width: 18%;
+        }
+        .dateColumn {
+            width: 8%;
+        }
+        .wheel{
+            width:30px;
+        }
+        .wheel-loading {
+            animation: ani 2s infinite linear;
+        }
+        @keyframes ani {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(359deg);
+            }
+        }
     </style>
 </head>
 
@@ -104,6 +110,7 @@
     border: 1px solid silver;
     border-radius: 10px;
     padding: 10px;cursor: pointer">Connect</a>
+    <span class="token">Please authenticate by clicking on the Connect button above.</span>
 </div>
 
 <div id="firebase-dialog" title="Firebase Authentication" style="display: none;">
@@ -127,7 +134,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="message dialog title">New Message</h4>
             </div>
-            <form id="banner">
+            <form>
                 <div class="modal-body">
                     <input type="hidden" name="id" value="0">
                     <input type="hidden" name="class_name" value="ScheduledSummitLocationBanner">
@@ -138,15 +145,15 @@
                         <textarea class="form-control" name="content" aria-describedby="message content" placeholder="This is the content of the message. Required." required></textarea>
                     </div>
                     <div class="form-group row">
-                        <label for="banner-start" class="col-sm-1 col-form-label">Start</label>
-                        <div class="col-sm-5">
+                        <label for="banner-start" class="col-md-1 col-form-label">Start</label>
+                        <div class="col-md-5">
                             <div class='input-group date' id="banner-start" aria-describedby="message start date">
                                 <input type='text' class="form-control" name="start_date" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
-                        <label for="banner-type" class="col-sm-1 col-form-label">Type</label>
-                        <div class="col-sm-5">
+                        <label for="banner-type" class="col-md-1 col-form-label">Type</label>
+                        <div class="col-md-5">
                             <select class="form-control" id="banner-type" name="type" aria-describedby="message type">
                                 <option selected value="Primary">Top message</option>
                                 <option value="Secondary">Footer message</option>
@@ -154,19 +161,19 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="banner-end" class="col-sm-1 col-form-label">End</label>
-                        <div class="col-sm-5">
+                        <label for="banner-end" class="col-md-1 col-form-label">End</label>
+                        <div class="col-md-5">
                             <div class='input-group date' id="banner-end" aria-describedby="message end date">
                                 <input type='text' class="form-control" name="end_date" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
                         <!--
-                        <label for="banner-active" class="col-sm-1 col-form-label">Active</label>
-                        <div class="col-sm-5">
+                        <label for="banner-active" class="col-md-1 col-form-label">Active</label>
+                        <div class="col-md-5">
                             <input type="checkbox" class="form-check-input" id="banner-active" name="active" aria-describedby="message active">
                         </div> -->
-                        <input type="hidden" name="enabled" aria-describedby="message enabled" value="1">
+                        <input type="hidden" name="enabled" value="1">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -177,42 +184,81 @@
     </div>
 </div>
 
-<div class="authenticated" style="margin: 20px;
-    border: 1px solid silver;
-    border-radius: 10px;
-    padding: 10px;">
-    <p>
-        <span class="token">Please authenticate by clicking on the Connect button above.</span>
-        
-        <div>
-        <table id="filters">
-            <tr>
-                <th width="60">Summit</th>
-                <td><select id="summits" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
-                <th width="60">Locations</th>
-                <td><select id="locations" disabled class="chosen-select"><option value="" disabled selected>Not authenticated</option></select></td>
-                <td><button id="btn-view" disabled>View</button></td>
-            </tr>
-            <tr id="filters-actions">
-                <th>Date</th>
-                <td><input type="date" id="input-date" disabled /></td>
-                <th>Time</th>
-                <td><input type="time" id="input-time" disabled /></td>
-                <td><button id="btn-jump" disabled>Jump</button><button id="btn-reset" disabled>Reset</button></td>
-            </tr>
-            <tr><td><br><br></td></tr>
-            <tr>
-                <th width="60">View</th>
-                <td>
-                    <select id="view" class="form-control input-sm" disabled>
-                        <option value="events" selected>Events</option>
-                        <option value="banners">Messages</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
+<div class="authenticated" s3tyle="margin-top: 20px; padding-top: 20px; padding-bottom: 20px; background-color: #EDF2F7">
+    <div class="container">
+        <div class='row'>
+            <div class='col-md-3'>
+                <div class="form-group row">
+                    <label for="summits" class="col-md-3 col-form-label">Summit</label>
+                    <div class="col-md-9">
+                        <select id="summits" class="selectpicker form-control" title="Not authenticated" disabled></select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="locations" class="col-md-3 col-form-label">Location</label>
+                    <div class="col-md-9">
+                        <select id="locations" class="selectpicker form-control" title="Not authenticated" data-live-search="true" disabled></select>
+                    </div>
+                </div>
+            </div>
+            <div class='col-md-3'>
+                <div class="form-group row">
+                    <label for="input-date" class="col-md-3 col-form-label">Date</label>
+                    <div class="col-md-9">
+                        <input type="date" id="input-date" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="input-time" class="col-md-3 col-form-label">Time</label>
+                    <div class="col-md-9">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <input type="time" id="input-time" class="form-control" disabled />
+                            </div>
+                            <div class="col-md-6">
+                                <button id="btn-jump" type="button" class="btn btn-block btn-primary" disabled>Jump</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <form id="static-banner">
+                    <input type="hidden" name="id" value="0">
+                    <input type="hidden" name="class_name" value="SummitLocationBanner">
+                    <input type="hidden" name="title" value="Static Banner"/>
+                    <input type="hidden" name="type" value="Primary">
+                    <input type="hidden" name="enabled" value="1">
+                    <div class="col-md-8">
+                        <textarea class="form-control" name="content" rows="3" aria-describedby="static message content" placeholder="This is the static banner content. Empty save to delete." disabled></textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary" aria-describedby="message submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Saving" disabled>Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <button id="btn-reset" type="button" class="btn btn-default" disabled>Reset Sign</button>
+                <!--<button id="btn-view" type="button" class="btn btn-default" disabled>View Sign</button>-->
+            </div>
         </div>
-    </p>
+        <div class="row">
+            <div class='col-md-3'>
+                <div class="form-group row">
+                    <label for="view" class="col-md-3 col-form-label">View</label>
+                    <div class="col-md-9">
+                        <select id="view" class="selectpicker form-control" disabled>
+                            <option value="events" selected>Events</option>
+                            <option value="banners">Messages</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="padding: 10px;">
     <div id="events" style="display: none;">
         <table id="grid-data-events" data-ajax="true" class="table table-condensed table-hover table-striped">
             <thead>
@@ -229,7 +275,6 @@
             </thead>
         </table>
     </div>
-
     <div id="banners" style="display: none;">
         <table id="grid-data-banners" data-ajax="true" class="table table-condensed table-hover table-striped">
             <thead>
@@ -247,6 +292,7 @@
         </table>
         <button class="btn btn-default" type="button" data-toggle="modal" data-target="#banner-dialog" data-action="create">New Message</button>
     </div>
+</div>
 
     <script type="text/javascript" charset="utf-8">
         
@@ -271,16 +317,17 @@
             });
 
             $('#btn-jump').on('click', function(e) {
+
                 var date = moment.tz([
                     $('#input-date').val(),
                     $('#input-time').val()
-                ].join(' '), 'Y-M-D HH:mm', timeZone)
+                ].join(' '), 'Y-M-D HH:mm', timeZone);
 
                 if ( ! date.isValid()) {
                     return alert('Invalid date')
                 }
 
-                firebaseUpdate('time', $("#locations").val() + '&' + date.unix())
+                firebaseUpdate('time', $("#locations").val() + '&' + date.unix());
             });
 
             var firebaseUpdate = function(field, value) {
@@ -384,12 +431,13 @@
                         xhr.setRequestHeader('Content-Type', 'application/json"');
                     }, 
                     success: function (response, textStatus, jqXHR ) {
+
                         var data = response.data.reverse();
+
                         $("#summits").empty();
                         $("#summits").prop("disabled", false);
-                        $.each(data, function(index, value) {
 
-                            //if(value.active)
+                        $.each(data, function(index, value) {
 
                             $('<option/>', {
                                 text: value.name,
@@ -403,8 +451,9 @@
 
                         });
 
+                        $("#summits > option:first-child").attr("selected", "selected");
+                        $("#summits").selectpicker('refresh');
                         $("#summits").change();
-                        $("#summits").trigger("chosen:updated");
                     },
                     error:function (jqXHR, textStatus, errorThrown ){
                         console.log(errorThrown);
@@ -423,40 +472,104 @@
                         xhr.setRequestHeader('Content-Type', 'application/json');
                     }, 
                     success: function (response, textStatus, jqXHR ) {
+
                         $("#locations").empty();
                         $("#locations").prop("disabled", false);
 
-                        $("#locations").append(
-                            $("<option></option>")
-                            .attr("value", 0)
-                            .attr("class", "location")
-                            .text('All Locations')
-                        )
-
                         var data = response.data;
-                        conventionCenter = data[0]
+                        conventionCenter = data[0];
 
                         $.each(data, function(index, value) {
-                            //<option value="115" title="Hotel" data-venue-name="AC Hotel" class="location-hotel">AC Hotel</option>
-                            //title - hotel (hotel_type primary)
-                            if(value.class_name == 'SummitVenue'){
-                                $("#locations").append($("<option></option>").attr("value", value.id).attr("class", "venue").text(value.name));
-                                $.each(value.rooms, function(room_idx, room_value) {
-                                    $("#locations").append($("<option></option>").attr("value", room_value.id).attr("class", "location").text(room_value.name));
+
+                            if (value.class_name == 'SummitVenue') {
+
+                                let venue = $("<option></option>")
+                                    .attr("value", value.id)
+                                    .text("All " + value.name + " Locations")
+                                    .data("content", "All <span style='font-style: italic;'>" + value.name + "</span> Locations");
+
+                                $("#locations").append(venue);
+
+                                let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
+
+                                $.each(sortedFloors, function(floor_idx, floor_value) {
+
+                                    let floor = $("<optgroup></optgroup>")
+                                        .attr("label", floor_value.name);
+
+                                    let floorRooms =
+                                        $.grep(value.rooms, function(n, i) {
+                                            return n.floor_id == floor_value.id;
+                                        });
+
+                                    $.each(floorRooms, function(room_idx, room_value) {
+
+                                        let room = $("<option></option>")
+                                            .attr("value", room_value.id)
+                                            .text(room_value.name)
+                                            .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
+
+                                        floor.append(room);
+                                    });
+
+                                    floor.html(floor.children("option").sort(function (x, y) {
+                                        return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
+                                    }));
+
+                                    $("#locations").append(floor);
                                 });
                             }
-                                
-                        }); 
-                        $("#locations").html($("#locations").children('option').sort(function (x, y) {
-                            return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-                        }));
-                        $("#locations").prepend($("<option></option>").attr("value", '').prop("selected", true).text('Please select a location'));
-                        $("#locations").trigger("chosen:updated");
+                        });
+
+                        $("#locations")
+                            .selectpicker({"title": "Please select a location"})
+                            .selectpicker('refresh');
+
                     },
                     error:function (jqXHR, textStatus, errorThrown ){
                         console.log(errorThrown);
                     }                       
                 });
+            };
+
+            var getStaticBanner = function() {
+
+                var url = banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+
+                $.ajax({
+                    url: url,
+                    type: "GET",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
+                        xhr.setRequestHeader('Accept', "application/json");
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                    },
+                    data: {
+                        "filter": "class_name==SummitLocationBanner",
+                    },
+                })
+                    .done(function(data, textStatus, jqXHR) {
+                        console.log("HTTP Request Succeeded: " + jqXHR.status);
+                        console.log(data);
+
+                        if (data.data.length) {
+
+                            let message = data.data[0];
+
+                            $('#static-banner input[name=id]').val(message.id);
+                            $('#static-banner textarea[name=content]').val(message.content);
+
+                        }
+
+                        $('#static-banner textarea[name=content]').prop("disabled", false);
+                        $('#static-banner button').prop("disabled", false);
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log("HTTP Request Failed");
+                    })
+                    .always(function() {
+                        /* ... */
+                    });
             };
 
             var createOrUpdateBanner = function(payload) {
@@ -479,19 +592,25 @@
                     data: JSON.stringify(payload),
                 })
                     .done(function(data, textStatus, jqXHR) {
+
                         console.log("HTTP Request Succeeded: " + jqXHR.status);
                         console.log(data);
-
-                        $("#view").change();
                     })
                     .fail(function(jqXHR, textStatus, errorThrown) {
+
                         console.log("HTTP Request Failed");
                         alert(jqXHR.responseText);
-
-                        $("#view").change();
                     })
                     .always(function() {
-                        /* ... */
+
+                        if (payload.class_name == "ScheduledSummitLocationBanner") {
+
+                            $("#view").change();
+
+                        } else {
+
+                            getStaticBanner();
+                        }
                     });
             };
 
@@ -508,23 +627,31 @@
                     }
                 })
                     .done(function(data, textStatus, jqXHR) {
+
                         console.log("HTTP Request Succeeded: " + jqXHR.status);
                         console.log(data);
-
-                        $("#view").change();
                     })
                     .fail(function(jqXHR, textStatus, errorThrown) {
+
                         console.log("HTTP Request Failed");
                         alert(jqXHR.responseText);
-
-                        $("#view").change();
                     })
                     .always(function() {
-                        /* ... */
+
+                        if ($('#static-banner button').prop("disabled") == true) {
+
+                            $('#static-banner textarea[name=content]').prop("disabled", false);
+                            $('#static-banner button').prop("disabled", false);
+
+                        } else {
+
+                            $("#view").change();
+                        }
+
                     });
             };
 
-            const environment = "staging";
+            const environment = "";
 
             switch (environment) {
                 case "staging":
@@ -582,8 +709,15 @@
 
                 $("#events, #banners").hide();
 
+                $("#input-date").prop("disabled", true);
+                $("#input-time").prop("disabled", true);
+
+                $("#btn-jump").prop("disabled", true);
+                $("#btn-reset").prop("disabled", true);
+
                 $("#view").prop("disabled", true);
                 $("#view > option:first-child").attr("selected", "selected");
+                $("#view").selectpicker('refresh');
 
                 initializeBannerModal();
 
@@ -592,6 +726,21 @@
             
             $("#locations").on('change', function() {
 
+                $("#input-date").prop("disabled", false);
+                $("#input-time").prop("disabled", false);
+
+                $("#btn-jump").prop("disabled", false);
+                $("#btn-reset").prop("disabled", false);
+
+                $('#static-banner input[name=id]').val(0);
+                $('#static-banner textarea[name=content]').val("");
+                $('#static-banner textarea[name=content]').prop("disabled", true);
+                $('#static-banner button').prop("disabled", true);
+
+                getStaticBanner();
+
+                $("#view").prop("disabled", false);
+                $("#view").selectpicker('refresh');
                 $("#view").change();
             });
 
@@ -607,9 +756,6 @@
                     $("#grid-data-events").bootgrid("destroy");
 
                     $("#view").prop(
-                        "disabled", isNaN(parseInt($('#locations').val()))
-                    );
-                    $("#filters-actions input,button").prop(
                         "disabled", isNaN(parseInt($('#locations').val()))
                     );
 
@@ -823,7 +969,7 @@
                     },
                     rowCount: [10, 25, 50, 100],
                     templates: {
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='event_title'><input type='search' class='search-field form-control searchBox' id='event_keyword' placeholder='Tag keyword'><p class=\"{{css.actions}}\"></p></div></div></div>"
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-md-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='event_title'><input type='search' class='search-field form-control searchBox' id='event_keyword' placeholder='Tag keyword'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
                     selection: false,
                     multiSelect: false,
@@ -866,7 +1012,8 @@
                     requestHandler:function (request) {
                         var title = $('#banner_title').val().length ? 'title=@' + $('#banner_title').val().trim() : '';
                         var keyword = $('#banner_content').val().length ? 'content=@' + $('#banner_content').val().trim() : '';
-                        var filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
+                        var class_name = 'class_name==ScheduledSummitLocationBanner';
+                        var filters =  (title.length && keyword.length && class_name.length ? [ title , keyword, class_name ] : keyword+ '' + title+ '' + class_name);
                         var isSorted = (request.sort);
                         var orderBy = '';
                         if(isSorted){
@@ -950,7 +1097,7 @@
                     },
                     rowCount: [10, 25, 50, 100],
                     templates: {
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='banner_title'><input type='search' class='search-field form-control searchBox' id='banner_content' placeholder='Content'><p class=\"{{css.actions}}\"></p></div></div></div>"
+                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-md-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='banner_title'><input type='search' class='search-field form-control searchBox' id='banner_content' placeholder='Content'><p class=\"{{css.actions}}\"></p></div></div></div>"
                     },
                     selection: false,
 
@@ -1034,18 +1181,39 @@
                 ev.preventDefault();
             });
 
-            $(".chosen-select").chosen({ width:"200px", "white-space": "nowrap"});
+            $("#static-banner").on('submit', function(ev) {
 
-            $( document ).tooltip({
-              show: null,
-              position: {
-                my: "left top",
-                at: "left bottom"
-              },
-              open: function( event, ui ) {
-                ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
-              }
+                var payload = $(this).serializeObject();
+
+                $('#static-banner button').prop("disabled", true);
+                $('#static-banner textarea[name=content]').prop("disabled", true);
+
+                if (payload.id != 0 && payload.content == "") {
+
+                    $('#static-banner input[name=id]').val(0);
+
+                    deleteBanner(payload.id);
+
+                } else {
+
+                    createOrUpdateBanner(payload);
+                }
+
+                ev.preventDefault();
             });
+
+            /*
+            $(document).tooltip({
+                show: null,
+                position: {
+                    my: "left top",
+                    at: "left bottom"
+                },
+                open: function( event, ui ) {
+                    ui.tooltip.animate({ top: ui.tooltip.position().top + 10 }, "fast" );
+                }
+            });
+            */
             
             $(document).on({
                 ajaxStart: function() { $(".glyphicon-refresh").addClass("wheel-loading"); },
@@ -1053,6 +1221,5 @@
             });
         });
     </script>
-</div>
 </body>
 </html>
