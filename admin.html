@@ -14,8 +14,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-bootgrid/1.3.1/jquery.bootgrid.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.6/moment-timezone-with-data.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/smalot-bootstrap-datetimepicker/2.4.4/css/bootstrap-datetimepicker.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/smalot-bootstrap-datetimepicker/2.4.4/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://vitalets.github.io/x-editable/assets/x-editable/bootstrap3-editable/css/bootstrap-editable.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.18.1/URI.js"></script>
     <!--<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
@@ -140,6 +140,7 @@
             <form>
                 <div class="modal-body">
                     <input type="hidden" name="id" value="0">
+                    <input type="hidden" name="enabled" value="1">
                     <input type="hidden" name="class_name" value="ScheduledSummitLocationBanner">
                     <div class="form-group">
                         <input type="text" class="form-control" name="title" aria-describedby="message title" placeholder="This is the message title. Required. (May be used on sign or only for reference)" required/>
@@ -171,12 +172,6 @@
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
                         </div>
-                        <!--
-                        <label for="banner-active" class="col-md-1 col-form-label">Active</label>
-                        <div class="col-md-5">
-                            <input type="checkbox" class="form-check-input" id="banner-active" name="active" aria-describedby="message active">
-                        </div> -->
-                        <input type="hidden" name="enabled" value="1">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -371,23 +366,31 @@
                     })
 
                     $('#firebase-dialog form').off('submit').on('submit', function(e) {
+
                         e.preventDefault()
 
                         firebase.auth().signInWithEmailAndPassword(
+
                             $('#firebase-dialog input[name=username]').val(),
                             $('#firebase-dialog input[name=password]').val()
+
                         ).then(function() {
+
                             dialog.dialog('close')
+
                         }).catch(function(err) {
+
                             alert('Firebase: ' + err.message)
                             $('#firebase-dialog input[name=username]').focus()
                         })
                     })
 
                     dialog.off('dialogclose').on('dialogclose', function(e) {
+
                         if (firebase.auth().currentUser) {
                             return resolve()
                         }
+
                         reject()
                     })
                 })
@@ -396,7 +399,7 @@
             var conventionCenter = null;
 
             var timeZone = "UTC";
-            var timePickerDateFormat = 'MM/DD/YYYY h:mm A';
+            var timePickerDateFormat = 'YYYY-MM-DD HH:mm';
             
             var spanWithTooltips = function(text){
                 return "<span title='"+ text + "'>"+text+"</span>";
@@ -811,58 +814,39 @@
                 let endDate = summitSelected.data("end_date");
 
                 var options = {
-                    minDate: moment.unix(startDate).tz(timeZone),
-                    maxDate: moment.unix(endDate).tz(timeZone),
-                    defaultDate: false,
+                    startDate: moment.unix(startDate).tz(timeZone).format(timePickerDateFormat),
+                    endDate: moment.unix(endDate).tz(timeZone).format(timePickerDateFormat),
                 };
 
-                let startTimePicker = $('#banner-start');
-                let startTimePickerData = startTimePicker.data("DateTimePicker");
+                options.initialDate = options.startDate;
 
-                if (startTimePickerData) {
+                let startTimePicker = $("#banner-start");
+                startTimePicker.datetimepicker("remove");
+                startTimePicker.datetimepicker(options);
+                startTimePicker.data("startDate", options.startDate);
 
-                    startTimePickerData.minDate(false);
-                    startTimePickerData.maxDate(false);
+                options.initialDate = options.endDate;
 
-                    startTimePickerData.minDate(options.minDate);
-                    startTimePickerData.maxDate(options.maxDate);
-
-                } else {
-
-                    startTimePicker.datetimepicker(options);
-                }
-
-                let endTimePicker = $('#banner-end');
-                let endTimePickerData = endTimePicker.data("DateTimePicker");
-
-                if (endTimePickerData) {
-
-                    endTimePickerData.minDate(false);
-                    endTimePickerData.maxDate(false);
-
-                    endTimePickerData.minDate(options.minDate);
-                    endTimePickerData.maxDate(options.maxDate);
-
-                } else {
-
-                    endTimePicker.datetimepicker(options);
-                }
+                let endTimePicker = $("#banner-end");
+                endTimePicker.datetimepicker("remove");
+                endTimePicker.datetimepicker(options);
+                endTimePicker.data("startDate", options.endDate);
             }
 
             function cleanBannerModal() {
-
-                let defaultStartDate = $('#banner-start').data("DateTimePicker").minDate();
-                let defaultEndDate = $('#banner-end').data("DateTimePicker").maxDate();
 
                 let modal = $("#banner-dialog");
 
                 modal.find('.modal-body input[name=id]').val(0);
                 modal.find('.modal-body input[name=title]').val("");
                 modal.find('.modal-body textarea[name=content]').val("");
-                modal.find('.modal-body input[name=start_date]').val(defaultStartDate.format(timePickerDateFormat));
-                modal.find('.modal-body input[name=end_date]').val(defaultEndDate.format(timePickerDateFormat));
-                modal.find('.modal-body select[name=type]').val(defaultEndDate.format(timePickerDateFormat));
                 modal.find('.modal-body select > option:first-child').prop("selected", true);
+
+                let startInput = modal.find('.modal-body input[name=start_date]');
+                startInput.val(startInput.parent().data("startDate"));
+
+                let endInput = modal.find('.modal-body input[name=end_date]');
+                endInput.val(endInput.parent().data("startDate"));
             }
 
             function initializeEventsGrid(url){
