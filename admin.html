@@ -242,7 +242,7 @@
             </div>
             <div class="col-md-2">
                 <button id="btn-reset" type="button" class="btn btn-default" disabled>Reset Sign</button>
-                <!--<button id="btn-view" type="button" class="btn btn-default" disabled>View Sign</button>-->
+                <button id="btn-view" type="button" class="btn btn-default" disabled>View Sign</button>
             </div>
         </div>
         <div class="row">
@@ -654,7 +654,7 @@
                     });
             };
 
-            const environment = window.location.hostname == "local.openstack.org" ? "" : "staging";
+            const environment = window.location.hostname == "localhost.openstack.org" ? "" : "staging";
 
             switch (environment) {
                 case "staging":
@@ -673,7 +673,7 @@
                     var idp_host = "testopenstackid.openstack.org";
                     var resource_server_host = "testresource-server.openstack.org";
                     var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
-                    // client configured for https://local.openstack.org/
+                    // client configured for https://localhost.openstack.org/
             }
 
             var setting =
@@ -716,6 +716,7 @@
                 $("#input-time").prop("disabled", true);
 
                 $("#btn-jump").prop("disabled", true);
+                $("#btn-view").prop("disabled", true);
                 $("#btn-reset").prop("disabled", true);
 
                 $("#view").prop("disabled", true);
@@ -733,6 +734,7 @@
                 $("#input-time").prop("disabled", false);
 
                 $("#btn-jump").prop("disabled", false);
+                $("#btn-view").prop("disabled", false);
                 $("#btn-reset").prop("disabled", false);
 
                 $('#static-banner input[name=id]').val(0);
