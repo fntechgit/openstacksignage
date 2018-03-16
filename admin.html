@@ -44,10 +44,13 @@
             padding-top: 20px;
             padding-bottom: 20px;
             margin-bottom: 20px;
-            background-color: #EDF2F7;
+            background-color: #edf2f7;
         }
         label {
             font-weight: 400;
+        }
+        .bootgrid-table th, .bootgrid-table th:active, .bootgrid-table th:hover {
+            background-color: #dedede;
         }
         table#filters td {
             padding: 0 10px;
@@ -227,17 +230,19 @@
                 <input type="hidden" name="title" value="Static Banner"/>
                 <input type="hidden" name="type" value="Primary">
                 <input type="hidden" name="enabled" value="1">
-                <div class="col-md-8">
-                    <textarea class="form-control" name="content" rows="3" aria-describedby="static message content" placeholder="This is the static banner content. Empty save to delete." disabled></textarea>
-                </div>
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary" aria-describedby="message submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Saving" disabled>Save</button>
+                <div class="row">
+                    <div class="col-md-8">
+                        <textarea class="form-control" name="content" rows="3" aria-describedby="static message content" placeholder="This is the static banner content. Empty save to delete." disabled></textarea>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary" aria-describedby="message submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Saving" disabled>Save</button>
+                    </div>
                 </div>
             </form>
         </div>
         <div class="col-md-2">
-            <button id="btn-reset" type="button" class="btn btn-default" disabled>Reset Sign</button>
-            <button id="btn-view" type="button" class="btn btn-default" disabled>View Sign</button>
+            <button id="btn-view" type="button" class="btn btn-secondary" disabled>View Sign</button>
+            <button id="btn-reset" type="button" class="btn btn-secondary" disabled>Reset Sign</button>
         </div>
     </div>
 </div>
