@@ -43,12 +43,11 @@
         .dashboard {
             padding-top: 20px;
             padding-bottom: 20px;
+            margin-bottom: 20px;
             background-color: #EDF2F7;
         }
-        .searchBox {
-            width: 200px;
-            display: inline-block;
-            margin: 0px 10px;
+        label {
+            font-weight: 400;
         }
         table#filters td {
             padding: 0 10px;
@@ -63,12 +62,6 @@
         }
         input[type="search"]::-webkit-search-cancel-button {
             -webkit-appearance: searchfield-cancel-button;
-        }
-        thead {
-            font-size: 12px;
-        }
-        tbody {
-            font-size: 12px;
         }
         .eventColumn {
             width: 8%;
@@ -105,23 +98,18 @@
                 transform: rotate(359deg);
             }
         }
-        .btn-space {
-            margin-right: 5px;
+        .grid-margin {
+            width: calc(100% - 30px);
+            max-width: calc(100% - 30px);
+            margin-left: 15px;
+        }
+        .inline-space {
+            margin-right: 10px;
         }
     </style>
 </head>
 
 <body>
-<nav class="navbar">
-    <div class="container-fluid">
-        <div id="logo" class="navbar-header">
-            <a class="navbar-brand" href="#">OpenStack Signage Dashboard</a>
-        </div>
-        <p class="token navbar-text navbar-right">Please authenticate</p>
-        <p class="navbar-text navbar-right"><a class="connect navbar-link">Connect</a></p>
-    </div>
-</nav>
-
 <div id="firebase-dialog" title="Firebase Authentication" style="display: none;">
     <form>
     <div class="form-group">
@@ -135,7 +123,6 @@
     <input type="submit" name="" style="position:absolute; top:-1000px;">
     </form>
 </div>
-
 <div id="banner-dialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="message dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -187,20 +174,28 @@
         </div>
     </div>
 </div>
-
+<nav class="navbar">
+    <div class="container-fluid">
+        <div id="logo" class="navbar-header">
+            <a class="navbar-brand" href="#">OpenStack Signage Dashboard</a>
+        </div>
+        <p class="token navbar-text navbar-right">Please authenticate</p>
+        <p class="navbar-text navbar-right"><a class="connect navbar-link">Connect</a></p>
+    </div>
+</nav>
 <div class="container-fluid dashboard">
     <div class='row'>
         <div class='col-md-3'>
             <div class="form-group row">
                 <label for="summits" class="col-md-3 col-form-label">Summit</label>
                 <div class="col-md-9">
-                    <select id="summits" class="selectpicker form-control" title="Not authenticated" disabled></select>
+                    <select id="summits" class="selectpicker form-control" title="No summits" disabled></select>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="locations" class="col-md-3 col-form-label">Location</label>
                 <div class="col-md-9">
-                    <select id="locations" class="selectpicker form-control" title="Not authenticated" data-live-search="true" disabled></select>
+                    <select id="locations" class="selectpicker form-control" title="No locations" data-live-search="true" disabled></select>
                 </div>
             </div>
         </div>
@@ -245,6 +240,8 @@
             <button id="btn-view" type="button" class="btn btn-default" disabled>View Sign</button>
         </div>
     </div>
+</div>
+<div class="container-fluid">
     <div class="row">
         <div class='col-md-3'>
             <div class="form-group row">
@@ -259,1047 +256,1080 @@
         </div>
     </div>
 </div>
-
-<div style="padding: 10px;">
-    <div id="events" style="display: none;">
-        <table id="grid-data-events" data-ajax="true" class="table table-condensed table-hover table-striped">
-            <thead>
-            <tr>
-                <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">EventID</th>
-                <th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
-                <th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
-                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor / Location</th>
-                <th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
-                <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
-                <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
-                <th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
-            </tr>
-            </thead>
-        </table>
-    </div>
-    <div id="banners" style="display: none;">
-        <table id="grid-data-banners" data-ajax="true" class="table table-condensed table-hover table-striped">
-            <thead>
-            <tr>
-                <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="messageColumn">ID</th>
-                <th data-column-id="title" searchable="true" data-formatter="bannertitle" data-header-css-class="speakersColumn">Message Title</th>
-                <th data-column-id="content" searchable="true" data-formatter="bannercontent" data-header-css-class="titleColumn">Message Content</th>
-                <th data-column-id="banner_type" data-formatter="bannertype" data-sortable="true" data-header-css-class="dateColumn">Type</th>
-                <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor / Location</th>
-                <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
-                <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
-                <th data-column-id="banner_actions" data-formatter="banner_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
-            </tr>
-            </thead>
-        </table>
-        <button class="btn btn-default" type="button" data-toggle="modal" data-target="#banner-dialog" data-action="create">New Message</button>
+<div id="events" style="display: none;">
+    <table id="grid-data-events" data-ajax="true" class="table table-condensed table-hover table-striped grid-margin">
+        <thead>
+        <tr>
+            <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="eventColumn">ID</th>
+            <th data-column-id="title" searchable="true" data-formatter="eventtitle" data-header-css-class="titleColumn">Event Title</th>
+            <th data-column-id="speakers" data-formatter="csvspeakers" data-sortable="false" data-header-css-class="speakersColumn">Speakers</th>
+            <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor / Location</th>
+            <th data-column-id="tags" data-formatter="csvtags" data-sortable="false" data-header-css-class="tagsColumn">Tags</th>
+            <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
+            <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
+            <th data-column-id="event_actions" data-formatter="event_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<div id="banners" style="display: none;">
+    <table id="grid-data-banners" data-ajax="true" class="table table-condensed table-hover table-striped grid-margin">
+        <thead>
+        <tr>
+            <th data-column-id="id" data-type="numeric" data-converter="numeric" data-identifier="true" data-header-css-class="messageColumn">ID</th>
+            <th data-column-id="title" searchable="true" data-formatter="bannertitle" data-header-css-class="speakersColumn">Message Title</th>
+            <th data-column-id="content" searchable="true" data-formatter="bannercontent" data-header-css-class="titleColumn">Message Content</th>
+            <th data-column-id="banner_type" data-formatter="bannertype" data-sortable="true" data-header-css-class="dateColumn">Type</th>
+            <th data-column-id="floorroom" data-formatter="floorroom" data-header-css-class="floorRoomColumn" data-sortable="false">Floor / Location</th>
+            <th data-column-id="start_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">Start date</th>
+            <th data-column-id="end_date" data-formatter="date" data-sortable="true" data-header-css-class="dateColumn">End date</th>
+            <th data-column-id="banner_actions" data-formatter="banner_actions" data-header-css-class="screenLinkColumn" data-sortable="false">Actions</th>
+        </tr>
+        </thead>
+    </table>
+    <div class="container-fluid">
+        <div class="row">
+            <div class='col-md-2'>
+                <button class="btn btn-default" type="button" data-toggle="modal" data-target="#banner-dialog" data-action="create">New Message</button>
+            </div>
+        </div>
     </div>
 </div>
 
-    <script type="text/javascript" charset="utf-8">
-        
-        $( document ).ready(function() {
+<script type="text/javascript" charset="utf-8">
 
-            $('#input-date').val(moment().format('Y-M-D'));
-            $('#input-time').val(moment().format('HH:mm'));
+    $( document ).ready(function() {
 
-            const db = firebase.initializeApp({
+        $('#input-date').val(moment().format('Y-M-D'));
+        $('#input-time').val(moment().format('HH:mm'));
 
-                apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
-                authDomain: 'open-signage-staging.firebaseapp.com',
-                projectId: 'open-signage-staging',
-                databaseURL: 'https://open-signage-staging.firebaseio.com/',
+        const db = firebase.initializeApp({
 
-            }).database();
+            apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
+            authDomain: 'open-signage-staging.firebaseapp.com',
+            projectId: 'open-signage-staging',
+            databaseURL: 'https://open-signage-staging.firebaseio.com/',
 
-            $('#btn-view').on('click', function(e) {
+        }).database();
 
-                window.open('/#?location=' + $('#locations').val())
-            });
+        $('#btn-view').on('click', function(e) {
 
-            $('#btn-reset').on('click', function(e) {
+            window.open('/#?location=' + $('#locations').val())
+        });
 
-                firebaseUpdate('reload', $('#locations').val())
-            });
+        $('#btn-reset').on('click', function(e) {
 
-            $('#btn-jump').on('click', function(e) {
+            firebaseUpdate('reload', $('#locations').val())
+        });
 
-                let date = moment.tz([
-                    $('#input-date').val(),
-                    $('#input-time').val()
-                ].join(' '), 'Y-M-D HH:mm', timeZone);
+        $('#btn-jump').on('click', function(e) {
 
-                if ( ! date.isValid()) {
-                    return alert('Invalid date')
+            let date = moment.tz([
+                $('#input-date').val(),
+                $('#input-time').val()
+            ].join(' '), 'Y-M-D HH:mm', timeZone);
+
+            if ( ! date.isValid()) {
+                return alert('Invalid date')
+            }
+
+            firebaseUpdate('time', $("#locations").val() + '&' + date.unix());
+        });
+
+        let firebaseUpdate = function(field, value) {
+
+            // We need the value to *change* so clear it first.
+            firebaseLogin().then(function() {
+
+                return db.ref(field).set('').then(function() {
+
+                    return db.ref(field).set(value)
+                })
+
+            }).catch(function(err) {
+
+                console.error(err)
+            })
+        };
+
+        let firebaseLogin = function() {
+
+            return new Promise(function(resolve, reject) {
+
+                if (firebase.auth().currentUser) {
+
+                    return resolve(firebase.auth().currentUser)
                 }
 
-                firebaseUpdate('time', $("#locations").val() + '&' + date.unix());
-            });
+                $('#firebase-dialog input[name=username]').val('');
+                $('#firebase-dialog input[name=password]').val('');
 
-            let firebaseUpdate = function(field, value) {
-
-                // We need the value to *change* so clear it first.
-                firebaseLogin().then(function() {
-
-                    return db.ref(field).set('').then(function() {
-
-                        return db.ref(field).set(value)
-                    })
-
-                }).catch(function(err) {
-
-                    console.error(err)
-                })
-            };
-
-            let firebaseLogin = function() {
-
-                return new Promise(function(resolve, reject) {
-
-                    if (firebase.auth().currentUser) {
-
-                        return resolve(firebase.auth().currentUser)
-                    }
-
-                    $('#firebase-dialog input[name=username]').val('');
-                    $('#firebase-dialog input[name=password]').val('');
-
-                    let dialog = $('#firebase-dialog').dialog({
-                        modal: true,
-                        width: 300,
-                        resizable: false,
-                        buttons: [{
+                let dialog = $('#firebase-dialog').dialog({
+                    modal: true,
+                    width: 300,
+                    resizable: false,
+                    buttons: [{
                         text: 'Login',
                         click: function() {
-                                $('#firebase-dialog form').submit()
-                            }
-                        },{
-                            text: 'Cancel',
-                            click: function() {
-                                $(this).dialog('close')
-                            }
-                        }]
-                    });
-
-                    $('#firebase-dialog form').off('submit').on('submit', function(e) {
-
-                        e.preventDefault()
-
-                        firebase.auth().signInWithEmailAndPassword(
-
-                            $('#firebase-dialog input[name=username]').val(),
-                            $('#firebase-dialog input[name=password]').val()
-
-                        ).then(function() {
-
-                            dialog.dialog('close')
-
-                        }).catch(function(err) {
-
-                            alert('Firebase: ' + err.message);
-                            $('#firebase-dialog input[name=username]').focus();
-                        })
-                    });
-
-                    dialog.off('dialogclose').on('dialogclose', function(e) {
-
-                        if (firebase.auth().currentUser) {
-                            return resolve()
+                            $('#firebase-dialog form').submit()
                         }
-
-                        reject()
-                    })
-                })
-            }
-
-            var conventionCenter = null;
-
-            var timeZone = "UTC";
-            let timePickerDateFormat = 'YYYY-MM-DD HH:mm';
-            
-            let spanWithTooltips = function(text) {
-
-                return "<span title='"+ text + "'>"+text+"</span>";
-            };
-
-            let extractToken = function() {
-
-                let uri = new URI();
-                return URI.parseQuery(uri.fragment()).access_token;
-            };
-
-            let extractSummitID = function() {
-
-                return $("#summit_id").val();
-                /*
-                var uri = new URI();
-                return URI.parseQuery(uri.query()).summit_id;
-                */
-            };
-
-            let extractLocationID = function() {
-
-                return $("#location_id").val();
-                /*
-                var uri = new URI();
-                return URI.parseQuery(uri.query()).location_id;
-                */
-            };
-
-            let fillSummitList =  function() {
-
-                $.ajax({
-                    url: summits_resource,
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function (xhr) {
-
-                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-                        xhr.setRequestHeader('Accept', "application/json");
-                        xhr.setRequestHeader('Content-Type', 'application/json"');
-                    }, 
-                    success: function (response, textStatus, jqXHR ) {
-
-                        let data = response.data.reverse();
-
-                        $("#summits").empty();
-                        $("#summits").prop("disabled", false);
-
-                        $.each(data, function(index, value) {
-
-                            $('<option/>', {
-                                text: value.name,
-                                value: value.id,
-                                data: {
-                                    time_zone: value.time_zone.name,
-                                    start_date: value.start_date,
-                                    end_date: value.end_date
-                                }
-                            }).appendTo($("#summits"));
-
-                        });
-
-                        $("#summits > option:first-child").attr("selected", "selected");
-                        $("#summits").selectpicker('refresh');
-                        $("#summits").change();
-                    },
-                    error:function (jqXHR, textStatus, errorThrown ) {
-
-                        console.log(errorThrown);
-                    }                       
+                    },{
+                        text: 'Cancel',
+                        click: function() {
+                            $(this).dialog('close')
+                        }
+                    }]
                 });
-            };
 
-            let fillLocationList =  function(summit_id) {
+                $('#firebase-dialog form').off('submit').on('submit', function(e) {
 
-                $.ajax({
-                    url: locations_resource.replace("{summit_id}", summit_id),
-                    type: "GET",
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function (xhr) {
+                    e.preventDefault();
 
-                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-                        xhr.setRequestHeader('Accept', "application/json");
-                        xhr.setRequestHeader('Content-Type', 'application/json');
-                    }, 
-                    success: function (response, textStatus, jqXHR ) {
+                    firebase.auth().signInWithEmailAndPassword(
 
-                        $("#locations").empty();
-                        $("#locations").prop("disabled", false);
+                        $('#firebase-dialog input[name=username]').val(),
+                        $('#firebase-dialog input[name=password]').val()
 
-                        let data = response.data;
-                        conventionCenter = data[0];
+                    ).then(function() {
 
-                        $.each(data, function(index, value) {
+                        dialog.dialog('close')
 
-                            if (value.class_name == 'SummitVenue') {
+                    }).catch(function(err) {
 
-                                let venue = $("<option></option>")
-                                    .attr("value", 0)
-                                    .text("All " + value.name + " Locations")
-                                    .data("content", "All <span style='font-style: italic;'>" + value.name + "</span> Locations");
+                        alert('Firebase: ' + err.message);
+                        $('#firebase-dialog input[name=username]').focus();
+                    })
+                });
 
-                                $("#locations").append(venue);
+                dialog.off('dialogclose').on('dialogclose', function(e) {
 
-                                let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
+                    if (firebase.auth().currentUser) {
+                        return resolve()
+                    }
 
-                                $.each(sortedFloors, function(floor_idx, floor_value) {
+                    reject()
+                })
+            })
+        };
 
-                                    let floor = $("<optgroup></optgroup>")
-                                        .attr("label", floor_value.name);
+        var conventionCenter = null;
 
-                                    let floorRooms =
-                                        $.grep(value.rooms, function(n, i) {
-                                            return n.floor_id == floor_value.id;
-                                        });
+        var timeZone = "UTC";
+        let timePickerDateFormat = 'YYYY-MM-DD HH:mm';
 
-                                    $.each(floorRooms, function(room_idx, room_value) {
+        let spanWithTooltips = function(text) {
 
-                                        let room = $("<option></option>")
-                                            .attr("value", room_value.id)
-                                            .text(room_value.name)
-                                            .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
+            return "<span title='"+ text + "'>"+text+"</span>";
+        };
 
-                                        floor.append(room);
+        let extractToken = function() {
+
+            let uri = new URI();
+            return URI.parseQuery(uri.fragment()).access_token;
+        };
+
+        let extractSummitID = function() {
+
+            return $("#summit_id").val();
+            /*
+            var uri = new URI();
+            return URI.parseQuery(uri.query()).summit_id;
+            */
+        };
+
+        let extractLocationID = function() {
+
+            return $("#location_id").val();
+            /*
+            var uri = new URI();
+            return URI.parseQuery(uri.query()).location_id;
+            */
+        };
+
+        let fillSummitList =  function() {
+
+            $("#summits")
+                .selectpicker({"title": "Loading summits..."})
+                .selectpicker('refresh');
+
+            $.ajax({
+                url: summits_resource,
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                    xhr.setRequestHeader('Accept', "application/json");
+                    xhr.setRequestHeader('Content-Type', 'application/json"');
+                },
+                success: function (response, textStatus, jqXHR ) {
+
+                    let data = response.data.reverse();
+
+                    $("#summits").empty();
+                    $("#summits").prop("disabled", false);
+
+                    $.each(data, function(index, value) {
+
+                        $('<option/>', {
+                            text: value.name,
+                            value: value.id,
+                            data: {
+                                time_zone: value.time_zone.name,
+                                start_date: value.start_date,
+                                end_date: value.end_date
+                            }
+                        }).appendTo($("#summits"));
+
+                    });
+
+                    $("#summits > option:first-child").attr("selected", "selected");
+                    $("#summits").selectpicker('refresh');
+                    $("#summits").change();
+                },
+                error:function (jqXHR, textStatus, errorThrown ) {
+
+                    console.log(errorThrown);
+                }
+            });
+        };
+
+        let fillLocationList =  function(summit_id) {
+
+            let locations = $("#locations");
+
+            locations.prop("disabled", true);
+            locations.empty()
+                .selectpicker({"title": "Loading locations..."})
+                .selectpicker('refresh');
+
+            $.ajax({
+                url: locations_resource.replace("{summit_id}", summit_id),
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                    xhr.setRequestHeader('Accept', "application/json");
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                },
+                success: function (response, textStatus, jqXHR ) {
+
+                    locations.empty();
+
+                    let data = response.data;
+                    conventionCenter = data[0];
+
+                    $.each(data, function(index, value) {
+
+                        if (value.class_name == 'SummitVenue') {
+
+                            let venue = $("<option></option>")
+                                .attr("value", 0)
+                                .text("All " + value.name + " Locations")
+                                .data("content", "All <span style='font-style: italic;'>" + value.name + "</span> Locations");
+
+                            locations.append(venue);
+
+                            let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
+
+                            $.each(sortedFloors, function(floor_idx, floor_value) {
+
+                                let floor = $("<optgroup></optgroup>")
+                                    .attr("label", floor_value.name);
+
+                                let floorRooms =
+                                    $.grep(value.rooms, function(n, i) {
+                                        return n.floor_id == floor_value.id;
                                     });
 
-                                    floor.html(floor.children("option").sort(function (x, y) {
-                                        return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-                                    }));
+                                $.each(floorRooms, function(room_idx, room_value) {
 
-                                    $("#locations").append(floor);
+                                    let room = $("<option></option>")
+                                        .attr("value", room_value.id)
+                                        .text(room_value.name)
+                                        .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
+
+                                    floor.append(room);
                                 });
-                            }
-                        });
 
-                        $("#locations")
-                            .selectpicker({"title": "Please select a location"})
-                            .selectpicker('refresh');
+                                floor.html(floor.children("option").sort(function (x, y) {
+                                    return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
+                                }));
 
-                    },
-                    error:function (jqXHR, textStatus, errorThrown ) {
-
-                        console.log(errorThrown);
-                    }                       
-                });
-            };
-
-            let getStaticBanner = function() {
-
-                let url = banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
-
-                $.ajax({
-                    url: url,
-                    type: "GET",
-                    beforeSend: function (xhr) {
-
-                        xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                        xhr.setRequestHeader('Accept', "application/json");
-                        xhr.setRequestHeader('Content-Type', 'application/json');
-                    },
-                    data: {
-                        "filter": "class_name==SummitLocationBanner",
-                    },
-                })
-                    .done(function(data, textStatus, jqXHR) {
-
-                        console.log("HTTP Request Succeeded: " + jqXHR.status);
-                        console.log(data);
-
-                        if (data.data.length) {
-
-                            let message = data.data[0];
-
-                            $('#static-banner input[name=id]').val(message.id);
-                            $('#static-banner textarea[name=content]').val(message.content);
-
-                        }
-
-                        $('#static-banner textarea[name=content]').prop("disabled", false);
-                        $('#static-banner button').prop("disabled", false);
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown) {
-
-                        console.log("HTTP Request Failed");
-                    })
-                    .always(function() {
-                        /* ... */
-                    });
-            };
-
-            let createOrUpdateBanner = function(payload) {
-
-                let posfix = payload.id != 0 ? "/" + payload.id : "";
-                let method = payload.id != 0 ? "PUT" : "POST";
-
-                delete payload["id"];
-
-                $.ajax({
-                    url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + posfix,
-                    type: method,
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function (xhr) {
-
-                        xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                        xhr.setRequestHeader('Accept', "application/json");
-                        xhr.setRequestHeader('Content-Type', 'application/json');
-                    },
-                    dataType: "json",
-                    data: JSON.stringify(payload),
-                })
-                    .done(function(data, textStatus, jqXHR) {
-
-                        console.log("HTTP Request Succeeded: " + jqXHR.status);
-                        console.log(data);
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown) {
-
-                        console.log("HTTP Request Failed");
-                        alert(jqXHR.responseText);
-                    })
-                    .always(function() {
-
-                        if (payload.class_name == "ScheduledSummitLocationBanner") {
-
-                            $("#view").change();
-
-                        } else {
-
-                            getStaticBanner();
+                                locations.append(floor);
+                            });
                         }
                     });
-            };
 
-            let deleteBanner = function(id) {
+                    locations.prop("disabled", false);
+                    locations
+                        .selectpicker({"title": "Please select a location"})
+                        .selectpicker('refresh');
 
-                $.ajax({
-                    url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + '/' + id,
-                    type: "DELETE",
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function (xhr) {
+                },
+                error:function (jqXHR, textStatus, errorThrown ) {
 
-                        xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                        xhr.setRequestHeader('Accept', "application/json");
-                        xhr.setRequestHeader('Content-Type', 'application/json');
-                    }
-                })
-                    .done(function(data, textStatus, jqXHR) {
-
-                        console.log("HTTP Request Succeeded: " + jqXHR.status);
-                        console.log(data);
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown) {
-
-                        console.log("HTTP Request Failed");
-                        alert(jqXHR.responseText);
-                    })
-                    .always(function() {
-
-                        let saveButton = $('#static-banner button');
-
-                        if (saveButton.prop("disabled") == true) {
-
-                            saveButton.prop("disabled", false);
-                            $('#static-banner textarea[name=content]').prop("disabled", false);
-
-                        } else {
-
-                            $("#view").change();
-                        }
-                    });
-            };
-
-
-            var idp_host = "testopenstackid.openstack.org";
-            var resource_server_host = "testresource-server.openstack.org";
-            var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
-            // client configured for https://localhost.openstack.org/
-
-            const environment = window.location.hostname == "localhost.openstack.org" ? "" : "staging";
-
-            switch (environment) {
-
-                case "staging":
-
-                    idp_host = "testopenstackid.openstack.org";
-                    resource_server_host = "testresource-server.openstack.org";
-                    client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
-                    // client configured for https://signage.openstack.org/
-                    break;
-
-                case "production":
-
-                    idp_host = "openstackid.org";
-                    resource_server_host = "openstackid-resources.openstack.org";
-                    client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
-                    // client configured for https://signage.openstack.org/
-                    break;
-
-                default:
-                    break;
-            }
-
-            let setting =
-                {
-                    'host': idp_host,
-                    'rserver_host': resource_server_host,
-                    'clientId': client_id,
-                    'scopes':   'https://' + resource_server_host + '/summits/read ' +
-                                'https://' + resource_server_host + '/locations/banners/write'
-                };
-
-            //these values might be taken from query string, however auth2 redirection is not returning second parameter
-            let summit_id = extractSummitID();
-            let location_id = extractLocationID();
-
-            let authHost     = "https://" + setting.host;
-            let summits_resource = "https://" + setting.rserver_host + "/api/v1/summits";
-            let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations";
-            let summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
-            let events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
-            let banners_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/banners';
-            let endUserAuthorizationEndpoint = authHost + "/oauth2/auth";
-
-
-            let token = extractToken();
-            let authUrl = endUserAuthorizationEndpoint +
-                        "?response_type=token id_token" +
-                        "&approval_prompt=force"+
-                        "&scope=" + encodeURI(setting.scopes)+
-                        "&client_id="  + encodeURI(setting.clientId) +
-                        "&redirect_uri=" + window.location;
-
-            $("a.connect").attr("href", authUrl);
-            
-            $("#summits").on('change', function() {
-
-                $("#events, #banners").hide();
-
-                $("#input-date").prop("disabled", true);
-                $("#input-time").prop("disabled", true);
-
-                $("#btn-jump").prop("disabled", true);
-                $("#btn-view").prop("disabled", true);
-                $("#btn-reset").prop("disabled", true);
-
-                $("#view").prop("disabled", true);
-                $("#view > option:first-child").attr("selected", "selected");
-                $("#view").selectpicker('refresh');
-
-                initializeBannerModal();
-
-                fillLocationList(this.value);
+                    console.log(errorThrown);
+                }
             });
-            
-            $("#locations").on('change', function() {
+        };
 
-                $("#input-date").prop("disabled", false);
-                $("#input-time").prop("disabled", false);
+        let getStaticBanner = function() {
 
-                $("#btn-jump").prop("disabled", false);
-                $("#btn-view").prop("disabled", false);
-                $("#btn-reset").prop("disabled", false);
+            let url = banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+
+            $.ajax({
+                url: url,
+                type: "GET",
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
+                    xhr.setRequestHeader('Accept', "application/json");
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                },
+                data: {
+                    "filter": "class_name==SummitLocationBanner",
+                },
+            })
+                .done(function(data, textStatus, jqXHR) {
+
+                    console.log("HTTP Request Succeeded: " + jqXHR.status);
+                    console.log(data);
+
+                    if (data.data.length) {
+
+                        let message = data.data[0];
+
+                        $('#static-banner input[name=id]').val(message.id);
+                        $('#static-banner textarea[name=content]').val(message.content);
+
+                    }
+
+                    $('#static-banner textarea[name=content]').prop("disabled", false);
+                    $('#static-banner button').prop("disabled", false);
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+
+                    console.log("HTTP Request Failed");
+                })
+                .always(function() {
+                    /* ... */
+                });
+        };
+
+        let createOrUpdateBanner = function(payload) {
+
+            let posfix = payload.id != 0 ? "/" + payload.id : "";
+            let method = payload.id != 0 ? "PUT" : "POST";
+
+            delete payload["id"];
+
+            $.ajax({
+                url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + posfix,
+                type: method,
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
+                    xhr.setRequestHeader('Accept', "application/json");
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                },
+                dataType: "json",
+                data: JSON.stringify(payload),
+            })
+                .done(function(data, textStatus, jqXHR) {
+
+                    console.log("HTTP Request Succeeded: " + jqXHR.status);
+                    console.log(data);
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+
+                    console.log("HTTP Request Failed");
+                    alert(jqXHR.responseText);
+                })
+                .always(function() {
+
+                    if (payload.class_name == "ScheduledSummitLocationBanner") {
+
+                        $("#view").change();
+
+                    } else {
+
+                        getStaticBanner();
+                    }
+                });
+        };
+
+        let deleteBanner = function(id) {
+
+            $.ajax({
+                url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + '/' + id,
+                type: "DELETE",
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+
+                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
+                    xhr.setRequestHeader('Accept', "application/json");
+                    xhr.setRequestHeader('Content-Type', 'application/json');
+                }
+            })
+                .done(function(data, textStatus, jqXHR) {
+
+                    console.log("HTTP Request Succeeded: " + jqXHR.status);
+                    console.log(data);
+                })
+                .fail(function(jqXHR, textStatus, errorThrown) {
+
+                    console.log("HTTP Request Failed");
+                    alert(jqXHR.responseText);
+                })
+                .always(function() {
+
+                    let saveButton = $('#static-banner button');
+
+                    if (saveButton.prop("disabled") == true) {
+
+                        saveButton.prop("disabled", false);
+                        $('#static-banner textarea[name=content]').prop("disabled", false);
+
+                    } else {
+
+                        $("#view").change();
+                    }
+                });
+        };
+
+
+        var idp_host = "testopenstackid.openstack.org";
+        var resource_server_host = "testresource-server.openstack.org";
+        var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
+        // client configured for https://localhost.openstack.org/
+
+        const environment = window.location.hostname == "localhost.openstack.org" ? "" : "staging";
+
+        switch (environment) {
+
+            case "staging":
+
+                idp_host = "testopenstackid.openstack.org";
+                resource_server_host = "testresource-server.openstack.org";
+                client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
+                // client configured for https://signage.openstack.org/
+                break;
+
+            case "production":
+
+                idp_host = "openstackid.org";
+                resource_server_host = "openstackid-resources.openstack.org";
+                client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
+                // client configured for https://signage.openstack.org/
+                break;
+
+            default:
+                break;
+        }
+
+        let setting =
+            {
+                'host': idp_host,
+                'rserver_host': resource_server_host,
+                'clientId': client_id,
+                'scopes':   'https://' + resource_server_host + '/summits/read ' +
+                'https://' + resource_server_host + '/locations/banners/write'
+            };
+
+        //these values might be taken from query string, however auth2 redirection is not returning second parameter
+        let summit_id = extractSummitID();
+        let location_id = extractLocationID();
+
+        let authHost     = "https://" + setting.host;
+        let summits_resource = "https://" + setting.rserver_host + "/api/v1/summits";
+        let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations";
+        let summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
+        let events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
+        let banners_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/banners';
+        let endUserAuthorizationEndpoint = authHost + "/oauth2/auth";
+
+
+        let token = extractToken();
+        let authUrl = endUserAuthorizationEndpoint +
+            "?response_type=token id_token" +
+            "&approval_prompt=force"+
+            "&scope=" + encodeURI(setting.scopes)+
+            "&client_id="  + encodeURI(setting.clientId) +
+            "&redirect_uri=" + window.location;
+
+        $("a.connect").attr("href", authUrl);
+
+        $("#summits").on('change', function() {
+
+            $("#events, #banners").hide();
+
+            $("#input-date").prop("disabled", true);
+            $("#input-time").prop("disabled", true);
+
+            $("#btn-jump").prop("disabled", true);
+            $("#btn-view").prop("disabled", true);
+            $("#btn-reset").prop("disabled", true);
+
+            $("#view").prop("disabled", true);
+            $("#view > option:first-child").attr("selected", "selected");
+            $("#view").selectpicker('refresh');
+
+            initializeBannerModal();
+
+            fillLocationList(this.value);
+        });
+
+        $("#locations").on('change', function() {
+
+            $("#input-date").prop("disabled", false);
+            $("#input-time").prop("disabled", false);
+
+            $("#btn-jump").prop("disabled", false);
+            $("#btn-view").prop("disabled", false);
+            $("#btn-reset").prop("disabled", false);
+
+            $('#static-banner input[name=id]').val(0);
+            $('#static-banner textarea[name=content]').val("");
+            $('#static-banner textarea[name=content]').prop("disabled", true);
+            $('#static-banner button').prop("disabled", true);
+
+            getStaticBanner();
+
+            $("#view").prop("disabled", false);
+            $("#view").selectpicker('refresh');
+            $("#view").change();
+        });
+
+        $("#view").on('change', function() {
+
+            let grid = this.value;
+
+            if (grid === "events") {
+
+                $("#banners").hide();
+                $("#events").show();
+
+                $("#grid-data-events").bootgrid("destroy");
+
+                $("#view").prop(
+                    "disabled", isNaN(parseInt($('#locations').val()))
+                );
+
+                if ($('#locations').val() === '0') {
+                    return initializeEventsGrid(summit_events_resource.replace(
+                        '{summit_id}', $("#summits").val()
+                    ))
+                }
+
+                let new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+
+                initializeEventsGrid(new_url);
+
+            } else if (grid === "banners") {
+
+                $("#events").hide();
+                $("#banners").show();
+
+                $("#grid-data-banners").bootgrid("destroy");
+
+                if ($('#locations').val() === '0') {
+
+                    return;
+                }
+
+                let new_url = banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
+
+                initializeBannersGrid(new_url);
+            }
+        });
+
+        if (token) {
+
+            $('p.token').text("You are authenticated");
+            $("a.connect").text('Re-connect');
+
+            fillSummitList();
+        }
+
+        function initializeBannerModal() {
+
+            // Configure global time zone
+            // and banner dialog date pickers
+
+            let summitSelected = $("#summits > option:selected");
+
+            timeZone = summitSelected.data("time_zone");
+
+            let startDate = summitSelected.data("start_date");
+            let endDate = summitSelected.data("end_date");
+
+            var options = {
+                startDate: moment.unix(startDate).tz(timeZone).format(timePickerDateFormat),
+                endDate: moment.unix(endDate).tz(timeZone).format(timePickerDateFormat),
+            };
+
+            options.initialDate = options.startDate;
+
+            let startTimePicker = $("#banner-start");
+            startTimePicker.datetimepicker("remove");
+            startTimePicker.datetimepicker(options);
+            startTimePicker.data("startDate", options.startDate);
+
+            options.initialDate = options.endDate;
+
+            let endTimePicker = $("#banner-end");
+            endTimePicker.datetimepicker("remove");
+            endTimePicker.datetimepicker(options);
+            endTimePicker.data("startDate", options.endDate);
+        }
+
+        function cleanBannerModal() {
+
+            let modal = $("#banner-dialog");
+
+            modal.find('.modal-body input[name=id]').val(0);
+            modal.find('.modal-body input[name=title]').val("");
+            modal.find('.modal-body textarea[name=content]').val("");
+            modal.find('.modal-body select > option:first-child').prop("selected", true);
+
+            let startInput = modal.find('.modal-body input[name=start_date]');
+            startInput.val(startInput.parent().data("startDate"));
+
+            let endInput = modal.find('.modal-body input[name=end_date]');
+            endInput.val(endInput.parent().data("startDate"));
+        }
+
+        function initializeEventsGrid(url) {
+
+            $("#grid-data-events").bootgrid({
+
+                ajax: true,
+                ajaxSettings: {
+
+                    method: "GET",
+                    cache: false,
+                    beforeSend: function (xhr) {
+
+                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                        xhr.setRequestHeader('Accept', "application/json");
+                        xhr.setRequestHeader('Content-Type', 'text/plain');
+                    }
+                },
+                url: url,
+                requestHandler: function (request) {
+
+                    let title = $('#event_title').val().length ? 'title=@' + $('#event_title').val().trim() : '';
+                    let keyword = $('#event_keyword').val().length ? 'tags=@' + $('#event_keyword').val().trim() : '';
+                    let filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
+                    let isSorted = (request.sort);
+                    let orderBy = '';
+
+                    if (isSorted){
+
+                        let order = Object.keys(request.sort)[0] || 'start_date';
+                        let asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
+                        orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
+
+                        request = {
+                            filter : filters,
+                            page: request.current,
+                            per_page: request.rowCount,
+                            order: orderBy,
+                            expand:"speakers,location",
+                        };
+
+                    } else{
+
+                        request = {
+                            filter: filters,
+                            page: request.current,
+                            per_page: request.rowCount
+                        };
+                    }
+
+                    return request;
+                },
+                responseHandler: function (response) {
+
+                    response = {
+                        current: response.current_page,
+                        rowCount: response.per_page,
+                        rows: response.data,
+                        total: response.total
+                    };
+
+                    return response;
+
+                },
+                formatters: {
+
+                    eventtitle: function (column, row) {
+
+                        return spanWithTooltips(row[column.id]);
+                    },
+
+                    csvspeakers: function (column, row) {
+
+                        if (row[column.id]) {
+
+                            let arr = jQuery.map( $(row[column.id]), function( speaker ) {
+                                return speaker.first_name + ' ' + speaker.last_name;
+                            });
+
+                            return spanWithTooltips(arr.join(", "));
+
+                        } else {
+
+                            return "";
+                        }
+                    },
+
+                    csvtags: function (column, row){
+
+                        if (row[column.id]){
+
+                            let arr = jQuery.map( $(row['tags']), function( tag ) {
+                                return tag.tag;
+                            });
+                            return spanWithTooltips(arr.join(","));
+
+                        } else {
+
+                            return "";
+                        }
+                    },
+
+                    floorroom: function(column, row) {
+
+                        let floor = 'N/A';
+                        let room = 'N/A';
+
+                        if (row.location) {
+                            room = row.location.name;
+
+                            let f = (conventionCenter.floors || []).filter(function(f) {
+                                return f.id === row.location.floor_id
+                            }).shift();
+
+                            if (f) { floor = f.name }
+                        }
+
+                        let title = floor + ' / ' + room;
+                        return '<span title="' + title + '">' + title + '</span>';
+                    },
+
+                    event_actions: function (column, row) {
+
+                        return '<button class="btn btn-primary btn-sm event-jump" data-ts="' + row.start_date + '">Jump</button>';
+                    },
+
+                    date: function(column, row){
+
+                        let utc_date = row[column.id];
+                        let date = moment.unix(utc_date);
+                        return date.tz(timeZone).format('MM/DD HH:mm');
+                    }
+                },
+                rowCount: [10, 25, 50, 100],
+                templates: {
+                    header:
+                    "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
+                        "<div class=\"row\">" +
+                            "<div class=\"col-md-12 form-inline actionBar\">" +
+                                "<div class=\"wheel\"/>" +
+                                "<input type='input' class='form-control search-field inline-space' placeholder='Title' id='event_title'>" +
+                                "<input type='input' class='form-control search-field inline-space' id='event_keyword' placeholder='Tag keyword'>" +
+                                "<p class=\"{{css.actions}}\"></p>" +
+                            "</div>" +
+                        "</div>" +
+                    "</div>"
+                },
+                selection: false,
+                multiSelect: false,
+
+            }).on("selected.rs.jquery.bootgrid", function (e, rows) {
+
+                console.log(rows);
+                console.log("selected");
+
+            }).on("deselected.rs.jquery.bootgrid", function (e, rows) {
+
+                console.log("deselected");
+
+            }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
+
+                console.log("click");
+
+            }).on("loaded.rs.jquery.bootgrid", function (e){
+
+                $('.event-jump').on('click', e => {
+
+                    firebaseUpdate('time',
+
+                        $("#locations").val() + '&' + $(e.currentTarget).data('ts')
+                    )
+                });
+
+                console.log("loaded");
+            });
+        }
+
+        function initializeBannersGrid(url) {
+
+            $("#grid-data-banners").bootgrid( {
+
+                ajax: true,
+                ajaxSettings: {
+                    method: "GET",
+                    cache: false,
+                    beforeSend: function (xhr) {
+
+                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                        xhr.setRequestHeader('Accept', "application/json");
+                        xhr.setRequestHeader('Content-Type', 'text/plain');
+                    }
+                },
+                url: url,
+                requestHandler: function (request) {
+
+                    let title = $('#banner_title').val().length ? 'title=@' + $('#banner_title').val().trim() : '';
+                    let keyword = $('#banner_content').val().length ? 'content=@' + $('#banner_content').val().trim() : '';
+                    let class_name = 'class_name==ScheduledSummitLocationBanner';
+                    let filters =  (title.length && keyword.length && class_name.length ? [ title , keyword, class_name ] : keyword+ '' + title+ '' + class_name);
+                    let isSorted = (request.sort);
+                    let orderBy = '';
+
+                    if (isSorted) {
+
+                        let order = Object.keys(request.sort)[0] || 'start_date';
+                        let asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
+                        orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
+
+                        request = {
+                            filter : filters,
+                            page: request.current,
+                            per_page: request.rowCount,
+                            order: orderBy,
+                            expand:"location",
+                        };
+
+                    } else {
+
+                        request = {
+                            filter: filters,
+                            page: request.current,
+                            per_page: request.rowCount
+                        };
+                    }
+
+                    return request;
+                },
+
+                responseHandler:function (response) {
+
+                    response = {
+                        current: response.current_page,
+                        rowCount: response.per_page,
+                        rows: response.data,
+                        total: response.total
+                    };
+
+                    return response;
+                },
+
+                formatters: {
+
+                    bannertitle: function (column, row){
+                        return spanWithTooltips(row[column.id]);
+                    },
+
+                    floorroom: function(column, row) {
+
+                        let floor = 'N/A';
+                        let room = 'N/A';
+
+                        if (row.location) {
+
+                            room = row.location.name;
+
+                            let f = (conventionCenter.floors || []).filter(function(f) {
+                                return f.id === row.location.floor_id
+                            }).shift();
+
+                            if (f) { floor = f.name }
+                        }
+
+                        let title = floor + ' / ' + room;
+                        return '<span title="' + title + '">' + title + '</span>';
+                    },
+
+                    bannertype: function (column, row) {
+
+                        return (row.type == "Primary") ? "Top message" : "Footer message";
+                    },
+
+                    banner_actions: function (column, row) {
+
+                        let encoded = btoa(JSON.stringify(row));
+
+                        var actions = "<button class=\"btn btn-primary btn-sm inline-space event-jump\" data-ts=\"" + row.start_date + "\">Jump</button>";
+
+                        actions +=
+                            "<button type=\"button\" class=\"btn btn-default btn-sm inline-space banner-action\" data-action=\"edit\" data-base64=\"" + encoded + "\" data-target=\"#banner-dialog\" aria-label=\"Edit\">\n" +
+                            "  <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\n" +
+                            "</button>";
+
+                        actions +=
+                            "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"delete\" data-identifier=\"" + row.id + "\" aria-label=\"Delete\">\n" +
+                            "  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
+                            "</button>";
+
+                        return actions;
+                    },
+
+                    date: function(column, row){
+
+                        let utc_date = row[column.id];
+                        let date = moment.unix(utc_date);
+                        return date.tz(timeZone).format('MM/DD HH:mm');
+                    }
+                },
+                rowCount: [10, 25, 50, 100],
+                templates: {
+                    header:
+                    "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
+                        "<div class=\"row\">" +
+                            "<div class=\"col-md-12 form-inline actionBar\">" +
+                                "<div class=\"wheel\"/>" +
+                                "<input type='input' class='form-control search-field inline-space' id='banner_title' placeholder='Title' >" +
+                                "<input type='input' class='form-control search-field inline-space' id='banner_content' placeholder='Content'>" +
+                                "<p class=\"{{css.actions}}\"></p>" +
+                            "</div>" +
+                        "</div>" +
+                    "</div>"
+                },
+                selection: false,
+
+            }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
+
+                console.log("click");
+
+            }).on("loaded.rs.jquery.bootgrid", function (e){
+
+                $('.event-jump').on('click', e => {
+
+                    firebaseUpdate('time',
+
+                        $("#locations").val() + '&' + $(e.currentTarget).data('ts')
+                    )
+                });
+
+                $('.banner-action').on('click', e => {
+
+                    let target = $(e.currentTarget);
+
+                    switch (target.data("action")) {
+
+                        case "edit":
+
+                            let encoded = target.data("base64");
+                            let decoded = JSON.parse(atob(encoded));
+
+                            if (decoded != null) {
+
+                                let startDate = moment.unix(decoded.start_date);
+                                let endDate = moment.unix(decoded.end_date);
+
+                                let modal = $(target.data("target"));
+
+                                modal.modal("show");
+                                modal.find('.modal-title').text("Edit Message");
+                                modal.find('.modal-body input[name=id]').val(decoded.id);
+                                modal.find('.modal-body input[name=title]').val(decoded.title);
+                                modal.find('.modal-body textarea[name=content]').val(decoded.content);
+                                modal.find('.modal-body input[name=start_date]').val(startDate.tz(timeZone).format(timePickerDateFormat));
+                                modal.find('.modal-body input[name=end_date]').val(endDate.tz(timeZone).format(timePickerDateFormat));
+                                modal.find('.modal-body select > option[value="' + decoded.type + '"]').prop("selected", true);
+                            }
+
+                            break;
+
+                        case "delete":
+
+                            target.addClass("disabled");
+                            deleteBanner(target.data('identifier'));
+                            break;
+
+                        default:
+                            break;
+                    }
+                });
+            });
+        }
+
+        $('#banner-dialog').on('show.bs.modal', function (event) {
+
+            let button = $(event.relatedTarget);
+
+            let action = button.data('action');
+
+            if (action === "create") {
+
+                cleanBannerModal();
+
+                let modal = $(this);
+                modal.find('.modal-title').text("New Message");
+            }
+        });
+
+        $('#banner-dialog form').on('submit', function(ev) {
+
+            let payload = $(this).serializeObject();
+
+            let start_date = moment.tz(payload.start_date, timePickerDateFormat, timeZone);
+            let end_date = moment.tz(payload.end_date, timePickerDateFormat, timeZone);
+
+            payload.start_date = start_date.unix();
+            payload.end_date = end_date.unix();
+
+            // Perform api call
+            createOrUpdateBanner(payload);
+
+            $('#banner-dialog').modal('hide');
+
+            ev.preventDefault();
+        });
+
+        $("#static-banner").on('submit', function(ev) {
+
+            let payload = $(this).serializeObject();
+
+            $('#static-banner button').prop("disabled", true);
+            $('#static-banner textarea[name=content]').prop("disabled", true);
+
+            if (payload.id != 0 && payload.content == "") {
 
                 $('#static-banner input[name=id]').val(0);
-                $('#static-banner textarea[name=content]').val("");
-                $('#static-banner textarea[name=content]').prop("disabled", true);
-                $('#static-banner button').prop("disabled", true);
 
-                getStaticBanner();
+                deleteBanner(payload.id);
 
-                $("#view").prop("disabled", false);
-                $("#view").selectpicker('refresh');
-                $("#view").change();
-            });
+            } else {
 
-            $("#view").on('change', function() {
-
-                let grid = $("#view").val();
-
-                if (grid === "events") {
-
-                    $("#banners").hide();
-                    $("#events").show();
-
-                    $("#grid-data-events").bootgrid("destroy");
-
-                    $("#view").prop(
-                        "disabled", isNaN(parseInt($('#locations').val()))
-                    );
-
-                    if ($('#locations').val() === '0') {
-                        return initializeEventsGrid(summit_events_resource.replace(
-                            '{summit_id}', $("#summits").val()
-                        ))
-                    }
-
-                    let new_url = events_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
-
-                    initializeEventsGrid(new_url);
-
-                } else if (grid === "banners") {
-
-                    $("#events").hide();
-                    $("#banners").show();
-
-                    $("#grid-data-banners").bootgrid("destroy");
-
-                    if ($('#locations').val() === '0') {
-
-                        return;
-                    }
-
-                    let new_url = banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val());
-
-                    initializeBannersGrid(new_url);
-                }
-            });
-            
-            if (token) {
-
-                $('p.token').text("You are authenticated");
-                $("a.connect").text('Re-connect');
-
-                fillSummitList();
-            }
-
-            function initializeBannerModal() {
-
-                // Configure global time zone
-                // and banner dialog date pickers
-
-                let summitSelected = $("#summits > option:selected");
-
-                timeZone = summitSelected.data("time_zone");
-
-                let startDate = summitSelected.data("start_date");
-                let endDate = summitSelected.data("end_date");
-
-                var options = {
-                    startDate: moment.unix(startDate).tz(timeZone).format(timePickerDateFormat),
-                    endDate: moment.unix(endDate).tz(timeZone).format(timePickerDateFormat),
-                };
-
-                options.initialDate = options.startDate;
-
-                let startTimePicker = $("#banner-start");
-                startTimePicker.datetimepicker("remove");
-                startTimePicker.datetimepicker(options);
-                startTimePicker.data("startDate", options.startDate);
-
-                options.initialDate = options.endDate;
-
-                let endTimePicker = $("#banner-end");
-                endTimePicker.datetimepicker("remove");
-                endTimePicker.datetimepicker(options);
-                endTimePicker.data("startDate", options.endDate);
-            }
-
-            function cleanBannerModal() {
-
-                let modal = $("#banner-dialog");
-
-                modal.find('.modal-body input[name=id]').val(0);
-                modal.find('.modal-body input[name=title]').val("");
-                modal.find('.modal-body textarea[name=content]').val("");
-                modal.find('.modal-body select > option:first-child').prop("selected", true);
-
-                let startInput = modal.find('.modal-body input[name=start_date]');
-                startInput.val(startInput.parent().data("startDate"));
-
-                let endInput = modal.find('.modal-body input[name=end_date]');
-                endInput.val(endInput.parent().data("startDate"));
-            }
-
-            function initializeEventsGrid(url) {
-
-                $("#grid-data-events").bootgrid({
-
-                    ajax: true,
-                    ajaxSettings: {
-
-                        method: "GET",
-                        cache: false,
-                        beforeSend: function (xhr) {
-
-                            xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-                            xhr.setRequestHeader('Accept', "application/json");
-                            xhr.setRequestHeader('Content-Type', 'text/plain');
-                        }
-                    },
-                    url: url,
-                    requestHandler: function (request) {
-
-                            let title = $('#event_title').val().length ? 'title=@' + $('#event_title').val().trim() : '';
-                            let keyword = $('#event_keyword').val().length ? 'tags=@' + $('#event_keyword').val().trim() : '';
-                            let filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
-                            let isSorted = (request.sort);
-                            let orderBy = '';
-
-                            if (isSorted){
-
-                                let order = Object.keys(request.sort)[0] || 'start_date';
-                                let asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
-                                orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
-
-                                request = {
-                                    filter : filters,
-                                    page: request.current,
-                                    per_page: request.rowCount,
-                                    order: orderBy,
-                                    expand:"speakers,location",
-                                };
-
-                            } else{
-
-                                request = {
-                                    filter: filters,
-                                    page: request.current,
-                                    per_page: request.rowCount
-                                };
-                            }
-
-                            return request;
-                        },
-                    responseHandler: function (response) {
-
-                        response = {
-                            current: response.current_page,
-                            rowCount: response.per_page,
-                            rows: response.data,
-                            total: response.total
-                        };
-
-                        return response;
-
-                    },
-                    formatters: {
-
-                        eventtitle: function (column, row) {
-
-                            return spanWithTooltips(row[column.id]);
-                        },
-
-                        csvspeakers: function (column, row) {
-
-                            if (row[column.id]) {
-
-                                let arr = jQuery.map( $(row[column.id]), function( speaker ) {
-                                   return speaker.first_name + ' ' + speaker.last_name;
-                                });
-
-                                return spanWithTooltips(arr.join(", "));
-
-                            } else {
-
-                                return "";
-                            }
-                        },
-
-                        csvtags: function (column, row){
-
-                            if (row[column.id]){
-
-                                let arr = jQuery.map( $(row['tags']), function( tag ) {
-                                   return tag.tag;
-                                });
-                                return spanWithTooltips(arr.join(","));
-
-                            } else {
-
-                                return "";
-                            }
-                        },
-
-                        floorroom: function(column, row) {
-
-                            let floor = 'N/A';
-                            let room = 'N/A';
-
-                            if (row.location) {
-                                room = row.location.name;
-
-                                let f = (conventionCenter.floors || []).filter(function(f) {
-                                    return f.id === row.location.floor_id
-                                }).shift();
-
-                                if (f) { floor = f.name }
-                            }
-
-                            let title = floor + ' / ' + room;
-                            return '<span title="' + title + '">' + title + '</span>';
-                        },
-
-                        event_actions: function (column, row) {
-
-                            return '<button class="btn btn-primary btn-sm event-jump" data-ts="' + row.start_date + '">Jump</button>';
-                        },
-
-                        date: function(column, row){
-
-                            let utc_date = row[column.id];
-                            let date = moment.unix(utc_date);
-                            return date.tz(timeZone).format('MM/DD HH:mm');
-                        }
-                    },
-                    rowCount: [10, 25, 50, 100],
-                    templates: {
-
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-md-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='event_title'><input type='search' class='search-field form-control searchBox' id='event_keyword' placeholder='Tag keyword'><p class=\"{{css.actions}}\"></p></div></div></div>"
-                    },
-                    selection: false,
-                    multiSelect: false,
-
-                }).on("selected.rs.jquery.bootgrid", function (e, rows) {
-
-                    console.log(rows);
-                    console.log("selected");
-
-                }).on("deselected.rs.jquery.bootgrid", function (e, rows) {
-
-                    console.log("deselected");
-
-                }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
-
-                    console.log("click");
-
-                }).on("loaded.rs.jquery.bootgrid", function (e){
-
-                    $('.event-jump').on('click', e => {
-
-                        firebaseUpdate('time',
-
-                            $("#locations").val() + '&' + $(e.currentTarget).data('ts')
-                        )
-                    });
-
-                    console.log("loaded");
-                });
-            }
-
-            function initializeBannersGrid(url) {
-
-                $("#grid-data-banners").bootgrid( {
-
-                    ajax: true,
-                    ajaxSettings: {
-                        method: "GET",
-                        cache: false,
-                        beforeSend: function (xhr) {
-
-                            xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-                            xhr.setRequestHeader('Accept', "application/json");
-                            xhr.setRequestHeader('Content-Type', 'text/plain');
-                        }
-                    },
-                    url: url,
-                    requestHandler: function (request) {
-
-                        let title = $('#banner_title').val().length ? 'title=@' + $('#banner_title').val().trim() : '';
-                        let keyword = $('#banner_content').val().length ? 'content=@' + $('#banner_content').val().trim() : '';
-                        let class_name = 'class_name==ScheduledSummitLocationBanner';
-                        let filters =  (title.length && keyword.length && class_name.length ? [ title , keyword, class_name ] : keyword+ '' + title+ '' + class_name);
-                        let isSorted = (request.sort);
-                        let orderBy = '';
-
-                        if (isSorted) {
-
-                            let order = Object.keys(request.sort)[0] || 'start_date';
-                            let asc = request.sort[Object.keys(request.sort)[0]] || 'asc';
-                            orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
-
-                            request = {
-                                filter : filters,
-                                page: request.current,
-                                per_page: request.rowCount,
-                                order: orderBy,
-                                expand:"location",
-                            };
-
-                        } else {
-
-                            request = {
-                                filter: filters,
-                                page: request.current,
-                                per_page: request.rowCount
-                            };
-                        }
-
-                        return request;
-                    },
-
-                    responseHandler:function (response) {
-
-                        response = {
-                            current: response.current_page,
-                            rowCount: response.per_page,
-                            rows: response.data,
-                            total: response.total
-                        };
-
-                        return response;
-                    },
-
-                    formatters: {
-
-                        bannertitle: function (column, row){
-                            return spanWithTooltips(row[column.id]);
-                        },
-
-                        floorroom: function(column, row) {
-
-                            let floor = 'N/A';
-                            let room = 'N/A';
-
-                            if (row.location) {
-
-                                room = row.location.name;
-
-                                let f = (conventionCenter.floors || []).filter(function(f) {
-                                    return f.id === row.location.floor_id
-                                }).shift();
-
-                                if (f) { floor = f.name }
-                            }
-
-                            let title = floor + ' / ' + room;
-                            return '<span title="' + title + '">' + title + '</span>';
-                        },
-
-                        bannertype: function (column, row) {
-
-                            return (row.type == "Primary") ? "Top message" : "Footer message";
-                        },
-
-                        banner_actions: function (column, row) {
-
-                            let encoded = btoa(JSON.stringify(row));
-
-                            var actions = "<button class=\"btn btn-primary btn-sm btn-space event-jump\" data-ts=\"" + row.start_date + "\">Jump</button>";
-
-                            actions +=
-                                "<button type=\"button\" class=\"btn btn-default btn-sm btn-space banner-action\" data-action=\"edit\" data-base64=\"" + encoded + "\" data-target=\"#banner-dialog\" aria-label=\"Edit\">\n" +
-                                "  <span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>\n" +
-                                "</button>";
-
-                            actions +=
-                                "<button type=\"button\" class=\"btn btn-default btn-sm banner-action\" data-action=\"delete\" data-identifier=\"" + row.id + "\" aria-label=\"Delete\">\n" +
-                                "  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span>\n" +
-                                "</button>";
-
-                            return actions;
-                        },
-
-                        date: function(column, row){
-
-                            let utc_date = row[column.id];
-                            let date = moment.unix(utc_date);
-                            return date.tz(timeZone).format('MM/DD HH:mm');
-                        }
-                    },
-                    rowCount: [10, 25, 50, 100],
-                    templates: {
-                        header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-md-12 actionBar\"><div class=\"wheel\"/><input type='search' class='search-field form-control searchBox' placeholder='Title' id='banner_title'><input type='search' class='search-field form-control searchBox' id='banner_content' placeholder='Content'><p class=\"{{css.actions}}\"></p></div></div></div>"
-                    },
-                    selection: false,
-
-                }).on("click.rs.jquery.bootgrid", function (e,columns,rows) {
-
-                    console.log("click");
-
-                }).on("loaded.rs.jquery.bootgrid", function (e){
-
-                    $('.event-jump').on('click', e => {
-
-                        firebaseUpdate('time',
-
-                            $("#locations").val() + '&' + $(e.currentTarget).data('ts')
-                        )
-                    });
-
-                    $('.banner-action').on('click', e => {
-
-                        let target = $(e.currentTarget);
-
-                        switch (target.data("action")) {
-
-                            case "edit":
-
-                                let encoded = target.data("base64");
-                                let decoded = JSON.parse(atob(encoded));
-
-                                if (decoded != null) {
-
-                                    let startDate = moment.unix(decoded.start_date);
-                                    let endDate = moment.unix(decoded.end_date);
-
-                                    let modal = $(target.data("target"));
-
-                                    modal.modal("show");
-                                    modal.find('.modal-title').text("Edit Message");
-                                    modal.find('.modal-body input[name=id]').val(decoded.id);
-                                    modal.find('.modal-body input[name=title]').val(decoded.title);
-                                    modal.find('.modal-body textarea[name=content]').val(decoded.content);
-                                    modal.find('.modal-body input[name=start_date]').val(startDate.tz(timeZone).format(timePickerDateFormat));
-                                    modal.find('.modal-body input[name=end_date]').val(endDate.tz(timeZone).format(timePickerDateFormat));
-                                    modal.find('.modal-body select > option[value="' + decoded.type + '"]').prop("selected", true);
-                                }
-
-                                break;
-
-                            case "delete":
-
-                                target.addClass("disabled");
-                                deleteBanner(target.data('identifier'));
-                                break;
-
-                            default:
-                                break;
-                        }
-                    });
-                });
-            }
-
-            $('#banner-dialog').on('show.bs.modal', function (event) {
-
-                let button = $(event.relatedTarget);
-
-                let action = button.data('action');
-
-                if (action === "create") {
-
-                    cleanBannerModal();
-
-                    let modal = $(this);
-                    modal.find('.modal-title').text("New Message");
-                }
-            });
-
-            $('#banner-dialog form').on('submit', function(ev) {
-
-                let payload = $(this).serializeObject();
-
-                let start_date = moment.tz(payload.start_date, timePickerDateFormat, timeZone);
-                let end_date = moment.tz(payload.end_date, timePickerDateFormat, timeZone);
-
-                payload.start_date = start_date.unix();
-                payload.end_date = end_date.unix();
-
-                // Perform api call
                 createOrUpdateBanner(payload);
+            }
 
-                $('#banner-dialog').modal('hide');
-
-                ev.preventDefault();
-            });
-
-            $("#static-banner").on('submit', function(ev) {
-
-                let payload = $(this).serializeObject();
-
-                $('#static-banner button').prop("disabled", true);
-                $('#static-banner textarea[name=content]').prop("disabled", true);
-
-                if (payload.id != 0 && payload.content == "") {
-
-                    $('#static-banner input[name=id]').val(0);
-
-                    deleteBanner(payload.id);
-
-                } else {
-
-                    createOrUpdateBanner(payload);
-                }
-
-                ev.preventDefault();
-            });
-
-            $(document).on({
-
-                ajaxStart: function() { $(".glyphicon-refresh").addClass("wheel-loading"); },
-                ajaxStop: function() { $(".glyphicon-refresh").removeClass("wheel-loading"); }
-            });
+            ev.preventDefault();
         });
-    </script>
+
+        $(document).on({
+
+            ajaxStart: function() { $(".glyphicon-refresh").addClass("wheel-loading"); },
+            ajaxStop: function() { $(".glyphicon-refresh").removeClass("wheel-loading"); }
+        });
+    });
+</script>
 </body>
 </html>
