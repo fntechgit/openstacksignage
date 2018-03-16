@@ -28,18 +28,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
     <style>
-        .container {
-            padding:0;
-            padding-left:20px;
-            margin:0;
+        .navbar {
+            margin-bottom: 0px;
+            padding-left: 15px;
+            padding-right: 15px;
         }
-        body {
-            padding:0;
+        #logo a {
+            background: url("assets/images/openstack-logo-full.svg") no-repeat scroll left center rgba(0, 0, 0, 0);
+            text-indent: -1000em;
         }
-        .navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top {
-            margin-left: 0;
-            margin-right: 0;
-            margin-bottom:0;
+        .connect {
+            cursor: pointer;
+        }
+        .dashboard {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: #EDF2F7;
         }
         .searchBox {
             width: 200px;
@@ -108,13 +112,15 @@
 </head>
 
 <body>
-<div>
-    <a class="connect" style="margin: 20px;
-    border: 1px solid silver;
-    border-radius: 10px;
-    padding: 10px;cursor: pointer">Connect</a>
-    <span class="token">Please authenticate by clicking on the Connect button above.</span>
-</div>
+<nav class="navbar">
+    <div class="container-fluid">
+        <div id="logo" class="navbar-header">
+            <a class="navbar-brand" href="#">OpenStack Signage Dashboard</a>
+        </div>
+        <p class="token navbar-text navbar-right">Please authenticate</p>
+        <p class="navbar-text navbar-right"><a class="connect navbar-link">Connect</a></p>
+    </div>
+</nav>
 
 <div id="firebase-dialog" title="Firebase Authentication" style="display: none;">
     <form>
@@ -182,74 +188,72 @@
     </div>
 </div>
 
-<div class="authenticated" style="margin-top: 20px; padding-top: 20px; padding-bottom: 20px; background-color: #EDF2F7">
-    <div class="container">
-        <div class='row'>
-            <div class='col-md-3'>
-                <div class="form-group row">
-                    <label for="summits" class="col-md-3 col-form-label">Summit</label>
-                    <div class="col-md-9">
-                        <select id="summits" class="selectpicker form-control" title="Not authenticated" disabled></select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="locations" class="col-md-3 col-form-label">Location</label>
-                    <div class="col-md-9">
-                        <select id="locations" class="selectpicker form-control" title="Not authenticated" data-live-search="true" disabled></select>
-                    </div>
+<div class="container-fluid dashboard">
+    <div class='row'>
+        <div class='col-md-3'>
+            <div class="form-group row">
+                <label for="summits" class="col-md-3 col-form-label">Summit</label>
+                <div class="col-md-9">
+                    <select id="summits" class="selectpicker form-control" title="Not authenticated" disabled></select>
                 </div>
             </div>
-            <div class='col-md-3'>
-                <div class="form-group row">
-                    <label for="input-date" class="col-md-3 col-form-label">Date</label>
-                    <div class="col-md-9">
-                        <input type="date" id="input-date" class="form-control" disabled />
-                    </div>
+            <div class="form-group row">
+                <label for="locations" class="col-md-3 col-form-label">Location</label>
+                <div class="col-md-9">
+                    <select id="locations" class="selectpicker form-control" title="Not authenticated" data-live-search="true" disabled></select>
                 </div>
-                <div class="form-group row">
-                    <label for="input-time" class="col-md-3 col-form-label">Time</label>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="time" id="input-time" class="form-control" disabled />
-                            </div>
-                            <div class="col-md-6">
-                                <button id="btn-jump" type="button" class="btn btn-block btn-primary" disabled>Jump</button>
-                            </div>
+            </div>
+        </div>
+        <div class='col-md-3'>
+            <div class="form-group row">
+                <label for="input-date" class="col-md-3 col-form-label">Date</label>
+                <div class="col-md-9">
+                    <input type="date" id="input-date" class="form-control" disabled />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="input-time" class="col-md-3 col-form-label">Time</label>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="time" id="input-time" class="form-control" disabled />
+                        </div>
+                        <div class="col-md-6">
+                            <button id="btn-jump" type="button" class="btn btn-block btn-primary" disabled>Jump</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <form id="static-banner">
-                    <input type="hidden" name="id" value="0">
-                    <input type="hidden" name="class_name" value="SummitLocationBanner">
-                    <input type="hidden" name="title" value="Static Banner"/>
-                    <input type="hidden" name="type" value="Primary">
-                    <input type="hidden" name="enabled" value="1">
-                    <div class="col-md-8">
-                        <textarea class="form-control" name="content" rows="3" aria-describedby="static message content" placeholder="This is the static banner content. Empty save to delete." disabled></textarea>
-                    </div>
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary" aria-describedby="message submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Saving" disabled>Save</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-2">
-                <button id="btn-reset" type="button" class="btn btn-default" disabled>Reset Sign</button>
-                <button id="btn-view" type="button" class="btn btn-default" disabled>View Sign</button>
-            </div>
         </div>
-        <div class="row">
-            <div class='col-md-3'>
-                <div class="form-group row">
-                    <label for="view" class="col-md-3 col-form-label">View</label>
-                    <div class="col-md-9">
-                        <select id="view" class="selectpicker form-control" disabled>
-                            <option value="events" selected>Events</option>
-                            <option value="banners">Messages</option>
-                        </select>
-                    </div>
+        <div class="col-md-4">
+            <form id="static-banner">
+                <input type="hidden" name="id" value="0">
+                <input type="hidden" name="class_name" value="SummitLocationBanner">
+                <input type="hidden" name="title" value="Static Banner"/>
+                <input type="hidden" name="type" value="Primary">
+                <input type="hidden" name="enabled" value="1">
+                <div class="col-md-8">
+                    <textarea class="form-control" name="content" rows="3" aria-describedby="static message content" placeholder="This is the static banner content. Empty save to delete." disabled></textarea>
+                </div>
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary" aria-describedby="message submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Saving" disabled>Save</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <button id="btn-reset" type="button" class="btn btn-default" disabled>Reset Sign</button>
+            <button id="btn-view" type="button" class="btn btn-default" disabled>View Sign</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class='col-md-3'>
+            <div class="form-group row">
+                <label for="view" class="col-md-3 col-form-label">View</label>
+                <div class="col-md-9">
+                    <select id="view" class="selectpicker form-control" disabled>
+                        <option value="events" selected>Events</option>
+                        <option value="banners">Messages</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -833,7 +837,7 @@
             
             if (token) {
 
-                $('span.token').text("You are authenticated");
+                $('p.token').text("You are authenticated");
                 $("a.connect").text('Re-connect');
 
                 fillSummitList();
