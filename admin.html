@@ -147,7 +147,7 @@
                     <div class="form-group row">
                         <label for="banner-start" class="col-md-1 col-form-label">Start</label>
                         <div class="col-md-5">
-                            <div class='input-group date' id="banner-start" aria-describedby="message start date">
+                            <div class='input-group date' id="banner-start" aria-describedby="message start date" style="cursor: pointer;">
                                 <input type='text' class="form-control" name="start_date" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -163,7 +163,7 @@
                     <div class="form-group row">
                         <label for="banner-end" class="col-md-1 col-form-label">End</label>
                         <div class="col-md-5">
-                            <div class='input-group date' id="banner-end" aria-describedby="message end date">
+                            <div class='input-group date' id="banner-end" aria-describedby="message end date" style="cursor: pointer;">
                                 <input type='text' class="form-control" name="end_date" required/>
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                             </div>
@@ -204,22 +204,17 @@
         </div>
         <div class='col-md-3'>
             <div class="form-group row">
-                <label for="input-date" class="col-md-3 col-form-label">Date</label>
+                <label for="jump-date" class="col-md-3 col-form-label">DateTime</label>
                 <div class="col-md-9">
-                    <input type="date" id="input-date" class="form-control" disabled />
+                    <div class='input-group date' id="jump-date" aria-describedby="jump date">
+                        <input type='text' class="form-control" name="jump_date" disabled/>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="input-time" class="col-md-3 col-form-label">Time</label>
-                <div class="col-md-9">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <input type="time" id="input-time" class="form-control" disabled />
-                        </div>
-                        <div class="col-md-6">
-                            <button id="btn-jump" type="button" class="btn btn-block btn-primary" disabled>Jump</button>
-                        </div>
-                    </div>
+                <div class="col-md-5 col-md-offset-3">
+                    <button id="btn-jump" type="button" class="btn btn-primary" disabled>Jump</button>
                 </div>
             </div>
         </div>
@@ -305,8 +300,10 @@
 
     $( document ).ready(function() {
 
-        $('#input-date').val(moment().format('Y-M-D'));
-        $('#input-time').val(moment().format('HH:mm'));
+        var timeZone = "UTC";
+        let timePickerDateFormat = 'YYYY-MM-DD HH:mm';
+
+        configureJumpTimeControls(false);
 
         const db = firebase.initializeApp({
 
@@ -329,10 +326,7 @@
 
         $('#btn-jump').on('click', function(e) {
 
-            let date = moment.tz([
-                $('#input-date').val(),
-                $('#input-time').val()
-            ].join(' '), 'Y-M-D HH:mm', timeZone);
+            let date = moment.tz($('#jump-date input').val(), 'Y-M-D HH:mm', timeZone);
 
             if ( ! date.isValid()) {
                 return alert('Invalid date')
@@ -419,9 +413,6 @@
 
         var conventionCenter = null;
 
-        var timeZone = "UTC";
-        let timePickerDateFormat = 'YYYY-MM-DD HH:mm';
-
         let spanWithTooltips = function(text) {
 
             return "<span title='"+ text + "'>"+text+"</span>";
@@ -463,7 +454,7 @@
                 contentType: "application/json; charset=utf-8",
                 beforeSend: function (xhr) {
 
-                    xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
                     xhr.setRequestHeader('Accept', "application/json");
                     xhr.setRequestHeader('Content-Type', 'application/json"');
                 },
@@ -514,7 +505,7 @@
                 contentType: "application/json; charset=utf-8",
                 beforeSend: function (xhr) {
 
-                    xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
+                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
                     xhr.setRequestHeader('Accept', "application/json");
                     xhr.setRequestHeader('Content-Type', 'application/json');
                 },
@@ -771,8 +762,9 @@
 
             $("#events, #banners").hide();
 
-            $("#input-date").prop("disabled", true);
-            $("#input-time").prop("disabled", true);
+            //$("#input-date").prop("disabled", true);
+            //$("#input-time").prop("disabled", true);
+            configureJumpTimeControls(false);
 
             $("#btn-jump").prop("disabled", true);
             $("#btn-view").prop("disabled", true);
@@ -789,8 +781,9 @@
 
         $("#locations").on('change', function() {
 
-            $("#input-date").prop("disabled", false);
-            $("#input-time").prop("disabled", false);
+            //$("#input-date").prop("disabled", false);
+            //$("#input-time").prop("disabled", false);
+            configureJumpTimeControls(true);
 
             $("#btn-jump").prop("disabled", false);
             $("#btn-view").prop("disabled", false);
@@ -857,6 +850,28 @@
             $("a.connect").text('Re-connect');
 
             fillSummitList();
+        }
+
+        function configureJumpTimeControls(enabled) {
+
+            let jumpTimePicker = $("#jump-date");
+            let input = jumpTimePicker.find("input");
+
+            let now = moment().format(timePickerDateFormat);
+            input.val(now);
+
+            if (enabled) {
+
+                input.prop("disabled", false);
+                jumpTimePicker.find("span").css("cursor", "pointer");
+                jumpTimePicker.datetimepicker({ initialDate: now });
+            }
+            else {
+
+                input.prop("disabled", true);
+                jumpTimePicker.find("span").css("cursor", "not-allowed");
+                jumpTimePicker.datetimepicker("remove");
+            }
         }
 
         function initializeBannerModal() {
