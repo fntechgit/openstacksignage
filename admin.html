@@ -26,6 +26,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.0/autosize.min.js"></script>
 
     <style>
         .navbar {
@@ -314,6 +315,7 @@
         let timePickerDateFormat = 'YYYY-MM-DD HH:mm';
 
         configureJumpTimeControls(false);
+        autosize($("#static-banner textarea"));
 
         const db = firebase.initializeApp({
 
@@ -603,16 +605,20 @@
                     console.log("HTTP Request Succeeded: " + jqXHR.status);
                     console.log(data);
 
+                    let content = $('#static-banner textarea[name=content]');
+
                     if (data.data.length) {
 
                         let message = data.data[0];
 
                         $('#static-banner input[name=id]').val(message.id);
-                        $('#static-banner textarea[name=content]').val(message.content);
 
+                        content.val(message.content);
+
+                        autosize.update(content);
                     }
 
-                    $('#static-banner textarea[name=content]').prop("disabled", false);
+                    content.prop("disabled", false);
                     $('#static-banner button').prop("disabled", false);
                 })
                 .fail(function(jqXHR, textStatus, errorThrown) {
@@ -697,7 +703,11 @@
                     if (saveButton.prop("disabled") == true) {
 
                         saveButton.prop("disabled", false);
-                        $('#static-banner textarea[name=content]').prop("disabled", false);
+
+                        let content = $('#static-banner textarea[name=content]');
+                        content.prop("disabled", false);
+
+                        autosize.update(content);
 
                     } else {
 
@@ -800,8 +810,12 @@
             $("#btn-reset").prop("disabled", false);
 
             $('#static-banner input[name=id]').val(0);
-            $('#static-banner textarea[name=content]').val("");
-            $('#static-banner textarea[name=content]').prop("disabled", true);
+
+            let content = $('#static-banner textarea[name=content]');
+            content.val("");
+            content.prop("disabled", true);
+            autosize.update(content);
+
             $('#static-banner button').prop("disabled", true);
 
             getStaticBanner();
