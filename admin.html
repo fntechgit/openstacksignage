@@ -218,26 +218,36 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <form id="static-banner">
-                <input type="hidden" name="id" value="0">
-                <input type="hidden" name="class_name" value="SummitLocationBanner">
-                <input type="hidden" name="title" value="Static Banner"/>
-                <input type="hidden" name="type" value="Primary">
-                <input type="hidden" name="enabled" value="1">
-                <div class="row">
-                    <div class="col-md-8">
-                        <textarea class="form-control" name="content" rows="3" aria-describedby="static message content" placeholder="Enter static message text then click Save to add message. To delete your message, delete all text then click Save." disabled></textarea>
-                    </div>
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary" aria-describedby="message submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Saving" disabled>Save</button>
+        <form id="static-banner">
+            <input type="hidden" name="id" value="0">
+            <input type="hidden" name="class_name" value="SummitLocationBanner">
+            <input type="hidden" name="title" value="Static Banner"/>
+            <input type="hidden" name="type" value="Primary">
+            <input type="hidden" name="enabled" value="1">
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <div class="col-md-9">
+                        <textarea class="form-control" name="content" rows="1" aria-describedby="static message content" placeholder="Enter static message text." title="Click Save to add message. To delete your message, delete all text then click Save." disabled></textarea>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="form-group row">
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-primary" aria-describedby="message submit" disabled>Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="col-md-2">
-            <button id="btn-view" type="button" class="btn btn-secondary" disabled>View Sign</button>
-            <button id="btn-reset" type="button" class="btn btn-secondary" disabled>Reset Sign</button>
+            <div class="form-group row">
+                <div class="col-md-offset-3 col-md-9">
+                    <button id="btn-view" type="button" class="btn btn-secondary" disabled>View Sign</button>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-offset-3 col-md-9">
+                    <button id="btn-reset" type="button" class="btn btn-secondary" disabled>Reset Sign</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
