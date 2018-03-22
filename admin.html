@@ -23,13 +23,12 @@
 
     <style>
         .navbar {
-            margin-bottom: 0px;
-            padding-left: 15px;
+            margin-bottom: 3px;
             padding-right: 15px;
         }
-        #logo a {
-            background: url("assets/images/openstack-logo-full.svg") no-repeat scroll left center rgba(0, 0, 0, 0);
-            text-indent: -1000em;
+        .navbar-text{
+            margin-top: 17px;
+            margin-bottom: 13px;
         }
         .connect {
             cursor: pointer;
@@ -192,8 +191,10 @@
 </div>
 <nav class="navbar">
     <div class="container-fluid">
-        <div id="logo" class="navbar-header">
-            <a class="navbar-brand" href="#">OpenStack Signage Dashboard</a>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <object data="assets/images/openstack-signage-logo.svg" type="image/svg+xml"></object>
+            </a>
         </div>
         <p class="token navbar-text navbar-right">Please authenticate</p>
         <p class="navbar-text navbar-right"><a class="connect navbar-link">Connect</a></p>
@@ -763,7 +764,7 @@
 
 
         var token = extractToken();
-        
+
         let authUrl = endUserAuthorizationEndpoint +
             "?response_type=token id_token" +
             "&scope=" + encodeURI(setting.scopes) +
@@ -812,7 +813,7 @@
 
                 getStaticBanner();
             }
-            
+
             $("#view option[value='banners']").prop("disabled", this.value == 0 ? true : false);
             $("#view").prop("disabled", false);
             $("#view").selectpicker('refresh');
