@@ -806,7 +806,10 @@
 
             $('#static-banner button').prop("disabled", true);
 
-            getStaticBanner();
+            if (this.value != 0) {
+
+                getStaticBanner();
+            }
             
             $("#view option[value='banners']").prop("disabled", this.value == 0 ? true : false);
             $("#view").prop("disabled", false);
