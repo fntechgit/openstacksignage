@@ -311,10 +311,15 @@
 
     $( document ).ready(function() {
 
+        // halt if running in iframe
+        if (window.self !== window.top)
+            return;
+
         var timeZone = "UTC";
         let timePickerDateFormat = 'YYYY-MM-DD HH:mm';
 
         configureJumpTimeControls(false);
+
         autosize($("#static-banner textarea"));
 
         const db = firebase.initializeApp({
@@ -454,6 +459,17 @@
             */
         };
 
+        var lastApiCall = null;
+
+        let setRequestHeaders = function (xhr) {
+
+            xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
+            xhr.setRequestHeader("Accept", "application/json");
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            lastApiCall = this;
+        };
+
         let fillSummitList =  function() {
 
             $("#summits")
@@ -464,12 +480,7 @@
                 url: summits_resource,
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
-                beforeSend: function (xhr) {
-
-                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                    xhr.setRequestHeader('Accept', "application/json");
-                    xhr.setRequestHeader('Content-Type', 'application/json"');
-                },
+                beforeSend: setRequestHeaders,
                 success: function (response, textStatus, jqXHR ) {
 
                     let data = response.data.reverse();
@@ -515,12 +526,7 @@
                 url: locations_resource.replace("{summit_id}", summit_id),
                 type: "GET",
                 contentType: "application/json; charset=utf-8",
-                beforeSend: function (xhr) {
-
-                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                    xhr.setRequestHeader('Accept', "application/json");
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                },
+                beforeSend: setRequestHeaders,
                 success: function (response, textStatus, jqXHR ) {
 
                     locations.empty();
@@ -590,12 +596,7 @@
             $.ajax({
                 url: url,
                 type: "GET",
-                beforeSend: function (xhr) {
-
-                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                    xhr.setRequestHeader('Accept', "application/json");
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                },
+                    beforeSend: setRequestHeaders,
                 data: {
                     "filter": "class_name==SummitLocationBanner",
                 },
@@ -641,12 +642,7 @@
                 url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + posfix,
                 type: method,
                 contentType: "application/json; charset=utf-8",
-                beforeSend: function (xhr) {
-
-                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                    xhr.setRequestHeader('Accept', "application/json");
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                },
+                beforeSend: setRequestHeaders,
                 dataType: "json",
                 data: JSON.stringify(payload),
             })
@@ -679,12 +675,7 @@
                 url: banners_resource.replace('{summit_id}', $("#summits").val()).replace('{location_id}', $("#locations").val()) + '/' + id,
                 type: "DELETE",
                 contentType: "application/json; charset=utf-8",
-                beforeSend: function (xhr) {
-
-                    xhr.setRequestHeader("Authorization", "Bearer " + unescape(token));
-                    xhr.setRequestHeader('Accept', "application/json");
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                }
+                beforeSend: setRequestHeaders,
             })
                 .done(function(data, textStatus, jqXHR) {
 
@@ -768,15 +759,15 @@
         let endUserAuthorizationEndpoint = authHost + "/oauth2/auth";
 
 
-        let token = extractToken();
+        var token = extractToken();
+        
         let authUrl = endUserAuthorizationEndpoint +
             "?response_type=token id_token" +
-            "&approval_prompt=force"+
-            "&scope=" + encodeURI(setting.scopes)+
+            "&scope=" + encodeURI(setting.scopes) +
             "&client_id="  + encodeURI(setting.clientId) +
             "&redirect_uri=" + window.location;
 
-        $("a.connect").attr("href", authUrl);
+        $("a.connect").attr("href", authUrl + "&approval_prompt=force");
 
         $("#summits").on('change', function() {
 
@@ -876,6 +867,66 @@
             fillSummitList();
         }
 
+        let refreshToken = function() {
+
+            token = null;
+
+            return new Promise(function(resolve, reject) {
+
+                (function(e, s) {
+
+                    e.src = s;
+
+                    e.style = "display: none;";
+
+                    e.onload = function() {
+
+                        let uri = new URI(e.contentWindow.location.href);
+
+                        token = URI.parseQuery(uri.fragment()).access_token;
+
+                        if (token != null) {
+
+                            window.location.hash = uri.fragment();
+
+                            resolve();
+                        }
+                        else {
+
+                            reject()
+                        }
+
+                        document.body.removeChild(e);
+                    };
+
+                    document.body.appendChild(e);
+
+                })(document.createElement('iframe'), authUrl);
+            })
+        };
+
+        $(document).ajaxError(function(event, jqXHR, settings, thrownError) {
+
+            // Unauthorized
+
+            if (jqXHR.status == 401) {
+
+                refreshToken().then(function() {
+
+                    if (lastApiCall != null) {
+
+                        $.ajax(lastApiCall);
+                    }
+
+                }).catch(function(err) {
+
+                    alert("Last api call failed. Please Re-Connect");
+
+                    console.log(err);
+                })
+            }
+        });
+
         function configureJumpTimeControls(enabled) {
 
             let jumpTimePicker = $("#jump-date");
@@ -955,12 +1006,7 @@
 
                     method: "GET",
                     cache: false,
-                    beforeSend: function (xhr) {
-
-                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-                        xhr.setRequestHeader('Accept', "application/json");
-                        xhr.setRequestHeader('Content-Type', 'text/plain');
-                    }
+                    beforeSend: setRequestHeaders,
                 },
                 url: url,
                 requestHandler: function (request) {
@@ -1129,12 +1175,7 @@
                 ajaxSettings: {
                     method: "GET",
                     cache: false,
-                    beforeSend: function (xhr) {
-
-                        xhr.setRequestHeader ("Authorization", "Bearer " + unescape(token));
-                        xhr.setRequestHeader('Accept', "application/json");
-                        xhr.setRequestHeader('Content-Type', 'text/plain');
-                    }
+                    beforeSend: setRequestHeaders,
                 },
                 url: url,
                 requestHandler: function (request) {
