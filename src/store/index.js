@@ -44,7 +44,13 @@ export const $store = new Vuex.Store({
                     resolve => resolve(context.state.summit)
                 )
             }
-            return axios.get(getEndpoint('summits')).then(response => {
+
+            const query = qs.stringify({
+                relationships: 'none',
+                expand: 'none'
+            }, { indices: false })
+
+            return axios.get(getEndpoint(`summits?${query}`)).then(response => {
                 return context.state.summit = response.data.data.pop()
             })
         },
