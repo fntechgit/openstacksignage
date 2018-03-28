@@ -185,7 +185,7 @@ export default class Schedule {
             return this.setTimeout(
                 (this.state.events.next.start_date - this.state.now) * 1000
             )
-        } else if (this.state.scheduled_banners.curr) {
+        } else if (this.state.scheduled_banners.next) {
             return this.setTimeout(
                 (this.state.scheduled_banners.next.start_date - this.state.now) * 1000
             )
