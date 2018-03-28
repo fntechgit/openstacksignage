@@ -7,30 +7,58 @@
             </tr>
             <tr>
                 <td align="center" width="33%">
-                    <a v-if="schedule.state.prev" href="" @click.prevent="syncStart(schedule.state.prev)">[start-5s]</a>
-                    Previous
-                    <a v-if="schedule.state.prev" href="" @click.prevent="syncEnd(schedule.state.prev)">[end-5s]</a>
+                    <a v-if="schedule.state.events.prev" href="" @click.prevent="syncStart(schedule.state.events.prev)">[start-5s]</a>
+                    Previous Event
+                    <a v-if="schedule.state.events.prev" href="" @click.prevent="syncEnd(schedule.state.events.prev)">[end-5s]</a>
                 </td>
                 <td align="center" width="33%">
-                    <a v-if="schedule.state.curr" href="" @click.prevent="syncStart(schedule.state.curr)">[start-5s]</a>
-                    Current
-                    <a v-if="schedule.state.curr" href="" @click.prevent="syncEnd(schedule.state.curr)">[end-5s]</a>
+                    <a v-if="schedule.state.events.curr" href="" @click.prevent="syncStart(schedule.state.events.curr)">[start-5s]</a>
+                    Current Event
+                    <a v-if="schedule.state.events.curr" href="" @click.prevent="syncEnd(schedule.state.events.curr)">[end-5s]</a>
                 </td>
                 <td align="center" width="33%">
-                    <a v-if="schedule.state.next" href="" @click.prevent="syncStart(schedule.state.next)">[start-5s]</a>
-                    Next
-                    <a v-if="schedule.state.next" href="" @click.prevent="syncEnd(schedule.state.next)">[end-5s]</a>
+                    <a v-if="schedule.state.events.next" href="" @click.prevent="syncStart(schedule.state.events.next)">[start-5s]</a>
+                    Next Event
+                    <a v-if="schedule.state.events.next" href="" @click.prevent="syncEnd(schedule.state.events.next)">[end-5s]</a>
                 </td>
             </tr>
             <tr>
                 <td align="center" width="33%">
-                    {{ schedule.state.prev && schedule.state.prev.title || 'N/A' }}
+                    {{ schedule.state.events.prev && schedule.state.events.prev.title || 'N/A' }}
                 </td>
                 <td align="center" width="33%">
-                    {{ schedule.state.curr && schedule.state.curr.title || 'N/A' }}
+                    {{ schedule.state.events.curr && schedule.state.events.curr.title || 'N/A' }}
                 </td>
                 <td align="center" width="33%">
-                    {{ schedule.state.next && schedule.state.next.title || 'N/A' }}
+                    {{ schedule.state.events.next && schedule.state.events.next.title || 'N/A' }}
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width="33%">
+                    <a v-if="schedule.state.banners.prev" href="" @click.prevent="syncStart(schedule.state.banners.prev)">[start-5s]</a>
+                    Previous Banner
+                    <a v-if="schedule.state.banners.prev" href="" @click.prevent="syncEnd(schedule.state.banners.prev)">[end-5s]</a>
+                </td>
+                <td align="center" width="33%">
+                    <a v-if="schedule.state.banners.curr" href="" @click.prevent="syncStart(schedule.state.banners.curr)">[start-5s]</a>
+                    Current Banner
+                    <a v-if="schedule.state.banners.curr" href="" @click.prevent="syncEnd(schedule.state.banners.curr)">[end-5s]</a>
+                </td>
+                <td align="center" width="33%">
+                    <a v-if="schedule.state.banners.next" href="" @click.prevent="syncStart(schedule.state.banners.next)">[start-5s]</a>
+                    Next Banner
+                    <a v-if="schedule.state.banners.next" href="" @click.prevent="syncEnd(schedule.state.banners.next)">[end-5s]</a>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width="33%">
+                    {{ schedule.state.banners.prev && schedule.state.banners.prev.title || 'N/A' }}
+                </td>
+                <td align="center" width="33%">
+                    {{ schedule.state.banners.curr && schedule.state.banners.curr.title || 'N/A' }}
+                </td>
+                <td align="center" width="33%">
+                    {{ schedule.state.banners.next && schedule.state.banners.next.title || 'N/A' }}
                 </td>
             </tr>
         </table>
@@ -65,13 +93,16 @@
             </div>
         </div>
 
-        <event :schedule="schedule" :event="schedule.state.curr"
-        v-if="schedule.state.curr"></event>
+        <banner :schedule="schedule" :banner="schedule.state.banners.curr"
+               v-if="schedule.state.banners.curr && schedule.state.banners.curr.type == 'Primary'"></banner>
 
-        <event :schedule="schedule" :event="schedule.state.next" :next=true
-        v-if="schedule.state.next && schedule.isToday(schedule.state.next.start_date)"></event>
+        <event :schedule="schedule" :event="schedule.state.events.curr"
+        v-if="schedule.state.events.curr"></event>
 
-        <div v-else-if="! schedule.state.curr" class="empty">
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true
+        v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
+
+        <div v-else-if="! schedule.state.events.curr" class="empty">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
@@ -83,12 +114,15 @@
             </div>
         </div>
 
+        <banner :schedule="schedule" :banner="schedule.state.banners.curr"
+                v-if="schedule.state.banners.curr && schedule.state.banners.curr.type == 'Secondary'"></banner>
     </div>
 </template>
 
 <script>
 
     import Event from './event.vue'
+    import Banner from './banner.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
 
@@ -99,18 +133,18 @@
             }),
         },
         methods: {
-            syncStart(event) {
+            syncStart(item) {
                 this.schedule.setOffset(
-                    event.start_date - moment.utc().unix() - 5
+                    item.start_date - moment.utc().unix() - 5
                 )
             },
-            syncEnd(event) {
+            syncEnd(item) {
                 this.schedule.setOffset(
-                    event.end_date - moment.utc().unix() - 5
+                    item.end_date - moment.utc().unix() - 5
                 )
             },
         },
-        components: { Event }
+        components: { Event, Banner }
     }
 
 </script>

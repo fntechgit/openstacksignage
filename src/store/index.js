@@ -55,8 +55,8 @@ export const $store = new Vuex.Store({
             })
         },
         loadEvents(context, location) {
-			var summit_id = context.state.summit ? context.state.summit.id : 'current'
-			
+            var summit_id = context.state.summit ? context.state.summit.id : 'current'
+
             const query = qs.stringify({
                 // 'filter[]': [
                 //     'start_date>' + moment.utc().startOf('day').unix(),
@@ -69,6 +69,21 @@ export const $store = new Vuex.Store({
 
             return axios.get(getEndpoint(
                 `summits/${summit_id}/locations/${location}/events/published?${query}`
+            ))
+        },
+        loadBanners(context, location) {
+            var summit_id = context.state.summit ? context.state.summit.id : 'current'
+
+            const query = qs.stringify({
+                 'filter[]': [
+                     'class_name' + '==' + 'ScheduledSummitLocationBanner'
+                 ],
+                page: 1,
+                per_page: 100
+            }, { indices: false })
+
+            return axios.get(getEndpoint(
+                `summits/${summit_id}/locations/${location}/banners?${query}`
             ))
         },
         reload(context, location) {

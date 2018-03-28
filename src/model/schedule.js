@@ -5,6 +5,7 @@ import { SUMMIT, EVENTS } from '../data'
 export default class Schedule {
 
     events = []
+    banners = []
     location = null
 
     offset = 0
@@ -14,9 +15,16 @@ export default class Schedule {
 
     state = {
         now: null,
-        curr: null,
-        next: null,
-        prev: null,
+        events: {
+            curr: null,
+            next: null,
+            prev: null
+        },
+        banners: {
+            curr: null,
+            next: null,
+            prev: null
+        }
     }
 
     setup(route) {
@@ -43,7 +51,7 @@ export default class Schedule {
                 this.room = $store.getters.room(this.location)
                 this.floor = $store.getters.floor(this.location)
 
-                return this.loadEvents().then(() => {
+                return Promise.all([this.loadEvents(), this.loadBanners()]).then(() => {
                     return this.syncTime().then(() => {
                         this.update(); resolve()
                     })
@@ -72,6 +80,12 @@ export default class Schedule {
         })
     }
 
+    loadBanners() {
+        return $store.dispatch('loadBanners', this.location).then(payload => {
+            this.banners = payload.data.data; return this
+        })
+    }
+
     syncTime() {
         return $store.dispatch('loadDate').then(timestamp => {
             this.offset = moment.unix(timestamp).diff(
@@ -91,38 +105,74 @@ export default class Schedule {
     update() {
         this.tick()
 
-        let curr = null, next = [], prev = []
+        let events = { curr: null, next: [], prev: [] }
+        let banners = { curr: null, next: [], prev: [] }
 
         this.events.forEach(event => {
             if (this.state.now >= event.end_date) {
-                prev.push(event)
+                events.prev.push(event)
             } else (
-                next.push(event)
+                events.next.push(event)
             )
         })
 
-        if (next.length && next[0].start_date <= this.state.now) {
-            curr = next.shift()
+        this.banners.forEach(banner => {
+            if (this.state.now >= banner.end_date) {
+                banners.prev.push(banner)
+            } else (
+                banners.next.push(banner)
+            )
+        })
+
+        if (events.next.length && events.next[0].start_date <= this.state.now) {
+            events.curr = events.next.shift()
         }
 
-        this.state = { ...this.state, curr,
-            prev: prev.length ? prev[prev.length-1] : null,
-            next: next.length ? next[0] : null,
+        if (banners.next.length && banners.next[0].start_date <= this.state.now) {
+            banners.curr = banners.next.shift()
+        }
+
+        this.state.events = { ...this.state.events, curr: events.curr,
+            prev: events.prev.length ? events.prev[events.prev.length-1] : null,
+            next: events.next.length ? events.next[0] : null,
+        }
+
+        this.state.banners = { ...this.state.banners, curr: banners.curr,
+            prev: banners.prev.length ? banners.prev[banners.prev.length-1] : null,
+            next: banners.next.length ? banners.next[0] : null,
         }
 
         this.setupTimer()
     }
 
     setupTimer() {
-        if (this.state.curr) { // Wait for current event to finish.
+        if (this.state.events.curr && this.state.banners.curr) { // Wait for current event or banner to finish.
+            let end_date = Math.min(this.state.events.curr.end_date, this.state.banners.curr.end_date)
             return this.setTimeout(
-                (this.state.curr.end_date - this.state.now) * 1000
+                (end_date - this.state.now) * 1000
+            )
+        } else if (this.state.events.curr) {
+            return this.setTimeout(
+                (this.state.events.curr.end_date - this.state.now) * 1000
+            )
+        } else if (this.state.banners.curr) {
+            return this.setTimeout(
+                (this.state.banners.curr.end_date - this.state.now) * 1000
             )
         }
 
-        if (this.state.next) { // Wait for next event to start.
+        if (this.state.events.next && this.state.banners.next) { // Wait for next event or banner to start.
+            let start_date = Math.min(this.state.events.next.start_date, this.state.banners.next.start_date)
             return this.setTimeout(
-                (this.state.next.start_date - this.state.now) * 1000
+                (start_date - this.state.now) * 1000
+            )
+        } else if (this.state.events.next) {
+            return this.setTimeout(
+                (this.state.events.next.start_date - this.state.now) * 1000
+            )
+        } else if (this.state.banners.curr) {
+            return this.setTimeout(
+                (this.state.banners.next.start_date - this.state.now) * 1000
             )
         }
     }

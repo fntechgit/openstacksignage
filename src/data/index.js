@@ -3356,3 +3356,45 @@ export const EVENTS = [
         ]
     }
 ]
+
+export const BANNERS = [
+    {
+        "id":11,
+        "created":1522147137,
+        "last_edited":1522147137,
+        "title":"This is first scheduled message",
+        "content":"This is first scheduled message",
+        "type":"Primary",
+        "enabled":true,
+        "location_id":354,
+        "class_name":"ScheduledSummitLocationBanner",
+        "start_date":1526749200,
+        "end_date":1526763600
+    },
+    {
+        "id":12,
+        "created":1522147162,
+        "last_edited":1522147162,
+        "title":"This is second scheduled message",
+        "content":"This is second scheduled message",
+        "type":"Primary",
+        "enabled":true,
+        "location_id":354,
+        "class_name":"ScheduledSummitLocationBanner",
+        "start_date":1526918400,
+        "end_date":1526976300
+    },
+    {
+        "id":13,
+        "created":1522147178,
+        "last_edited":1522147178,
+        "title":"This is third scheduled message",
+        "content":"This is third scheduled message",
+        "type":"Secondary",
+        "enabled":true,
+        "location_id":354,
+        "class_name":"ScheduledSummitLocationBanner",
+        "start_date":1527094800,
+        "end_date":1527145200
+    }
+]
