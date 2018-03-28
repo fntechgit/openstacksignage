@@ -35,30 +35,35 @@
             </tr>
             <tr>
                 <td align="center" width="33%">
-                    <a v-if="schedule.state.banners.prev" href="" @click.prevent="syncStart(schedule.state.banners.prev)">[start-5s]</a>
+                    <a v-if="schedule.state.scheduled_banners.prev" href="" @click.prevent="syncStart(schedule.state.scheduled_banners.prev)">[start-5s]</a>
                     Previous Banner
-                    <a v-if="schedule.state.banners.prev" href="" @click.prevent="syncEnd(schedule.state.banners.prev)">[end-5s]</a>
+                    <a v-if="schedule.state.scheduled_banners.prev" href="" @click.prevent="syncEnd(schedule.state.scheduled_banners.prev)">[end-5s]</a>
                 </td>
                 <td align="center" width="33%">
-                    <a v-if="schedule.state.banners.curr" href="" @click.prevent="syncStart(schedule.state.banners.curr)">[start-5s]</a>
+                    <a v-if="schedule.state.scheduled_banners.curr" href="" @click.prevent="syncStart(schedule.state.scheduled_banners.curr)">[start-5s]</a>
                     Current Banner
-                    <a v-if="schedule.state.banners.curr" href="" @click.prevent="syncEnd(schedule.state.banners.curr)">[end-5s]</a>
+                    <a v-if="schedule.state.scheduled_banners.curr" href="" @click.prevent="syncEnd(schedule.state.scheduled_banners.curr)">[end-5s]</a>
                 </td>
                 <td align="center" width="33%">
-                    <a v-if="schedule.state.banners.next" href="" @click.prevent="syncStart(schedule.state.banners.next)">[start-5s]</a>
+                    <a v-if="schedule.state.scheduled_banners.next" href="" @click.prevent="syncStart(schedule.state.scheduled_banners.next)">[start-5s]</a>
                     Next Banner
-                    <a v-if="schedule.state.banners.next" href="" @click.prevent="syncEnd(schedule.state.banners.next)">[end-5s]</a>
+                    <a v-if="schedule.state.scheduled_banners.next" href="" @click.prevent="syncEnd(schedule.state.scheduled_banners.next)">[end-5s]</a>
                 </td>
             </tr>
             <tr>
                 <td align="center" width="33%">
-                    {{ schedule.state.banners.prev && schedule.state.banners.prev.title || 'N/A' }}
+                    {{ schedule.state.scheduled_banners.prev && schedule.state.scheduled_banners.prev.title || 'N/A' }}
                 </td>
                 <td align="center" width="33%">
-                    {{ schedule.state.banners.curr && schedule.state.banners.curr.title || 'N/A' }}
+                    {{ schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.title || 'N/A' }}
                 </td>
                 <td align="center" width="33%">
-                    {{ schedule.state.banners.next && schedule.state.banners.next.title || 'N/A' }}
+                    {{ schedule.state.scheduled_banners.next && schedule.state.scheduled_banners.next.title || 'N/A' }}
+                </td>
+            </tr>
+            <tr>
+                <td align="center" colspan="3">
+                    Static Banner: {{ schedule.state.static_banner && schedule.state.static_banner.content || 'N/A' }}
                 </td>
             </tr>
         </table>
@@ -93,8 +98,8 @@
             </div>
         </div>
 
-        <banner :schedule="schedule" :banner="schedule.state.banners.curr"
-               v-if="schedule.state.banners.curr && schedule.state.banners.curr.type == 'Primary'"></banner>
+        <banner :schedule="schedule" :banner="schedule.state.scheduled_banners.curr"
+               v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
         <event :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr"></event>
@@ -114,8 +119,8 @@
             </div>
         </div>
 
-        <banner :schedule="schedule" :banner="schedule.state.banners.curr"
-                v-if="schedule.state.banners.curr && schedule.state.banners.curr.type == 'Secondary'"></banner>
+        <banner :schedule="schedule" :banner="schedule.state.scheduled_banners.curr"
+                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Secondary'"></banner>
     </div>
 </template>
 

@@ -75,9 +75,9 @@ export const $store = new Vuex.Store({
             var summit_id = context.state.summit ? context.state.summit.id : 'current'
 
             const query = qs.stringify({
-                 'filter[]': [
-                     'class_name' + '==' + 'ScheduledSummitLocationBanner'
-                 ],
+                // 'filter[]': [
+                //     'class_name' + '==' + 'ScheduledSummitLocationBanner'
+                // ],
                 page: 1,
                 per_page: 100
             }, { indices: false })

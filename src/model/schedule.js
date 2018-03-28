@@ -20,11 +20,25 @@ export default class Schedule {
             next: null,
             prev: null
         },
-        banners: {
+        scheduled_banners: {
             curr: null,
             next: null,
             prev: null
-        }
+        },
+        static_banner: null
+    }
+
+    get scheduled_banners() {
+        return this.banners.filter(function (banner) {
+            return banner.class_name === 'ScheduledSummitLocationBanner'
+        })
+    }
+
+    get static_banner() {
+        let banner = this.banners.filter(function (banner) {
+            return banner.class_name !== 'ScheduledSummitLocationBanner'
+        })[0]
+        return typeof banner === 'undefined' ? null : banner;
     }
 
     setup(route) {
@@ -53,6 +67,7 @@ export default class Schedule {
 
                 return Promise.all([this.loadEvents(), this.loadBanners()]).then(() => {
                     return this.syncTime().then(() => {
+                        this.state.static_banner = this.static_banner
                         this.update(); resolve()
                     })
                 })
@@ -116,7 +131,7 @@ export default class Schedule {
             )
         })
 
-        this.banners.forEach(banner => {
+        this.scheduled_banners.forEach(banner => {
             if (this.state.now >= banner.end_date) {
                 banners.prev.push(banner)
             } else (
@@ -137,7 +152,7 @@ export default class Schedule {
             next: events.next.length ? events.next[0] : null,
         }
 
-        this.state.banners = { ...this.state.banners, curr: banners.curr,
+        this.state.scheduled_banners = { ...this.scheduled_banners.banners, curr: banners.curr,
             prev: banners.prev.length ? banners.prev[banners.prev.length-1] : null,
             next: banners.next.length ? banners.next[0] : null,
         }
@@ -146,7 +161,7 @@ export default class Schedule {
     }
 
     setupTimer() {
-        if (this.state.events.curr && this.state.banners.curr) { // Wait for current event or banner to finish.
+        if (this.state.events.curr && this.state.scheduled_banners.curr) { // Wait for current event or banner to finish.
             let end_date = Math.min(this.state.events.curr.end_date, this.state.banners.curr.end_date)
             return this.setTimeout(
                 (end_date - this.state.now) * 1000
@@ -155,14 +170,14 @@ export default class Schedule {
             return this.setTimeout(
                 (this.state.events.curr.end_date - this.state.now) * 1000
             )
-        } else if (this.state.banners.curr) {
+        } else if (this.state.scheduled_banners.curr) {
             return this.setTimeout(
-                (this.state.banners.curr.end_date - this.state.now) * 1000
+                (this.state.scheduled_banners.curr.end_date - this.state.now) * 1000
             )
         }
 
-        if (this.state.events.next && this.state.banners.next) { // Wait for next event or banner to start.
-            let start_date = Math.min(this.state.events.next.start_date, this.state.banners.next.start_date)
+        if (this.state.events.next && this.state.scheduled_banners.next) { // Wait for next event or banner to start.
+            let start_date = Math.min(this.state.events.next.start_date, this.state.scheduled_banners.next.start_date)
             return this.setTimeout(
                 (start_date - this.state.now) * 1000
             )
@@ -170,9 +185,9 @@ export default class Schedule {
             return this.setTimeout(
                 (this.state.events.next.start_date - this.state.now) * 1000
             )
-        } else if (this.state.banners.curr) {
+        } else if (this.state.scheduled_banners.curr) {
             return this.setTimeout(
-                (this.state.banners.next.start_date - this.state.now) * 1000
+                (this.state.scheduled_banners.next.start_date - this.state.now) * 1000
             )
         }
     }
