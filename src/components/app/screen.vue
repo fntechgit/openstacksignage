@@ -72,7 +72,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <img class="img-fluid d-block mx-auto logo" src="assets/images/OpenStack_Sydney.svg">
+                        <img class="img-fluid d-block mx-auto logo" src="assets/images/dispaly-yvr-title.svg">
                     </div>
                 </div>
             </div>
