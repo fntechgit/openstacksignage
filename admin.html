@@ -950,11 +950,11 @@
 
             if (this.value == "static") {
 
-                firebaseArrayPush('static', $('#locations').val())
+                firebaseArrayPush('static-template-array-base64', $('#locations').val())
 
             } else {
 
-                firebaseArrayRemove('static', $('#locations').val())
+                firebaseArrayRemove('static-template-array-base64', $('#locations').val())
             }
         });
 
@@ -1548,7 +1548,7 @@
                     $("#template").val("default");
                     $("#template").selectpicker('refresh');
 
-                    firebaseArrayRemove('static', $('#locations').val())
+                    firebaseArrayRemove('static-template-array-base64', $('#locations').val())
                 }
 
                 deleteBanner(payload.id);
