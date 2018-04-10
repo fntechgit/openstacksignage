@@ -390,13 +390,13 @@
             })
         };
 
-        let firebaseIncludes = function(field, value) {
+        let firebaseArrayIncludes = function(array, value) {
 
             return new Promise(function(resolve, reject) {
 
                 firebaseLogin().then(function() {
 
-                    return db.ref(field).once('value').then(function(snapshot) {
+                    return db.ref(array).once('value').then(function(snapshot) {
 
                         let values = [];
 
@@ -423,11 +423,11 @@
             })
         };
 
-        let firebasePush = function(field, value) {
+        let firebaseArrayPush = function(array, value) {
 
             firebaseLogin().then(function() {
 
-                return db.ref(field).once('value').then(function(snapshot) {
+                return db.ref(array).once('value').then(function(snapshot) {
 
                     let values = [];
 
@@ -457,11 +457,11 @@
             })
         };
 
-        let firebaseRemove = function(field, value) {
+        let firebaseArrayRemove = function(array, value) {
 
             firebaseLogin().then(function() {
 
-                return db.ref(field).once('value').then(function(snapshot) {
+                return db.ref(array).once('value').then(function(snapshot) {
 
                     let values = [];
 
@@ -715,9 +715,6 @@
             })
                 .done(function(data, textStatus, jqXHR) {
 
-                    console.log("HTTP Request Succeeded: " + jqXHR.status);
-                    console.log(data);
-
                     let content = $('#static-banner textarea[name=content]');
 
                     if (data.data.length) {
@@ -730,7 +727,7 @@
 
                         autosize.update(content);
 
-                        firebaseIncludes('static', $('#locations').val()).then(function(includes) {
+                        firebaseArrayIncludes('static-template-array-base64', $('#locations').val()).then(function(includes) {
 
                             let disabled = message.content == '' && !includes;
 
@@ -953,11 +950,11 @@
 
             if (this.value == "static") {
 
-                firebasePush('static', $('#locations').val())
+                firebaseArrayPush('static', $('#locations').val())
 
             } else {
 
-                firebaseRemove('static', $('#locations').val())
+                firebaseArrayRemove('static', $('#locations').val())
             }
         });
 
@@ -1551,7 +1548,7 @@
                     $("#template").val("default");
                     $("#template").selectpicker('refresh');
 
-                    firebaseRemove('static', $('#locations').val())
+                    firebaseArrayRemove('static', $('#locations').val())
                 }
 
                 deleteBanner(payload.id);
