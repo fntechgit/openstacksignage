@@ -152,7 +152,7 @@ export default class Schedule {
             next: events.next.length ? events.next[0] : null,
         }
 
-        this.state.scheduled_banners = { ...this.scheduled_banners.banners, curr: banners.curr,
+        this.state.scheduled_banners = { ...this.state.scheduled_banners, curr: banners.curr,
             prev: banners.prev.length ? banners.prev[banners.prev.length-1] : null,
             next: banners.next.length ? banners.next[0] : null,
         }
