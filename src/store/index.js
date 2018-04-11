@@ -79,7 +79,8 @@ export const $store = new Vuex.Store({
                 //     'class_name' + '==' + 'ScheduledSummitLocationBanner'
                 // ],
                 page: 1,
-                per_page: 100
+                per_page: 100,
+                order: "+start_date"
             }, { indices: false })
 
             return axios.get(getEndpoint(
