@@ -162,7 +162,7 @@ export default class Schedule {
 
     setupTimer() {
         if (this.state.events.curr && this.state.scheduled_banners.curr) { // Wait for current event or banner to finish.
-            let end_date = Math.min(this.state.events.curr.end_date, this.state.banners.curr.end_date)
+            let end_date = Math.min(this.state.events.curr.end_date, this.state.scheduled_banners.curr.end_date)
             return this.setTimeout(
                 (end_date - this.state.now) * 1000
             )
