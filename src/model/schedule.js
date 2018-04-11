@@ -131,7 +131,7 @@ export default class Schedule {
             )
         })
 
-        this.banners.forEach(banner => {
+        this.scheduled_banners.forEach(banner => {
             if (this.state.now >= banner.end_date) {
                 banners.prev.push(banner)
             } else (
