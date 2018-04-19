@@ -11,12 +11,20 @@ Vue.use(Vuex)
 export const $store = new Vuex.Store({
     state: {
         error: null,
+        ready: false,
         summit: null,
+        banner: null,
         schedule: null,
     },
     getters: {
         error(state) {
             return state.error
+        },
+        ready(state) {
+            return state.ready
+        },
+        banner(state) {
+            return state.banner
         },
         schedule(state) {
             return state.schedule
@@ -33,6 +41,22 @@ export const $store = new Vuex.Store({
         }
     },
     actions: {
+        getLocation(context) {
+            if (context.state.location) {
+                return new Promise(
+                    resolve => resolve(context.state.location)
+                )
+            }
+            return new Promise((resolve, reject) => {
+                let params = new URLSearchParams(window.location.href.split('?')[1])
+                let location = parseInt(params.get('location'))
+                if (isNaN(location)) {
+                    reject('Missing location')
+                } else {
+                    resolve(context.state.location = location)
+                }
+            })
+        },
         loadDate() {
             return axios.get(TIME_URL).then(payload => {
                 return Math.ceil(payload.data.timestamp)
@@ -96,6 +120,8 @@ export const $store = new Vuex.Store({
 
             window.location.reload()
         },
+        redirect(context, location) {
+        },
         updateTime(context, { location, timestamp }) {
             const schedule = context.state.schedule
 
@@ -119,8 +145,13 @@ export const $store = new Vuex.Store({
         setSummit(state, summit) {
             state.summit = summit
         },
+        setBanner(state, banner) {
+            state.banner = banner
+            state.ready = banner != null
+        },
         setSchedule(state, schedule) {
             state.schedule = schedule
+            state.ready = schedule != null
         }
     }
 })

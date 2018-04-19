@@ -1,11 +1,11 @@
 <template>
     <pre v-if="error"><b>ERROR</b><br>{{ error }}</pre>
 
-    <pre v-else-if="! schedule"
+    <pre v-else-if="! ready"
     style="width: 100%; text-align: center; margin-top: 50px">Loading...</pre>
 
     <div v-else>
-        <router-view></router-view>
+        <screen></screen>
     </div>
 </template>
 
@@ -16,7 +16,7 @@
     export default {
         computed: mapGetters({
             error: 'error',
-            schedule: 'schedule',
+            ready: 'ready',
         })
     }
 

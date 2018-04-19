@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <banner :schedule="schedule" :banner="schedule.state.scheduled_banners.curr"
+        <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
         <event :schedule="schedule" :event="schedule.state.events.curr"
@@ -119,7 +119,7 @@
             </div>
         </div>
 
-        <banner :schedule="schedule" :banner="schedule.state.scheduled_banners.curr"
+        <banner :banner="schedule.state.scheduled_banners.curr"
                 v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Secondary'"></banner>
     </div>
 </template>
