@@ -790,10 +790,18 @@
 
                     if (payload.class_name == "ScheduledSummitLocationBanner") {
 
+                        if ($("#template").val() == 'default') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
                         $("#view").change();
 
                     } else {
 
+                        if ($("#template").val() == 'static') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
                         getStaticBanner();
                     }
                 });
@@ -823,6 +831,11 @@
 
                     if (saveButton.prop("disabled") == true) {
 
+                        if ($("#template").val() == 'static') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
+
                         saveButton.prop("disabled", false);
 
                         let content = $('#static-banner textarea[name=content]');
@@ -832,6 +845,10 @@
 
                     } else {
 
+                        if ($("#template").val() == 'default') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
                         $("#view").change();
                     }
                 });
