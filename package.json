@@ -1,7 +1,7 @@
 {
   "name": "os-signage",
   "description": "Openstack Signage",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": "",
   "private": true,
   "scripts": {
@@ -15,7 +15,6 @@
     "moment": "^2.18.1",
     "qs": "^6.5.1",
     "vue": "^2.4.4",
-    "vue-router": "^2.7.0",
     "vuex": "^2.4.1"
   },
   "devDependencies": {

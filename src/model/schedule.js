@@ -41,39 +41,41 @@ export default class Schedule {
         return typeof banner === 'undefined' ? null : banner;
     }
 
-    setup(route) {
+    setup() {
+
         return new Promise((resolve, reject) => {
-            if ( ! route.query.location) {
-                return reject('Missing location')
-            }
 
-            this.location = parseInt(route.query.location)
-            this.debug = route.query.debug
+            this.getLocation().then(() => {
 
-            // // Uncomment for offline debugging.
-            // this.offset = 10*60
-            // this.timezone = -3*60*60
-            // this.events = EVENTS
-            // $store.commit('setSummit', SUMMIT)
-            // this.room = $store.getters.room(this.location)
-            // this.setupClock()
-            // this.update()
-            // return resolve()
+                let params = new URLSearchParams(window.location.href.split('?')[1])
+                this.debug = params.get('debug') ? true : false
 
-            this.loadSummit().then(summit => {
+                // // Uncomment for offline debugging.
+                // this.offset = 10*60
+                // this.timezone = -3*60*60
+                // this.events = EVENTS
+                // $store.commit('setSummit', SUMMIT)
+                // this.room = $store.getters.room(this.location)
+                // this.setupClock()
+                // this.update()
+                // return resolve()
 
-                this.room = $store.getters.room(this.location)
-                this.floor = $store.getters.floor(this.location)
+                this.loadSummit().then(summit => {
 
-                return Promise.all([this.loadEvents(), this.loadBanners()]).then(() => {
-                    return this.syncTime().then(() => {
-                        this.state.static_banner = this.static_banner
-                        this.update(); resolve()
+                    this.room = $store.getters.room(this.location)
+                    this.floor = $store.getters.floor(this.location)
+
+                    return Promise.all([this.loadEvents(), this.loadBanners()]).then(() => {
+                        return this.syncTime().then(() => {
+                            this.state.static_banner = this.static_banner
+                            this.update(); resolve()
+                        })
                     })
-                })
-            }).catch(reject)
+                }).catch(reject)
 
-            this.setupClock()
+                this.setupClock()
+
+            }).catch(reject)
         })
     }
 
@@ -81,6 +83,12 @@ export default class Schedule {
         setTimeout(() => { // Start at .0000
             setInterval(() => this.tick(), 1000); this.update()
         }, 1000 - new Date().getTime() % 1000)
+    }
+
+    getLocation() {
+        return $store.dispatch('getLocation').then(location => {
+            this.location = location; return this
+        })
     }
 
     loadSummit() {

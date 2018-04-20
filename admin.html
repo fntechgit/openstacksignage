@@ -105,6 +105,9 @@
         .inline-space {
             margin-right: 10px;
         }
+        .text-muted {
+            font-size: 75%;
+        }
     </style>
 </head>
 
@@ -675,6 +678,7 @@
                                 let room = $("<option></option>")
                                     .attr("value", room_value.id)
                                     .text(room_value.name)
+                                    .attr("data-subtext", '- ' + room_value.id)
                                     .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
 
                                 floor.append(room);
@@ -786,10 +790,18 @@
 
                     if (payload.class_name == "ScheduledSummitLocationBanner") {
 
+                        if ($("#template").val() == 'default') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
                         $("#view").change();
 
                     } else {
 
+                        if ($("#template").val() == 'static') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
                         getStaticBanner();
                     }
                 });
@@ -819,6 +831,11 @@
 
                     if (saveButton.prop("disabled") == true) {
 
+                        if ($("#template").val() == 'static') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
+
                         saveButton.prop("disabled", false);
 
                         let content = $('#static-banner textarea[name=content]');
@@ -828,6 +845,10 @@
 
                     } else {
 
+                        if ($("#template").val() == 'default') {
+
+                            firebaseUpdate('reload', $('#locations').val())
+                        }
                         $("#view").change();
                     }
                 });

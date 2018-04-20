@@ -17,7 +17,7 @@
 <script>
 
     export default {
-        props: ['banner', 'schedule'],
+        props: ['banner'],
     }
 
 </script>
