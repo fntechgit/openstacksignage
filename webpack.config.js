@@ -62,7 +62,7 @@ if (process.env.NODE_ENV === 'production') {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: "commons",
-            filename: "commons.js"
+            filename: "commons.build.js"
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
