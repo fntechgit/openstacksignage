@@ -47,12 +47,14 @@ db.ref('static-template-array-base64').on('value', snapshot => {
         let pathName = window.location.pathname
         let shouldUseBannerTemplate = locations.includes(location)
 
-        if ((shouldUseBannerTemplate && pathName == '/banner.html') || (!shouldUseBannerTemplate && pathName == '/') ) {
+        if ((shouldUseBannerTemplate && pathName === '/banner.html') ||
+            (!shouldUseBannerTemplate && pathName === '/')) {
             return
         }
         let template = shouldUseBannerTemplate ? '/banner.html' : '/'
         let params = new URLSearchParams(window.location.href.split('?')[1])
-        let url = template + '?' + params
-        window.location.replace(url)
+        let url = template + '#/?' + params
+
+        window.location = url
     })
 })
