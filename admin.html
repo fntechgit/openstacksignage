@@ -1045,7 +1045,7 @@
 
                     e.onload = function() {
 
-                        let uri = new URI(e.src);
+                        let uri = new URI(e.baseURI);
 
                         token = URI.parseQuery(uri.fragment()).access_token;
 
