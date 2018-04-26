@@ -1037,7 +1037,9 @@
 
             return new Promise(function(resolve, reject) {
 
-                (function(e, s) {
+                reject()
+
+                /*(function(e, s) {
 
                     e.src = s;
 
@@ -1045,7 +1047,7 @@
 
                     e.onload = function() {
 
-                        let uri = new URI(e.baseURI);
+                        let uri = new URI(e.contentWindow.location.href);
 
                         token = URI.parseQuery(uri.fragment()).access_token;
 
@@ -1065,7 +1067,7 @@
 
                     document.body.appendChild(e);
 
-                })(document.createElement('iframe'), authUrl);
+                })(document.createElement('iframe'), authUrl);*/
             })
         };
 
