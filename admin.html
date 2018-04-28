@@ -912,7 +912,7 @@
             "?response_type=token id_token" +
             "&scope=" + encodeURI(setting.scopes) +
             "&client_id="  + encodeURI(setting.clientId) +
-            "&redirect_uri=" + window.location;
+            "&redirect_uri=" + URI().fragment("").toString();
 
         $("a.connect").attr("href", authUrl + "&approval_prompt=force");
 
@@ -1037,17 +1037,17 @@
 
             return new Promise(function(resolve, reject) {
 
-                reject()
+                (function(e, s) {
 
-                /*(function(e, s) {
+                    e.id = 'inception';
 
                     e.src = s;
 
-                    e.style = "display: none;";
+                    e.style = 'display: none;';
 
                     e.onload = function() {
-
-                        let uri = new URI(e.contentWindow.location.href);
+                        
+                        let uri = new URI(document.getElementById("inception").contentWindow.location.href);
 
                         token = URI.parseQuery(uri.fragment()).access_token;
 
@@ -1067,7 +1067,7 @@
 
                     document.body.appendChild(e);
 
-                })(document.createElement('iframe'), authUrl);*/
+                })(document.createElement('iframe'), authUrl);
             })
         };
 
