@@ -1041,12 +1041,14 @@
 
                     e.id = 'inception';
 
+                    e.sandbox = 'allow-same-origin';
+
                     e.src = s;
 
                     e.style = 'display: none;';
 
                     e.onload = function() {
-                        
+
                         let uri = new URI(document.getElementById("inception").contentWindow.location.href);
 
                         token = URI.parseQuery(uri.fragment()).access_token;
