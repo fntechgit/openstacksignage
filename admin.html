@@ -1037,11 +1037,11 @@
 
             return new Promise(function(resolve, reject) {
 
-                (function(e, s) {
+                reject()
+
+                /*(function(e, s) {
 
                     e.id = 'inception';
-
-                    e.sandbox = 'allow-same-origin';
 
                     e.src = s;
 
@@ -1069,7 +1069,7 @@
 
                     document.body.appendChild(e);
 
-                })(document.createElement('iframe'), authUrl);
+                })(document.createElement('iframe'), authUrl);*/
             })
         };
 
