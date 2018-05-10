@@ -15,12 +15,12 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="text-uppercase label">Room</div>
+            <!--            <div class="text-uppercase label">Room</div>
                         <div class="text-uppercase value">
                             {{ banner.floor.name }}
                             ({{ banner.room.name }})
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-md-4 text-center">
                         <div class="text-uppercase label">Current Time</div>
                         <div class="text-uppercase value">
