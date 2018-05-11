@@ -26,8 +26,10 @@
 
     .banner {
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
+        left: 0;
+        top: 40%;
+        width: 100%;
+        transform: translateY(-40%);
         background: red;
         border-top: 5px solid white;
         border-bottom: 15px solid red;
