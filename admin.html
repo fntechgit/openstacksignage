@@ -222,8 +222,9 @@
                 <label for="template" class="col-md-3 col-form-label">Template</label>
                 <div class="col-md-9">
                     <select id="template" class="selectpicker form-control" disabled>
-                        <option selected value="default">Default</option>
-                        <option value="static">Static Message</option>
+                        <option selected value="schedule">Schedule</option>
+                        <option value="opendev">OpenDev</option>
+                        <option value="banner">Static Message</option>
                     </select>
                 </div>
             </div>
@@ -393,24 +394,75 @@
             })
         };
 
-        let firebaseArrayIncludes = function(array, value) {
+        let firebaseObjectPushValueForKey = function(obj, key, value) {
+
+            firebaseLogin().then(function() {
+
+                return db.ref(obj).once('value').then(function(snapshot) {
+
+                    let obj = {};
+
+                    if (snapshot.exists()) {
+
+                        let decoded = atob(snapshot.val());
+
+                        obj = JSON.parse(decoded);
+                    }
+
+                    Object.keys(obj).forEach(function (key) {
+
+                        obj[key] = obj[key].filter(item => item !== value);
+                    });
+
+                    if (!(key in obj)) {
+
+                        obj[key] = []
+                    }
+
+                    obj[key].push(value);
+
+                    let encoded = btoa(JSON.stringify(obj));
+
+                    snapshot.ref.set(encoded)
+
+                }, function(error) {
+
+                    console.error(error);
+                });
+
+            }).catch(function() {
+
+                alert("Need Firebase authentication to use this functionality");
+            })
+        };
+
+
+        let firebaseObjectGetKeyForValue = function(obj, value) {
 
             return new Promise(function(resolve, reject) {
 
                 firebaseLogin().then(function() {
 
-                    return db.ref(array).once('value').then(function(snapshot) {
+                    return db.ref(obj).once('value').then(function(snapshot) {
 
-                        let values = [];
+                        let obj = {};
 
                         if (snapshot.exists()) {
 
                             let decoded = atob(snapshot.val());
 
-                            values = JSON.parse(decoded)
+                            obj = JSON.parse(decoded);
                         }
 
-                        resolve(values.includes(value));
+                        Object.keys(obj).forEach(function (key) {
+
+                            if (obj[key].includes(value)) {
+
+                                resolve(key)
+                            }
+                        });
+
+                        reject();
 
                     }, function(error) {
 
@@ -424,73 +476,7 @@
                     alert("Need Firebase authentication to get selected location's template");
                 })
             })
-        };
-
-        let firebaseArrayPush = function(array, value) {
-
-            firebaseLogin().then(function() {
-
-                return db.ref(array).once('value').then(function(snapshot) {
-
-                    let values = [];
-
-                    if (snapshot.exists()) {
-
-                        let decoded = atob(snapshot.val());
-
-                        values = JSON.parse(decoded)
-                    }
-
-                    values = values.filter(item => item !== value);
-
-                    values.push(value);
-
-                    let encoded = btoa(JSON.stringify(values));
-
-                    snapshot.ref.set(encoded)
-
-                }, function(error) {
-
-                    console.error(error);
-                });
-
-            }).catch(function() {
-
-                alert("Need Firebase authentication to use this functionality");
-            })
-        };
-
-        let firebaseArrayRemove = function(array, value) {
-
-            firebaseLogin().then(function() {
-
-                return db.ref(array).once('value').then(function(snapshot) {
-
-                    let values = [];
-
-                    if (snapshot.exists()) {
-
-                        let decoded = atob(snapshot.val());
-
-                        values = JSON.parse(decoded)
-                    }
-
-                    values = values.filter(item => item !== value);
-
-                    let encoded = btoa(JSON.stringify(values));
-
-                    snapshot.ref.set(encoded)
-
-                }, function(error) {
-
-                    console.error(error);
-                });
-
-            }).catch(function() {
-
-                alert("Need Firebase authentication to use this functionality");
-            })
-        };
+        }
 
         let firebaseLogin = function() {
 
@@ -730,23 +716,6 @@
                         content.val(message.content);
 
                         autosize.update(content);
-
-                        firebaseArrayIncludes('static-template-array-base64', $('#locations').val()).then(function(includes) {
-
-                            let disabled = message.content == '' && !includes;
-
-                            if (includes) {
-
-                                $("#template").val("static")
-                            }
-
-                            $("#template").prop("disabled", disabled);
-                            $("#template").selectpicker('refresh');
-
-                        }).catch(function() {
-
-                            alert("Need Firebase authentication to use this functionality");
-                        })
                     }
 
                     content.prop("disabled", false);
@@ -790,7 +759,7 @@
 
                     if (payload.class_name == "ScheduledSummitLocationBanner") {
 
-                        if ($("#template").val() == 'default') {
+                        if ($("#template").val() == 'schedule') {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -798,7 +767,7 @@
 
                     } else {
 
-                        if ($("#template").val() == 'static') {
+                        if ($("#template").val() == 'banner') {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -831,7 +800,7 @@
 
                     if (saveButton.prop("disabled") == true) {
 
-                        if ($("#template").val() == 'static') {
+                        if ($("#template").val() == 'banner') {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -845,7 +814,7 @@
 
                     } else {
 
-                        if ($("#template").val() == 'default') {
+                        if ($("#template").val() == 'schedule') {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -926,6 +895,10 @@
             $("#btn-view").prop("disabled", true);
             $("#btn-reset").prop("disabled", true);
 
+            $("#template").prop("disabled", true);
+            $("#template").val("schedule");
+            $("#template").selectpicker("refresh");
+
             $("#view").prop("disabled", true);
             $("#view > option:first-child").attr("selected", "selected");
             $("#view").selectpicker('refresh');
@@ -958,8 +931,24 @@
             }
 
             $("#template").prop("disabled", true);
-            $("#template").val("default")
+            $("#template").val("schedule");
             $("#template").selectpicker("refresh");
+
+            firebaseObjectGetKeyForValue('template-base64-object', $('#locations').val()).then(function(template) {
+
+                $("#template").prop("disabled", false);
+                $("#template").val(template);
+                $("#template").selectpicker('refresh');
+
+            }).catch(function(error) {
+
+                if (error == null) {
+
+                    $("#template").prop("disabled", false);
+                    $("#template").val("schedule");
+                    $("#template").selectpicker("refresh");
+                }
+            })
 
             $("#view option[value='banners']").prop("disabled", this.value == 0 ? true : false);
             $("#view").prop("disabled", false);
@@ -969,14 +958,7 @@
 
         $("#template").on('change', function() {
 
-            if (this.value == "static") {
-
-                firebaseArrayPush('static-template-array-base64', $('#locations').val())
-
-            } else {
-
-                firebaseArrayRemove('static-template-array-base64', $('#locations').val())
-            }
+            firebaseObjectPushValueForKey('template-base64-object', this.value, $('#locations').val());
         });
 
         $("#view").on('change', function() {
@@ -1566,15 +1548,6 @@
             if (payload.id != 0 && payload.content == "") {
 
                 $('#static-banner input[name=id]').val(0);
-
-                if (payload.class_name == "SummitLocationBanner") {
-
-                    $("#template").prop("disabled", true);
-                    $("#template").val("default");
-                    $("#template").selectpicker('refresh');
-
-                    firebaseArrayRemove('static-template-array-base64', $('#locations').val())
-                }
 
                 deleteBanner(payload.id);
 

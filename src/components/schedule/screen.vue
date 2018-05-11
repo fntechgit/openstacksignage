@@ -72,7 +72,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <img class="img-fluid d-block mx-auto logo" src="assets/images/dispaly-yvr-title.svg">
+                        <img class="img-fluid d-block mx-auto logo" src="assets/images/open-infrastructure-logo.svg">
                     </div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
 <style>
 
     .logo {
-        width: 60%;
+        width: 80%;
     }
 
     .location {

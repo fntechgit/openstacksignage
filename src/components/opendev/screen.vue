@@ -1,15 +1,7 @@
 <template>
     <div id="app">
 
-        <div class="py-5">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <img class="img-fluid d-block mx-auto logo" src="assets/images/open-infrastructure-logo.svg">
-                    </div>
-                </div>
-            </div>
-        </div>
+        <img class="logo" src="assets/images/opendev-logo.svg">
 
         <banner :banner="banner.state.static_banner"></banner>
     </div>
@@ -34,7 +26,8 @@
 <style>
 
     .logo {
-        width: 80%;
+        padding-top: 150px;
+        border-bottom: 5px solid #D31366;
     }
 
 </style>

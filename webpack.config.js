@@ -4,7 +4,8 @@ var webpack = require('webpack')
 module.exports = {
     entry: {
         'schedule': './src/entry-schedule.js',
-        'banner': './src/entry-banner.js'
+        'banner': './src/entry-banner.js',
+        'opendev': './src/entry-opendev.js'
     },
     output: {
         path: path.resolve(__dirname, './dist'),

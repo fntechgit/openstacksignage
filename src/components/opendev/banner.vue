@@ -30,9 +30,9 @@
         top: 40%;
         width: 100%;
         transform: translateY(-40%);
-        background: red;
-        border-top: 5px solid white;
-        border-bottom: 15px solid red;
+        background: white;
+        border-top: 10px solid #D31366;
+        border-bottom: 15px solid white;
         padding: 40px 30px;
     }
 
@@ -43,7 +43,7 @@
     }
 
     .banner .content {
-        color: white;
+        color: black;
         font-size: 4.3rem;
     }
 

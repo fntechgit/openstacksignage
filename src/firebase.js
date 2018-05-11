@@ -36,24 +36,25 @@ db.ref('reload').on('value', snapshot => {
     $store.dispatch('reload', parseInt(snapshot.val()))
 })
 
-db.ref('static-template-array-base64').on('value', snapshot => {
+db.ref('template-base64-object').on('value', snapshot => {
     let decoded = atob(snapshot.val())
-    let array = JSON.parse(decoded)
-
-    // array containing locations ids that should use static banner template
-    let locations = array.map(Number)
+    let obj = JSON.parse(decoded)
 
     $store.dispatch('getLocation').then(location => {
-        let pathName = window.location.pathname
-        let shouldUseBannerTemplate = locations.includes(location)
+        var path = '/'
+        Object.keys(obj).forEach(function (key) {
 
-        if ((shouldUseBannerTemplate && pathName === '/banner.html') ||
-            (!shouldUseBannerTemplate && pathName === '/')) {
+            let locations = obj[key].map(Number)
+            if (key !== 'schedule' && locations.includes(location)) {
+                path += key + '.html'
+            }
+        });
+        
+        if (window.location.pathname === path) {
             return
         }
-        let template = shouldUseBannerTemplate ? '/banner.html' : '/'
         let params = new URLSearchParams(window.location.href.split('?')[1])
-        let url = template + '#/?' + params
+        let url = path + '#/?' + params
 
         window.location = url
     })
