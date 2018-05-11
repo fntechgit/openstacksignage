@@ -11,26 +11,6 @@
             </div>
         </div>
 
-        <div class="location">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-            <!--            <div class="text-uppercase label">Room</div>
-                        <div class="text-uppercase value">
-                            {{ banner.floor.name }}
-                            ({{ banner.room.name }})
-                        </div>
-                    </div> -->
-                    <div class="col-md-4 text-center">
-                        <div class="text-uppercase label">Current Time</div>
-                        <div class="text-uppercase value">
-                            {{ banner.getDate(banner.state.now).format('h:mm a') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <banner :banner="banner.state.static_banner"></banner>
     </div>
 </template>
@@ -71,24 +51,6 @@
 
     .location .value {
         font-size: 3rem;
-    }
-
-    .empty {
-        background: white;
-        padding: 6rem 0;
-        border-bottom: 3px solid gray;
-    }
-
-    .debug {
-        background: rgba(0, 0, 0, 0.5);
-        color:white;
-        position: fixed;
-        top: 0;
-        z-index: 1;
-    }
-
-    .debug a {
-        color: yellow;
     }
 
 </style>

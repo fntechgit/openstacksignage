@@ -26,10 +26,15 @@
 
     .banner {
         background: red;
+        border-top: 5px solid white;
+        border-bottom: 15px solid red;
+        padding: 40px 30px;
     }
 
     .banner h1 {
         font-weight: bold;
+        text-transform: uppercase;
+        text-align: center;
     }
 
     .banner .content {
