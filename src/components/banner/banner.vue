@@ -25,6 +25,9 @@
 <style>
 
     .banner {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
         background: red;
         border-top: 5px solid white;
         border-bottom: 15px solid red;
