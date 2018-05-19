@@ -3,8 +3,9 @@ var webpack = require('webpack')
 
 module.exports = {
     entry: {
-        'schedule': './src/entry-schedule.js',
+        'image': './src/entry-image.js',
         'banner': './src/entry-banner.js',
+        'schedule': './src/entry-schedule.js',
         'opendev-schedule': './src/entry-opendev-schedule.js',
         'opendev-banner': './src/entry-opendev-banner.js'
     },
