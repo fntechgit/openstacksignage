@@ -27,7 +27,6 @@
 
     .logo {
         padding-top: 150px;
-        border-bottom: 5px solid #D31366;
     }
 
 </style>

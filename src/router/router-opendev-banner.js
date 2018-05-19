@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Screen from '../components/opendev/screen.vue'
+import Screen from '../components/opendev/banner/screen.vue'
 
 Vue.use(VueRouter)
 

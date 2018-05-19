@@ -5,7 +5,8 @@ module.exports = {
     entry: {
         'schedule': './src/entry-schedule.js',
         'banner': './src/entry-banner.js',
-        'opendev': './src/entry-opendev.js'
+        'opendev-schedule': './src/entry-opendev-schedule.js',
+        'opendev-banner': './src/entry-opendev-banner.js'
     },
     output: {
         path: path.resolve(__dirname, './dist'),

@@ -1,25 +1,25 @@
 import Vue from 'vue'
 import App from './components/app.vue'
 
-import Banner from './model/banner'
+import Schedule from './model/schedule'
 import { $store } from './store'
-import { $router } from "./router/router-opendev";
+import { $router } from './router/router-opendev-schedule'
 
 require('./firebase')
 
 $router.beforeEach((to, from, next) => {
-    const banner = new Banner()
+    const schedule = new Schedule()
 
-    if ($store.getters.banner) {
-        $store.commit('setBanner', null)
+    if ($store.getters.schedule) {
+        $store.commit('setSchedule', null)
     }
 
     if ($store.getters.error) {
         $store.commit('setError', null)
     }
 
-    banner.setup().then(() => {
-        $store.commit('setBanner', banner); next()
+    schedule.setup().then(() => {
+        $store.commit('setSchedule', schedule); next()
     }).catch(error => {
         $store.commit('setError', error); next()
     })
