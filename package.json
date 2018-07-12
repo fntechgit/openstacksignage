@@ -1,6 +1,6 @@
 {
-  "name": "os-signage",
-  "description": "Openstack Signage",
+  "name": "fnopen-signage",
+  "description": "FNOpen Signage",
   "version": "2.0.0",
   "author": "",
   "private": true,

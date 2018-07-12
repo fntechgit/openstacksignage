@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>OpenStack Signage Dashboard</title>
+    <title>FNOpen Signage Dashboard</title>
 
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -108,6 +108,17 @@
         .text-muted {
             font-size: 75%;
         }
+	.navbar-brand .brand-logo img{
+           width: 48px;
+           height: 48px;
+           border-radius: 50%;
+           margin-top: -15px;
+	}
+	.navbar-brand .brand-title{
+	   color: #333;
+           font-weight: bold;		   
+	   margin-left: 32px;
+	}
     </style>
 </head>
 
@@ -196,7 +207,8 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="#">
-                <img src="assets/images/openstack-signage-logo.svg" />
+		    <span class="brand-logo"><img src="assets/images/signage-logo.png" /></span>
+		    <span class="brand-title" >DIGITAL SIGNAGE DASHBOARD</span>
             </a>
         </div>
         <p class="token navbar-text navbar-right">Please authenticate</p>
@@ -845,9 +857,9 @@
 
             case "production":
 
-                idp_host = "openstackid.org";
-                resource_server_host = "openstackid-resources.openstack.org";
-                client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
+                idp_host = "idp.staging.fnopen.com";
+                resource_server_host = "api.staging.fnopen.com";
+                client_id = "xizZ-A2hTw7Jcrlo~xJxqHRFLHkV.JS4.openstack.client";
                 // client configured for https://signage.openstack.org/
                 break;
 

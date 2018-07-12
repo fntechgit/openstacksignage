@@ -1,6 +1,6 @@
-# os-signage
+# fnopen-signage
 
-> Openstack Signage
+> FNOpen Signage
 
 ## Build Setup
 
