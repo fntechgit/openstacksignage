@@ -5,6 +5,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>FNOpen Signage Dashboard</title>
 
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/favicon/manifest.json">
+    <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -512,20 +518,37 @@
 
                 dialog.find("form").on("submit", function(ev) {
 
-                    firebase.auth().signInWithEmailAndPassword(
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+                  .then(function() {
+                    // Existing and future Auth states are now persisted in the current
+                    // session only. Closing the window would clear any existing state even
+                    // if a user forgets to sign out.
+                    // ...
+                    // New sign-in will be persisted with session persistence.
 
-                        username.val(),
-                        password.val()
+                        firebase.auth().signInWithEmailAndPassword(
 
-                    ).then(function() {
+                            username.val(),
+                            password.val()
 
-                        dialog.modal("hide");
+                        ).then(function() {
 
-                    }).catch(function(err) {
+                            dialog.modal("hide");
+	                    resolve();     
 
-                        alert('Firebase: ' + err.message);
-                        username.focus();
-                    });
+                        }).catch(function(err) {
+     
+                            alert('Firebase: ' + err.message);
+                            username.focus();
+	            	    reject();    
+    			});
+
+                  })
+                  .catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                   });
 
                     ev.preventDefault();
                 });
