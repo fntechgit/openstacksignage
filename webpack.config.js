@@ -7,7 +7,9 @@ module.exports = {
         'banner': './src/entry-banner.js',
         'schedule': './src/entry-schedule.js',
         'opendev-schedule': './src/entry-opendev-schedule.js',
-        'opendev-banner': './src/entry-opendev-banner.js'
+        'opendev-banner': './src/entry-opendev-banner.js',
+	'f8-schedule': './src/entry-fnopen-f8-schedule.js'
+
     },
     output: {
         path: path.resolve(__dirname, './dist'),
