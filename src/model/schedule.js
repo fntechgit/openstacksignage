@@ -128,15 +128,16 @@ export default class Schedule {
     update() {
         this.tick()
 
-        let events = { curr: null, next: [], prev: [] }
+        let events = { curr: null, next: [], prev: [], all: [] }
         let banners = { curr: null, next: [], prev: [] }
 
         this.events.forEach(event => {
             if (this.state.now >= event.end_date) {
                 events.prev.push(event)
-            } else (
+            } else {
                 events.next.push(event)
-            )
+		events.all.push(event)
+	    }
         })
 
         this.scheduled_banners.forEach(banner => {
@@ -158,6 +159,7 @@ export default class Schedule {
         this.state.events = { ...this.state.events, curr: events.curr,
             prev: events.prev.length ? events.prev[events.prev.length-1] : null,
             next: events.next.length ? events.next[0] : null,
+    	    all: events.all.length ? events.all : null,
         }
 
         this.state.scheduled_banners = { ...this.state.scheduled_banners, curr: banners.curr,

@@ -69,23 +69,24 @@
         </table>
 
         <div class="location">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="text-uppercase label">Room</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.floor.name }}
-                            ({{ schedule.room.name }})
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <div class="text-uppercase label">Current Time</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
-                        </div>
-                    </div>
-                </div>
+            <div class="text-uppercase">
+                {{ schedule.room.name }}
             </div>
+        </div>
+
+        <div class="time">
+            <div class="text-uppercase">
+                {{ schedule.getDate(schedule.state.now).format('hh:mm') }}
+            </div>
+        </div>
+
+
+        <div class="container-events">
+            <li class="event-list" v-for="evt in schedule.state.events.all">
+                <div class="event-time">{{ schedule.getDate(evt.start_date).format('h:mm a') }} {{ schedule.getDate(evt.end_date).format('h:mm a') }} </div>
+                <div class="event-title">{{ evt.title }} </div>
+                <div class="event-speakers" v-for="speaker in evt.speakers">{{ speaker.first_name }} {{ speaker.last_name }}</div>
+            </li>
         </div>
 
         <banner :banner="schedule.state.scheduled_banners.curr"
@@ -94,16 +95,10 @@
         <event :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr && !schedule.state.scheduled_banners.curr"></event>
 
-        <div v-else-if="! schedule.state.events.curr" class="empty">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
-                            All presentations are finished for today
-                        </h1>
-                    </div>
-                </div>
-            </div>
+        <div v-else-if="! schedule.state.events.all" class="no-events">
+            <h1 class="text-center font-weight-bold">
+                All presentations are finished for today
+            </h1>
         </div>
 
         <banner :banner="schedule.state.scheduled_banners.curr"
@@ -142,11 +137,29 @@
     .logo {
         padding-top: 150px;
     }
+    .time {
+        position: relative;
+        top: 1800px;
+        float: right;
+        color: #000;
+        font-size: 60px;
+        line-height: 60px;
+        font-family: Frutiger55 Roman;
+        width: 300px;
+        height: 70px;
+    }
     .location {
-        display: none;
-        border-top: 5px solid #D31366;
-        border-bottom: 10px solid #D31366;
-        padding: 40px 30px;
+        position: relative;
+        top: 170px;
+        left: 60px;
+        right: 40px;
+        color: #fff;
+        font-size: 63px;
+        line-height: 40px;
+        font-family: Frutiger55 Roman;
+        width: 300px;
+        float: left;
+        text-align: center;
     }
     .location .label {
         font-size: 1.5rem;
@@ -162,7 +175,6 @@
         font-family: "Graphik Semibold";
         font-weight: bold;
         height: 1030px;
-        display: none;
     }
     .event {
         display: none;
@@ -180,10 +192,34 @@
     .empty h1 {
         font-size: 110px;
     }	
-    .room-210E .empty h1 {
-        color: #8ACFE6;
+    li.event-list {
+        list-style: none;
+	padding-bottom: 45px;
+	text-align: center;
+	color: #fff;
     }
-    .room-210G .empty h1 {
-        color: #5E4D80;
+
+    .container-events {
+        top: 400px;
+        position: absolute;
+        width: 1080px;
+        height: 1300px;
+        overflow: hidden;
+        font-size: 38px;
+        line-height: 63px;
+        font-family: "Myriad Pro";
     }
+    .no-events {
+        top: 600px;
+        position: absolute;
+        font-size: 88px;
+        line-height: 63px;
+        font-family: "Myriad Pro";
+        width: 1080px;
+        color: #fff;
+    }
+    h1.text-center.font-weight-bold {
+        font-size: 86px;
+    }
+
 </style>
