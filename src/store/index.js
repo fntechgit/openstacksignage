@@ -82,10 +82,10 @@ export const $store = new Vuex.Store({
             var summit_id = context.state.summit ? context.state.summit.id : 'current'
 
             const query = qs.stringify({
-                // 'filter[]': [
-                //     'start_date>' + moment.utc().startOf('day').unix(),
-                //     'start_date<' + moment.utc().endOf('day').unix()
-                // ],
+                 //filter: [
+                 //    'start_date>' + moment.utc().startOf('day').unix(),
+                 //    'end_date<' + moment.utc().endOf('day').unix()
+                 //],
                 page: 1,
                 per_page: 100,
                 expand: 'track,speakers'

@@ -69,24 +69,27 @@
         </table>
 
         <div class="location">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="text-uppercase label">Room</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.floor.name }}
-                            ({{ schedule.room.name }})
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <div class="text-uppercase label">Current Time</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
-                        </div>
-                    </div>
-                </div>
+            <div class="text-uppercase label">
+                {{ schedule.floor.name }}
+            </div>
+            <div class="text-uppercase value">Floor</div>
+        </div>
+
+        <div class="room">
+            <div class="text-uppercase label">
+                {{ schedule.room.name }}
+            </div>
+            <div class="text-uppercase value">Room</div>
+        </div>
+
+        <div class="footer">
+            <div class="text-uppercase label">You are in Convention Centre</div>
+            <div class="text-uppercase value">
+                {{ schedule.getDate(schedule.state.now).format('hh:mm') }}
             </div>
         </div>
+
+
 
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
@@ -142,18 +145,56 @@
     .logo {
         padding-top: 150px;
     }
-    .location {
-        display: none;
-        border-top: 5px solid #D31366;
-        border-bottom: 10px solid #D31366;
+    .footer{
         padding: 40px 30px;
+        color: #000;
+        top: 70px;
+        position: relative;
+        display: flex;
+    }
+    .footer .label {
+        font-size: 50px;
+        font-family: "Myriad Pro";
+        width: 900px;
+        padding-top: 10px;
+    }
+    .footer .value {
+        font-size: 60px;
+        font-family: "Myriad Pro";
+        width: 100px;
+        padding-left: 220px;
+    }
+
+    .room {
+        border-bottom: 1px solid #fff;
+        padding-bottom: 80px;
+        padding-right: 100px;
+        color: #fff;
+        width: 1349px;
+        position: relative;
+        text-align: right;
+    }
+    .room .label {
+        font-size: 80px;
+        font-family: "Myriad Pro";
+    }
+    .room .value {
+        font-size: 50px;
+        font-family: "Myriad Pro";
+    }
+    .location {
+        border-bottom: 1px solid #fff;
+        padding: 40px 30px;
+        color: #fff;
+        width: 1349px;
     }
     .location .label {
-        font-size: 1.5rem;
-        font-weight: bold;
+        font-size: 80px;
+        font-family: "Myriad Pro";
     }
     .location .value {
-        font-size: 3rem;
+        font-size: 50px;
+        font-family: "Myriad Pro";
     }
     .empty {
         padding: 6rem 0;
@@ -180,10 +221,4 @@
     .empty h1 {
         font-size: 110px;
     }	
-    .room-210E .empty h1 {
-        color: #8ACFE6;
-    }
-    .room-210G .empty h1 {
-        color: #5E4D80;
-    }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="'room-' + schedule.room.name.replace(' ','')">
+    <div id="app">
 
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
@@ -68,24 +68,14 @@
             </tr>
         </table>
 
-        <div class="location">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="text-uppercase label">Room</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.floor.name }}
-                            ({{ schedule.room.name }})
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <div class="text-uppercase label">Current Time</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="header">Program OCP Amsterdam</div>
+
+        <div class="container-events">
+            <li class="event-list" v-for="evt in schedule.state.events.all">
+                <div class="event-time">{{ schedule.getDate(evt.start_date).format('hh:mm') }} - {{ schedule.getDate(evt.end_date).format('hh:mm') }} </div>
+                <div class="event-title">{{ evt.title }} </div>
+                <div class="event-room"> {{ schedule.room.name.replace(' ','') }}</div>
+            </li>
         </div>
 
         <banner :banner="schedule.state.scheduled_banners.curr"
@@ -94,16 +84,10 @@
         <event :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr && !schedule.state.scheduled_banners.curr"></event>
 
-        <div v-else-if="! schedule.state.events.curr" class="empty">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
-                            All presentations are finished for today
-                        </h1>
-                    </div>
-                </div>
-            </div>
+        <div v-else-if="! schedule.state.events.all" class="no-events">
+            <h1 class="text-center font-weight-bold">
+                All presentations are finished for today
+            </h1>
         </div>
 
         <banner :banner="schedule.state.scheduled_banners.curr"
@@ -142,28 +126,6 @@
     .logo {
         padding-top: 150px;
     }
-    .location {
-        display: none;
-        border-top: 5px solid #D31366;
-        border-bottom: 10px solid #D31366;
-        padding: 40px 30px;
-    }
-    .location .label {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-    .location .value {
-        font-size: 3rem;
-    }
-    .empty {
-        padding: 6rem 0;
-        color: #fff;
-        font-size: 112px;
-        font-family: "Graphik Semibold";
-        font-weight: bold;
-        height: 1030px;
-        display: none;
-    }
     .event {
         display: none;
     }
@@ -180,10 +142,69 @@
     .empty h1 {
         font-size: 110px;
     }	
-    .room-210E .empty h1 {
-        color: #8ACFE6;
+    li.event-list {
+        list-style: none;
+	padding-bottom: 45px;
+	text-align: center;
+	color: #fff;
+        display: flex;
     }
-    .room-210G .empty h1 {
-        color: #5E4D80;
+
+    .container-events {
+        top: 120px;
+        padding: 20px;
+        position: absolute;
+        width: 1350px;
+        height: 600px;
+        overflow: hidden;
+        font-size: 38px;
+        line-height: 63px;
+        font-family: "Myriad Pro";
     }
+
+    .event-time {
+        font-size: 30px;
+        line-height: 28px;
+        font-family: "Myriad Pro";
+    }
+
+    .event-room {
+        font-size: 28px;
+        line-height: 28px;
+        font-family: "Myriad Pro";
+        text-align: center;
+    }
+
+    .event-title {
+        font-size: 28px;
+        line-height: 28px;
+        font-family: Myriad Pro;
+        padding-left: 50px;
+        width: 1050px;
+        text-align: left;
+    }
+
+    .no-events {
+        position: absolute;
+        font-size: 88px;
+        line-height: 63px;
+        font-family: "Myriad Pro";
+        color: #fff;
+        width: 1050px;
+        padding-left: 300px;
+        top: 200px;
+    }
+
+    h1.text-center.font-weight-bold {
+        font-size: 86px;
+    }
+
+    .header {
+        padding-left: 20px;
+        font-size: 46px;
+        line-height: 87px;
+        color: rgb(0,0,0);
+        font-family: "Myriad Pro";
+    }
+
 </style>
