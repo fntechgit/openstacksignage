@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="'room-' + schedule.room.name.replace(' ','')">
+    <div id="app">
 
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
@@ -68,37 +68,48 @@
             </tr>
         </table>
 
-        <div class="location">
-            <div class="text-uppercase">
-                {{ schedule.room.name }}
+        <div class="room">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="text-uppercase value">
+                            {{ schedule.room.name }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="time">
-            <div class="text-uppercase">
-                {{ schedule.getDate(schedule.state.now).format('hh:mm') }}
+        <div class="current-time">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="text-uppercase label">Current Time:</div>
+                    <div class="text-uppercase value">
+                        {{ schedule.getDate(schedule.state.now).format('HH:mm') }}
+                    </div>
+                </div>
             </div>
-        </div>
-
-
-        <div class="container-events">
-            <li class="event-list" v-for="evt in schedule.state.events.all">
-                <div class="event-time">{{ schedule.getDate(evt.start_date).format('HH:mm') }} - {{ schedule.getDate(evt.end_date).format('HH:mm') }} </div>
-                <div class="event-title">{{ evt.title }} </div>
-                <div class="event-speakers" v-for="speaker in evt.speakers">{{ speaker.first_name }} {{ speaker.last_name }}</div>
-            </li>
         </div>
 
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
         <event :schedule="schedule" :event="schedule.state.events.curr"
-        v-if="schedule.state.events.curr && !schedule.state.scheduled_banners.curr"></event>
+        v-if="schedule.state.events.curr"></event>
 
-        <div v-else-if="! schedule.state.events.all" class="no-events">
-            <h1 class="text-center font-weight-bold">
-                All presentations are finished for today
-            </h1>
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true
+        v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
+
+        <div v-else-if="! schedule.state.events.curr" class="empty">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="display-4 text-center font-weight-bold">
+                            All presentations are finished for today
+                        </h1>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <banner :banner="schedule.state.scheduled_banners.curr"
@@ -107,10 +118,12 @@
 </template>
 
 <script>
+
     import Event from './event.vue'
     import Banner from './banner.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
+
     export default {
         computed: {
             ...mapGetters({
@@ -131,54 +144,73 @@
         },
         components: { Event, Banner }
     }
+
 </script>
 
 <style>
+
     .logo {
-        padding-top: 150px;
+        width: 80%;
     }
-    .time {
-        position: relative;
-        top: 1800px;
-        float: right;
-        color: #000;
-        font-size: 60px;
-        line-height: 60px;
-        font-family: Frutiger55 Roman;
-        width: 300px;
-        height: 70px;
-    }
+
     .location {
-        position: relative;
-        top: 170px;
-        left: 60px;
-        right: 40px;
-        color: #fff;
-        font-size: 63px;
-        line-height: 40px;
-        font-family: Frutiger55 Roman;
-        width: 300px;
-        float: left;
-        text-align: center;
+        color: white;
+        border-top: 5px solid white;
+        border-bottom: 15px solid red;
+        padding: 40px 30px;
+        display: none;
     }
+
     .location .label {
         font-size: 1.5rem;
         font-weight: bold;
     }
+
     .location .value {
         font-size: 3rem;
     }
+
+    .current-time {
+        position: relative;
+        top: 488px;
+        color: #fff;
+        font-size: 33px;
+        font-family: "Franklin";
+        letter-spacing: 1px;
+        font-weight: bold;
+        width: 359px;
+        height: 49px;
+        background-color: #333794;
+        left: 620px;
+    }
+
+    .current-time .label { 
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
     .empty {
         padding: 6rem 0;
-        color: #fff;
-        font-size: 112px;
-        font-family: "Graphik Semibold";
+        position: relative;
+        top: 700px;
+        width: 880px;
+        left: 100px;
+    }
+
+    .empty h1 {
+        font-family: "Franklin";
+    } 
+    
+    .room {
+        position: relative;
+        top: 60px;
+        left: 60px;
+        font-size: 108px;
+        color: rgb(255,255,255);
+        font-family: "Nexa";
         font-weight: bold;
-        height: 1030px;
     }
-    .event {
-        display: none;
-    }
+
     .debug {
         background: rgba(0, 0, 0, 0.5);
         color:white;
@@ -186,40 +218,9 @@
         top: 0;
         z-index: 1;
     }
+
     .debug a {
         color: yellow;
-    }
-    .empty h1 {
-        font-size: 110px;
-    }	
-    li.event-list {
-        list-style: none;
-	padding-bottom: 45px;
-	text-align: center;
-	color: #fff;
-    }
-
-    .container-events {
-        top: 400px;
-        position: absolute;
-        width: 1080px;
-        height: 1300px;
-        overflow: hidden;
-        font-size: 38px;
-        line-height: 63px;
-        font-family: "Myriad Pro";
-    }
-    .no-events {
-        top: 600px;
-        position: absolute;
-        font-size: 88px;
-        line-height: 63px;
-        font-family: "Myriad Pro";
-        width: 1080px;
-        color: #fff;
-    }
-    h1.text-center.font-weight-bold {
-        font-size: 86px;
     }
 
 </style>

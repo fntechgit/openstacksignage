@@ -82,7 +82,7 @@ export const $store = new Vuex.Store({
             var summit_id = context.state.summit ? context.state.summit.id : 'current'
 
             const query = qs.stringify({
-                 //filter: [
+                 //'filter[]': [
                  //    'start_date>' + moment.utc().startOf('day').unix(),
                  //    'end_date<' + moment.utc().endOf('day').unix()
                  //],
@@ -90,6 +90,9 @@ export const $store = new Vuex.Store({
                 per_page: 100,
                 expand: 'track,speakers'
             }, { indices: false })
+
+            console.log(query)
+	    console.log(moment.utc().startOf('day').unix())	
 
             return axios.get(getEndpoint(
                 `summits/${summit_id}/locations/${location}/events/published?${query}`

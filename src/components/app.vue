@@ -1,8 +1,8 @@
 <template>
     <pre v-if="error"><b>ERROR</b><br>{{ error }}</pre>
 
-    <pre v-else-if="! ready"
-    style="width: 100%; text-align: center; margin-top: 50px">Loading...</pre>
+    <pre class="loading" v-else-if="! ready"
+    style="width: 100px; text-align: center; margin-top: 500px; margin-left: 10px;">Loading...</pre>
 
     <div v-else>
         <router-view></router-view>

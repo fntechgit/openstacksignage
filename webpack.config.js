@@ -11,7 +11,8 @@ module.exports = {
 	'f8-schedule': './src/entry-fnopen-f8-schedule.js',
 	'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         'ocp-ams-content': './src/entry-ocp-ams-content.js',
-	'ocp-ams-signage': './src/entry-ocp-ams-signage.js'
+	'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
+	'ocp-ams-fnsign': './src/entry-ocp-ams-fnsign.js'    
 
     },
     output: {

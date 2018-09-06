@@ -72,7 +72,7 @@
 
         <div class="container-events">
             <li class="event-list" v-for="evt in schedule.state.events.all">
-                <div class="event-time">{{ schedule.getDate(evt.start_date).format('hh:mm') }} - {{ schedule.getDate(evt.end_date).format('hh:mm') }} </div>
+                <div class="event-time">{{ schedule.getDate(evt.start_date).format('HH:mm') }} - {{ schedule.getDate(evt.end_date).format('HH:mm') }} </div>
                 <div class="event-title">{{ evt.title }} </div>
                 <div class="event-room"> {{ schedule.room.name.replace(' ','') }}</div>
             </li>
