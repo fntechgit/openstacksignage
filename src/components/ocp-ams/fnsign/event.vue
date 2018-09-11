@@ -30,12 +30,17 @@
                         </h1>
                     </div>
                 </div>
-                <div class="row pt-4">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase type">
-                            {{ event.track.name }}
-                        </h1>
-                    </div>
+                <div class="row" v-if="event.speakers">
+	            <div class="col-md-12 speaker-list">
+	                <li v-for="speaker in event.speakers">
+		            <h1 class="text-uppercase speaker">
+			        {{ speakername(speaker) }}
+		            </h1>
+                            <h1 class="speaker-info">
+                                {{ speakerinfo(speaker) }}
+                            </h1>
+	                </li>		
+    	            </div>
                 </div>
             </div>
         </div>
@@ -57,6 +62,18 @@
                     this.schedule.getDate(event.end_date).format('HH:mm')
                 ].join(' - ') || 'N/A'
             },
+            speakername() {
+                return speaker => speaker && [
+                    speaker.first_name,
+                    speaker.last_name
+                ].join(' ') || 'N/A'
+            },
+            speakerinfo() {
+                return speaker => speaker && (speaker.position && speaker.company) && [
+                    speaker.position,
+                    speaker.company
+                ].join(' , ') 
+            },
             starttime() {
                 return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
             }
@@ -74,21 +91,33 @@
         height: 640px;
 
     }
-    .event h1 {
-    }
     .event .time {
         font-family: Franklin;
-        font-size: 50px;
+        font-size: 33px;
         color: #333794;
     }
     .event .name {
         font-family: Franklin;
         font-size: 50px;
-        padding-bottom: 150px;	
+        padding-bottom: 20px;	
         color: #fff !important;
     }
-    .event .type {
-        display: none;
+    .event .speaker {
+        font-family: Franklin;
+        font-size: 27px;
+        color: #fff;
+    }
+    .event .speaker-list {
+        list-style: none;
+    }
+    .speaker-list li {
+        display:flex;
+    }
+    .speaker-info {
+        font-size: 20px;
+        padding-top: 5px;
+        padding-left: 30px;
+        font-family: Franklin;
     }
     .next {
         position: relative;
@@ -105,14 +134,20 @@
     }
     .next .time {
         font-family: Franklin;
-        font-size: 42px;
+        font-size: 33px;
         color: #333794;
     }
     .next .name {
         font-family: Franklin;
         font-size: 42px;
-        padding-bottom: 150px;
+        padding-bottom: 20px;
         color: #fff !important;
     }
+    .next .speaker {
+        font-family: Franklin;
+        font-size: 27px;
+        color: #fff;
+    }
+
 
 </style>

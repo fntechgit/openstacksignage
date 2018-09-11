@@ -177,7 +177,6 @@
         font-size: 33px;
         font-family: "Franklin";
         letter-spacing: 1px;
-        font-weight: bold;
         width: 359px;
         height: 49px;
         background-color: #333794;
@@ -186,7 +185,7 @@
 
     .current-time .label { 
         padding-left: 10px;
-        padding-right: 10px;
+        padding-right: 17px;
     }
 
     .empty {
