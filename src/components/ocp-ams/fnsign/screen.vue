@@ -172,20 +172,22 @@
 
     .current-time {
         position: relative;
-        top: 488px;
+        top: 499px;
         color: #fff;
         font-size: 33px;
         font-family: "Franklin";
         letter-spacing: 1px;
-        width: 359px;
+        width: 369px;
         height: 49px;
         background-color: #333794;
         left: 620px;
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
     }
 
     .current-time .label { 
-        padding-left: 10px;
-        padding-right: 17px;
+        padding-left: 15px;
+        padding-right: 12px;
     }
 
     .empty {
