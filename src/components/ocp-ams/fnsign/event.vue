@@ -91,21 +91,27 @@
         height: 640px;
 
     }
-    .event .time {
+    .event .time,
+    .next .time {
         font-family: Franklin;
-        font-size: 33px;
         color: #333794;
+        text-rendering: geometricPrecision;
+	    -webkit-font-smoothing: antialiased;
+    }
+    .event .time {
+        font-size: 46px;
+    }
+    .event .name,
+    .next .name {
+    font-family: Nexa;
+    color: #fff!important;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
     }
     .event .name {
-        font-family: Franklin;
-        font-size: 50px;
-        padding-bottom: 20px;	
-        color: #fff !important;
-    }
-    .event .speaker {
-        font-family: Franklin;
-        font-size: 27px;
-        color: #fff;
+        font-size: 80px;
+        line-height: 1.33;
+        padding-bottom: 10px;	
     }
     .event .speaker-list {
         list-style: none;
@@ -113,11 +119,23 @@
     .speaker-list li {
         display:flex;
     }
-    .speaker-info {
-        font-size: 20px;
+    .event .speaker,
+    .event .speaker-info {
+        font-family: Franklin;
+        font-size: 38px;
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+    }
+    .event .speaker {
+        color: #fff;
+    }
+    event .speaker-info {
         padding-top: 5px;
         padding-left: 30px;
-        font-family: Franklin;
+    }
+    .speaker-info:before {
+        content: "//  ";
+        color: rgb(52,56,149);
     }
     .next {
         position: relative;
@@ -125,7 +143,6 @@
         font-size: 42px !important;
     }
     .next .upcoming {
-        color: #333794;
         font-size: 33px;
         letter-spacing: 3px;
         color: rgb(52,56,149);
@@ -133,20 +150,25 @@
         font-weight: bold;
     }
     .next .time {
-        font-family: Franklin;
-        font-size: 33px;
-        color: #333794;
+        font-size: 38px;
     }
     .next .name {
+    font-size: 56px;
+    padding-bottom: 5px;
+    line-height: 1.25;
+    }
+    .next .speaker,
+    .next .speaker-info {
         font-family: Franklin;
-        font-size: 42px;
-        padding-bottom: 20px;
-        color: #fff !important;
+        font-size: 34px;
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
     }
     .next .speaker {
-        font-family: Franklin;
-        font-size: 27px;
         color: #fff;
+    }
+    .next .speaker-info {
+        color: rgb(52,56,149);
     }
 
 
