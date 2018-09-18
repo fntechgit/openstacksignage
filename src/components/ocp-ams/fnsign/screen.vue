@@ -94,11 +94,15 @@
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
-        <event :schedule="schedule" :event="schedule.state.events.curr"
-        v-if="schedule.state.events.curr"></event>
+        <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
 
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true
-        v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
+        <event :next="true" :schedule="schedule" :event="schedule.state.events.upcoming[0]"
+               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length == 1">
+        </event>
+
+        <events :schedule="schedule" :events="schedule.state.events.upcoming"
+                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 1">
+        </events>
 
         <div v-else-if="! schedule.state.events.curr" class="empty">
             <div class="container">
@@ -120,6 +124,7 @@
 <script>
 
     import Event from './event.vue'
+    import Events from './events.vue'
     import Banner from './banner.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
@@ -142,32 +147,16 @@
                 )
             },
         },
-        components: { Event, Banner }
+        components: { Event, Events, Banner }
     }
 
 </script>
 
 <style>
 
-    .logo {
-        width: 80%;
-    }
-
-    .location {
-        color: white;
-        border-top: 5px solid white;
-        border-bottom: 15px solid red;
-        padding: 40px 30px;
-        display: none;
-    }
-
     .location .label {
         font-size: 1.5rem;
         font-weight: bold;
-    }
-
-    .location .value {
-        font-size: 3rem;
     }
 
     .current-time {

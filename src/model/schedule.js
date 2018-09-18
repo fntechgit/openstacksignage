@@ -18,7 +18,9 @@ export default class Schedule {
         events: {
             curr: null,
             next: null,
-            prev: null
+            prev: null,
+            all: null,
+            upcoming: null
         },
         scheduled_banners: {
             curr: null,
@@ -48,7 +50,7 @@ export default class Schedule {
             this.getLocation().then(() => {
 
                 let params = new URLSearchParams(window.location.href.split('?')[1])
-                this.debug = params.get('debug') ? true : false
+                this.debug = !!params.get('debug')
 
                 // // Uncomment for offline debugging.
                 // this.offset = 10*60
@@ -128,7 +130,7 @@ export default class Schedule {
     update() {
         this.tick()
 
-        let events = { curr: null, next: [], prev: [], all: [] }
+        let events = { curr: null, next: [], prev: [], upcoming: [] }
         let banners = { curr: null, next: [], prev: [] }
 
         this.events.forEach(event => {
@@ -136,8 +138,10 @@ export default class Schedule {
                 events.prev.push(event)
             } else {
                 events.next.push(event)
-		events.all.push(event)
-	    }
+                if (this.isToday(event.end_date)) {
+                    events.upcoming.push(event)
+                }
+            }
         })
 
         this.scheduled_banners.forEach(banner => {
@@ -152,17 +156,24 @@ export default class Schedule {
             events.curr = events.next.shift()
         }
 
+        if (events.curr && events.upcoming.length) {
+            events.upcoming.shift()
+        }
+
         if (banners.next.length && banners.next[0].start_date <= this.state.now) {
             banners.curr = banners.next.shift()
         }
 
-        this.state.events = { ...this.state.events, curr: events.curr,
+        this.state.events = { ...this.state.events,
+            curr: events.curr,
             prev: events.prev.length ? events.prev[events.prev.length-1] : null,
             next: events.next.length ? events.next[0] : null,
-    	    all: events.all.length ? events.all : null,
+            all: events.next.length ? events.next : null,
+            upcoming: events.upcoming.length ? events.upcoming : null,
         }
 
-        this.state.scheduled_banners = { ...this.state.scheduled_banners, curr: banners.curr,
+        this.state.scheduled_banners = { ...this.state.scheduled_banners,
+            curr: banners.curr,
             prev: banners.prev.length ? banners.prev[banners.prev.length-1] : null,
             next: banners.next.length ? banners.next[0] : null,
         }

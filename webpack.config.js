@@ -8,12 +8,11 @@ module.exports = {
         'schedule': './src/entry-schedule.js',
         'opendev-schedule': './src/entry-opendev-schedule.js',
         'opendev-banner': './src/entry-opendev-banner.js',
-	'f8-schedule': './src/entry-fnopen-f8-schedule.js',
-	'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
+        'f8-schedule': './src/entry-fnopen-f8-schedule.js',
+        'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         'ocp-ams-content': './src/entry-ocp-ams-content.js',
-	'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
-	'ocp-ams-fnsign': './src/entry-ocp-ams-fnsign.js'    
-
+        'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
+        'ocp-ams-fnsign': './src/entry-ocp-ams-fnsign.js'
     },
     output: {
         path: path.resolve(__dirname, './dist'),

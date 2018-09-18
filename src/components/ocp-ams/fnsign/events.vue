@@ -1,67 +1,73 @@
 <template>
-    <div class="event pb-5" :class="{ next }">
+    <div class="event next pb-5">
         <div class="pt-5">
             <div class="container-fluid pl-5 pr-5">
-                <div class="row pb-3" v-if="next">
+                <div class="row pb-3">
       	            <div class="col-md-12">
-                        <h1 class="text-uppercase upcoming">
-                            Upcoming:
-                        </h1>
+  		                <h1 class="text-uppercase upcoming">
+			                Upcoming:
+   		                </h1>
+	                </div>
+                </div>
+                <Slider
+                        ref="slider"
+                        :asyncData="events"
+                        :performance-mode="false"
+                        :pagination-visible="false"
+                        :pagination-clickable="false"
+                        :mousewheel-control="false"
+                        :dragEnable="false"
+                        :auto="true"
+                        :loop="true"
+                        :interval="7000"
+                        :speed="500">
+                    <div v-for="event in events">
+                        <div>
+                            <div class="row pb-3">
+                                <div class="col-md-12">
+                                    <h1 class="text-uppercase time">
+                                        {{ starttime(event) }}
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h1 class="text-primary name">
+                                        {{ event.title }}
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="row" v-if="event.speakers">
+                                <div class="col-md-12 speaker-list">
+                                    <li v-for="speaker in event.speakers">
+                                        <h1 class="text-uppercase speaker">
+                                            {{ speakername(speaker) }}
+                                        </h1>
+                                        <h1 class="speaker-info">
+                                            {{ speakerinfo(speaker) }}
+                                        </h1>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="row pb-3" v-if="!next">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase time">
-                            {{ time(event) }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row pb-3" v-if="next">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase time">
-                            {{ starttime(event) }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="text-primary name">
-                            {{ event.title }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row" v-if="event.speakers">
-	                <div class="col-md-12 speaker-list">
-                        <li v-for="speaker in event.speakers">
-                            <h1 class="text-uppercase speaker">
-                                {{ speakername(speaker) }}
-                            </h1>
-                            <h1 class="speaker-info">
-                                {{ speakerinfo(speaker) }}
-                            </h1>
-                        </li>
-    	            </div>
-                </div>
+                </Slider>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import Slider from 'vue-plain-slider'
+
     export default {
-        props: ['next', 'event', 'schedule'],
+        props: ['events', 'schedule'],
+        watch: {
+            events: function (newValue, oldValue) {
+                this.$refs.slider.setPage(1)
+            }
+        },
         computed: {
-            room() {
-                return event => event && this.$store.getters.room(
-                    event.location_id
-                ) || { name: 'N/A' }
-            },
-            time() {
-                return event => event && [
-                    this.schedule.getDate(event.start_date).format('HH:mm'),
-                    this.schedule.getDate(event.end_date).format('HH:mm')
-                ].join(' - ') || 'N/A'
-            },
             speakername() {
                 return speaker => speaker && [
                     speaker.first_name,
@@ -77,7 +83,8 @@
             starttime() {
                 return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
             }
-        }
+        },
+        components: { Slider }
     }
 </script>
 
@@ -88,6 +95,7 @@
         position: relative;
         top: 400px;
         height: 640px;
+
     }
     .event .time,
     .next .time {
@@ -167,5 +175,8 @@
     }
     .next .speaker-info {
         color: rgb(52,56,149);
+    }
+    .slider {
+        height: 400px;
     }
 </style>
