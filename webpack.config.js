@@ -31,14 +31,14 @@ module.exports = {
                 }
             },
             {
-                test: /\.css$/,
-                include: /node_modules/,
-                loaders: ['style-loader', 'css-loader'],
-            },
-            {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/
+                //exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
+                include: /node_modules/,
+                loaders: 'css-loader',
             },
             {
                 test: /\.(png|jpg|gif|svg)$/,
