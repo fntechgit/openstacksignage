@@ -68,24 +68,29 @@
             </tr>
         </table>
 
-        <div class="room">
+         <div class="header">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-8">
-                        <div class="text-uppercase value">
-                            {{ schedule.room.name }}
+                        <div class="label">
+                            oculus connect
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="current-time">
+
+        <div class="room">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="text-uppercase label">Current Time:</div>
-                    <div class="text-uppercase value">
-                        {{ schedule.getDate(schedule.state.now).format('HH:mm') }}
+                    <div class="col-md-8">
+                        <div class="text-uppercase label">
+                            Session
+                        </div>
+                        <div class="text-uppercase value">
+                            {{ schedule.room.name }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,7 +114,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="display-4 text-center font-weight-bold">
-                            All presentations are finished for today
+                            All presentations are finished for today.
                         </h1>
                     </div>
                 </div>
@@ -157,26 +162,6 @@
     .location .label {
         font-size: 1.5rem;
         font-weight: bold;
-    }
-
-    .current-time {
-        position: relative;
-        top: 499px;
-        color: #fff;
-        font-size: 33px;
-        font-family: "Franklin";
-        letter-spacing: 1px;
-        width: 369px;
-        height: 49px;
-        background-color: #333794;
-        left: 620px;
-        text-rendering: geometricPrecision;
-        -webkit-font-smoothing: antialiased;
-    }
-
-    .current-time .label { 
-        padding-left: 15px;
-        padding-right: 12px;
     }
 
     .empty {

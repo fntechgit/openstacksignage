@@ -5,7 +5,7 @@
                 <div class="row pb-3">
       	            <div class="col-md-12">
   		                <h1 class="text-uppercase upcoming">
-			                Upcoming:
+			                Upcoming Sessions:
    		                </h1>
 	                </div>
                 </div>
@@ -23,13 +23,6 @@
                         :speed="500">
                     <div v-for="event in events">
                         <div>
-                            <div class="row pb-3">
-                                <div class="col-md-12">
-                                    <h1 class="text-uppercase time">
-                                        {{ starttime(event) }}
-                                    </h1>
-                                </div>
-                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <h1 class="text-primary name">
@@ -37,16 +30,11 @@
                                     </h1>
                                 </div>
                             </div>
-                            <div class="row" v-if="event.speakers">
-                                <div class="col-md-12 speaker-list">
-                                    <li v-for="speaker in event.speakers">
-                                        <h1 class="text-uppercase speaker">
-                                            {{ speakername(speaker) }}
-                                        </h1>
-                                        <h1 class="speaker-info">
-                                            {{ speakerinfo(speaker) }}
-                                        </h1>
-                                    </li>
+                            <div class="row pb-3">
+                                <div class="col-md-12">
+                                    <h1 class="text-uppercase time">
+                                        {{ time(event) }}
+                                    </h1>
                                 </div>
                             </div>
                         </div>
@@ -68,20 +56,14 @@
             }
         },
         computed: {
-            speakername() {
-                return speaker => speaker && [
-                    speaker.first_name,
-                    speaker.last_name
-                ].join(' ') || 'N/A'
-            },
-            speakerinfo() {
-                return speaker => speaker && (speaker.position && speaker.company) && [
-                    speaker.position,
-                    speaker.company
-                ].join(' , ') 
-            },
             starttime() {
                 return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
+            }, 
+            time() {
+                return event => event && [
+                    this.schedule.getDate(event.start_date).format('h:mm A'),
+                    this.schedule.getDate(event.end_date).format('h:mm A')
+                ].join(' - ') || 'N/A'
             }
         },
         components: { Slider }

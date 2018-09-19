@@ -2,24 +2,10 @@
     <div class="event pb-5" :class="{ next }">
         <div class="pt-5">
             <div class="container-fluid pl-5 pr-5">
-                <div class="row pb-3" v-if="next">
+                <div class="row pb-3" v-if="!next">
       	            <div class="col-md-12">
                         <h1 class="text-uppercase upcoming">
-                            Upcoming:
-                        </h1>
-                    </div>
-                </div>
-                <div class="row pb-3" v-if="!next">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase time">
-                            {{ time(event) }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row pb-3" v-if="next">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase time">
-                            {{ starttime(event) }}
+                            Current Session:
                         </h1>
                     </div>
                 </div>
@@ -30,9 +16,13 @@
                         </h1>
                     </div>
                 </div>
-                <div class="row" v-if="event.speakers">
+                <div class="row" v-if="!next && event.speakers">
 	                <div class="col-md-12 speaker-list">
                         <li v-for="speaker in event.speakers">
+                            <h1 class="text-uppercase speaker">
+                                Speakers
+                            </h1>
+
                             <h1 class="text-uppercase speaker">
                                 {{ speakername(speaker) }}
                             </h1>
@@ -41,6 +31,13 @@
                             </h1>
                         </li>
     	            </div>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-md-12">
+                        <h1 class="text-uppercase time">
+                            {{ time(event) }}
+                        </h1>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,8 +55,8 @@
             },
             time() {
                 return event => event && [
-                    this.schedule.getDate(event.start_date).format('HH:mm'),
-                    this.schedule.getDate(event.end_date).format('HH:mm')
+                    this.schedule.getDate(event.start_date).format('h:mm A'),
+                    this.schedule.getDate(event.end_date).format('h:mm A')
                 ].join(' - ') || 'N/A'
             },
             speakername() {
@@ -74,9 +71,6 @@
                     speaker.company
                 ].join(' , ') 
             },
-            starttime() {
-                return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
-            }
         }
     }
 </script>
