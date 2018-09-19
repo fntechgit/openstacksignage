@@ -91,9 +91,6 @@ export const $store = new Vuex.Store({
                 expand: 'track,speakers'
             }, { indices: false })
 
-            console.log(query)
-	    console.log(moment.utc().startOf('day').unix())	
-
             return axios.get(getEndpoint(
                 `summits/${summit_id}/locations/${location}/events/published?${query}`
             ))
