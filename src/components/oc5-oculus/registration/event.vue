@@ -75,13 +75,6 @@
 </script>
 
 <style>
-    .event {
-        width: 1000px;
-        margin-left: 36px;
-        position: relative;
-        top: 150px;
-        height: 1700px;
-    }
     .event .time,
     .next .time {
         font-size: 32px;
@@ -150,7 +143,9 @@
     }
     .next {
         position: relative;
-        top: 100px;
+        top: 200px;
+        width: 1000px;
+        margin-left: 36px;
     }
     .next .upcoming {
         font-size: 33px;
