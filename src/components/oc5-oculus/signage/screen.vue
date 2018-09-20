@@ -208,9 +208,28 @@
         background-image: url("~/assets/images/oc5-oculus/FN1_220B_Bkgd.png");
     }    
 
+    .room-G102 {
+        background-image: url("~/assets/images/oc5-oculus/FN1_220B_Bkgd.png")!important;
+    }
+    .room-G102 h1.time {
+        color: rgb(186,1,255);
+    }
     .room-G103 {
         background-image: url("~/assets/images/oc5-oculus/FN2_220C_Bkgd.png")!important;
     }
-
-
+    .room-G103 h1.time {
+        color: rgb(20,138,255);
+    }
+    .room-G104 {
+        background-image: url("~/assets/images/oc5-oculus/FN3_210E_Bkgd.png")!important;
+    }
+    .room-G104 h1.time {
+        color: rgb(183,236,0);
+    }
+    .room-G105 {
+        background-image: url("~/assets/images/oc5-oculus/FN4_210G_Bkgd.png")!important;
+    }
+    .room-G105 h1.time {
+        color: rgb(255,186,0);
+    }
 </style>
