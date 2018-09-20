@@ -100,7 +100,7 @@
                v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length == 1">
         </event>
 
-        <events :schedule="schedule" :events="schedule.state.events.upcoming"
+        <events :standalone="schedule.state.events.curr == null" :schedule="schedule" :events="schedule.state.events.upcoming"
                 v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 1">
         </events>
 

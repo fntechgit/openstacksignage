@@ -9,20 +9,9 @@
    		                </h1>
 	                </div>
                 </div>
-                <Slider
-                        ref="slider"
-                        :asyncData="events"
-                        :performance-mode="false"
-                        :pagination-visible="false"
-                        :pagination-clickable="false"
-                        :mousewheel-control="false"
-                        :dragEnable="false"
-                        :auto="true"
-                        :loop="true"
-                        :interval="7000"
-                        :speed="500">
-                    <div v-for="event in events">
-                        <div>
+                <div style="height: 560px; overflow: hidden" v-bind:class="{standalone : !standalone}">
+                    <swiper ref="slider" :options="swiperOption">
+                        <swiper-slide v-for="event in events">
                             <div class="row pb-3">
                                 <div class="col-md-12">
                                     <h1 class="text-uppercase time">
@@ -49,25 +38,48 @@
                                     </li>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </Slider>
+                        </swiper-slide>
+                    </swiper>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import Slider from 'vue-plain-slider'
+
+    import 'swiper/dist/css/swiper.css'
+
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
-        props: ['events', 'schedule'],
+        props: ['standalone', 'events', 'schedule'],
+        data() {
+            return {
+                swiperOption: {
+                    direction: 'vertical',
+                    allowTouchMove: false,
+                    autoHeight: true,
+                    height: 298,
+                    spaceBetween: 100,
+                    loop: true,
+                    speed: 7000,
+                    autoplay: {
+                        delay: 0
+                    },
+                }
+            }
+        },
         watch: {
-            events: function (newValue, oldValue) {
-                this.$refs.slider.setPage(1)
+            standalone: function (val) {
+                this.swiper.slideToLoop(0, 0, true)
+                this.swiper.autoplay.start();
             }
         },
         computed: {
+            swiper() {
+                return this.$refs.slider.swiper
+            },
             speakername() {
                 return speaker => speaker && [
                     speaker.first_name,
@@ -84,7 +96,10 @@
                 return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
             }
         },
-        components: { Slider }
+        components: {
+            swiper,
+            swiperSlide
+        }
     }
 </script>
 
@@ -176,7 +191,12 @@
     .next .speaker-info {
         color: rgb(52,56,149);
     }
-    .slider {
-        height: 400px;
+    .standalone {
+        height: 298px !important;
+    }
+    .swiper-wrapper {
+        -webkit-transition-timing-function: linear!important;
+        -o-transition-timing-function: linear!important;
+        transition-timing-function: linear!important;
     }
 </style>
