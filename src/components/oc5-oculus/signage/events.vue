@@ -42,7 +42,7 @@
                     allowTouchMove: false,
                     autoHeight: true,
                     height: 298,
-                    spaceBetween: 100,
+                    spaceBetween: 10,
                     loop: true,
                     speed: 4000,
                     autoplay: {
@@ -82,10 +82,13 @@
 
 <style>
     .next .time {
-        font-family: Franklin;
-        color: #333794;
+        font-size: 32px;
+        letter-spacing: 1px;
+        color: rgb(186,1,255);
+        font-family: "Oculus Sans";
+        font-weight: bold;
         text-rendering: geometricPrecision;
-	    -webkit-font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;
     }
     .next .name {
         font-family: Oculus Sans;
@@ -103,9 +106,6 @@
         color: rgb(52,56,149);
         font-family: "Nexa";
         font-weight: bold;
-    }
-    .next .time {
-        font-size: 38px;
     }
     .next .name {
         font-size: 50px;
@@ -126,7 +126,7 @@
         color: rgb(52,56,149);
     }
     .standalone {
-        height: 298px !important;
+        height: 220px !important;
     }
     .swiper-wrapper {
         -webkit-transition-timing-function: linear!important;

@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app" :class="'room-' + schedule.room.name.replace(' ','')">
 
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
@@ -201,5 +201,16 @@
     .debug a {
         color: yellow;
     }
+
+    #app {
+        width: 1080px;
+        height: 1920px;
+        background-image: url("~/assets/images/oc5-oculus/FN1_220B_Bkgd.png");
+    }    
+
+    .room-G103 {
+        background-image: url("~/assets/images/oc5-oculus/FN2_220C_Bkgd.png")!important;
+    }
+
 
 </style>

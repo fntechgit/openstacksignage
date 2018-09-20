@@ -143,9 +143,6 @@
         font-family: "Nexa";
         font-weight: bold;
     }
-    .next .time {
-        font-size: 38px;
-    }
     .next .name {
         font-size: 50px;
         padding-bottom: 5px;
