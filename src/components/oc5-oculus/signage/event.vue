@@ -2,13 +2,6 @@
     <div class="event pb-5" :class="{ next }">
         <div class="pt-5">
             <div class="container-fluid pl-5 pr-5">
-                <div class="row pb-3" v-if="!next">
-      	            <div class="col-md-12">
-                        <h1 class="text-uppercase upcoming">
-                            Current Session:
-                        </h1>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="text-primary name">
@@ -17,13 +10,14 @@
                     </div>
                 </div>
                 <div class="row" v-if="!next && event.speakers">
-	                <div class="col-md-12 speaker-list">
+                    <div class="col-md-12 speaker-list-label">
+                         <h1 class="text-uppercase">
+                            Speakers
+                        </h1>
+                    </div>
+	            <div class="col-md-12 speaker-list">
                         <li v-for="speaker in event.speakers">
-                            <h1 class="text-uppercase speaker">
-                                Speakers
-                            </h1>
-
-                            <h1 class="text-uppercase speaker">
+                            <h1 class="speaker">
                                 {{ speakername(speaker) }}
                             </h1>
                             <h1 class="speaker-info">
@@ -34,7 +28,7 @@
                 </div>
                 <div class="row pb-3">
                     <div class="col-md-12">
-                        <h1 class="text-uppercase time">
+                        <h1 class="time">
                             {{ time(event) }}
                         </h1>
                     </div>
@@ -55,8 +49,8 @@
             },
             time() {
                 return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm A'),
-                    this.schedule.getDate(event.end_date).format('h:mm A')
+                    this.schedule.getDate(event.start_date).format('h:mm a'),
+                    this.schedule.getDate(event.end_date).format('h:mm a')
                 ].join(' - ') || 'N/A'
             },
             speakername() {
@@ -77,62 +71,70 @@
 
 <style>
     .event {
-        width: 880px;
-        margin-left: 49px;
+        width: 1000px;
+        margin-left: 36px;
         position: relative;
-        top: 400px;
-        height: 640px;
+        top: 680px;
+        height: 700px;
     }
     .event .time,
     .next .time {
-        font-family: Franklin;
-        color: #333794;
+        font-size: 32px;
+        letter-spacing: 1px;
+        color: rgb(186,1,255);
+        font-family: "Oculus Sans";
+        font-weight: bold;
         text-rendering: geometricPrecision;
-	    -webkit-font-smoothing: antialiased;
-    }
-    .event .time {
-        font-size: 46px;
+	-webkit-font-smoothing: antialiased;
     }
     .event .name,
     .next .name {
-        font-family: Nexa;
+        font-family: Oculus Sans;
         color: #fff!important;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
     }
     .event .name {
-        font-size: 80px;
-        line-height: 1.33;
+        font-size: 50px;
+        letter-spacing: 1px;
         padding-bottom: 10px;	
     }
     .event .speaker-list {
         list-style: none;
     }
     .speaker-list li {
-        display:flex;
+        display:block;
     }
-    .event .speaker,
-    .event .speaker-info {
-        font-family: Franklin;
-        font-size: 38px;
+    .speaker-list-label h1{
+        font-size: 40px;
+        letter-spacing: 1px;
+        color: rgb(93,94,97);
+        font-family: Oculus Sans;
+        padding-bottom: 10px;
+    }
+    .event .speaker{
+        font-family: Oculus Sans;
+        font-size: 40px;
+        letter-spacing: 1px;
+        color: #fff;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
     }
-    .event .speaker {
-        color: #fff;
-    }
-    event .speaker-info {
-        padding-top: 5px;
-        padding-left: 30px;
+    .event .speaker-info {
+        font-family: Oculus Sans;
+        font-size: 20px;
+        letter-spacing: 1px;
+        color: rgb(93,94,97);
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+
     }
     .speaker-info:before {
         content: "//  ";
-        color: rgb(52,56,149);
     }
     .next {
         position: relative;
-        top: 450px;
-        font-size: 42px !important;
+        top: 700px;
     }
     .next .upcoming {
         font-size: 33px;
@@ -145,9 +147,9 @@
         font-size: 38px;
     }
     .next .name {
-        font-size: 56px;
+        font-size: 50px;
         padding-bottom: 5px;
-        line-height: 1.25;
+        letter-spacing: 1px;
     }
     .next .speaker,
     .next .speaker-info {
