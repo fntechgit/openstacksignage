@@ -13,7 +13,8 @@ module.exports = {
         'ocp-ams-content': './src/entry-ocp-ams-content.js',
         'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
         'ocp-ams-fnsign': './src/entry-ocp-ams-fnsign.js',
-        'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js'
+        'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js',
+        'oc5-oculus-registration': './src/entry-oc5-oculus-registration.js'
     },
     output: {
         path: path.resolve(__dirname, './dist'),
