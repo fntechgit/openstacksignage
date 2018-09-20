@@ -154,9 +154,6 @@ export default class Schedule {
 
         if (events.next.length && events.next[0].start_date <= this.state.now) {
             events.curr = events.next.shift()
-        }
-
-        if (events.curr && events.upcoming.length) {
             events.upcoming.shift()
         }
 

@@ -9,9 +9,9 @@
    		                </h1>
 	                </div>
                 </div>
-                <div style="height: 560px; overflow: hidden" v-bind:class="{standalone : !standalone}">
+                <div style="height: 560px; overflow: hidden" v-bind:class="{standalone : current != null}">
                     <swiper ref="slider" :options="swiperOption">
-                        <swiper-slide v-for="event in events">
+                        <swiper-slide v-for="event in events" :key="event.id">
                             <div class="row pb-3">
                                 <div class="col-md-12">
                                     <h1 class="text-uppercase time">
@@ -53,7 +53,7 @@
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
-        props: ['standalone', 'events', 'schedule'],
+        props: ['current', 'events', 'schedule'],
         data() {
             return {
                 swiperOption: {
@@ -63,7 +63,7 @@
                     height: 298,
                     spaceBetween: 100,
                     loop: true,
-                    speed: 7000,
+                    speed: 1000,
                     autoplay: {
                         delay: 0
                     },
@@ -71,9 +71,11 @@
             }
         },
         watch: {
-            standalone: function (val) {
-                this.swiper.slideToLoop(0, 0, true)
-                this.swiper.autoplay.start();
+            current: function (newVal, oldVal) {
+                if (newVal != oldVal) {
+                    this.swiper.slideToLoop(0, 0, true)
+                    this.swiper.autoplay.start()
+                }
             }
         },
         computed: {
@@ -110,7 +112,6 @@
         position: relative;
         top: 400px;
         height: 640px;
-
     }
     .event .time,
     .next .time {
@@ -150,7 +151,7 @@
     .event .speaker {
         color: #fff;
     }
-    event .speaker-info {
+    .event .speaker-info {
         padding-top: 5px;
         padding-left: 30px;
     }
