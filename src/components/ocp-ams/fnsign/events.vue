@@ -63,7 +63,7 @@
                     height: 298,
                     spaceBetween: 100,
                     loop: true,
-                    speed: 1000,
+                    speed: 4000,
                     autoplay: {
                         delay: 0
                     },

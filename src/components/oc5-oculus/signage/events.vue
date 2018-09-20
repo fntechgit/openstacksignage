@@ -5,24 +5,20 @@
                 <div class="row pb-3">
       	            <div class="col-md-12">
   		                <h1 class="text-uppercase upcoming">
-			                Upcoming Sessions:
+			                Upcoming:
    		                </h1>
 	                </div>
                 </div>
-                <Slider
-                        ref="slider"
-                        :asyncData="events"
-                        :performance-mode="false"
-                        :pagination-visible="false"
-                        :pagination-clickable="false"
-                        :mousewheel-control="false"
-                        :dragEnable="false"
-                        :auto="true"
-                        :loop="true"
-                        :interval="7000"
-                        :speed="500">
-                    <div v-for="event in events">
-                        <div>
+                <div style="height: 560px; overflow: hidden" v-bind:class="{standalone : current != null}">
+                    <swiper ref="slider" :options="swiperOption">
+                        <swiper-slide v-for="event in events" :key="event.id">
+                            <div class="row pb-3">
+                                <div class="col-md-12">
+                                    <h1 class="text-uppercase time">
+                                        {{ starttime(event) }}
+                                    </h1>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <h1 class="text-primary name">
@@ -30,43 +26,82 @@
                                     </h1>
                                 </div>
                             </div>
-                            <div class="row pb-3">
-                                <div class="col-md-12">
-                                    <h1 class="text-uppercase time">
-                                        {{ time(event) }}
-                                    </h1>
+                            <div class="row" v-if="event.speakers">
+                                <div class="col-md-12 speaker-list">
+                                    <li v-for="speaker in event.speakers">
+                                        <h1 class="text-uppercase speaker">
+                                            {{ speakername(speaker) }}
+                                        </h1>
+                                        <h1 class="speaker-info">
+                                            {{ speakerinfo(speaker) }}
+                                        </h1>
+                                    </li>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </Slider>
+                        </swiper-slide>
+                    </swiper>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import Slider from 'vue-plain-slider'
+
+    import 'swiper/dist/css/swiper.css'
+
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
-        props: ['events', 'schedule'],
+        props: ['current', 'events', 'schedule'],
+        data() {
+            return {
+                swiperOption: {
+                    direction: 'vertical',
+                    allowTouchMove: false,
+                    autoHeight: true,
+                    height: 298,
+                    spaceBetween: 100,
+                    loop: true,
+                    speed: 1000,
+                    autoplay: {
+                        delay: 0
+                    },
+                }
+            }
+        },
         watch: {
-            events: function (newValue, oldValue) {
-                this.$refs.slider.setPage(1)
+            current: function (newVal, oldVal) {
+                if (newVal != oldVal) {
+                    this.swiper.slideToLoop(0, 0, true)
+                    this.swiper.autoplay.start()
+                }
             }
         },
         computed: {
+            swiper() {
+                return this.$refs.slider.swiper
+            },
+            speakername() {
+                return speaker => speaker && [
+                    speaker.first_name,
+                    speaker.last_name
+                ].join(' ') || 'N/A'
+            },
+            speakerinfo() {
+                return speaker => speaker && (speaker.position && speaker.company) && [
+                    speaker.position,
+                    speaker.company
+                ].join(' , ') 
+            },
             starttime() {
                 return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
-            }, 
-            time() {
-                return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm A'),
-                    this.schedule.getDate(event.end_date).format('h:mm A')
-                ].join(' - ') || 'N/A'
             }
         },
-        components: { Slider }
+        components: {
+            swiper,
+            swiperSlide
+        }
     }
 </script>
 
@@ -77,7 +112,6 @@
         position: relative;
         top: 400px;
         height: 640px;
-
     }
     .event .time,
     .next .time {
@@ -117,7 +151,7 @@
     .event .speaker {
         color: #fff;
     }
-    event .speaker-info {
+    .event .speaker-info {
         padding-top: 5px;
         padding-left: 30px;
     }
@@ -158,7 +192,12 @@
     .next .speaker-info {
         color: rgb(52,56,149);
     }
-    .slider {
-        height: 400px;
+    .standalone {
+        height: 298px !important;
+    }
+    .swiper-wrapper {
+        -webkit-transition-timing-function: linear!important;
+        -o-transition-timing-function: linear!important;
+        transition-timing-function: linear!important;
     }
 </style>
