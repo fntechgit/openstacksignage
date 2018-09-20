@@ -68,34 +68,12 @@
             </tr>
         </table>
 
-        <div class="room">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="label">
-                            Session
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="text-uppercase value">
-                            {{ schedule.room.name }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
-        <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
-
-        <event :next="true" :schedule="schedule" :event="schedule.state.events.upcoming[0]"
-               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length == 1">
-        </event>
-
+      
         <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.upcoming"
-                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 1">
+                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 5">
         </events>
 
         <div v-else-if="! schedule.state.events.curr" class="empty">

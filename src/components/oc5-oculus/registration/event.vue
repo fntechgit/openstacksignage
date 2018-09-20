@@ -27,7 +27,12 @@
     	            </div>
                 </div>
                 <div class="row pb-3">
-                    <div class="col-md-12">
+                    <div class="col-md-2">
+                        <h1 class="venue">
+                            {{ event.location.name }}
+                        </h1>
+                    </div>
+                    <div class="col-md-8">
                         <h1 class="time">
                             {{ time(event) }}
                         </h1>
@@ -49,8 +54,8 @@
             },
             time() {
                 return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm a'),
-                    this.schedule.getDate(event.end_date).format('h:mm a')
+                    this.schedule.getDate(event.start_date).format('h:mm A'),
+                    this.schedule.getDate(event.end_date).format('h:mm A')
                 ].join(' - ') || 'N/A'
             },
             speakername() {
@@ -74,19 +79,30 @@
         width: 1000px;
         margin-left: 36px;
         position: relative;
-        top: 680px;
-        height: 700px;
+        top: 150px;
+        height: 1700px;
     }
     .event .time,
     .next .time {
         font-size: 32px;
         letter-spacing: 1px;
-        color: rgb(186,1,255);
+        color: #fff;
         font-family: "Oculus Sans";
-        font-weight: bold;
         text-rendering: geometricPrecision;
 	-webkit-font-smoothing: antialiased;
     }
+
+    .event .venue,
+    .next .venue {
+        font-size: 32px;
+        letter-spacing: 1px;
+        color: #148aff;
+        font-family: "Oculus Sans";
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+    }
+
+
     .event .name,
     .next .name {
         font-family: Oculus Sans;
@@ -95,7 +111,7 @@
         -webkit-font-smoothing: antialiased;
     }
     .event .name {
-        font-size: 50px;
+        font-size: 40px;
         letter-spacing: 1px;
         padding-bottom: 10px;	
     }
@@ -134,7 +150,7 @@
     }
     .next {
         position: relative;
-        top: 700px;
+        top: 100px;
     }
     .next .upcoming {
         font-size: 33px;
@@ -144,7 +160,7 @@
         font-weight: bold;
     }
     .next .name {
-        font-size: 50px;
+        font-size: 40px;
         padding-bottom: 5px;
         letter-spacing: 1px;
     }

@@ -13,11 +13,16 @@
                                 </div>
                             </div>
                             <div class="row pb-3">
-                                <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <h1 class="venue">
+                                       {{ event.location.name }}
+                                    </h1>
+                                </div>
+                                <div class="col-md-8">
                                     <h1 class="time">
                                         {{ time(event) }}
                                     </h1>
-                                </div>
+                               </div>
                             </div>
                         </swiper-slide>
                     </swiper>
@@ -84,9 +89,17 @@
     .next .time {
         font-size: 32px;
         letter-spacing: 1px;
-        color: rgb(186,1,255);
+        color: #fff;
         font-family: "Oculus Sans";
-        font-weight: bold;
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    .next .venue {
+        font-size: 32px;
+        letter-spacing: 1px;
+        color: #148aff;
+        font-family: "Oculus Sans";
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
     }
@@ -98,7 +111,9 @@
     }
     .next {
         position: relative;
-        top: 700px;
+        top: 200px;
+        width: 900px;
+        margin-left: 36px;
     }
     .next .upcoming {
         font-size: 33px;
@@ -108,7 +123,7 @@
         font-weight: bold;
     }
     .next .name {
-        font-size: 50px;
+        font-size: 40px;
         padding-bottom: 5px;
         letter-spacing: 1px;
     }
@@ -126,7 +141,7 @@
         color: rgb(52,56,149);
     }
     .standalone {
-        height: 220px !important;
+        height: 1540px !important;
     }
     .swiper-wrapper {
         -webkit-transition-timing-function: linear!important;

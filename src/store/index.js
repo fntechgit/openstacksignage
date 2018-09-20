@@ -88,7 +88,7 @@ export const $store = new Vuex.Store({
                  //],
                 page: 1,
                 per_page: 100,
-                expand: 'track,speakers'
+                expand: 'track,speakers,location'
             }, { indices: false })
 
             return axios.get(getEndpoint(
