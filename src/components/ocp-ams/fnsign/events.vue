@@ -59,7 +59,7 @@
         swiperOption: {
           direction: 'vertical',
           allowTouchMove: false,
-          autoHeight: fa,
+          autoHeight: true,
           height: 268,
           spaceBetween: 10,
           loop: true,
