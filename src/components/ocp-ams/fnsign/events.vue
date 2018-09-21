@@ -1,7 +1,7 @@
 <template>
     <div class="event next pb-5">
         <div class="pt-5">
-            <div class="container-fluid pl-5 pr-5">
+            <div class="container-fluid pl-5 pr-5" v-bind:class="{standalone : current == null}">
                 <div class="row pb-3">
       	            <div class="col-md-12">
   		                <h1 class="text-uppercase upcoming">
@@ -9,7 +9,7 @@
    		                </h1>
 	                </div>
                 </div>
-                <div style="height: 560px; overflow: hidden" v-bind:class="{standalone : current != null}">
+                <div class="events-wrapper" >
                     <swiper ref="slider" :options="swiperOption">
                         <swiper-slide v-for="event in events" :key="event.id">
                             <div class="row pb-3">
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </swiper-slide>
-                    </swiper>
+                    </swiper>3
                 </div>
             </div>
         </div>
@@ -189,7 +189,11 @@
         color: rgb(52,56,149);
     }
     .standalone {
-        height: 298px !important;
+        margin-top: 640px;
+    }
+    .events-wrapper {
+        height: 298px;
+        overflow: hidden;
     }
     .swiper-wrapper {
         -webkit-transition-timing-function: linear!important;
