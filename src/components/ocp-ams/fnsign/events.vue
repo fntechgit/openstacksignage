@@ -61,7 +61,7 @@
           allowTouchMove: false,
           autoHeight: true,
           height: 298,
-          spaceBetween: 10,
+          spaceBetween: 100,
           loop: true,
           speed: 4000,
           autoplay: {
