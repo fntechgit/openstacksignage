@@ -29,55 +29,51 @@
 
 <script>
 
-    import 'swiper/dist/css/swiper.css'
+  import 'swiper/dist/css/swiper.css'
 
-    import { swiper, swiperSlide } from 'vue-awesome-swiper'
+  import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
-    export default {
-        props: ['current', 'events', 'schedule'],
-        data() {
-            return {
-                swiperOption: {
-                    direction: 'vertical',
-                    allowTouchMove: false,
-                    autoHeight: true,
-                    height: 298,
-                    spaceBetween: 10,
-                    loop: true,
-                    speed: 4000,
-                    autoplay: {
-                        delay: 0
-                    },
-                }
-            }
-        },
-        watch: {
-            current: function (newVal, oldVal) {
-                if (newVal != oldVal) {
-                    this.swiper.slideToLoop(0, 0, true)
-                    this.swiper.autoplay.start()
-                }
-            }
-        },
-        computed: {
-            swiper() {
-                return this.$refs.slider.swiper
-            },
-            time() {
-                return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm a'),
-                    this.schedule.getDate(event.end_date).format('h:mm a')
-                ].join(' - ') || 'N/A'
-            },
-            starttime() {
-                return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
-            }
-        },
-        components: {
-            swiper,
-            swiperSlide
+  export default {
+    props: ['current', 'events', 'schedule'],
+    data() {
+      return {
+        swiperOption: {
+          direction: 'vertical',
+          allowTouchMove: false,
+          autoHeight: true,
+          height: 298,
+          spaceBetween: 10,
+          loop: true,
+          speed: 4000,
+          autoplay: {
+            delay: 0
+          },
         }
+      }
+    },
+    beforeUpdate: function () {
+      this.$refs.slider.swiper.detachEvents()
+      this.$refs.slider.swiper.destroy()
+    },
+    updated: function () {
+      this.$refs.slider.mountInstance()
+    },
+    computed: {
+      time() {
+        return event => event && [
+          this.schedule.getDate(event.start_date).format('h:mm a'),
+          this.schedule.getDate(event.end_date).format('h:mm a')
+        ].join(' - ') || 'N/A'
+      },
+      starttime() {
+        return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
+      }
+    },
+    components: {
+      swiper,
+      swiperSlide
     }
+  }
 </script>
 
 <style>

@@ -58,14 +58,15 @@
       return {
         swiperOption: {
           direction: 'vertical',
-          allowTouchMove: true,
-          height: 298,
-          spaceBetween: 100,
+          allowTouchMove: false,
+          autoHeight: true,
+          height: 168,
+          spaceBetween: 10,
           loop: true,
           speed: 4000,
           autoplay: {
             delay: 0
-          },
+          }
         }
       }
     },
