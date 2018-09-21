@@ -70,13 +70,13 @@
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
-        <div v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length < 4">
-            <event :next="true" :schedule="schedule" v-for="evt in schedule.state.events.upcoming" :event="evt">
+        <div v-if="schedule.state.events.all && schedule.state.events.all.length <= 8">
+            <event :next="true" :schedule="schedule" v-for="evt in schedule.state.events.all" :event="evt">
             </event>
         </div>
 
-        <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.upcoming"
-                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 4">
+        <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.all"
+                v-else-if="schedule.state.events.all && schedule.state.events.all.length > 8">
         </events>
 
         <div v-else-if="! schedule.state.events.curr" class="empty">

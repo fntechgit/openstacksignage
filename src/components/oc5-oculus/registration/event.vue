@@ -119,6 +119,7 @@
         top: 200px;
         width: 1000px;
         margin-left: 36px;
+        padding-bottom: 0px!important;
     }
     .next .upcoming {
         font-size: 33px;

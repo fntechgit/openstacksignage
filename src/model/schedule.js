@@ -130,7 +130,7 @@ export default class Schedule {
     update() {
         this.tick()
 
-        let events = { curr: null, next: [], prev: [], upcoming: [] }
+        let events = { curr: null, next: [], prev: [], upcoming: [], all: [] }
         let banners = { curr: null, next: [], prev: [] }
 
         this.events.forEach(event => {
@@ -140,6 +140,7 @@ export default class Schedule {
                 events.next.push(event)
                 if (this.isToday(event.end_date)) {
                     events.upcoming.push(event)
+                    events.all.push(event)
                 }
             }
         })
@@ -165,7 +166,7 @@ export default class Schedule {
             curr: events.curr,
             prev: events.prev.length ? events.prev[events.prev.length-1] : null,
             next: events.next.length ? events.next[0] : null,
-            all: events.next.length ? events.next : null,
+            all: events.all.length ? events.all : null,
             upcoming: events.upcoming.length ? events.upcoming : null,
         }
 

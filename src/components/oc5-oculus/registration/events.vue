@@ -46,7 +46,7 @@
                     direction: 'vertical',
                     allowTouchMove: false,
                     autoHeight: true,
-                    height: 298,
+                    height: 168,
                     spaceBetween: 10,
                     loop: true,
                     speed: 4000,
@@ -116,6 +116,7 @@
         top: 200px;
         width: 900px;
         margin-left: 36px;
+        padding-bottom: 0px!important;
     }
     .next .upcoming {
         font-size: 33px;
