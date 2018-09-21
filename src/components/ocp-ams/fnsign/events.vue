@@ -60,7 +60,7 @@
           direction: 'vertical',
           allowTouchMove: false,
           autoHeight: true,
-          height: 268,
+          height: 298,
           spaceBetween: 10,
           loop: true,
           speed: 4000,
