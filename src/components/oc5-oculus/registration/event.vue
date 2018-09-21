@@ -9,30 +9,13 @@
                         </h1>
                     </div>
                 </div>
-                <div class="row" v-if="!next && event.speakers">
-                    <div class="col-md-12 speaker-list-label">
-                         <h1 class="text-uppercase">
-                            Speakers
-                        </h1>
-                    </div>
-	            <div class="col-md-12 speaker-list">
-                        <li v-for="speaker in event.speakers">
-                            <h1 class="speaker">
-                                {{ speakername(speaker) }}
-                            </h1>
-                            <h1 class="speaker-info">
-                                {{ speakerinfo(speaker) }}
-                            </h1>
-                        </li>
-    	            </div>
-                </div>
                 <div class="row pb-3">
-                    <div class="col-md-2">
+                    <div>
                         <h1 class="venue">
                             {{ event.location.name }}
                         </h1>
                     </div>
-                    <div class="col-md-8">
+                    <div>
                         <h1 class="time">
                             {{ time(event) }}
                         </h1>
@@ -57,19 +40,7 @@
                     this.schedule.getDate(event.start_date).format('h:mm A'),
                     this.schedule.getDate(event.end_date).format('h:mm A')
                 ].join(' - ') || 'N/A'
-            },
-            speakername() {
-                return speaker => speaker && [
-                    speaker.first_name,
-                    speaker.last_name
-                ].join(' ') || 'N/A'
-            },
-            speakerinfo() {
-                return speaker => speaker && (speaker.position && speaker.company) && [
-                    speaker.position,
-                    speaker.company
-                ].join(' , ') 
-            },
+            }
         }
     }
 </script>
@@ -93,6 +64,8 @@
         font-family: "Oculus Sans";
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
+        padding-right: 15px;
+        padding-left: 17px;
     }
 
 

@@ -1,6 +1,5 @@
 <template>
-    <div id="app" :class="'room-' + schedule.room.name.replace(' ','')">
-
+    <div id="app" :class="'day-' + getClass()">
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
                 <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
@@ -73,9 +72,9 @@
 
         <div v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length < 4">
             <event :next="true" :schedule="schedule" v-for="evt in schedule.state.events.upcoming" :event="evt">
-	    </event>               
-        </div>     
- 
+            </event>
+        </div>
+
         <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.upcoming"
                 v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 4">
         </events>
@@ -94,7 +93,8 @@
 
         <banner :banner="schedule.state.scheduled_banners.curr"
                 v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Secondary'"></banner>
-    </div>
+
+     </div>
 </template>
 
 <script>
@@ -112,6 +112,9 @@
             }),
         },
         methods: {
+            getClass() {
+                return this.schedule.format(this.schedule.state.now).startsWith('2018-09-27')  ? 'second' : 'first'   
+            },
             syncStart(item) {
                 this.schedule.setOffset(
                     item.start_date - moment.utc().unix() - 5
@@ -184,10 +187,16 @@
         color: yellow;
     }
 
-    #app {
+    #app.day-first {
         width: 1080px;
         height: 1920px;
         background-image: url("~/assets/images/oc5-oculus/FN7_Bkgd_DAY1.png");
     }    
+
+    #app.day-second {
+        width: 1080px;
+        height: 1920px;
+        background-image: url("~/assets/images/oc5-oculus/FN7_Bkgd_DAY2.png");
+    }
 
 </style>

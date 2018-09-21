@@ -13,12 +13,12 @@
                                 </div>
                             </div>
                             <div class="row pb-3">
-                                <div class="col-md-2">
+                                <div>
                                     <h1 class="venue">
                                        {{ event.location.name }}
                                     </h1>
                                 </div>
-                                <div class="col-md-8">
+                                <div>
                                     <h1 class="time">
                                         {{ time(event) }}
                                     </h1>
@@ -102,6 +102,8 @@
         font-family: "Oculus Sans";
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
+        padding-right: 15px;
+        padding-left: 17px;
     }
     .next .name {
         font-family: Oculus Sans;
