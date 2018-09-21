@@ -1,8 +1,8 @@
 <template>
     <div class="event next pb-5">
         <div class="pt-5">
-            <div class="container-fluid pl-5 pr-5">
-                <div style="height: 560px; overflow: hidden" v-bind:class="{standalone : current != null}">
+            <div class="container-fluid pl-5 pr-5" v-bind:class="{standalone : current == null}">
+                <div class="events-wrapper">
                     <swiper ref="slider" :options="swiperOption">
                         <swiper-slide v-for="event in events" :key="event.id">
                             <div class="row">
@@ -15,14 +15,14 @@
                             <div class="row pb-3">
                                 <div>
                                     <h1 class="venue">
-                                       {{ event.location.name }}
+                                        {{ event.location.name }}
                                     </h1>
                                 </div>
                                 <div>
                                     <h1 class="time">
                                         {{ time(event) }}
                                     </h1>
-                               </div>
+                                </div>
                             </div>
                         </swiper-slide>
                     </swiper>
@@ -140,7 +140,11 @@
         color: rgb(52,56,149);
     }
     .standalone {
-        height: 1540px !important;
+        margin-top: 640px;
+    }
+    .events-wrapper {
+        height: 168px;
+        overflow: hidden;
     }
     .swiper-wrapper {
         -webkit-transition-timing-function: linear!important;

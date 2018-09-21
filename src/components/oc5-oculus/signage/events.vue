@@ -1,8 +1,8 @@
 <template>
     <div class="event next pb-5">
         <div class="pt-5">
-            <div class="container-fluid pl-5 pr-5">
-                <div style="height: 560px; overflow: hidden" v-bind:class="{standalone : current != null}">
+            <div class="container-fluid pl-5 pr-5" v-bind:class="{standalone : current == null}">
+                <div class="events-wrapper">
                     <swiper ref="slider" :options="swiperOption">
                         <swiper-slide v-for="event in events" :key="event.id">
                             <div class="row">
@@ -41,7 +41,7 @@
           direction: 'vertical',
           allowTouchMove: false,
           autoHeight: true,
-          height: 298,
+          height: 220,
           spaceBetween: 10,
           loop: true,
           speed: 4000,
@@ -122,7 +122,11 @@
         color: rgb(52,56,149);
     }
     .standalone {
-        height: 220px !important;
+        margin-top: 700px;
+    }
+    .events-wrapper {
+        height: 220px;
+        overflow: hidden;
     }
     .swiper-wrapper {
         -webkit-transition-timing-function: linear!important;
