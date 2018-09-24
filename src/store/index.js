@@ -80,6 +80,7 @@ export const $store = new Vuex.Store({
         },
         loadEvents(context, location) {
             var summit_id = context.state.summit ? context.state.summit.id : 'current'
+            summit_id = 26	  	
 
             const query = qs.stringify({
                  //'filter[]': [

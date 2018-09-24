@@ -143,7 +143,7 @@
         margin-top: 640px;
     }
     .events-wrapper {
-        height: 168px;
+        height: 1550px;
         overflow: hidden;
     }
     .swiper-wrapper {
