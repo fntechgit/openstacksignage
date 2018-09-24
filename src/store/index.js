@@ -75,12 +75,18 @@ export const $store = new Vuex.Store({
             }, { indices: false })
 
             return axios.get(getEndpoint(`summits?${query}`)).then(response => {
+                var params = new URLSearchParams(window.location.href.split('?')[1])
+                var summit_id = parseInt(params.get('summit'))		    
+                var summits = response.data.data.filter(function(summit) {
+                    return summit.id == summit_id 
+                })
+
                 return context.state.summit = response.data.data.pop()
             })
         },
         loadEvents(context, location) {
-            var summit_id = context.state.summit ? context.state.summit.id : 'current'
-            summit_id = 26	  	
+            //var summit_id = context.state.summit ? context.state.summit.id : 'current'
+            var summit_id = 26	  	
 
             const query = qs.stringify({
                  //'filter[]': [
@@ -97,7 +103,8 @@ export const $store = new Vuex.Store({
             ))
         },
         loadBanners(context, location) {
-            var summit_id = context.state.summit ? context.state.summit.id : 'current'
+            //var summit_id = context.state.summit ? context.state.summit.id : 'current'
+            var summit_id = 26
 
             const query = qs.stringify({
                 // 'filter[]': [

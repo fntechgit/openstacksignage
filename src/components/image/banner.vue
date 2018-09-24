@@ -11,7 +11,8 @@
             style: function() {
                 return {
                     'min-height': '100vh',
-                    'height': '100%',
+                    'height': '1920px',
+                    'width' : '1080px', 
                     'background-size': 'cover',
                     'background': 'url(' + this.banner.content + ') center bottom',
                 };
