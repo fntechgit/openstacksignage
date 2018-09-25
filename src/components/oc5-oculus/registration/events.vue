@@ -67,8 +67,8 @@
     computed: {
       time() {
         return event => event && [
-          this.schedule.getDate(event.start_date).format('h:mm a'),
-          this.schedule.getDate(event.end_date).format('h:mm a')
+          this.schedule.getDate(event.start_date).format('hh:mm A'),
+          this.schedule.getDate(event.end_date).format('hh:mm A')
         ].join(' - ') || 'N/A'
       },
       starttime() {
@@ -152,5 +152,8 @@
         -webkit-transition-timing-function: linear!important;
         -o-transition-timing-function: linear!important;
         transition-timing-function: linear!important;
+    }
+    div[data-swiper-slide-index="0"] {
+        margin-top: 250px;
     }
 </style>

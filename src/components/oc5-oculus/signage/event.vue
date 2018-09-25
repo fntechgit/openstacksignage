@@ -74,7 +74,7 @@
         width: 1000px;
         margin-left: 36px;
         position: relative;
-        top: 680px;
+        top: 660px;
         height: 700px;
     }
     .event .time,

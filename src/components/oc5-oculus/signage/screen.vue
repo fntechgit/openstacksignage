@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="'room-' + schedule.room.name.replace(' ','')">
+    <div id="app" :class="'room-' + schedule.room.id">
 
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
@@ -208,28 +208,28 @@
         background-image: url("~/assets/images/oc5-oculus/FN1_220B_Bkgd.png");
     }    
 
-    .room-G102 {
+    .room-671 {
         background-image: url("~/assets/images/oc5-oculus/FN1_220B_Bkgd.png")!important;
     }
-    .room-G102 h1.time {
+    .room-671 h1.time {
         color: rgb(186,1,255);
     }
-    .room-G103 {
+    .room-670 {
         background-image: url("~/assets/images/oc5-oculus/FN2_220C_Bkgd.png")!important;
     }
-    .room-G103 h1.time {
+    .room-670 h1.time {
         color: rgb(20,138,255);
     }
-    .room-G104 {
+    .room-667 {
         background-image: url("~/assets/images/oc5-oculus/FN3_210E_Bkgd.png")!important;
     }
-    .room-G104 h1.time {
+    .room-667 h1.time {
         color: rgb(183,236,0);
     }
-    .room-G105 {
+    .room-668 {
         background-image: url("~/assets/images/oc5-oculus/FN4_210G_Bkgd.png")!important;
     }
-    .room-G105 h1.time {
+    .room-668 h1.time {
         color: rgb(255,186,0);
     }
 </style>
