@@ -90,7 +90,7 @@
 
         <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
 
-        <event :next="true" :schedule="schedule" :event="schedule.state.events.upcoming[0]"
+        <event :fixed="true" :next="true" :schedule="schedule" :event="schedule.state.events.upcoming[0]"
                v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length == 1">
         </event>
 

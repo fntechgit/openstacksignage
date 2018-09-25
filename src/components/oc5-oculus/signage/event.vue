@@ -1,5 +1,5 @@
 <template>
-    <div class="event pb-5" :class="{ next }">
+    <div class="event pb-5" :class="{ next , fixed }">
         <div class="pt-5">
             <div class="container-fluid pl-5 pr-5">
                 <div class="row">
@@ -40,7 +40,7 @@
 
 <script>
     export default {
-        props: ['next', 'event', 'schedule'],
+        props: ['next', 'event', 'schedule', 'fixed'],
         computed: {
             room() {
                 return event => event && this.$store.getters.room(
@@ -160,5 +160,9 @@
     }
     .next .speaker-info {
         color: rgb(52,56,149);
+    }
+    .event.pb-5.next.fixed {
+        position: absolute!important;
+        top: 1520px;
     }
 </style>
