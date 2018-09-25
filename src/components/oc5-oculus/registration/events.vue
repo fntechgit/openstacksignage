@@ -15,7 +15,7 @@
                             <div class="row pb-3">
                                 <div>
                                     <h1 class="venue">
-                                        {{ event.location.name }}
+                                        {{ getVenue(event) }}
                                     </h1>
                                 </div>
                                 <div>
@@ -47,6 +47,7 @@
           allowTouchMove: false,
           autoHeight: true,
           height: 168,
+          slidesPerView: 'auto',
           spaceBetween: 10,
           loop: true,
           speed: 4000,
@@ -72,7 +73,11 @@
       },
       starttime() {
         return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
+      },
+      getVenue() {
+        return event => event.location && event.location.name || 'N/A'
       }
+
     },
     components: {
       swiper,
@@ -138,9 +143,6 @@
     }
     .next .speaker-info {
         color: rgb(52,56,149);
-    }
-    .standalone {
-        margin-top: 640px;
     }
     .events-wrapper {
         height: 1550px;

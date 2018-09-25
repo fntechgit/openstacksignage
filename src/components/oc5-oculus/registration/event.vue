@@ -12,7 +12,7 @@
                 <div class="row pb-3">
                     <div>
                         <h1 class="venue">
-                            {{ event.location.name }}
+                            {{ getVenue(event) }}
                         </h1>
                     </div>
                     <div>
@@ -34,6 +34,9 @@
                 return event => event && this.$store.getters.room(
                     event.location_id
                 ) || { name: 'N/A' }
+            },
+            getVenue() {
+                return event => event.location && event.location.name || 'N/A'
             },
             time() {
                 return event => event && [
