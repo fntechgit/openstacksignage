@@ -78,7 +78,8 @@
                     </div>
                     <div class="col-md-8">
                         <div class="text-uppercase value">
-                            {{ schedule.room.name }}
+                            {{ schedule.room.name.substr(0, schedule.room.name.length - 1) }}
+                            <span>{{ schedule.room.name.substr(schedule.room.name.length - 1) }}</span>
                         </div>
                     </div>
                 </div>
@@ -102,7 +103,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
+                        <h1 class="display-4 font-weight-bold">
                             All presentations are finished for today.
                         </h1>
                     </div>
@@ -158,13 +159,16 @@
         position: relative;
         top: 700px;
         width: 880px;
-        left: 100px;
+        left: 65px;
     }
 
     .empty h1 {
         font-family: "Oculus Sans";
         color: #fff;
         font-size: 80px;
+        letter-spacing: 2px;
+        font-weight: normal!important;
+        line-height: 1.5;
     } 
 
     .room {
@@ -188,6 +192,13 @@
         font-family: "Oculus Sans";
         font-weight: bold;
         text-align: right;
+        display: flex;
+        float: right;
+    }
+
+    .room .value span {
+        font-weight: normal;
+        
     }
 
     .debug {

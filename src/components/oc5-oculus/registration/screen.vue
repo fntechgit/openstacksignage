@@ -150,6 +150,9 @@
         font-family: "Oculus Sans";
         color: #fff;
         font-size: 80px;
+        letter-spacing: 2px;
+        font-weight: normal!important;
+        line-height: 1.5;
     } 
 
     .room {

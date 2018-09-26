@@ -49,8 +49,8 @@
             },
             time() {
                 return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm a'),
-                    this.schedule.getDate(event.end_date).format('h:mm a')
+                    this.schedule.getDate(event.start_date).format('hh:mm A'),
+                    this.schedule.getDate(event.end_date).format('hh:mm A')
                 ].join(' - ') || 'N/A'
             },
             speakername() {
@@ -63,7 +63,7 @@
                 return speaker => speaker && (speaker.position && speaker.company) && [
                     speaker.position,
                     speaker.company
-                ].join(' , ') 
+                ].join(', ') 
             },
         }
     }
@@ -128,9 +128,6 @@
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
 
-    }
-    .speaker-info:before {
-        content: "//  ";
     }
     .next {
         position: relative;

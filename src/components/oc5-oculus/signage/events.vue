@@ -1,5 +1,5 @@
 <template>
-    <div class="event next pb-5">
+    <div class="next pb-5">
         <div class="pt-5">
             <div class="container-fluid pl-5 pr-5" v-bind:class="{standalone : current == null}">
                 <div class="events-wrapper">
@@ -61,8 +61,8 @@
     computed: {
       time() {
         return event => event && [
-          this.schedule.getDate(event.start_date).format('h:mm a'),
-          this.schedule.getDate(event.end_date).format('h:mm a')
+          this.schedule.getDate(event.start_date).format('hh:mm A'),
+          this.schedule.getDate(event.end_date).format('hh:mm A')
         ].join(' - ') || 'N/A'
       },
       starttime() {
@@ -127,6 +127,8 @@
     .events-wrapper {
         height: 220px;
         overflow: hidden;
+        margin-left: 36px;
+        width: 890px;
     }
     .swiper-wrapper {
         -webkit-transition-timing-function: linear!important;
