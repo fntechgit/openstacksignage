@@ -1,9 +1,30 @@
 <template>
     <div class="event next pb-5">
         <div class="pt-5">
-            <div class="container-fluid pl-5 pr-5" v-bind:class="{standalone : current == null}">
+            <div class="container-fluid pl-5 pr-5">
                 <div class="events-wrapper">
                     <swiper ref="slider" :options="swiperOption">
+                        <swiper-slide :key="0">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h1 class="text-primary name">
+                                        Registration
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="row pb-3">
+                                <div>
+                                    <h1 class="venue">
+                                        The Hub
+                                    </h1>
+                                </div>
+                                <div>
+                                    <h1 class="time">
+                                        08:00 AM - 09:00 PM
+                                    </h1>
+                                </div>
+                            </div>
+                        </swiper-slide>
                         <swiper-slide v-for="event in events" :key="event.id">
                             <div class="row">
                                 <div class="col-md-12">
@@ -39,15 +60,14 @@
   import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
   export default {
-    props: ['current', 'events', 'schedule'],
+    props: ['events', 'schedule'],
     data() {
       return {
         swiperOption: {
           direction: 'vertical',
           allowTouchMove: false,
-          autoHeight: true,
-          height: 168,
           slidesPerView: 'auto',
+          height: 1,
           spaceBetween: 10,
           loop: true,
           speed: 4000,
@@ -58,13 +78,18 @@
       }
     },
     beforeUpdate: function () {
-      this.$refs.slider.swiper.detachEvents()
-      this.$refs.slider.swiper.destroy()
+      this.swiper.detachEvents()
+      this.swiper.destroy()
     },
     updated: function () {
       this.$refs.slider.mountInstance()
     },
+    mounted: function () {
+    },
     computed: {
+      swiper() {
+        return this.$refs.slider.swiper
+      },
       time() {
         return event => event && event.start_date && event.end_date && [
           this.schedule.getDate(event.start_date).format('hh:mm A'),
@@ -152,5 +177,9 @@
         -webkit-transition-timing-function: linear!important;
         -o-transition-timing-function: linear!important;
         transition-timing-function: linear!important;
+    }
+    div[data-swiper-slide-index="0"] h1,
+    div[data-swiper-slide-index="0"] h1.name {
+        color: black!important;
     }
 </style>

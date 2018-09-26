@@ -75,7 +75,7 @@
             </event>
         </div>
 
-        <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.all"
+        <events :schedule="schedule" :events="schedule.state.events.all"
                 v-else-if="schedule.state.events.all && schedule.state.events.all.length > 8">
         </events>
 

@@ -9,7 +9,7 @@
    		                </h1>
 	                </div>
                 </div>
-                <div class="events-wrapper" >
+                <div class="events-wrapper">
                     <swiper ref="slider" :options="swiperOption">
                         <swiper-slide v-for="event in events" :key="event.id">
                             <div class="row pb-3">
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                         </swiper-slide>
-                    </swiper>3
+                    </swiper>
                 </div>
             </div>
         </div>
