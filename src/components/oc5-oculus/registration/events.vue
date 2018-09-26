@@ -66,16 +66,16 @@
     },
     computed: {
       time() {
-        return event => event && [
+        return event => event && event.start_date && event.end_date && [
           this.schedule.getDate(event.start_date).format('hh:mm A'),
           this.schedule.getDate(event.end_date).format('hh:mm A')
-        ].join(' - ') || 'N/A'
+        ].join(' - ') || ' '
       },
       starttime() {
         return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
       },
       getVenue() {
-        return event => event.location && event.location.name || 'N/A'
+        return event => event.location && event.location.name || ' '
       }
 
     },
@@ -152,8 +152,5 @@
         -webkit-transition-timing-function: linear!important;
         -o-transition-timing-function: linear!important;
         transition-timing-function: linear!important;
-    }
-    div[data-swiper-slide-index="0"] {
-        margin-top: 250px;
     }
 </style>

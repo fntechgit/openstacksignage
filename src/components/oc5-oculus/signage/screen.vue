@@ -1,6 +1,6 @@
 <template>
     <div id="app" :class="'room-' + schedule.room.id">
-
+        
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
                 <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
@@ -78,8 +78,8 @@
                     </div>
                     <div class="col-md-8">
                         <div class="text-uppercase value">
-                            {{ schedule.room.name.substr(0, schedule.room.name.length - 1) }}
-                            <span>{{ schedule.room.name.substr(schedule.room.name.length - 1) }}</span>
+                            {{ getRoomPrefix(schedule.room) }}
+                            <span>{{ getRoomSuffix(schedule.room) }}</span>
                         </div>
                     </div>
                 </div>
@@ -141,6 +141,12 @@
                     item.end_date - moment.utc().unix() - 5
                 )
             },
+            getRoomPrefix(room) {
+                return room.name.trim().length > 4 ? room.name.trim() : room.name.substr(0, room.name.length - 1)
+            },  
+            getRoomSuffix(room) {
+                return room.name.trim().length > 4 ? "" : room.name.substr(room.name.length - 1)
+            },
         },
         components: { Event, Events, Banner }
     }
@@ -165,7 +171,7 @@
     .empty h1 {
         font-family: "Oculus Sans";
         color: #fff;
-        font-size: 80px;
+        font-size: 76px;
         letter-spacing: 2px;
         font-weight: normal!important;
         line-height: 1.5;

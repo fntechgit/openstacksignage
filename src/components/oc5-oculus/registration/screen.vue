@@ -83,7 +83,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
+                        <h1 class="display-4 font-weight-bold">
                             All presentations are finished for today.
                         </h1>
                     </div>
@@ -143,13 +143,13 @@
         position: relative;
         top: 700px;
         width: 880px;
-        left: 100px;
+        left: 65px;
     }
 
     .empty h1 {
         font-family: "Oculus Sans";
         color: #fff;
-        font-size: 80px;
+        font-size: 76px;
         letter-spacing: 2px;
         font-weight: normal!important;
         line-height: 1.5;
