@@ -68,22 +68,9 @@
             </tr>
         </table>
 
-        <div class="room">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="text-uppercase value">
-                            {{ schedule.room.name }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="current-time">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="text-uppercase label">Current Time:</div>
                     <div class="text-uppercase value">
                         {{ schedule.getDate(schedule.state.now).format('HH:mm') }}
                     </div>
@@ -108,7 +95,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
+                        <h1 class="display-4 font-weight-bold">
                             All presentations are finished for today
                         </h1>
                     </div>
@@ -161,17 +148,15 @@
 
     .current-time {
         position: relative;
-        top: 499px;
+        top: 50px;
         color: #fff;
-        font-size: 33px;
-        font-family: "Franklin";
+        font-size: 25px;
+        font-family: Franklin;
         letter-spacing: 1px;
-        width: 369px;
-        height: 49px;
-        background-color: #333794;
-        left: 620px;
+        width: 60px;
+        left: 790px;
         text-rendering: geometricPrecision;
-        -webkit-font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased;		
     }
 
     .current-time .label { 
@@ -182,25 +167,15 @@
     .empty {
         padding: 6rem 0;
         position: relative;
-        top: 700px;
+        top: 50px;
         width: 880px;
-        left: 100px;
+        left: 50px;
     }
 
     .empty h1 {
         font-family: "Franklin";
     } 
     
-    .room {
-        position: relative;
-        top: 60px;
-        left: 60px;
-        font-size: 108px;
-        color: rgb(255,255,255);
-        font-family: "Nexa";
-        font-weight: bold;
-    }
-
     .debug {
         background: rgba(0, 0, 0, 0.5);
         color:white;
