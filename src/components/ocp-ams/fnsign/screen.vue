@@ -108,8 +108,8 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
-                            All presentations are finished for today
+                        <h1 class="display-4 font-weight-bold">
+                            All presentations are finished for today.
                         </h1>
                     </div>
                 </div>
@@ -183,8 +183,8 @@
         padding: 6rem 0;
         position: relative;
         top: 700px;
-        width: 880px;
-        left: 100px;
+        width: 950px;
+        left: 80px;
     }
 
     .empty h1 {
