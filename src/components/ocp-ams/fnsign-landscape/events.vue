@@ -175,9 +175,6 @@
     .next .speaker-info {
         color: rgb(52,56,149);
     }
-    .standalone {
-        margin-top: 640px;
-    }
     .events-wrapper {
         height: 198px;
         overflow: hidden;

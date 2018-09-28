@@ -136,8 +136,8 @@
         color: rgb(52,56,149);
     }
     .next {
-        position: relative;
-        top: 450px;
+        position: absolute;
+        top: 1300px;
         font-size: 42px !important;
     }
     .next .upcoming {
