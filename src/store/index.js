@@ -85,8 +85,7 @@ export const $store = new Vuex.Store({
             })
         },
         loadEvents(context, location) {
-            //var summit_id = context.state.summit ? context.state.summit.id : 'current'
-            var summit_id = 26	  	
+            var summit_id = context.state.summit ? context.state.summit.id : 'current'
 
             const query = qs.stringify({
                  //'filter[]': [
@@ -103,8 +102,7 @@ export const $store = new Vuex.Store({
             ))
         },
         loadBanners(context, location) {
-            //var summit_id = context.state.summit ? context.state.summit.id : 'current'
-            var summit_id = 26
+            var summit_id = context.state.summit ? context.state.summit.id : 'current'
 
             const query = qs.stringify({
                 // 'filter[]': [
