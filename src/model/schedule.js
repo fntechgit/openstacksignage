@@ -153,7 +153,7 @@ export default class Schedule {
             )
         })
 
-        if (events.next.length && events.next[0].start_date <= this.state.now) {
+        if (events.next.length && events.next[0].start_date - 60 * 5 <= this.state.now) {
             events.curr = events.next.shift()
             events.upcoming.shift()
         }
@@ -202,7 +202,7 @@ export default class Schedule {
             )
         } else if (this.state.events.next) {
             return this.setTimeout(
-                (this.state.events.next.start_date - this.state.now) * 1000
+                (this.state.events.next.start_date - 60 * 5 - this.state.now) * 1000
             )
         } else if (this.state.scheduled_banners.next) {
             return this.setTimeout(
