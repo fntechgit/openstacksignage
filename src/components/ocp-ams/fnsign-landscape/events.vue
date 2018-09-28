@@ -5,7 +5,7 @@
                 <div class="events-wrapper">
                     <swiper ref="slider" :options="swiperOption">
                         <swiper-slide v-for="event in events" :key="event.id">
-                            <div class="row pb-3">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <h1 class="text-uppercase time">
                                         {{ starttime(event) }}
@@ -53,7 +53,7 @@
           direction: 'vertical',
           allowTouchMove: false,
           autoHeight: true,
-          height: 298,
+          height: 180,
           spaceBetween: 100,
           loop: true,
           speed: 4000,
@@ -151,24 +151,26 @@
         position: absolute;
         top: 400px;
         font-size: 42px !important;
+        width: 680px !important;
     }
     .next .time {
         font-size: 28px;
     }
     .next .name {
-        font-size: 46px;
+        font-size: 42px;
         padding-bottom: 5px;
         line-height: 1.25;
     }
     .next .speaker,
     .next .speaker-info {
         font-family: Franklin;
-        font-size: 24px;
+        font-size: 18px;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
     }
     .next .speaker {
         color: #fff;
+        padding-right: 22;
     }
     .next .speaker-info {
         color: rgb(52,56,149);

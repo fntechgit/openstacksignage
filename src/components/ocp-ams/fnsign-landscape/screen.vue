@@ -96,7 +96,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="display-4 font-weight-bold">
-                            All presentations are finished for today
+                            All presentations are finished for today.
                         </h1>
                     </div>
                 </div>

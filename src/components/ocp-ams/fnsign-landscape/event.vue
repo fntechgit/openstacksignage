@@ -9,7 +9,7 @@
                         </h1>
                     </div>
                 </div>
-                <div class="row pb-3" v-if="next">
+                <div class="row" v-if="next">
                     <div class="col-md-12">
                         <h1 class="text-uppercase time">
                             {{ starttime(event) }}
@@ -119,6 +119,7 @@
     }
     .event .speaker {
         color: #fff;
+        padding-right: 2px;
     }
     event .speaker-info {
         padding-left: 30px;
@@ -131,24 +132,26 @@
         position: absolute;
         top: 400px;
         font-size: 42px !important;
+        width: 680px !important;
     }
     .next .time {
         font-size: 28px;
     }
     .next .name {
-        font-size: 46px;
+        font-size: 42px;
         padding-bottom: 5px;
         line-height: 1.25;
     }
     .next .speaker,
     .next .speaker-info {
         font-family: Franklin;
-        font-size: 24px;
+        font-size: 18px;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
     }
     .next .speaker {
         color: #fff;
+        padding-right: 2px;
     }
     .next .speaker-info {
         color: rgb(52,56,149);
