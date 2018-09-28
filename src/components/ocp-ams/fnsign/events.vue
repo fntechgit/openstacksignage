@@ -88,7 +88,7 @@
         return speaker => speaker && (speaker.position && speaker.company) && [
           speaker.position,
           speaker.company
-        ].join(' , ')
+        ].join(', ')
       },
       starttime() {
         return event => event && this.schedule.getDate(event.start_date).format('HH:mm') || 'N/A'
