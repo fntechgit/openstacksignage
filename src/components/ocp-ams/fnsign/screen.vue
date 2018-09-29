@@ -224,6 +224,7 @@
     .room-647 .room .value {
         font-size: 75px;
         width: 100px;
+        text-transform: capitalize!important;
     }
 
     .room-645 .room .value {
