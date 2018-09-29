@@ -53,10 +53,10 @@
           direction: 'vertical',
           allowTouchMove: false,
           autoHeight: true,
-          height: 250,
+          height: 500,
           spaceBetween: 100,
           loop: true,
-          speed: 4000,
+          speed: 6000,
           autoplay: {
             delay: 0
           }

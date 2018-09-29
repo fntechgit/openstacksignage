@@ -29,7 +29,7 @@
                             <h1 class="col-md-5 text-uppercase speaker">
                                 {{ speakername(speaker) }}
                             </h1>
-                            <h1 class="col-md-7 speaker-info">
+                            <h1 class="col-md-9 speaker-info">
                                 {{ speakerinfo(speaker) }}
                             </h1>
                         </li>
@@ -118,6 +118,7 @@
     .event .speaker {
         color: #fff;
         padding-right: 2px;
+        width: 600px;
     }
     event .speaker-info {
         padding-left: 30px;
