@@ -60,7 +60,7 @@
           direction: 'vertical',
           allowTouchMove: false,
           autoHeight: true,
-          height: 298,
+          height: 380,
           spaceBetween: 100,
           loop: true,
           speed: 4000,
@@ -105,8 +105,8 @@
     .event {
         width: 880px;
         margin-left: 49px;
-        position: relative;
-        top: 400px;
+        position: absolute;
+        top: 610px;
         height: 640px;
     }
     .event .time,

@@ -160,8 +160,8 @@
     }
 
     .current-time {
-        position: relative;
-        top: 499px;
+        position: absolute;
+        top: 655px;
         color: #fff;
         font-size: 33px;
         font-family: "Franklin";

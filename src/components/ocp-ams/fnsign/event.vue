@@ -85,8 +85,8 @@
     .event {
         width: 880px;
         margin-left: 49px;
-        position: relative;
-        top: 400px;
+        position: absolute;
+        top: 610px;
         height: 640px;
     }
     .event .time,
