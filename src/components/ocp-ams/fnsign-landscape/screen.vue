@@ -175,6 +175,7 @@
     .empty h1 {
         font-family: "Nexa";
         font-size: 52px;
+        color: #fff;
     } 
     
     .debug {

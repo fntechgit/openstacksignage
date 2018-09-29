@@ -27,12 +27,12 @@
                                 </div>
                             </div>
                             <div class="row" v-if="event.speakers">
-                                <div class="col-md-12 speaker-list">
+                                <div class="speaker-list">
                                     <li v-for="speaker in event.speakers">
-                                        <h1 class="text-uppercase speaker">
+                                        <h1 class="col-md-4 text-uppercase speaker">
                                             {{ speakername(speaker) }}
                                         </h1>
-                                        <h1 class="speaker-info">
+                                        <h1 class="col-md-9 speaker-info">
                                             {{ speakerinfo(speaker) }}
                                         </h1>
                                     </li>

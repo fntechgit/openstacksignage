@@ -190,6 +190,7 @@
     .empty h1 {
         font-family: "Nexa";
         font-size: 108px;
+        color: #fff;
     } 
     
     .room {
