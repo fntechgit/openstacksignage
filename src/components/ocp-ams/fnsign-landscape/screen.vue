@@ -148,13 +148,13 @@
 
     .current-time {
         position: relative;
-        top: 50px;
+        top: 73px;
         color: #fff;
-        font-size: 25px;
+        font-size: 33px;
         font-family: Franklin;
         letter-spacing: 1px;
         width: 60px;
-        left: 790px;
+        left: 1122px;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;		
     }
@@ -168,13 +168,13 @@
         padding: 6rem 0;
         position: relative;
         top: 50px;
-        width: 880px;
-        left: 50px;
+        width: 1080px;
+        left: 90px;
     }
 
     .empty h1 {
         font-family: "Nexa";
-        font-size: 52px;
+        font-size: 83px;
         color: #fff;
     } 
     

@@ -168,7 +168,7 @@
         letter-spacing: 1px;
         width: 369px;
         height: 49px;
-        background-color: #333794;
+        background-color: #343895;
         left: 620px;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
