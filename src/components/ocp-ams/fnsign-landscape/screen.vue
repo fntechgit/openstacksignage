@@ -173,7 +173,8 @@
     }
 
     .empty h1 {
-        font-family: "Franklin";
+        font-family: "Nexa";
+        font-size: 52px;
     } 
     
     .debug {

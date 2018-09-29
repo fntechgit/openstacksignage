@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="app"  :class="'room-' + schedule.room.id">
 
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
@@ -182,13 +182,14 @@
     .empty {
         padding: 6rem 0;
         position: relative;
-        top: 700px;
+        top: 500px;
         width: 950px;
         left: 80px;
     }
 
     .empty h1 {
-        font-family: "Franklin";
+        font-family: "Nexa";
+        font-size: 108px;
     } 
     
     .room {
@@ -211,6 +212,21 @@
 
     .debug a {
         color: yellow;
+    }
+    
+    .room-648 .room .value,
+    .room-652 .room .value {
+        font-size: 60px;
+        width: 100px;
+    }
+
+    .room-647 .room .value {
+        font-size: 75px;
+        width: 100px;
+    }
+
+    .room-645 .room .value {
+        font-size: 65px;
     }
 
 </style>
