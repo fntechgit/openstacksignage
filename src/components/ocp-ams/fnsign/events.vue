@@ -193,9 +193,6 @@
     .next .speaker-list li {
         padding-bottom: 35px;
     }
-    .standalone {
-        margin-top: 640px;
-    }
     .events-wrapper {
         height: 298px;
         overflow: hidden;
