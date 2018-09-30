@@ -18,7 +18,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="text-primary name">
+                        <h1 :class="'text-primary name session-' + event.id">
                             {{ event.title }}
                         </h1>
                     </div>
@@ -152,5 +152,9 @@
     }
     .next .speaker-info {
         color: rgb(52,56,149);
+    }
+
+    .name.session-24792 {
+        font-size: 59px;
     }
 </style>

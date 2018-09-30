@@ -157,8 +157,9 @@
     }
     .next {
         position: absolute;
-        top: 1290px;
+        top: 1300px;
         font-size: 42px !important;
+        width: 990px;
     }
     .next .upcoming {
         font-size: 33px;
@@ -187,6 +188,10 @@
     }
     .next .speaker-info {
         color: rgb(52,56,149);
+        width: 590px;
+    }
+    .next .speaker-list li {
+        padding-bottom: 35px;
     }
     .standalone {
         margin-top: 640px;

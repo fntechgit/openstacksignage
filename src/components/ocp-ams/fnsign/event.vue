@@ -2,7 +2,7 @@
     <div class="event pb-5" :class="{ next }">
         <div class="pt-5">
             <div class="container-fluid pl-5 pr-5">
-                <div class="row pb-3" v-if="next">
+                <div class="row" v-if="next">
       	            <div class="col-md-12">
                         <h1 class="text-uppercase upcoming">
                             Upcoming:
@@ -16,7 +16,7 @@
                         </h1>
                     </div>
                 </div>
-                <div class="row pb-3" v-if="next">
+                <div class="row" v-if="next">
                     <div class="col-md-12">
                         <h1 class="text-uppercase time">
                             {{ starttime(event) }}
@@ -30,13 +30,25 @@
                         </h1>
                     </div>
                 </div>
-                <div class="row" v-if="event.speakers">
+                <div class="row" v-if="!next && event.speakers">
+                        <div class="speaker-list">
+                        <li v-for="speaker in event.speakers">
+                            <h1 class="col-md-7 text-uppercase speaker">
+                                {{ speakername(speaker) }}
+                            </h1>
+                            <h1 class="col-md-7 speaker-info">
+                                {{ speakerinfo(speaker) }}
+                            </h1>
+                        </li>
+                    </div>
+                </div>
+                <div class="row" v-if="next && event.speakers">
 	                <div class="speaker-list">
                         <li v-for="speaker in event.speakers">
                             <h1 class="col-md-5 text-uppercase speaker">
                                 {{ speakername(speaker) }}
                             </h1>
-                            <h1 class="col-md-8 speaker-info">
+                            <h1 class="col-md-9 speaker-info">
                                 {{ speakerinfo(speaker) }}
                             </h1>
                         </li>
@@ -110,6 +122,7 @@
         font-size: 80px;
         line-height: 1.33;
         padding-bottom: 10px;	
+        width: 900px;
     }
     .event .speaker-list {
         list-style: none;
@@ -137,7 +150,7 @@
     }
     .next {
         position: absolute;
-        top: 1300px;
+        top: 1290px;
         font-size: 42px !important;
     }
     .next .upcoming {
@@ -146,14 +159,17 @@
         color: rgb(52,56,149);
         font-family: "Nexa";
         font-weight: bold;
+        height: 27px;
     }
     .next .time {
         font-size: 38px;
+        height: 30px;
     }
     .next .name {
         font-size: 56px;
-        padding-bottom: 5px;
+        padding-bottom: 0px;
         line-height: 1.25;
+        width: 900px;
     }
     .next .speaker,
     .next .speaker-info {
@@ -161,6 +177,7 @@
         font-size: 34px;
         text-rendering: geometricPrecision;
         -webkit-font-smoothing: antialiased;
+        height: 30px;
     }
     .next .speaker {
         color: #fff;
