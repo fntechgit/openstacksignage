@@ -4,6 +4,7 @@ var webpack = require('webpack')
 module.exports = {
     entry: {
         'image': './src/entry-image.js',
+        'image-landscape': './src/entry-image-landscape.js',	    
         'banner': './src/entry-banner.js',
         'schedule': './src/entry-schedule.js',
         'opendev-schedule': './src/entry-opendev-schedule.js',

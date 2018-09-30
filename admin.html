@@ -245,6 +245,7 @@
                         <option value="opendev-schedule">OpenDev Schedule</option>
                         <option value="opendev">OpenDev Static Message</option>
                         <option value="image">Static Image</option>
+			<option value="image-landscape">Static Image Landscape</option>
 			<option value="fnopen-f8-schedule">FNOpen F8 Schedule</option>
 			<!-- <option value="ocp-ams-meeting">OCP AMS Meeting Room</option> -->
 			<!-- <option value="ocp-ams-content">OCP AMS Content (Program)</option> -->
@@ -303,6 +304,41 @@
                     <button id="btn-reset" type="button" class="btn btn-secondary" disabled>Push Updates</button>
                 </div>
             </div>
+
+
+            <div class="form-group row">
+    	        <label for="static-images" class="col-md-3 col-form-label">Static Images</label>
+	        <div class="col-md-9">
+		    <select id="static-images" class="selectpicker form-control">
+			<option selected value="ocp-ams/mr1.html">G001</option>
+			<option selected value="ocp-ams/mr1-v2.html">G001 Private</option>
+                        <option selected value="ocp-ams/mr2.html">G002</option>
+                        <option selected value="ocp-ams/mr3.html">G003</option>
+                        <option selected value="ocp-ams/mr4.html">G101</option>
+                        <option selected value="ocp-ams/mr8.html">G105</option>
+                        <option selected value="ocp-ams/mr9.html">G106</option>
+                        <option selected value="ocp-ams/mr10.html">G107</option>
+                        <option selected value="ocp-ams/mr11.html">G108</option>
+                        <option selected value="ocp-ams/mr12.html">G109</option>
+                        <option selected value="ocp-ams/mr13.html">G110</option>
+                        <option selected value="ocp-ams/mr14.html">G111</option>		
+                        <option selected value="ocp-ams/mr15.html">Emerald</option>
+                        <option selected value="ocp-ams/mr16.html">Auditorium</option>
+                        <option selected value="ocp-ams/mr16-v2.html">Auditorium Keynote</option>
+                        <option selected value="ocp-ams/full.html">Full Session</option>
+                        <option selected value="ocp-ams/ocpams-hk-01.html">Welcome</option>
+                        <option selected value="ocp-ams/loop2.html">Video Loop 2</option>
+                        <option selected value="ocp-ams/loop3.html">Video Loop 3</option>			
+		    </select>
+    	        </div>
+	        <div class="col-md-offset-3 col-md-9">
+		    <button id="btn-view-static-images" type="button" class="btn btn-secondary">View Static Image</button>
+	        </div>
+            </div>
+
+
+
+
         </div>
     </div>
 </div>
@@ -389,6 +425,10 @@
 
             window.open('/#?summit=' + $('#summits').val() + '&location=' + $('#locations').val())
         });
+
+        $('#btn-view-static-images').on('click', function(e) {
+	    window.open('/' + $('#static-images').val())
+        }); 	    
 
         $('#btn-reset').on('click', function(e) {
 
