@@ -191,6 +191,10 @@
     .event .name.session-24843 {
         font-size: 75px;
     }
+    .event .name.session-24830 {
+        font-size: 75px;
+    }
+
     .next .session-24770 .speaker , 
     .next .session-24770 .speaker-info
     {
@@ -202,5 +206,20 @@
     {
         font-size: 20px;
         height: 0px;
+    }
+    .next .session-24830 .speaker,
+    .next .session-24830 .speaker-info
+    {
+        font-size: 24px!important;
+        height: 0px;
+    }
+    .next .name.session-24830 {
+        font-size: 56px;
+    }
+    .event .name.session-24786 {
+	font-size: 78px;
+    }
+    .event .name.session-24845 {
+	font-size: 70px;
     }
 </style>

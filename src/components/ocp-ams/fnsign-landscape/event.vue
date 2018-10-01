@@ -23,7 +23,7 @@
                         </h1>
                     </div>
                 </div>
-                <div class="row" v-if="event.speakers">
+                <div :class="'row session-' + event.id" v-if="event.speakers">
 	                <div class="speaker-list">
                         <li v-for="speaker in event.speakers">
                             <h1 class="col-md-5 text-uppercase speaker">
@@ -154,7 +154,25 @@
         color: rgb(52,56,149);
     }
 
-    .name.session-24792 {
+    .event .name.session-24792 {
         font-size: 59px;
+    }
+    .event .name.session-24794 {
+        font-size: 82px;
+    }
+    .event .name.session-24789 {
+        font-size: 78px;
+        width: 1400px;
+    }
+    .event .name.session-24810 {
+        font-size: 80px;
+    }
+    .next .name.session-24847 {
+        font-size: 48px;
+    }
+    .next .session-24770 .speaker,
+    .next .session-24770 .speaker-info
+    {
+        font-size: 25px;
     }
 </style>
