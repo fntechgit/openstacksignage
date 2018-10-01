@@ -25,7 +25,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="text-primary name">
+                        <h1 :class="'text-primary name session-' + event.id">
                             {{ event.title }}
                         </h1>
                     </div>
@@ -42,7 +42,7 @@
                         </li>
                     </div>
                 </div>
-                <div class="row" v-if="next && event.speakers">
+                <div :class="'row session-' + event.id" v-if="next && event.speakers">
 	                <div class="speaker-list">
                         <li v-for="speaker in event.speakers">
                             <h1 class="col-md-5 text-uppercase speaker">
@@ -184,5 +184,23 @@
     }
     .next .speaker-info {
         color: rgb(52,56,149);
+    }
+    .event .name.session-24804 {
+        font-size: 72px;
+    }
+    .event .name.session-24843 {
+        font-size: 75px;
+    }
+    .next .session-24770 .speaker , 
+    .next .session-24770 .speaker-info
+    {
+        font-size: 25px;
+        height: 10px;
+    }
+    .next .session-24791 .speaker, 
+    .next .session-24791 .speaker-info 
+    {
+        font-size: 20px;
+        height: 0px;
     }
 </style>
