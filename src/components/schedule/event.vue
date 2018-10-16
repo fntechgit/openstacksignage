@@ -4,7 +4,7 @@
             <div class="container-fluid pl-5 pr-5">
                 <div class="row pb-3">
                     <div class="col-md-12">
-                        <h1 class="text-uppercase text-secondary">
+                        <h1 class="text-uppercase text-secondary when">
                             {{ next ? 'Next' : 'Now' }}: {{ time(event) }}
                         </h1>
                     </div>
@@ -40,8 +40,8 @@
             },
             time() {
                 return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm A'),
-                    this.schedule.getDate(event.end_date).format('h:mm A')
+                    this.schedule.getDate(event.start_date).format('H:mm'),
+                    this.schedule.getDate(event.end_date).format('H:mm')
                 ].join(' - ') || 'N/A'
             }
         }
@@ -53,23 +53,33 @@
 
     .event {
         background: white;
-        border-top: 3px solid gray;
     }
 
     .event h1 {
         font-weight: bold;
+        line-height: 1.3;
+    }
+
+    .event h1.when {
+        font-size: 2.7rem;
     }
 
     .event .name {
-        font-size: 4.3rem;
+        font-size: 4rem;
+    }
+
+    .event.next .name {
+        font-size: 3rem;
     }
 
     .event .type {
         color: gray;
+        font-size: 2.5rem;
     }
 
     .event.next {
-        background: rgba(255,255,255,0.7)
+        background: rgba(255, 255, 255, 0.7);
+        border-top: 3px solid gray;
     }
 
 </style>

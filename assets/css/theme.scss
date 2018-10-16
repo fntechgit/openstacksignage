@@ -4,7 +4,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 $theme-colors: (
   primary: #24336e,
-  secondary: #EE2345,
+  secondary: #EA2046,
   success: #28a745,
   info: #00fbff,
   warning: #ffc107,
@@ -29,11 +29,7 @@ $enable-print-styles:       true !default;
 //
 // Theme settings.
 
-$body-bg: #5cb1da;
-
-
-
-
+$body-bg: #2960AC;
 
 $body-color: #24336e;
 
@@ -60,8 +56,7 @@ $display4-size: 3.5 * $font-size-base;
 
 $border-radius: .25rem;
 
-
-@import 'bootstrap-4.0.0-beta.1';
+@import '/node_modules/bootstrap/scss/bootstrap.scss';
 
 
 body > * {

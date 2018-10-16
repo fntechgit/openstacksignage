@@ -68,11 +68,11 @@
             </tr>
         </table>
 
-        <div class="py-5">
+        <div class="py-1">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <img class="img-fluid d-block mx-auto logo" src="assets/images/open-infrastructure-logo.svg">
+                        <img class="img-fluid d-block mx-auto" src="assets/images/open-infrastructure-logo.svg">
                     </div>
                 </div>
             </div>
@@ -83,15 +83,15 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="text-uppercase label">Room</div>
-                        <div class="text-uppercase value">
+                        <div class="value">
                             {{ schedule.floor.name }}
                             ({{ schedule.room.name }})
                         </div>
                     </div>
-                    <div class="col-md-4 text-center">
+                    <div class="col-md-4 text-right">
                         <div class="text-uppercase label">Current Time</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
+                        <div class="value">
+                            {{ schedule.getDate(schedule.state.now).format('H:mm') }}
                         </div>
                     </div>
                 </div>
@@ -108,10 +108,10 @@
         v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
 
         <div v-else-if="! schedule.state.events.curr" class="empty">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
+                        <h1 class="display-4 text-left font-weight-bold">
                             All presentations are finished for today
                         </h1>
                     </div>
@@ -149,6 +149,10 @@
                 )
             },
         },
+        mounted() {
+            const el = document.body
+            el.style.backgroundImage = "url(/assets/images/background-" + Math.floor(Math.random() * 3 + 1) + ".png)"
+        },
         components: { Event, Banner }
     }
 
@@ -156,15 +160,11 @@
 
 <style>
 
-    .logo {
-        width: 80%;
-    }
-
     .location {
         color: white;
-        border-top: 5px solid white;
-        border-bottom: 15px solid red;
-        padding: 40px 30px;
+        border-bottom: 1rem solid #EA2046;
+        padding: 2.5rem;
+        background-color: #052643;
     }
 
     .location .label {
@@ -173,18 +173,24 @@
     }
 
     .location .value {
-        font-size: 3rem;
+        font-size: 3.7rem;
+        line-height: 1.3;
     }
 
     .empty {
         background: white;
-        padding: 6rem 0;
+        padding: 2.5rem 2.5rem 5rem;
         border-bottom: 3px solid gray;
+    }
+
+    .empty h1 {
+        line-height: 1.3;
+        font-size: 4rem;
     }
 
     .debug {
         background: rgba(0, 0, 0, 0.5);
-        color:white;
+        color: white;
         position: fixed;
         top: 0;
         z-index: 1;
