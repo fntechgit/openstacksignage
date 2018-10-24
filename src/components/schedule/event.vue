@@ -46,8 +46,7 @@
     }
 
     .event.next {
-        background-color: #ccccff;
-
+        background-color: #dddddd;
     }
 
     .event.standalone {
