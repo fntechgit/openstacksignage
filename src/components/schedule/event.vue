@@ -1,28 +1,18 @@
 <template>
-    <div class="event pb-5" :class="{ next }">
-        <div class="pt-5">
-            <div class="container-fluid pl-5 pr-5">
-                <div class="row pb-3">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase text-secondary when">
-                            {{ next ? 'Next' : 'Now' }}: {{ time(event) }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="text-primary name">
-                            {{ event.title }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row pt-4">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase type">
-                            {{ event.track.name }}
-                        </h1>
-                    </div>
-                </div>
+    <div class="container-fluid p-5 event" :class="{ next, standalone }">
+        <div class="row">
+            <div class="col-12 text-uppercase font-weight-bold text-danger when">
+                {{ next ? 'Next' : 'Now' }}: {{ time(event) }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 pt-4 font-weight-bold text-primary name">
+                {{ event.title }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 pt-4 text-uppercase text-secondary type">
+                {{ event.track.name }}
             </div>
         </div>
     </div>
@@ -31,7 +21,7 @@
 <script>
 
     export default {
-        props: ['next', 'event', 'schedule'],
+        props: ['next', 'standalone', 'event', 'schedule'],
         computed: {
             room() {
                 return event => event && this.$store.getters.room(
@@ -52,34 +42,38 @@
 <style>
 
     .event {
-        background: white;
+        background-color: white;
     }
 
-    .event h1 {
-        font-weight: bold;
-        line-height: 1.3;
+    .event.next {
+        background-color: #ccccff;
+
     }
 
-    .event h1.when {
-        font-size: 2.7rem;
+    .event.standalone {
+        border-top: 6px solid #666666;
+    }
+
+    .event .when {
+        font-size: 3rem;
+        line-height: 0.8;
+        letter-spacing: 1px;
     }
 
     .event .name {
-        font-size: 4rem;
+        font-size: 4.25rem;
+        line-height: 1.18;
     }
 
     .event.next .name {
         font-size: 3rem;
+        line-height: 1.18;
     }
 
     .event .type {
-        color: gray;
-        font-size: 2.5rem;
-    }
-
-    .event.next {
-        background: rgba(255, 255, 255, 0.7);
-        border-top: 3px solid gray;
+        font-size: 2.25rem;
+        line-height: 1;
+        letter-spacing: 2px;
     }
 
 </style>

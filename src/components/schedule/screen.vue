@@ -68,31 +68,26 @@
             </tr>
         </table>
 
-        <div class="py-1">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <img class="img-fluid d-block mx-auto" src="assets/images/open-infrastructure-logo.svg">
-                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <img src="assets/images/open-infrastructure-logo.svg" class="img-fluid w-100 p-5">
                 </div>
             </div>
         </div>
 
-        <div class="location">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="text-uppercase label">Room</div>
-                        <div class="value">
-                            {{ schedule.floor.name }}
-                            ({{ schedule.room.name }})
-                        </div>
+        <div class="container-fluid">
+            <div class="row p-5 location">
+                <div class="col-8">
+                    <div class="text-uppercase label">Room</div>
+                    <div class="value">
+                        {{ schedule.floor.name }}: {{ schedule.room.name }}
                     </div>
-                    <div class="col-md-4 text-right">
-                        <div class="text-uppercase label">Current Time</div>
-                        <div class="value">
-                            {{ schedule.getDate(schedule.state.now).format('H:mm') }}
-                        </div>
+                </div>
+                <div class="col-4 text-right">
+                    <div class="text-uppercase label">Current Time</div>
+                    <div class="value">
+                        {{ schedule.getDate(schedule.state.now).format('H:mm') }}
                     </div>
                 </div>
             </div>
@@ -105,16 +100,12 @@
         v-if="schedule.state.events.curr"></event>
 
         <event :schedule="schedule" :event="schedule.state.events.next" :next=true
-        v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
+               :standalone="schedule.state.events.curr != null" v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
 
-        <div v-else-if="! schedule.state.events.curr" class="empty">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-4 text-left font-weight-bold">
-                            All presentations are finished for today
-                        </h1>
-                    </div>
+        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
+            <div class="row p-5 no-presentations">
+                <div class="col-12 text-primary font-weight-bold text-left">
+                    All presentations are finished for today
                 </div>
             </div>
         </div>
@@ -151,7 +142,7 @@
         },
         mounted() {
             const el = document.body
-            el.style.backgroundImage = "url(/assets/images/background-" + Math.floor(Math.random() * 3 + 1) + ".png)"
+            el.style.backgroundImage = "url(/assets/images/background-" + Math.floor(Math.random() * 3 + 1) + ".svg)"
         },
         components: { Event, Banner }
     }
@@ -159,34 +150,6 @@
 </script>
 
 <style>
-
-    .location {
-        color: white;
-        border-bottom: 1rem solid #EA2046;
-        padding: 2.5rem;
-        background-color: #052643;
-    }
-
-    .location .label {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .location .value {
-        font-size: 3.7rem;
-        line-height: 1.3;
-    }
-
-    .empty {
-        background: white;
-        padding: 2.5rem 2.5rem 5rem;
-        border-bottom: 3px solid gray;
-    }
-
-    .empty h1 {
-        line-height: 1.3;
-        font-size: 4rem;
-    }
 
     .debug {
         background: rgba(0, 0, 0, 0.5);
@@ -198,6 +161,30 @@
 
     .debug a {
         color: yellow;
+    }
+
+    .location {
+        color: white;
+        background-color: #052643;
+        border-bottom: 18px solid #FF3333;
+    }
+
+    .location .label {
+        font-size: 1.5rem;
+        letter-spacing: 1.5px;
+    }
+
+    .location .value {
+        font-size: 3.75rem;
+        line-height: 1.2;
+    }
+
+    .no-presentations {
+        font-size: 4.25rem;
+        line-height: 1.18;
+        letter-spacing: 1px;
+        background-color: white;
+        padding-bottom: 6.5rem !important;
     }
 
 </style>
