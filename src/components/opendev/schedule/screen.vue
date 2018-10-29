@@ -83,7 +83,7 @@
                     <div class="col-md-4 text-center">
                         <div class="text-uppercase label">Current Time</div>
                         <div class="text-uppercase value">
-                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
+                            {{ schedule.getDate(schedule.state.now).format('HH:mm') }}
                         </div>
                     </div>
                 </div>
