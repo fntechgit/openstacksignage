@@ -1,14 +1,11 @@
 <template>
-    <div class="banner pb-5">
-        <div class="pt-5">
-            <div class="container-fluid pl-5 pr-5">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="content">
-                            {{ banner.content }}
-                        </h1>
-                    </div>
-                </div>
+    <div class="container-fluid p-5 banner">
+        <div class="row align-items-center">
+            <div class="col-2">
+                <img src="assets/images/alert.svg" class="img-fluid" style="width: 80%;">
+            </div>
+            <div class="col-10">
+                {{ banner.content }}
             </div>
         </div>
     </div>
@@ -25,26 +22,12 @@
 <style>
 
     .banner {
-        position: absolute;
-        left: 0;
-        top: 40%;
-        width: 100%;
-        transform: translateY(-40%);
-        background: red;
-        border-top: 5px solid white;
-        border-bottom: 15px solid red;
-        padding: 40px 30px;
-    }
-
-    .banner h1 {
+        background: #FF3333;
         font-weight: bold;
-        text-transform: uppercase;
-        text-align: center;
-    }
-
-    .banner .content {
+        font-size: 3rem;
+        line-height: 1.2;
+        letter-spacing: 1px;
         color: white;
-        font-size: 4.3rem;
     }
 
 </style>
