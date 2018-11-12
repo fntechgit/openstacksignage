@@ -939,9 +939,12 @@
 
             firebaseObjectGetKeyForValue('template-base64-object', $('#locations').val()).then(function(template) {
 
-                $("#template").prop("disabled", false);
-                $("#template").val(template);
-                $("#template").selectpicker('refresh');
+                if ($('#locations').val() != 0) {
+
+                    $("#template").prop("disabled", false);
+                    $("#template").val(template);
+                    $("#template").selectpicker('refresh');
+                }
 
             }).catch(function(error) {
 
