@@ -35,7 +35,13 @@ export const $store = new Vuex.Store({
             ).shift()
         },
         floor(state) {
-            return locationId => state.summit.locations[0].floors.filter(
+            let location = state.summit.locations.filter(
+                location => location.id === state.location
+            ).shift()
+            let venue = state.summit.locations.filter(
+                venue => venue.id === location.venue_id
+            ).shift()
+            return locationId => venue.floors.filter(
                 floor => floor.rooms && floor.rooms.indexOf(locationId) >= 0
             ).shift()
         }
