@@ -871,7 +871,7 @@
 
         let authHost     = "https://" + setting.host;
         let summits_resource = "https://" + setting.rserver_host + "/api/v1/summits";
-        let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations";
+        let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations?page=1&per_page=100";
         let summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
         let events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
         let banners_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/banners';
