@@ -916,22 +916,22 @@
         var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
         // client configured for https://localhost.openstack.org/
 
-        const environment = window.location.hostname == "localhost.openstack.org" ? "" : "production";
+        const environment = window.location.hostname.search('staging') == -1 ? "production" : "staging";
 
         switch (environment) {
 
             case "staging":
 
-                idp_host = "testopenstackid.openstack.org";
-                resource_server_host = "testresource-server.openstack.org";
-                client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
+                idp_host = idp.staging.fnopen.com;
+                resource_server_host = "api.staging.fnopen.com";
+                client_id = "xizZ-A2hTw7Jcrlo~xJxqHRFLHkV.JS4.openstack.client";
                 // client configured for https://signage.openstack.org/
                 break;
 
             case "production":
 
-                idp_host = "idp.staging.fnopen.com";
-                resource_server_host = "api.staging.fnopen.com";
+                idp_host = "idp.fnopen.com";
+                resource_server_host = "api.fnopen.com";
                 client_id = "xizZ-A2hTw7Jcrlo~xJxqHRFLHkV.JS4.openstack.client";
                 // client configured for https://signage.openstack.org/
                 break;
