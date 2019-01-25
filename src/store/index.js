@@ -85,7 +85,8 @@ export const $store = new Vuex.Store({
             })
         },
         loadEvents(context, location) {
-            var summit_id = context.state.summit ? context.state.summit.id : 'current'
+            var params = new URLSearchParams(window.location.href.split('?')[1])
+            var summit_id =  parseInt(params.get('summit'))
 
             const query = qs.stringify({
                  //'filter[]': [
@@ -102,9 +103,10 @@ export const $store = new Vuex.Store({
             ))
         },
         loadBanners(context, location) {
-            var summit_id = context.state.summit ? context.state.summit.id : 'current'
-
-            const query = qs.stringify({
+            var params = new URLSearchParams(window.location.href.split('?')[1])
+            var summit_id =  parseInt(params.get('summit'))
+            
+	    const query = qs.stringify({
                 // 'filter[]': [
                 //     'class_name' + '==' + 'ScheduledSummitLocationBanner'
                 // ],
