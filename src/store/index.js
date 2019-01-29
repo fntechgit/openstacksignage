@@ -81,7 +81,7 @@ export const $store = new Vuex.Store({
                     return summit.id == summit_id 
                 })
 
-                return context.state.summit = response.data.data.pop()
+                return context.state.summit = (summits.length == 1 ? summits[0] :  response.data.data.pop())		    
             })
         },
         loadEvents(context, location) {
