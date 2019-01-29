@@ -3,7 +3,7 @@ import App from './components/app.vue'
 
 import Schedule from './model/schedule'
 import { $store } from './store'
-import { $router } from './router/router-ocp-ams-fnsign'
+import { $router } from './router/router-test-template'
 
 require('./firebase')
 
