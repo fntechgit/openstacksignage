@@ -97,12 +97,12 @@
         <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
 
         <event :next="true" :schedule="schedule" :event="schedule.state.events.upcoming[0]"
-               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length == 1">
-        </event>
+               v-if="schedule.state.events.upcoming"> <!-- && schedule.state.events.upcoming.length == 1">
+        </event> -->
 
-        <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.upcoming"
+        <!-- <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.upcoming"
                 v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 1">
-        </events>
+        </events> -->
 
         <div v-else-if="! schedule.state.events.curr" class="empty">
             <div class="container">
