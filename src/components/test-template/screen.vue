@@ -109,7 +109,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h1 class="display-4 font-weight-bold">
-                            All presentations are finished for today.
+                            Test Template is a Stunning Success.
                         </h1>
                     </div>
                 </div>
@@ -183,12 +183,12 @@
         padding: 6rem 0;
         position: relative;
         top: 500px;
-        width: 950px;
+        width: 900px;
         left: 80px;
     }
 
     .empty h1 {
-        font-family: "Nexa";
+        font-family: "Helvetica";
         font-size: 108px;
         color: #fff;
     } 
@@ -199,7 +199,7 @@
         left: 60px;
         font-size: 108px;
         color: rgb(255,255,255);
-        font-family: "Nexa";
+        font-family: "Helvetica";
         font-weight: bold;
     }
 
