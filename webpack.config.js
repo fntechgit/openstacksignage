@@ -18,8 +18,9 @@ module.exports = {
         'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js',
         'oc5-oculus-registration': './src/entry-oc5-oculus-registration.js',
         'my-new-template': './src/entry-my-new-template.js',
-        'test-template': './src/entry-test-template.js',
 		'zack-test': '/src/entry-zack-test.js',
+        'test-template': './src/entry-test-template.js',
+		
     },
     output: {
         path: path.resolve(__dirname, './dist'),
