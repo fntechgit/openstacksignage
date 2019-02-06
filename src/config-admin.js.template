@@ -1,0 +1,12 @@
+var adminFirebaseConfig={
+        'FIREBASE_API_KEY' : '',
+        'FIREBASE_PROJECT_ID' : '',
+        'FIREBASE_DATABASE_URL' : '',
+        'FIREBASE_AUTH_DOMAIN' : ''
+};
+
+var adminConfig={
+       'IDP_HOST' : '',
+       'RESOURCE_SERVER_HOST' : '',
+       'CLIENT_ID' : ''
+};
