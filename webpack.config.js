@@ -16,6 +16,7 @@ module.exports = {
         'ocp-ams-fnsign': './src/entry-ocp-ams-fnsign.js',
 		'ocp-ams-fnsign': './src/entry-ocp-2019-fnsign.js',
 		'ocp-2019-d1-v1': './src/entry-ocp-2019-d1-v1.js',
+		'ocp-2019-d1-v2': './src/entry-ocp-2019-d1-v2.js',
         'ocp-ams-fnsign-landscape': './src/entry-ocp-ams-fnsign-landscape.js',
         'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js',
         'oc5-oculus-registration': './src/entry-oc5-oculus-registration.js',
