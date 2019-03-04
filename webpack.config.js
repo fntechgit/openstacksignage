@@ -10,7 +10,6 @@ module.exports = {
         'opendev-schedule': './src/entry-opendev-schedule.js',
         'opendev-banner': './src/entry-opendev-banner.js',
         'f8-schedule': './src/entry-fnopen-f8-schedule.js',
-		'ocp-2019-d1-v1': './src/entry-ocp-2019-d1-v1',
         'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         'ocp-ams-content': './src/entry-ocp-ams-content.js',
         'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
@@ -20,7 +19,7 @@ module.exports = {
         'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js',
         'oc5-oculus-registration': './src/entry-oc5-oculus-registration.js',
         'my-new-template': './src/entry-my-new-template.js',
-		'zack-test': './src/entry-zack-test.js',
+		'ocp-2019-sj-d1-v1': './src/entry-ocp-sj-d1-v1.js',
         'test-template': './src/entry-test-template.js',
 		
     },
