@@ -95,11 +95,11 @@
 
 <style>
     .event {
-        width: 880px;
-        margin-left: 49px;
+        width: 834px;
+        margin-left: 130px;
         position: absolute;
-        top: 610px;
-        height: 640px;
+        top: 310px;
+        height: 464px;
     }
     .event .time,
     .next .time {

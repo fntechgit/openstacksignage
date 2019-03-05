@@ -195,9 +195,9 @@
     
     .room {
         position: relative;
-        top: 60px;
-        left: 60px;
-        font-size: 108px;
+        top: 142px;
+        left: 130px;
+        font-size: 134px;
         color: rgb(255,255,255);
         font-family: "Nexa";
         font-weight: bold;
