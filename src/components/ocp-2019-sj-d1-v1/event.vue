@@ -119,10 +119,10 @@
         -webkit-font-smoothing: antialiased;
     }
     .event .name {
-        font-size: 80px;
+        font-size: 38px;
         line-height: 1.33;
         padding-bottom: 10px;	
-        width: 900px;
+        width: 834px;
     }
     .event .speaker-list {
         list-style: none;
@@ -138,7 +138,7 @@
         -webkit-font-smoothing: antialiased;
     }
     .event .speaker {
-        color: #fff;
+        color: #8ec640;
     }
     event .speaker-info {
         padding-top: 5px;
