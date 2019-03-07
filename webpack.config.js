@@ -7,6 +7,7 @@ module.exports = {
         'image-landscape': './src/entry-image-landscape.js',
         'banner': './src/entry-banner.js',
         'schedule': './src/entry-schedule.js',
+        'schedule-mint': './src/entry-schedule-mint.js',
         'opendev-schedule': './src/entry-opendev-schedule.js',
         'opendev-banner': './src/entry-opendev-banner.js',
         'f8-schedule': './src/entry-fnopen-f8-schedule.js',

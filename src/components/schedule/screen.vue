@@ -68,31 +68,26 @@
             </tr>
         </table>
 
-        <div class="py-5">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <img class="img-fluid d-block mx-auto logo" src="assets/images/open-infrastructure-logo.svg">
-                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <img src="assets/images/open-infrastructure-logo.svg" class="img-fluid w-100 p-5">
                 </div>
             </div>
         </div>
 
-        <div class="location">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="text-uppercase label">Room</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.floor.name }}
-                            ({{ schedule.room.name }})
-                        </div>
+        <div class="container-fluid">
+            <div class="row p-5 location">
+                <div class="col-8">
+                    <div class="text-uppercase label">Room</div>
+                    <div class="value">
+                        {{ schedule.floor.name }}: {{ schedule.room.name }}
                     </div>
-                    <div class="col-md-4 text-center">
-                        <div class="text-uppercase label">Current Time</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
-                        </div>
+                </div>
+                <div class="col-4 text-right">
+                    <div class="text-uppercase label">Current Time</div>
+                    <div class="value">
+                        {{ schedule.getDate(schedule.state.now).format('HH:mm') }}
                     </div>
                 </div>
             </div>
@@ -105,16 +100,12 @@
         v-if="schedule.state.events.curr"></event>
 
         <event :schedule="schedule" :event="schedule.state.events.next" :next=true
-        v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
+               :standalone="schedule.state.events.curr != null" v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
 
-        <div v-else-if="! schedule.state.events.curr" class="empty">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
-                            All presentations are finished for today
-                        </h1>
-                    </div>
+        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
+            <div class="row p-5 no-presentations">
+                <div class="col-12 text-primary font-weight-bold text-left">
+                    All presentations are finished for today
                 </div>
             </div>
         </div>
@@ -149,6 +140,10 @@
                 )
             },
         },
+        mounted() {
+            const el = document.body
+            el.style.backgroundImage = "url(/assets/images/background-" + Math.floor(Math.random() * 3 + 1) + ".svg)"
+        },
         components: { Event, Banner }
     }
 
@@ -156,35 +151,9 @@
 
 <style>
 
-    .logo {
-        width: 80%;
-    }
-
-    .location {
-        color: white;
-        border-top: 5px solid white;
-        border-bottom: 15px solid red;
-        padding: 40px 30px;
-    }
-
-    .location .label {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .location .value {
-        font-size: 3rem;
-    }
-
-    .empty {
-        background: white;
-        padding: 6rem 0;
-        border-bottom: 3px solid gray;
-    }
-
     .debug {
         background: rgba(0, 0, 0, 0.5);
-        color:white;
+        color: white;
         position: fixed;
         top: 0;
         z-index: 1;
@@ -192,6 +161,30 @@
 
     .debug a {
         color: yellow;
+    }
+
+    .location {
+        color: white;
+        background-color: #052643;
+        border-bottom: 18px solid #FF3333;
+    }
+
+    .location .label {
+        font-size: 1.5rem;
+        letter-spacing: 1.5px;
+    }
+
+    .location .value {
+        font-size: 3.75rem;
+        line-height: 1.2;
+    }
+
+    .no-presentations {
+        font-size: 4.25rem;
+        line-height: 1.18;
+        letter-spacing: 1px;
+        background-color: white;
+        padding-bottom: 6.5rem !important;
     }
 
 </style>

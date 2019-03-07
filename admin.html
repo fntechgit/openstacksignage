@@ -241,6 +241,7 @@
                 <div class="col-md-9">
                     <select id="template" class="selectpicker form-control" disabled>
                         <option selected value="schedule">Schedule</option>
+                        <option value="schedule-mint">Schedule Mint</option>
                         <option value="banner">Static Message</option>
                         <option value="opendev-schedule">OpenDev Schedule</option>
                         <option value="opendev">OpenDev Static Message</option>
@@ -941,7 +942,7 @@
 
         let authHost     = "https://" + setting.host;
         let summits_resource = "https://" + setting.rserver_host + "/api/v1/summits";
-        let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations";
+        let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations?page=1&per_page=100";
         let summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
         let events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
         let banners_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/banners';
@@ -1009,9 +1010,12 @@
 
             firebaseObjectGetKeyForValue('template-base64-object', $('#locations').val()).then(function(template) {
 
-                $("#template").prop("disabled", false);
-                $("#template").val(template);
-                $("#template").selectpicker('refresh');
+                if ($('#locations').val() != 0) {
+
+                    $("#template").prop("disabled", false);
+                    $("#template").val(template);
+                    $("#template").selectpicker('refresh');
+                }
 
             }).catch(function(error) {
 
