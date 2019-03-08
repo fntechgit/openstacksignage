@@ -20,7 +20,8 @@ module.exports = {
         'oc5-oculus-registration': './src/entry-oc5-oculus-registration.js',
         'my-new-template': './src/entry-my-new-template.js',
 		'ocp-2019-sj-d1-v1': './src/entry-ocp-2019-sj-d1-v1.js',
-        'test-template': './src/entry-test-template.js',
+        'ocp-2019-breakout-rooms': './src/entry-ocp-2019-breakout-rooms',
+        //'test-template': './src/entry-test-template.js',
 		
     },
     output: {
@@ -45,6 +46,26 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
+              test: /\.(scss)$/,
+              use: [{
+                loader: 'style-loader', // inject CSS to page
+              }, {
+                loader: 'css-loader', // translates CSS into CommonJS modules
+              }, {
+                loader: 'postcss-loader', // Run post css actions
+                options: {
+                  plugins: function () { // post css plugins, can be exported to postcss.config.js
+                    return [
+                      require('precss'),
+                      require('autoprefixer')
+                    ];
+                  }
+                }
+              }, {
+                loader: 'sass-loader' // compiles Sass to CSS
+              }]
+            },
+            {
                 test: /\.css$/,
                 include: /node_modules/,
                 loaders: 'css-loader',
@@ -65,7 +86,8 @@ module.exports = {
     },
     devServer: {
         historyApiFallback: true,
-        noInfo: true
+        noInfo: true,
+        https: true
     },
     performance: {
         hints: false

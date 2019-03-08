@@ -15,6 +15,7 @@ export default class Schedule {
 
     state = {
         now: null,
+        track: null,
         events: {
             curr: null,
             next: null,
@@ -161,6 +162,8 @@ export default class Schedule {
         if (banners.next.length && banners.next[0].start_date <= this.state.now) {
             banners.curr = banners.next.shift()
         }
+        
+        this.state.track = this.events.length ? this.events[0].track : null
 
         this.state.events = { ...this.state.events,
             curr: events.curr,
