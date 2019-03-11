@@ -21,6 +21,7 @@ module.exports = {
         'my-new-template': './src/entry-my-new-template.js',
 		'ocp-2019-sj-d1-v1': './src/entry-ocp-2019-sj-d1-v1.js',
         'ocp-2019-breakout-rooms': './src/entry-ocp-2019-breakout-rooms',
+        'ocp-2019-expo-hall-talks': './src/entry-ocp-2019-expo-hall-talks',
         //'test-template': './src/entry-test-template.js',
 		
     },
