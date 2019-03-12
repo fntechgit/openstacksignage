@@ -133,19 +133,33 @@ export default class Schedule {
 
         let events = { curr: null, next: [], prev: [], upcoming: [], all: [] }
         let banners = { curr: null, next: [], prev: [] }
-
+        let track = null
+        
         this.events.forEach(event => {
+            
             if (this.state.now >= event.end_date) {
+                
                 events.prev.push(event)
+                
             } else {
+                
                 events.next.push(event)
+                
                 if (this.isToday(event.end_date)) {
+                    
                     events.upcoming.push(event)
                     events.all.push(event)
+                    
+                    if (track == null) {
+                        
+                        track = event.type
+                    }
                 }
             }
         })
-
+        
+        this.state.track = track
+        
         this.scheduled_banners.forEach(banner => {
             if (this.state.now >= banner.end_date) {
                 banners.prev.push(banner)
@@ -162,19 +176,6 @@ export default class Schedule {
         if (banners.next.length && banners.next[0].start_date <= this.state.now) {
             banners.curr = banners.next.shift()
         }
-        
-        let track = null
-        
-        if (events.upcoming.length) {
-            
-            track = events.upcoming[0].type
-            
-        } else if (this.events.length) {
-            
-            track = this.events[0].type
-        }
-        
-        this.state.track = track
 
         this.state.events = { ...this.state.events,
             curr: events.curr,
