@@ -175,7 +175,7 @@
     
     .highlight {
         color: #333399;
-        background-color: #99cc33;
+        background-color: #8FC640;
         padding: 4px 12px;
         font-size: 1.25rem;
         font-weight: 500;
@@ -186,7 +186,7 @@
         font-size: 3.25rem;
         font-weight: 500;
         color: #343895;
-        background-color: #99cc33;
+        background-color: #8FC640;
     }
     
     .room {

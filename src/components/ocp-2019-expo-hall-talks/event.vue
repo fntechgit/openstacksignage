@@ -75,7 +75,7 @@
     }
 
     .event .speakers {
-        color: #99cc33;
+        color: #8FC640;
         font-size: 3rem;
         line-height: 1;
         letter-spacing: 2px;

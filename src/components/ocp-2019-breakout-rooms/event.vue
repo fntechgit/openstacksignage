@@ -50,7 +50,7 @@
 
     .highlight {
         color: #333399;
-        background-color: #99cc33;
+        background-color: #8FC640;
         padding: 5px 13px;
         font-size: 1.25rem;
         font-weight: 500;
@@ -62,7 +62,7 @@
     }
 
     .event .speakers {
-        color: #99cc33;
+        color: #8FC640;
         font-size: 3rem;
         line-height: 1;
         letter-spacing: 2px;
