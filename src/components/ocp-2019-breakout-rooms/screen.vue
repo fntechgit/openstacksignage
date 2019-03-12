@@ -68,7 +68,7 @@
             </tr>
         </table>
 
-        <div class="container-fluid pl-7 py-1 track" v-if="schedule.state.track">
+        <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track" :style="{ backgroundColor: schedule.state.track.color }">
             <div class="row">
                 <div class="col">
                     <div class="text-uppercase">{{ schedule.state.track.name }}</div>
@@ -186,7 +186,6 @@
         font-size: 3.25rem;
         font-weight: 500;
         color: #343895;
-        background-color: #8FC640;
     }
     
     .room {

@@ -163,7 +163,18 @@ export default class Schedule {
             banners.curr = banners.next.shift()
         }
         
-        this.state.track = this.events.length ? this.events[0].track : null
+        let track = null
+        
+        if (events.upcoming.length) {
+            
+            track = events.upcoming[0].type
+            
+        } else if (this.events.length) {
+            
+            track = this.events[0].type
+        }
+        
+        this.state.track = track
 
         this.state.events = { ...this.state.events,
             curr: events.curr,
