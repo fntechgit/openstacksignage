@@ -114,6 +114,21 @@ $spacers: map-merge(
   $spacers
 );
 
+// This variable affects the `.h-*` and `.w-*` classes.
+$sizes: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$sizes: map-merge(
+  (
+    25: 25%,
+    50: 50%,
+    75: 75%,
+    85: 85%,
+    100: 100%,
+    auto: auto
+  ),
+  $sizes
+);
+
 // Body
 //
 // Settings for the `<body>` element.

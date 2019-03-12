@@ -114,6 +114,21 @@
 
         <banner :banner="schedule.state.scheduled_banners.curr"
                 v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Secondary'"></banner>
+                
+        <div class="container-fluid fixed-bottom" style="bottom: -12.5rem; left: -12.5rem;">
+            <div class="row">
+                <div class="col-9">
+                    <img src="assets/images/ocp-2019/OCP19_Spiral_Tagline.svg" class="img-fluid w-100 p-5">
+                </div>
+            </div>
+        </div>    
+        <div class="container-fluid fixed-bottom" style="right: -6rem;">
+            <div class="row">
+                <div class="offset-8 col-4">
+                    <img src="assets/images/ocp-2019/OCP_Global_Summit_logo_green.svg" class="img-fluid w-85 p-5">
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
