@@ -78,10 +78,10 @@
 
         <div class="container-fluid px-7 pt-6 pb-3">
             <div class="row">
-                <div class="col-8">
-                    <div class="text-uppercase room">{{ formatRoomName(schedule.room.name) }}</div>
+                <div class="col-9">
+                    <div class="text-uppercase room" v-bind:style="roomStyle">{{ formatRoomName(schedule.room.name) }}</div>
                 </div>
-                <div class="col-4 pt-2 text-right">
+                <div class="col-3 pt-2 text-right">
                     <div class="text-uppercase"><span class="highlight">Current Time</span></div>
                     <div class="time">{{ schedule.getDate(schedule.state.now).format('h:mmA') }}</div>
                 </div>
@@ -94,7 +94,7 @@
         <event :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr"></event>
         
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true  v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 30rem;"></event>
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 30rem;"></event>
 
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row p-7 no-presentations">
@@ -137,6 +137,11 @@
             ...mapGetters({
                 schedule: 'schedule'
             }),
+            roomStyle: function() {
+                return {
+                    'font-size': this.schedule.room.name.length < 6 ? '10.5rem' : '4.2rem',
+                };
+            },
         },
         methods: {
             formatTrackName(name) {
@@ -199,7 +204,6 @@
     }
     
     .room {
-        font-size: 10.5rem;
         line-height: 4rem;
     }
     
