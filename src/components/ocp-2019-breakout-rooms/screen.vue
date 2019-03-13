@@ -71,7 +71,7 @@
         <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track" :style="{ backgroundColor: schedule.state.track.color }">
             <div class="row">
                 <div class="col">
-                    <div class="text-uppercase">{{ schedule.state.track.name }}</div>
+                    <div class="text-uppercase">{{ formatTrackName(schedule.state.track.name) }}</div>
                 </div>
             </div>
         </div>
@@ -147,6 +147,9 @@
             }),
         },
         methods: {
+            formatTrackName(name) {
+                return name.replace('EW: ', '');
+            },
             formatRoomName(name) {
                 if (name.match(/^\d/)) {
                     return name.replace(/\s/g, '');
