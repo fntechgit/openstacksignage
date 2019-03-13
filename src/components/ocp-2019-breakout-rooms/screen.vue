@@ -79,7 +79,7 @@
         <div class="container-fluid px-7 pt-6 pb-3">
             <div class="row">
                 <div class="col-9">
-                    <div class="text-uppercase room" v-bind:style="roomStyle">{{ formatRoomName(schedule.room.name) }}</div>
+                    <div class="text-uppercase" v-bind:style="roomStyle">{{ formatRoomName(schedule.room.name) }}</div>
                 </div>
                 <div class="col-3 pt-2 text-right">
                     <div class="text-uppercase"><span class="highlight">Current Time</span></div>
@@ -139,7 +139,8 @@
             }),
             roomStyle: function() {
                 return {
-                    'font-size': this.schedule.room.name.length < 6 ? '10.5rem' : '4.2rem',
+                    'font-size': this.schedule.room.name.startsWith('Marriott') ? '8rem' : '10.5rem',
+                    'line-height': this.schedule.room.name.startsWith('Marriott') ? '5.5rem' : '4rem',
                 }
             },
         },
@@ -150,6 +151,9 @@
             formatRoomName(name) {
                 if (name.match(/^\d/)) {
                     return name.replace(/\s/g, '');
+                }
+                if (name.startsWith('Marriott')) {
+                    return name.replace('Marriott ', '');
                 }
                 return name
             },
@@ -201,10 +205,6 @@
         font-size: 3.25rem;
         font-weight: 500;
         color: #343895;
-    }
-    
-    .room {
-        line-height: 4rem;
     }
     
     .time {
