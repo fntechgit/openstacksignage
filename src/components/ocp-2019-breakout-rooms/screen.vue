@@ -93,16 +93,8 @@
 
         <event :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr"></event>
-
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
         
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true  v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true  v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 30rem;"></event>
 
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row p-7 no-presentations">
