@@ -140,8 +140,7 @@
             roomStyle: function() {
                 return {
                     'font-size': this.schedule.room.name.length < 6 ? '10.5rem' : '4.2rem',
-                    ''
-                };
+                }
             },
         },
         methods: {
