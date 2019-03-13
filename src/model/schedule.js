@@ -168,7 +168,7 @@ export default class Schedule {
             )
         })
 
-        if (events.next.length && events.next[0].start_date - 60 * 5 <= this.state.now) {
+        if (events.next.length && events.next[0].start_date - 60 <= this.state.now) {
             events.curr = events.next.shift()
             events.upcoming.shift()
         }
