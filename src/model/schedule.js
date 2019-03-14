@@ -217,7 +217,7 @@ export default class Schedule {
             )
         } else if (this.state.events.next) {
             return this.setTimeout(
-                (this.state.events.next.start_date - 60 * 5 - this.state.now) * 1000
+                (this.state.events.next.start_date - 60 * 1 - this.state.now) * 1000
             )
         } else if (this.state.scheduled_banners.next) {
             return this.setTimeout(
