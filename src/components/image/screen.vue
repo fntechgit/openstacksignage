@@ -6,6 +6,8 @@
 
 <script>
 
+    import '../../../assets/css/theme.scss'
+    
     import Banner from './banner.vue'
     import { mapGetters } from 'vuex'
 
