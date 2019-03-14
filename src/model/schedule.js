@@ -169,7 +169,17 @@ export default class Schedule {
         })
 
         if (events.next.length && events.next[0].start_date - 60 <= this.state.now) {
-            events.curr = events.next.shift()
+            let next = events.next.shift()
+            
+            if (events.next.length && events.next[0].start_date - 60 <= this.state.now) {
+                
+                events.curr = events.next.shift()
+                
+            } else {
+                
+                events.curr = next
+            }
+            
             events.upcoming.shift()
         }
 
@@ -201,13 +211,17 @@ export default class Schedule {
                 (end_date - this.state.now) * 1000
             )
         } else if (this.state.events.curr) {
-            return this.setTimeout(
-                (this.state.events.curr.end_date - this.state.now) * 1000
-            )
+            if (!(this.state.events.next && this.state.events.curr.end_date > this.state.events.next.start_date)) {
+                return this.setTimeout(
+                    (this.state.events.curr.end_date - this.state.now) * 1000
+                )
+            }
         } else if (this.state.scheduled_banners.curr) {
-            return this.setTimeout(
-                (this.state.scheduled_banners.curr.end_date - this.state.now) * 1000
-            )
+            if (!(this.state.scheduled_banners.next && this.state.scheduled_banners.curr.end_date > this.state.scheduled_banners.next.start_date)) {
+                return this.setTimeout(
+                    (this.state.scheduled_banners.curr.end_date - this.state.now) * 1000
+                )
+            }
         }
 
         if (this.state.events.next && this.state.scheduled_banners.next) { // Wait for next event or banner to start.

@@ -159,7 +159,7 @@
             },
             syncStart(item) {
                 this.schedule.setOffset(
-                    item.start_date - moment.utc().unix() - 5
+                    item.start_date - moment.utc().unix() - 65
                 )
             },
             syncEnd(item) {
