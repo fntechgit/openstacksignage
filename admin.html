@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>OpenStack Signage Dashboard</title>
 
+    <script src="/dist/config-admin.build.js"></script>
+
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -353,10 +355,10 @@
 
         const db = firebase.initializeApp({
 
-            apiKey: 'AIzaSyBPUYAZxU9DqLyUfZrSKpmIsmauZIeo0S8',
-            authDomain: 'open-signage-staging.firebaseapp.com',
-            projectId: 'open-signage-staging',
-            databaseURL: 'https://open-signage-staging.firebaseio.com/',
+            apiKey: adminFirebaseConfig.FIREBASE_API_KEY,
+            authDomain: adminFirebaseConfig.FIREBASE_AUTH_DOMAIN,
+            projectId: adminFirebaseConfig.FIREBASE_PROJECT_ID,
+            databaseURL: adminFirebaseConfig.FIREBASE_DATABASE_URL,
 
         }).database();
 
@@ -827,34 +829,9 @@
         };
 
 
-        var idp_host = "testopenstackid.openstack.org";
-        var resource_server_host = "testresource-server.openstack.org";
-        var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
-        // client configured for https://localhost.openstack.org/
-
-        const environment = window.location.hostname == "localhost.openstack.org" ? "" : "production";
-
-        switch (environment) {
-
-            case "staging":
-
-                idp_host = "testopenstackid.openstack.org";
-                resource_server_host = "testresource-server.openstack.org";
-                client_id = "JoRAdC4FA1LZa_mauMXSSVK~BrI8m4MZ.openstack.client";
-                // client configured for https://signage.openstack.org/
-                break;
-
-            case "production":
-
-                idp_host = "openstackid.org";
-                resource_server_host = "openstackid-resources.openstack.org";
-                client_id = "DnbJDeuhguoLkw6wVz.WWp53hxcgvVfP.openstack.client";
-                // client configured for https://signage.openstack.org/
-                break;
-
-            default:
-                break;
-        }
+        var idp_host = adminConfig.IDP_HOST;
+        var resource_server_host = adminConfig.RESOURCE_SERVER_HOST;
+        var client_id = adminConfig.CLIENT_ID;		    
 
         let setting =
             {

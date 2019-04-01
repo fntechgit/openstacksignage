@@ -1,8 +1,22 @@
-var path = require('path')
-var webpack = require('webpack')
+const path = require('path')
+const webpack = require('webpack')
+const dotenv = require('dotenv')
+
+const config = dotenv.config()
+
+if (config.error) {
+    throw config.error
+}
+
+const env = config.parsed,
+    envKeys = Object.keys(env).reduce((prev, next) => {
+        prev[`process.env.${next}`] = JSON.stringify(env[next]);
+        return prev;
+    }, {});
 
 module.exports = {
     entry: {
+        'config-admin': './src/config-admin.js',
         'image': './src/entry-image.js',
         'banner': './src/entry-banner.js',
         'schedule': './src/entry-schedule.js',
@@ -54,6 +68,10 @@ module.exports = {
     },
     devtool: '#eval-source-map'
 }
+
+module.exports.plugins = [
+    new webpack.DefinePlugin(envKeys),
+]
 
 if (process.env.NODE_ENV === 'production') {
     module.exports.devtool = '#source-map'
