@@ -11,6 +11,8 @@
     <link rel="manifest" href="/assets/favicon/manifest.json">
     <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
 
+    <script src="/dist/config-admin.build.js"></script>
+
     <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -417,11 +419,11 @@
 
         const db = firebase.initializeApp({
 
-	    apiKey: adminFirebaseConfig.FIREBASE_API_KEY,
-	    authDomain: adminFirebaseConfig.FIREBASE_AUTH_DOMAIN,
-    	    projectId: adminFirebaseConfig.FIREBASE_PROJECT_ID,
-	    databaseURL: adminFirebaseConfig.FIREBASE_DATABASE_URL,
-
+            apiKey: adminFirebaseConfig.FIREBASE_API_KEY,
+            authDomain: adminFirebaseConfig.FIREBASE_AUTH_DOMAIN,
+            projectId: adminFirebaseConfig.FIREBASE_PROJECT_ID,
+            databaseURL: adminFirebaseConfig.FIREBASE_DATABASE_URL,
+            
         }).database();
 
         $('#btn-view').on('click', function(e) {
@@ -913,14 +915,9 @@
         };
 
 
-        var idp_host = "testopenstackid.openstack.org";
-        var resource_server_host = "testresource-server.openstack.org";
-        var client_id = "TZ8jZKfHegAmbFn8G7jRp2FkdlpiIkiz.openstack.client";
-        // client configured for https://localhost.openstack.org/
-
-        idp_host = adminConfig.IDP_HOST;
-        resource_server_host = adminConfig.RESOURCE_SERVER_HOST;
-        client_id = adminConfig.CLIENT_ID;		    
+        var idp_host = adminConfig.IDP_HOST;
+        var resource_server_host = adminConfig.RESOURCE_SERVER_HOST;
+        var client_id = adminConfig.CLIENT_ID;
 
         let setting =
             {
