@@ -124,8 +124,7 @@ if (process.env.NODE_ENV === 'production') {
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: "commons",
-            filename: "commons.build.js"
+            name: ['common', 'config-admin']
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
