@@ -1231,7 +1231,7 @@
 
                     let title = $('#event_title').val().length ? 'title=@' + $('#event_title').val().trim() : '';
                     let keyword = $('#event_keyword').val().length ? 'tags=@' + $('#event_keyword').val().trim() : '';
-                    let filters =  (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
+                    let filters = (title.length && keyword.length ? [ title , keyword ] : keyword+ '' + title);
                     let isSorted = (request.sort);
                     let orderBy = '';
 
@@ -1242,21 +1242,21 @@
                         orderBy = (asc === 'asc' ?  '+' : '-') + order  ;
 
                         request = {
-                            filter : filters,
                             page: request.current,
                             per_page: request.rowCount,
                             order: orderBy,
-                            expand:"speakers,location",
+                            expand: "speakers,location",
                         };
 
                     } else{
 
                         request = {
-                            filter: filters,
                             page: request.current,
                             per_page: request.rowCount
                         };
                     }
+
+                    if (filters) request.filter = filters;
 
                     return request;
                 },
@@ -1401,7 +1401,7 @@
                     let title = $('#banner_title').val().length ? 'title=@' + $('#banner_title').val().trim() : '';
                     let keyword = $('#banner_content').val().length ? 'content=@' + $('#banner_content').val().trim() : '';
                     let class_name = 'class_name==ScheduledSummitLocationBanner';
-                    let filters =  (title.length && keyword.length && class_name.length ? [ title , keyword, class_name ] : keyword+ '' + title+ '' + class_name);
+                    let filters = (title.length && keyword.length && class_name.length ? [ title , keyword, class_name ] : keyword+ '' + title+ '' + class_name);
                     let isSorted = (request.sort);
                     let orderBy = '';
 
@@ -1416,7 +1416,7 @@
                             page: request.current,
                             per_page: request.rowCount,
                             order: orderBy,
-                            expand:"location",
+                            expand: "location",
                         };
 
                     } else {
