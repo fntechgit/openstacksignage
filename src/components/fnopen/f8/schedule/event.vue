@@ -79,7 +79,7 @@
 
     .event .name {
         font-size: 106px;
-        font-family: "Graphik Semibold";
+        font-family: "Graphik Web";
         font-weight: bold;
         padding-bottom: 150px;	
         color: #fff !important;

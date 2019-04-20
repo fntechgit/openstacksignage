@@ -172,7 +172,7 @@
         padding: 6rem 0;
         color: #fff;
         font-size: 112px;
-        font-family: "Graphik Semibold";
+        font-family: "Graphik Web";
         font-weight: bold;
         height: 1030px;
     }
