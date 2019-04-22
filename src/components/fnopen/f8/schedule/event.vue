@@ -1,28 +1,25 @@
 <template>
-    <div class="event pb-5" :class="{ next }">
-        <div class="pt-5">
-            <div class="container-fluid pl-5 pr-5">
-                <div class="row pb-3">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase time">
-                            {{ time(event) }}
-                        </h1>
-                    </div>
+    <div class="container-fluid p-10 event">
+        <div class="row" v-if="event">
+            <div class="col-12 when">
+                {{ time(event) }}
+            </div>
+        </div>
+        <div class="row" v-if="event">
+            <div class="col-12 pt-5 name">
+                {{ event.title }}
+            </div>
+        </div>
+        <div class="row" v-if="event && event.speakers.length">
+            <div class="col-12 pt-6 text-uppercase speakers">
+                <div class="pt-3" v-for="speaker in event.speakers"> 
+                    {{ speaker.first_name }} {{ speaker.last_name }} <span v-if="speaker.title"> / {{ speaker.title }}</span>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="text-primary name">
-                            {{ event.title }}
-                        </h1>
-                    </div>
-                </div>
-                <div class="row pt-4">
-                    <div class="col-md-12">
-                        <h1 class="text-uppercase type">
-                            {{ event.track.name }}
-                        </h1>
-                    </div>
-                </div>
+            </div>
+        </div>
+        <div class="row" v-if="next">
+            <div class="col-12 pt-7 next" v-bind:class="{ name: event == null }">
+                <span class="text-uppercase">Up Next:</span> {{ next.title }}
             </div>
         </div>
     </div>
@@ -31,7 +28,7 @@
 <script>
 
     export default {
-        props: ['next', 'event', 'schedule'],
+        props: ['event', 'next', 'schedule'],
         computed: {
             room() {
                 return event => event && this.$store.getters.room(
@@ -40,8 +37,8 @@
             },
             time() {
                 return event => event && [
-                    this.schedule.getDate(event.start_date).format('h:mm A'),
-                    this.schedule.getDate(event.end_date).format('h:mm A')
+                    this.schedule.getDate(event.start_date).format('h:mm'),
+                    this.schedule.getDate(event.end_date).format('h:mma')
                 ].join(' - ') || 'N/A'
             }
         }
@@ -50,47 +47,28 @@
 </script>
 
 <style>
-
-    .event {
-        height: 1030px;
-        width: 1200px;
-        margin-left: 120px;
-	top: 85px;
-    }
-
-    .event h1 {
-    }
-
-    .event .time {
-        font-size: 50px;
-        font-family: "Trim Mono";
-        height: 100px;
-        margin-top: 90px;
-    }
     
-    .room-210E .event .time{
-        color: #8ACFE6;
+    .event {
+        color: white;
     }
 
-     .room-210G .event .time{
-        color: #5E4D80;
+    .event .when {
+        font-size: 3.3rem;
+        line-height: 0.9;
     }
-
 
     .event .name {
-        font-size: 106px;
-        font-family: "Graphik Web";
-        font-weight: bold;
-        padding-bottom: 150px;	
-        color: #fff !important;
+        font-size: 7rem !important;
+        line-height: 1.2;
     }
 
-    .event .type {
-        display: none;
+    .event .next {
+        font-size: 1.8rem;
     }
 
-    .event.next {
+    .event .speakers {
+        font-size: 2.2rem;
+        line-height: 1;
+        letter-spacing: 2.2px;
     }
-
 </style>
-

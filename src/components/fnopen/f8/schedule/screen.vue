@@ -1,5 +1,5 @@
 <template>
-    <div id="app" :class="'room-' + schedule.room.name.replace(' ','')">
+    <div id="app">
 
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
@@ -68,51 +68,22 @@
             </tr>
         </table>
 
-        <div class="location">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-8">
-                        <div class="text-uppercase label">Room</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.floor.name }}
-                            ({{ schedule.room.name }})
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <div class="text-uppercase label">Current Time</div>
-                        <div class="text-uppercase value">
-                            {{ schedule.getDate(schedule.state.now).format('h:mm a') }}
-                        </div>
-                    </div>
+        <event :schedule="schedule" :event="schedule.state.events.curr" :next="schedule.state.events.next"
+        v-if="schedule.state.events.curr || (schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date))"></event>
+        
+        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
+            <div class="row p-10 no-presentations">
+                <div class="col-12 text-left">
+                    All presentations are finished for today
                 </div>
             </div>
         </div>
-
-        <banner :banner="schedule.state.scheduled_banners.curr"
-               v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
-
-        <event :schedule="schedule" :event="schedule.state.events.curr"
-        v-if="schedule.state.events.curr && !schedule.state.scheduled_banners.curr"></event>
-
-        <div v-else-if="! schedule.state.events.curr" class="empty">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-4 text-center font-weight-bold">
-                            All presentations are finished for today
-                        </h1>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <banner :banner="schedule.state.scheduled_banners.curr"
-                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Secondary'"></banner>
     </div>
 </template>
 
 <script>
 
+    import '../../../../../assets/css/f8-2019/theme.scss'
     import Event from './event.vue'
     import Banner from './banner.vue'
     import moment from 'moment'
@@ -127,7 +98,7 @@
         methods: {
             syncStart(item) {
                 this.schedule.setOffset(
-                    item.start_date - moment.utc().unix() - 5
+                    item.start_date - moment.utc().unix() - 65
                 )
             },
             syncEnd(item) {
@@ -136,45 +107,25 @@
                 )
             },
         },
+        mounted() {
+            const el = document.body
+            el.style.backgroundImage = "url(/assets/images/f8-2019/still-blue.jpeg)"
+        },
         components: { Event, Banner }
     }
 
 </script>
 
 <style>
-
-    .logo {
-        padding-top: 150px;
-    }
-
-    .location {
-        display: none;
-        border-top: 5px solid #D31366;
-        border-bottom: 10px solid #D31366;
-        padding: 40px 30px;
-    }
-
-    .location .label {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .location .value {
-        font-size: 3rem;
-    }
-
-    .empty {
-        padding: 6rem 0;
-        color: #fff;
-        font-size: 112px;
+    
+    #app {
+        color: white;
         font-family: "Graphik Web";
-        font-weight: bold;
-        height: 1030px;
+        font-weight: 500;
     }
 
     .debug {
         background: rgba(0, 0, 0, 0.5);
-        color:white;
         position: fixed;
         top: 0;
         z-index: 1;
@@ -184,18 +135,9 @@
         color: yellow;
     }
 
-    .empty h1 {
-        font-size: 110px;
-    }	
-
-    .room-210E .empty h1 {
-        color: #8ACFE6;
+    .no-presentations {
+        font-size: 7rem;
+        line-height: 1.18;
     }
-
-    .room-210G .empty h1 {
-        color: #5E4D80;
-    }
-
 
 </style>
-
