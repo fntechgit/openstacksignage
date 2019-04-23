@@ -130,9 +130,10 @@ export const $store = new Vuex.Store({
             ))
         },
         reload(context, location) {
-            const schedule = context.state.schedule
+            const model = context.state.schedule || context.state.banner
 
-            if ( ! handleFirebaseEvent(schedule, location)) {
+            if ( ! handleFirebaseEvent(model, location)) {
+                console.log("no valid")
                 return
             }
 
@@ -179,12 +180,12 @@ function getEndpoint(resource) {
     return `${API_URL}/api/public/${API_VERSION}/${resource}`
 }
 
-function handleFirebaseEvent(schedule, location) {
-    if ( ! schedule) {
+function handleFirebaseEvent(model, location) {
+    if ( ! model) {
         return false
     }
 
-    if (location !== 0 && location !== schedule.location) {
+    if (location !== 0 && location !== model.location) {
         return false
     }
 

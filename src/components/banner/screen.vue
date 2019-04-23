@@ -3,7 +3,6 @@
         <div class="container mw-100" v-if="banner.state.static_banner">
             <div class="row p-10 banner">
                 <div class="offset-3 col-6 text-center">
-                    <br><br><br>
                     {{ banner.state.static_banner.content }}
                 </div>
             </div>
