@@ -243,27 +243,37 @@
                 <label for="template" class="col-md-3 col-form-label">Template</label>
                 <div class="col-md-9">
                     <select id="template" class="selectpicker form-control" disabled>
-                        <option selected value="schedule">Schedule</option>
-                        <option value="schedule-mint">Schedule Mint</option>
+                        <option selected value="fnopen-f8-schedule">F8 Schedule</option>
+                        <!-- <option value="schedule">Schedule</option> -->
+                        <!-- <option value="schedule-mint">Schedule Mint</option> -->
                         <option value="banner">Static Message</option>
-                        <option value="opendev-schedule">OpenDev Schedule</option>
-                        <option value="opendev">OpenDev Static Message</option>
+                        <!-- <option value="opendev-schedule">OpenDev Schedule</option> -->
+                        <!-- <option value="opendev">OpenDev Static Message</option> -->
                         <option value="image">Static Image</option>
 						<option value="image-landscape">Static Image Landscape</option>
-						<option value="fnopen-f8-schedule">FNOpen F8 Schedule</option>
-						<option value="ocp-2019-breakout-rooms">OCP 2019 Breakout Rooms</option>
-						<option value="ocp-2019-expo-hall-talks">OCP 2019 Expo Hall Talks</option>
-						<option value="ocp-2019-sj-d1-v1">OCP 2019 Day 1 Ver 1</option>
+						<!-- <option value="ocp-2019-breakout-rooms">OCP 2019 Breakout Rooms</option> -->
+						<!-- <option value="ocp-2019-expo-hall-talks">OCP 2019 Expo Hall Talks</option> -->
+						<!-- <option value="ocp-2019-sj-d1-v1">OCP 2019 Day 1 Ver 1</option> -->
 						<!-- <option value="ocp-ams-meeting">OCP AMS Meeting Room</option> -->
 						<!-- <option value="ocp-ams-content">OCP AMS Content (Program)</option> -->
 						<!-- <option value="ocp-ams-signage">OCP AMS Signage (You are in)</option> -->
-						<option value="ocp-test">OCP Test</option>
-						<option value="ocp-ams-fnsign">OCP AMS FNSign</option>
-						<option value="ocp-ams-fnsign-landscape">OCP AMS FNSign Landscape</option>
-						<option value="oc5-oculus-signage">OC5 OCULUS Signage</option>
-						<option value="oc5-oculus-registration">OC5 OCULUS Registration</option>
-						<option value="my-new-template">MY NEW TEMPLATE</option>
-						<option value="test-template">TEST TEMPLATE</option>
+						<!-- <option value="ocp-test">OCP Test</option> -->
+						<!-- <option value="ocp-ams-fnsign">OCP AMS FNSign</option> -->
+						<!-- <option value="ocp-ams-fnsign-landscape">OCP AMS FNSign Landscape</option> -->
+						<!-- <option value="oc5-oculus-signage">OC5 OCULUS Signage</option> -->
+						<!-- <option value="oc5-oculus-registration">OC5 OCULUS Registration</option> -->
+						<!-- <option value="my-new-template">MY NEW TEMPLATE</option> -->
+						<!-- <option value="test-template">TEST TEMPLATE</option> -->
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="background" class="col-md-3 col-form-label">Background</label>
+                <div class="col-md-9">
+                    <select id="background" class="selectpicker form-control" disabled>
+                        <option value="assets/images/f8-2019/still-blue.jpeg">Still Blue</option>
+                        <option value="assets/images/f8-2019/still-green.jpeg">Still Green</option>
+                        <option value="assets/images/f8-2019/still-baloons.jpeg">Still Baloons</option>
                     </select>
                 </div>
             </div>
@@ -315,32 +325,8 @@
                 </div>
             </div>
             <div class="form-group row">
-    	        <label for="static-images" class="col-md-3 col-form-label">Static Images</label>
-                <div class="col-md-9">
-                    <select id="static-images" class="selectpicker form-control">
-                        <option value="ocp-ams/mr1.html">G001</option>
-                        <option value="ocp-ams/mr1-v2.html">G001 Private</option>
-                        <option value="ocp-ams/mr2.html">G002</option>
-                        <option value="ocp-ams/mr3.html">G003</option>
-                        <option value="ocp-ams/mr4.html">G101</option>
-                        <option value="ocp-ams/mr8.html">G105</option>
-                        <option value="ocp-ams/mr9.html">G106</option>
-                        <option value="ocp-ams/mr10.html">G107</option>
-                        <option value="ocp-ams/mr11.html">G108</option>
-                        <option value="ocp-ams/mr12.html">G109</option>
-                        <option value="ocp-ams/mr13.html">G110</option>
-                        <option value="ocp-ams/mr14.html">G111</option>
-                        <option value="ocp-ams/mr15.html">Emerald</option>
-                        <option value="ocp-ams/mr16.html">Auditorium</option>
-                        <option value="ocp-ams/mr16-v2.html">Auditorium Keynote</option>
-                        <option value="ocp-ams/full.html">Full Session</option>
-                        <option value="ocp-ams/ocpams-hk-01.html">Welcome</option>
-                        <option value="ocp-ams/loop2.html">Video Loop 2</option>
-                        <option selected value="ocp-ams/loop3.html">Video Loop 3</option>
-                    </select>
-                </div>
                 <div class="col-md-offset-3 col-md-9">
-                    <button id="btn-view-static-images" type="button" class="btn btn-secondary">View Static Image</button>
+                    <button id="btn-view-background" type="button" class="btn btn-secondary" disabled>View Background</button>
                 </div>
             </div>
         </div>
@@ -409,6 +395,10 @@
         if (window.self !== window.top)
             return;
 
+        let backgroundTemplates = ["fnopen-f8-schedule", "banner"]
+        let scheduleTemplates = ["fnopen-f8-schedule"];
+        let bannerTemplates = ["banner"];
+
         var timeZone = "UTC";
         let timePickerDateFormat = 'YYYY-MM-DD HH:mm';
 
@@ -430,8 +420,9 @@
             window.open('/#?summit=' + $('#summits').val() + '&location=' + $('#locations').val())
         });
 
-        $('#btn-view-static-images').on('click', function(e) {
-	    window.open('/' + $('#static-images').val())
+        $('#btn-view-background').on('click', function(e) {
+            
+	       window.open('/' + $('#background').val())
         }); 	    
 
         $('#btn-reset').on('click', function(e) {
@@ -849,7 +840,7 @@
 
                     if (payload.class_name == "ScheduledSummitLocationBanner") {
 
-                        if ($("#template").val() == 'schedule') {
+                        if (scheduleTemplates.includes($("#template").val())) {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -857,7 +848,7 @@
 
                     } else {
 
-                        if ($("#template").val() == 'banner') {
+                        if (bannerTemplates.includes($("#template").val())) {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -890,7 +881,7 @@
 
                     if (saveButton.prop("disabled") == true) {
 
-                        if ($("#template").val() == 'banner') {
+                        if (bannerTemplates.includes($("#template").val())) {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -904,7 +895,7 @@
 
                     } else {
 
-                        if ($("#template").val() == 'schedule') {
+                        if (scheduleTemplates.includes($("#template").val())) {
 
                             firebaseUpdate('reload', $('#locations').val())
                         }
@@ -959,10 +950,15 @@
             $("#btn-jump").prop("disabled", true);
             $("#btn-view").prop("disabled", true);
             $("#btn-reset").prop("disabled", true);
+            $("#btn-view-background").prop("disabled", true);
 
             $("#template").prop("disabled", true);
-            $("#template").val("schedule");
+            $("#template").val(scheduleTemplates[0]);
             $("#template").selectpicker("refresh");
+
+            $("#background").prop("disabled", true);
+            $("#background").val(backgroundTemplates[0]);
+            $("#background").selectpicker("refresh");
 
             $("#view").prop("disabled", true);
             $("#view > option:first-child").attr("selected", "selected");
@@ -980,6 +976,7 @@
             $("#btn-jump").prop("disabled", false);
             $("#btn-view").prop("disabled", false);
             $("#btn-reset").prop("disabled", false);
+            $("#btn-view-background").prop("disabled", true);
 
             $('#static-banner input[name=id]').val(0);
 
@@ -993,11 +990,15 @@
             if (this.value != 0) {
 
                 getStaticBanner();
-            }
+            }            
 
             $("#template").prop("disabled", true);
-            $("#template").val("schedule");
+            $("#template").val(scheduleTemplates[0]);
             $("#template").selectpicker("refresh");
+
+            $("#background").prop("disabled", true);
+            $("#background").val(backgroundTemplates[0]);
+            $("#background").selectpicker("refresh");
 
             firebaseObjectGetKeyForValue('template-base64-object', $('#locations').val()).then(function(template) {
 
@@ -1006,15 +1007,20 @@
                     $("#template").prop("disabled", false);
                     $("#template").val(template);
                     $("#template").selectpicker('refresh');
+
+                    updateBackgroundDropDown(template);
                 }
 
             }).catch(function(error) {
 
                 if (error == null) {
 
+                    let template = scheduleTemplates[0];
+
                     $("#template").prop("disabled", false);
-                    $("#template").val("schedule");
+                    $("#template").val(template);
                     $("#template").selectpicker("refresh");
+                    $("#template").change();
                 }
             })
 
@@ -1026,7 +1032,55 @@
 
         $("#template").on('change', function() {
 
-            firebaseObjectPushValueForKey('template-base64-object', this.value, $('#locations').val());
+            let template = this.value;
+
+            firebaseObjectPushValueForKey('template-base64-object', template, $('#locations').val());
+
+            updateBackgroundDropDown(template);
+        });
+
+        let updateBackgroundDropDown = function(template) {
+
+            let isBackgroundTemplate = backgroundTemplates.includes(template)
+
+            firebaseObjectGetKeyForValue('background-base64-object', $('#locations').val()).then(function(background) {
+
+                if ($('#locations').val() != 0) {
+
+                    if (isBackgroundTemplate) {
+
+                        $("#background").prop("disabled", false);
+                        $("#background").val(background);
+
+                    } else {
+
+                        $("#background").prop("disabled", true);
+                        $("#background option:eq(0)").prop("selected", true);
+                    }
+
+                    $("#background").selectpicker("refresh");
+
+                    $("#btn-view-background").prop("disabled", !isBackgroundTemplate);
+                }
+
+            }).catch(function(error) {
+
+                if (error == null) {
+
+                    $("#background").prop("disabled", !isBackgroundTemplate);
+                    $("#background option:eq(0)").prop("selected", true);
+                    $("#background").selectpicker("refresh");
+
+                    if (isBackgroundTemplate) $("#background").change();
+
+                    $("#btn-view-background").prop("disabled", !isBackgroundTemplate);
+                }
+            })
+        } 
+
+        $("#background").on('change', function() {
+
+            firebaseObjectPushValueForKey('background-base64-object', this.value, $('#locations').val());
         });
 
         $("#view").on('change', function() {
