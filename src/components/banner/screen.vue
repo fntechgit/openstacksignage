@@ -1,21 +1,19 @@
 <template>
     <div id="app">
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col">
-                    <img src="assets/images/open-infrastructure-logo.svg" class="img-fluid w-100 p-5">
+        <div class="container mw-100" v-if="banner.state.static_banner">
+            <div class="row p-10 banner">
+                <div class="offset-3 col-6 text-center">
+                    <br><br><br>
+                    {{ banner.state.static_banner.content }}
                 </div>
             </div>
         </div>
-
-        <banner :banner="banner.state.static_banner"></banner>
     </div>
 </template>
 
 <script>
 
-    import Banner from './banner.vue'
+    import '../../../assets/css/f8-2019/theme.scss'
     import { mapGetters } from 'vuex'
 
     export default {
@@ -26,17 +24,29 @@
         },
         mounted() {
             const el = document.body
-            el.style.backgroundImage = "url(/assets/images/background-" + Math.floor(Math.random() * 3 + 1) + ".svg)"
-        },
-        components: { Banner }
+            this.$store.watch(
+                (state, getters) => getters.background,
+                (newValue, oldValue) => {
+                    el.style.backgroundImage = "url(" + newValue + ")"
+                },
+            );
+            el.style.backgroundImage = "url(" + this.$store.getters.background + ")"
+        }
     }
 
 </script>
 
 <style>
 
-    .logo {
-        width: 80%;
+    #app {
+        color: white;
+        font-family: "Graphik Web";
+        font-weight: 500;
+    }
+
+    .banner {
+        font-size: 7rem;
+        line-height: 1.18;
     }
 
 </style>

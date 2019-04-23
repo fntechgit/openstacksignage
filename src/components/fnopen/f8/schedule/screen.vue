@@ -109,7 +109,13 @@
         },
         mounted() {
             const el = document.body
-            el.style.backgroundImage = "url(/assets/images/f8-2019/still-blue.jpeg)"
+            this.$store.watch(
+                (state, getters) => getters.background,
+                (newValue, oldValue) => {
+                    el.style.backgroundImage = "url(" + newValue + ")"
+                },
+            );
+            el.style.backgroundImage = "url(" + this.$store.getters.background + ")"
         },
         components: { Event, Banner }
     }

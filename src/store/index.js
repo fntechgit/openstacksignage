@@ -15,6 +15,7 @@ export const $store = new Vuex.Store({
         summit: null,
         banner: null,
         schedule: null,
+        background: null,
     },
     getters: {
         error(state) {
@@ -28,6 +29,9 @@ export const $store = new Vuex.Store({
         },
         schedule(state) {
             return state.schedule
+        },
+        background(state) {
+            return state.background || "assets/images/f8-2019/still-blue.jpeg"
         },
         room(state) {
             return locationId => state.summit.locations.filter(
@@ -111,8 +115,8 @@ export const $store = new Vuex.Store({
         loadBanners(context, location) {
             var params = new URLSearchParams(window.location.href.split('?')[1])
             var summit_id =  parseInt(params.get('summit'))
-            
-	    const query = qs.stringify({
+
+            const query = qs.stringify({
                 // 'filter[]': [
                 //     'class_name' + '==' + 'ScheduledSummitLocationBanner'
                 // ],
@@ -133,8 +137,6 @@ export const $store = new Vuex.Store({
             }
 
             window.location.reload()
-        },
-        redirect(context, location) {
         },
         updateTime(context, { location, timestamp }) {
             const schedule = context.state.schedule
@@ -166,6 +168,9 @@ export const $store = new Vuex.Store({
         setSchedule(state, schedule) {
             state.schedule = schedule
             state.ready = schedule != null
+        },
+        setBackground(state, background) {
+            state.background = background
         }
     }
 })

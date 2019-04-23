@@ -59,3 +59,21 @@ db.ref('template-base64-object').on('value', snapshot => {
         window.location = url
     })
 })
+
+db.ref('background-base64-object').on('value', snapshot => {
+    let decoded = atob(snapshot.val())
+    let obj = JSON.parse(decoded)
+
+    $store.dispatch('getLocation').then(location => {
+
+        Object.keys(obj).forEach(function (key) {
+
+            let locations = obj[key].map(Number)
+
+            if (locations.includes(location)) {
+
+                $store.commit('setBackground', key)
+            }
+        })
+    })
+})
