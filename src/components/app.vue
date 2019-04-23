@@ -4,9 +4,7 @@
     <pre class="loading" v-else-if="! ready"
     style="width: 100px; text-align: center; margin-top: 500px; margin-left: 10px;">Loading...</pre>
 
-    <div v-else>
-        <router-view></router-view>
-    </div>
+    <router-view v-else></router-view>
 </template>
 
 <script>
