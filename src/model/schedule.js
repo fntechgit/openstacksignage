@@ -266,6 +266,10 @@ export default class Schedule {
         return this.getDate(timestamp).isSame(this.now(), 'd')
     }
 
+    todayDate() {
+        return this.now().date()
+    }
+
     setOffset(offset) {
         this.offset = offset; this.update()
     }

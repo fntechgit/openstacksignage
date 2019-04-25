@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <div class="container h-100 mw-100" v-if="banner.state.static_banner">
-            <div class="row h-100 align-items-center p-10 banner">
-                <div class="offset-3 col-6 text-center">
+            <div class="row h-100 p-10 align-items-center justify-content-center banner">
+                <div class="col-9 text-center">
                     {{ banner.state.static_banner.content }}
                 </div>
             </div>

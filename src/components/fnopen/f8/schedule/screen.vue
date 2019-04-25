@@ -73,11 +73,11 @@
 
         <event :schedule="schedule" :event="schedule.state.events.next"
         v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
-        
-        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
-            <div class="row p-10 no-presentations">
-                <div class="col-12 text-left">
-                    All presentations are finished for today
+
+        <div class="container h-100 mw-100" v-else-if="true">
+            <div class="row h-100 p-10 align-items-center justify-content-center no-presentations">
+                <div class="col-9 text-center">
+                    {{ endOfDayMessage }}
                 </div>
             </div>
         </div>
@@ -97,6 +97,17 @@
             ...mapGetters({
                 schedule: 'schedule'
             }),
+            endOfDayMessage: function() {
+                let date = this.schedule.todayDate()
+
+                // April 30
+                if (date === 30) return "After Party today from 6-9pm in Hall 3"
+
+                // May 1
+                if (date === 1) return "Happy Hour 4-6pm today on the Lower Level"
+
+                return "All presentations are finished for today"
+            }
         },
         methods: {
             syncStart(item) {
@@ -131,6 +142,7 @@
         color: white;
         font-family: "Graphik Web";
         font-weight: 500;
+        height: 100%;
     }
 
     .debug {
