@@ -69,7 +69,10 @@
         </table>
 
         <event :schedule="schedule" :event="schedule.state.events.curr" :next="schedule.state.events.next"
-        v-if="schedule.state.events.curr || (schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date))"></event>
+        v-if="schedule.state.events.curr"></event>
+
+        <event :schedule="schedule" :event="schedule.state.events.next"
+        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
         
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row p-10 no-presentations">

@@ -1,11 +1,11 @@
 <template>
     <div class="container-fluid p-10 event">
-        <div class="row" v-if="event">
+        <div class="row">
             <div class="col-12 when">
                 {{ time(event) }}
             </div>
         </div>
-        <div class="row" v-if="event">
+        <div class="row">
             <div class="col-12 pt-5 name">
                 {{ event.title }}
             </div>
