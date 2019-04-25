@@ -13,7 +13,7 @@
         <div class="row" v-if="event && event.speakers.length">
             <div class="col-12 pt-6 text-uppercase speakers">
                 <div class="pt-3" v-for="speaker in event.speakers"> 
-                    {{ speaker.first_name }} {{ speaker.last_name }} <span v-if="speaker.title"> / {{ speaker.title }}</span>
+                    {{ speakerName(speaker) }} <span v-if="speakerInfo(speaker)"> / {{ speakerInfo(speaker) }}</span>
                 </div>
             </div>
         </div>
@@ -30,16 +30,23 @@
     export default {
         props: ['event', 'next', 'schedule'],
         computed: {
-            room() {
-                return event => event && this.$store.getters.room(
-                    event.location_id
-                ) || { name: 'N/A' }
-            },
             time() {
                 return event => event && [
                     this.schedule.getDate(event.start_date).format('h:mm'),
                     this.schedule.getDate(event.end_date).format('h:mma')
                 ].join(' - ') || 'N/A'
+            },
+            speakerName() {
+                return speaker => speaker && [
+                    speaker.first_name,
+                    speaker.last_name
+                ].join(' ') || 'N/A'
+            },
+            speakerInfo() {
+                return speaker => speaker && (speaker.position && speaker.company) && [
+                    speaker.position,
+                    speaker.company
+                ].join(', ') || speaker.company
             }
         }
     }
