@@ -262,12 +262,16 @@ export default class Schedule {
         )
     }
 
+    todayDate() {
+        return this.now().date()
+    }
+
     isToday(timestamp) {
         return this.getDate(timestamp).isSame(this.now(), 'd')
     }
 
-    todayDate() {
-        return this.now().date()
+    isWithinHour(timestamp) {
+        return this.getDate(timestamp).diff(this.now(), 'h');   
     }
 
     setOffset(offset) {

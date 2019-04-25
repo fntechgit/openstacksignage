@@ -72,7 +72,17 @@
         v-if="schedule.state.events.curr"></event>
 
         <event :schedule="schedule" :event="schedule.state.events.next"
-        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"></event>
+        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)
+         && !schedule.isWithinHour(schedule.state.events.next.start_date)"></event>
+
+        <div class="container h-100 mw-100"
+        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)">
+            <div class="row h-100 p-10 align-items-center justify-content-center no-presentations">
+                <div class="col-9 text-center">
+                    {{ schedule.room.name }}
+                </div>
+            </div>
+        </div>
 
         <div class="container h-100 mw-100" v-else-if="true">
             <div class="row h-100 p-10 align-items-center justify-content-center no-presentations">
