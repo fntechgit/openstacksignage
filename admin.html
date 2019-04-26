@@ -417,7 +417,7 @@
 
         $('#btn-view').on('click', function(e) {
 
-            window.open('/#?summit=' + $('#summits').val() + '&location=' + $('#locations').val())
+            window.open($('#template').val() + '.html#/?summit=' + $('#summits').val() + '&location=' + $('#locations').val())
         });
 
         $('#btn-view-background').on('click', function(e) {
