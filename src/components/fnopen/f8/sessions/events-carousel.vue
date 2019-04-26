@@ -46,7 +46,7 @@
                     spaceBetween: 0,
                     slidesPerView: 'auto',
                     loop: true,
-                    loopedSlides: this.events.length * 2,
+                    loopedSlides: 10,
                     speed: 7000,
                     autoplay: {
                         delay: 0
