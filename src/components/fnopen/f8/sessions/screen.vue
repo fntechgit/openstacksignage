@@ -68,10 +68,10 @@
         </table>
         
         <events :schedule="schedule" :events="schedule.state.events.upcoming"
-               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length <= 3">
+               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length <= 5">
         </events>
         <events-carousel :schedule="schedule" :events="schedule.state.events.upcoming"
-                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 3">
+                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 5">
         </events-carousel>
         <div class="container h-100 mw-100" v-else-if="!schedule.state.events.upcoming">
             <div class="row h-100 p-10 align-items-center justify-content-center">
