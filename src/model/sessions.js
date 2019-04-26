@@ -2,7 +2,7 @@ import moment from 'moment'
 import { $store } from '../store'
 //import { SUMMIT, EVENTS } from '../data'
 
-export default class Schedule {
+export default class Sessions {
 
     events = []
     banners = []
@@ -68,7 +68,7 @@ export default class Schedule {
                     this.room = $store.getters.room(this.location)
                     this.floor = $store.getters.floor(this.location)
 
-                    return Promise.all([this.loadEvents(), this.loadBanners()]).then(() => {
+                    return Promise.all([this.loadAllEvents(), this.loadBanners()]).then(() => {
                         return this.syncTime().then(() => {
                             this.state.static_banner = this.static_banner
                             this.update(); resolve()
@@ -100,8 +100,8 @@ export default class Schedule {
         })
     }
 
-    loadEvents() {
-        return $store.dispatch('loadEvents', this.location).then(payload => {
+    loadAllEvents() {
+        return $store.dispatch('loadAllEvents', this.location).then(payload => {
             this.events = payload.data.data; return this
         })
     }

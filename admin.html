@@ -244,6 +244,7 @@
                 <div class="col-md-9">
                     <select id="template" class="selectpicker form-control" disabled>
                         <option selected value="fnopen-f8-schedule">F8 Schedule</option>
+                        <option selected value="fnopen-f8-sessions">F8 Today's Sessions</option>
                         <!-- <option value="schedule">Schedule</option> -->
                         <!-- <option value="schedule-mint">Schedule Mint</option> -->
                         <option value="banner">Static Message</option>
@@ -259,7 +260,7 @@
 						<!-- <option value="ocp-ams-signage">OCP AMS Signage (You are in)</option> -->
 						<!-- <option value="ocp-test">OCP Test</option> -->
 						<!-- <option value="ocp-ams-fnsign">OCP AMS FNSign</option> -->
-						<!-- <option value="ocp-ams-fnsign-landscape">OCP AMS FNSign Landscape</option> -->
+						<!-- <option value="ocp-ams-fnsign-landscape">OCP AMS FNSign Landscape</option>
 						<!-- <option value="oc5-oculus-signage">OC5 OCULUS Signage</option> -->
 						<!-- <option value="oc5-oculus-registration">OC5 OCULUS Registration</option> -->
 						<!-- <option value="my-new-template">MY NEW TEMPLATE</option> -->
@@ -274,6 +275,7 @@
                         <option value="assets/images/f8-2019/still-blue.jpeg">Still Blue</option>
                         <option value="assets/images/f8-2019/still-green.jpeg">Still Green</option>
                         <option value="assets/images/f8-2019/still-baloons.jpeg">Still Baloons</option>
+                        <option value="assets/images/f8-2019/still-sessions.jpg">Still Today's Sessions</option>
                     </select>
                 </div>
             </div>
@@ -395,8 +397,8 @@
         if (window.self !== window.top)
             return;
 
-        let backgroundTemplates = ["fnopen-f8-schedule", "banner"]
-        let scheduleTemplates = ["fnopen-f8-schedule"];
+        let backgroundTemplates = ["fnopen-f8-schedule", "fnopen-f8-sessions", "banner"]
+        let scheduleTemplates = ["fnopen-f8-schedule", "fnopen-f8-sessions"];
         let bannerTemplates = ["banner"];
 
         var timeZone = "UTC";

@@ -112,6 +112,24 @@ export const $store = new Vuex.Store({
                 `summits/${summit_id}/locations/${location}/events/published?${query}`
             ))
         },
+        loadAllEvents(context, location) {
+            var params = new URLSearchParams(window.location.href.split('?')[1])
+            var summit_id =  parseInt(params.get('summit'))
+
+            const query = qs.stringify({
+                 //'filter[]': [
+                 //    'start_date>' + moment.utc().startOf('day').unix(),
+                 //    'end_date<' + moment.utc().endOf('day').unix()
+                 //],
+                page: 1,
+                per_page: 100,
+                expand: 'track,speakers,location'
+            }, { indices: false })
+
+            return axios.get(getEndpoint(
+                `summits/${summit_id}/published-events?${query}`
+            ))
+        },
         loadBanners(context, location) {
             var params = new URLSearchParams(window.location.href.split('?')[1])
             var summit_id =  parseInt(params.get('summit'))
