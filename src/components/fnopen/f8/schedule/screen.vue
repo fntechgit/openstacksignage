@@ -137,7 +137,8 @@
             this.$store.watch(
                 (state, getters) => getters.background,
                 (newValue, oldValue) => {
-                    el.style.backgroundImage = newValue ?  "url(" + newValue + ")" : null
+                    const el = document.body
+                    el.style.backgroundImage = newValue ? "url(" + newValue + ")" : null
                 },
             );
 

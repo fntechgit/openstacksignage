@@ -4,7 +4,7 @@
             <div class="col-3 todays-sessions">
                 Today´s Sessions
             </div>
-            <div class="col-9 events-wrapper">
+            <div class="col-9 events-wrapper" :class="{ long }">
                 <swiper ref="slider" :options="swiperOption">
                     <swiper-slide class="event" v-for="event in events" :key="event.id">
                         <div class="row">
@@ -36,7 +36,7 @@
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
-        props: ['schedule', 'events'],
+        props: ['schedule', 'events', 'long'],
         data() {
             return {
                 swiperOption: {
@@ -86,5 +86,8 @@
         overflow: hidden;
         height: 800px;
         margin-top: 15px;
+    }
+    .long {
+        height: 880px !important;
     }
 </style>

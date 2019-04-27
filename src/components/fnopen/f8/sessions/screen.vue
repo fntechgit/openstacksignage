@@ -70,7 +70,7 @@
         <events :schedule="schedule" :events="schedule.state.events.upcoming"
                v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length <= 5">
         </events>
-        <events-carousel :schedule="schedule" :events="schedule.state.events.upcoming"
+        <events-carousel :long="longCarousel" :schedule="schedule" :events="schedule.state.events.upcoming"
                 v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 5">
         </events-carousel>
         <div class="container h-100 mw-100" v-else-if="!schedule.state.events.upcoming">
@@ -92,6 +92,11 @@
     import { mapGetters } from 'vuex'
 
     export default {
+        data: function () {
+            return {
+                longCarousel: true
+            }
+        },
         computed: {
             ...mapGetters({
                 schedule: 'schedule'
@@ -111,16 +116,21 @@
         },
         mounted() {
             let background = this.$store.getters.background
-            
+
             this.$store.watch(
                 (state, getters) => getters.background,
                 (newValue, oldValue) => {
-                    el.style.backgroundImage = newValue ?  "url(" + newValue + ")" : null
+                    const el = document.body
+                    el.style.backgroundImage = newValue ? "url(" + newValue + ")" : null
+
+                    this.longCarousel = newValue ? false : true
                 },
             );
 
             const el = document.body
             el.style.backgroundImage = background ? "url(" + background + ")" : null
+            
+            this.longCarousel = background ? false : true
         },
         components: { Events, EventsCarousel }
     }
