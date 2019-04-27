@@ -132,14 +132,17 @@
             },
         },
         mounted() {
-            const el = document.body
+            let background = this.$store.getters.background
+            
             this.$store.watch(
                 (state, getters) => getters.background,
                 (newValue, oldValue) => {
-                    el.style.backgroundImage = "url(" + newValue + ")"
+                    el.style.backgroundImage = newValue ?  "url(" + newValue + ")" : null
                 },
             );
-            el.style.backgroundImage = "url(" + this.$store.getters.background + ")"
+
+            const el = document.body
+            el.style.backgroundImage = background ? "url(" + background + ")" : null
         },
         components: { Event, Banner }
     }

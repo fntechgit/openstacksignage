@@ -31,7 +31,7 @@ export const $store = new Vuex.Store({
             return state.schedule
         },
         background(state) {
-            return state.background || "assets/images/f8-2019/still-blue.jpeg"
+            return state.background
         },
         room(state) {
             return locationId => state.summit.locations.filter(
