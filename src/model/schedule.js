@@ -274,6 +274,10 @@ export default class Schedule {
         return this.getDate(timestamp).diff(this.now(), 'h');   
     }
 
+    isWithin45Minutes(timestamp) {
+        return this.getDate(timestamp).diff(this.now() - (15 * 60 * 1000), 'h');   
+    }
+
     setOffset(offset) {
         this.offset = offset; this.update()
     }

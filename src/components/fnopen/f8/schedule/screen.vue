@@ -73,7 +73,13 @@
 
         <event :schedule="schedule" :event="schedule.state.events.next"
         v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)
+         && schedule.state.events.next.location.name !== '210F'
          && !schedule.isWithinHour(schedule.state.events.next.start_date)"></event>
+
+        <event :schedule="schedule" :event="schedule.state.events.next"
+        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)
+         && schedule.state.events.next.location.name === '210F'
+         && !schedule.isWithin45Minutes(schedule.state.events.next.start_date)"></event>
 
         <div class="container h-100 mw-100"
         v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)">
