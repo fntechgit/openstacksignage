@@ -117,10 +117,10 @@
                 let date = this.schedule.todayDate()
 
                 // April 30
-                if (date === 30) return "Up Next: After Party today from 6-9pm in Hall 3"
+                if (date === 30) return "After Party today from 6-9pm in Hall 3"
 
                 // May 1
-                if (date === 1) return "Up Next: Happy Hour 4-6pm today on the Lower Level"
+                if (date === 1) return "Happy Hour 4-6pm today on the Lower Level"
 
                 return "All presentations are finished for today"
             }
