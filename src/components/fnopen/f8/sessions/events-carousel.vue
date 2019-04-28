@@ -88,6 +88,6 @@
         margin-top: 15px;
     }
     .long {
-        height: 880px !important;
+        height: 870px !important;
     }
 </style>
