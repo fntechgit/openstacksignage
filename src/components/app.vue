@@ -2,7 +2,7 @@
     <pre v-if="error"><b>ERROR</b><br>{{ error }}</pre>
 
     <pre class="loading" v-else-if="! ready"
-    style="width: 100px; text-align: center; margin-top: 500px; margin-left: 10px;">Loading...</pre>
+    style="color: white; position: absolute; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);">Loading...</pre>
 
     <router-view v-else></router-view>
 </template>
