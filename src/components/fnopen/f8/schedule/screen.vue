@@ -71,12 +71,12 @@
         <event :schedule="schedule" :event="schedule.state.events.curr" :next="schedule.state.events.next"
         v-if="schedule.state.events.curr"></event>
 
-        <event :schedule="schedule" :event="schedule.state.events.next"
+        <event :schedule="schedule" :event="schedule.state.events.next" :upcoming="schedule.state.events.upcoming"
         v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)
          && schedule.state.events.next.location.name !== '210F'
          && !schedule.isWithinHour(schedule.state.events.next.start_date)"></event>
 
-        <event :schedule="schedule" :event="schedule.state.events.next"
+        <event :schedule="schedule" :event="schedule.state.events.next" :upcoming="schedule.state.events.upcoming"
         v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)
          && schedule.state.events.next.location.name === '210F'
          && !schedule.isWithin45Minutes(schedule.state.events.next.start_date)"></event>

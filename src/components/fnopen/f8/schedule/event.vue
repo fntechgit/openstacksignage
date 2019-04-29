@@ -17,9 +17,14 @@
                 </div>
             </div>
         </div>
-        <div class="row" v-if="next">
-            <div class="col-12 pt-7 next" v-bind:class="{ name: event == null }">
+        <div class="row" v-if="next && schedule.isToday(next.start_date)">
+            <div class="col-12 pt-7 next">
                 <span class="text-uppercase">Up Next:</span> {{ next.title }}
+            </div>
+        </div>
+        <div class="row" v-else-if="(next && !schedule.isToday(next.start_date)) || !upcoming">
+            <div class="col-12 pt-7 next">
+                <span class="text-uppercase">Up Next:</span> {{ endOfDayMessage }}
             </div>
         </div>
     </div>
@@ -28,7 +33,7 @@
 <script>
 
     export default {
-        props: ['event', 'next', 'schedule'],
+        props: ['event', 'next', 'upcoming', 'schedule'],
         computed: {
             time() {
                 return event => event && [
@@ -47,6 +52,17 @@
                     speaker.position,
                     speaker.company
                 ].join(', ') || speaker.company
+            },
+            endOfDayMessage: function() {
+                let date = this.schedule.todayDate()
+
+                // April 30
+                if (date === 30) return "After Party today from 6-9pm in Hall 3"
+
+                // May 1
+                if (date === 1) return "Happy Hour 4-6pm today on the Lower Level"
+
+                return "All presentations are finished for today"
             }
         }
     }
