@@ -84,10 +84,10 @@
     }
     .events-wrapper {
         overflow: hidden;
-        height: 800px;
-        margin-top: 15px;
+        margin-top: 24px;
+        height: 1920px;
+
     }
     .long {
-        height: 870px !important;
     }
 </style>
