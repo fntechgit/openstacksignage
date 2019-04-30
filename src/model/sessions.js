@@ -130,7 +130,7 @@ export default class Sessions {
 
         if (this.state.events.next) {
             return this.setTimeout(
-                (this.state.events.next.end_date - this.state.now) * 1000
+                ((this.state.events.next.end_date - this.state.now) * 1000 ) + 1000
             )
         }
     }
