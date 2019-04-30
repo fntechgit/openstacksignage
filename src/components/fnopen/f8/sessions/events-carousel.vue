@@ -79,7 +79,7 @@
                     let context = this;
                     setTimeout(function() {
                       context.swiperRestart()
-                    }, 1500);
+                    }, 2000);
                 }
             }
         },
