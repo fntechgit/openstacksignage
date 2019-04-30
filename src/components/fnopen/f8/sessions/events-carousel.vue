@@ -51,7 +51,7 @@
                     speed: 5000,
                     on: {
                         init: function () {
-                            this.slideTo(1, 25000)
+                            this.slideTo(1, 25000, false)
                         },
                         transitionEnd: this.swiperTransitionEnd
                     }
@@ -75,11 +75,10 @@
                 if (!this.swiper.isEnd) {
                     this.swiper.slideNext(this.swiper.params.speed)
                 } else {
-                    this.swiper.slideNext(this.swiper.params.speed)
                     let context = this;
                     setTimeout(function() {
                       context.swiperRestart()
-                    }, 1800);
+                    }, 1500);
                 }
             }
         },
