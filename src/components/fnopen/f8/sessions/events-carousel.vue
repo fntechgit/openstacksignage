@@ -42,12 +42,11 @@
                 swiperOption: {
                     direction: 'vertical',
                     allowTouchMove: false,
-                    height: 1,
+                    height: 870,
                     spaceBetween: 0,
                     slidesPerView: 'auto',
                     loop: true,
-                    loopedSlides: this.events.length * 2,
-                    speed: 7000,
+                    speed: 4000,
                     autoplay: {
                         delay: 0
                     }
