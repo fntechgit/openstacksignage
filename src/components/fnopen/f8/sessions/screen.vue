@@ -1,9 +1,14 @@
 <template>
     <div id="app">
+        <table v-if="schedule.debug" border="1" width="100%" class="debug">
+            <tr>
+                <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
+            </tr>
+        </table>
         <events :schedule="schedule" :events="schedule.state.events.upcoming"
                v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length <= 5">
         </events>
-        <events-carousel :long="longCarousel" :schedule="schedule" :events="schedule.state.events.upcoming"
+        <events-carousel :schedule="schedule" :events="schedule.state.events.upcoming"
                 v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 5">
         </events-carousel>
         <div class="container h-100 mw-100" v-else-if="!schedule.state.events.upcoming">
@@ -25,27 +30,10 @@
     import { mapGetters } from 'vuex'
 
     export default {
-        data: function () {
-            return {
-                longCarousel: true
-            }
-        },
         computed: {
             ...mapGetters({
                 schedule: 'schedule'
             }),
-        },
-        methods: {
-            syncStart(item) {
-                this.schedule.setOffset(
-                    item.start_date - moment.utc().unix() - 65
-                )
-            },
-            syncEnd(item) {
-                this.schedule.setOffset(
-                    item.end_date - moment.utc().unix() - 5
-                )
-            },
         },
         mounted() {
             let background = this.$store.getters.background
@@ -55,15 +43,11 @@
                 (newValue, oldValue) => {
                     const el = document.body
                     el.style.backgroundImage = newValue ? "url(" + newValue + ")" : null
-
-                    this.longCarousel = newValue ? false : true
                 },
             );
 
             const el = document.body
             el.style.backgroundImage = background ? "url(" + background + ")" : null
-            
-            this.longCarousel = background ? false : true
         },
         components: { Events, EventsCarousel }
     }

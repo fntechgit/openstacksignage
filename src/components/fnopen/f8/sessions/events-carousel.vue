@@ -1,10 +1,10 @@
-<template>   
+<template>
     <div class="container-fluid">
         <div class="row pt-7 pl-5">
             <div class="col-3 todays-sessions">
                 Today´s Sessions
             </div>
-            <div class="col-9 events-wrapper" :class="{ long }">
+            <div class="col-9 events-wrapper">
                 <swiper ref="slider" :options="swiperOption">
                     <swiper-slide class="event" v-for="event in events" :key="event.id">
                         <div class="row">
@@ -33,34 +33,62 @@
 
     import 'swiper/dist/css/swiper.css'
 
+    import $ from 'dom7'
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
-        props: ['schedule', 'events', 'long'],
+        props: ['schedule', 'events'],
+
         data() {
             return {
+                firstLoad: true,
                 swiperOption: {
                     direction: 'vertical',
                     allowTouchMove: false,
-                    height: 870,
+                    height: 1,
                     spaceBetween: 0,
                     slidesPerView: 'auto',
-                    loop: true,
-                    speed: 4000,
-                    autoplay: {
-                        delay: 0
+                    loop: false,
+                    speed: 5000,
+                    on: {
+                        init: function () {
+                            this.slideTo(1, 38000)
+                        },
+                        transitionEnd: this.swiperTransitionEnd
                     }
                 }
             }
         },
         beforeUpdate: function () {
-            this.$refs.slider.swiper.detachEvents()
-            this.$refs.slider.swiper.destroy()
+            this.swiper.detachEvents()
+            this.swiper.destroy()
         },
         updated: function () {
             this.$refs.slider.mountInstance()
         },
+        methods: {
+            swiperRestart: function () {
+                this.swiper.detachEvents()
+                this.swiper.destroy()
+                this.$refs.slider.mountInstance()
+            },
+            swiperTransitionEnd: function () {
+                if (!this.swiper.isEnd) {
+                    this.swiper.slideNext(this.swiper.params.speed)
+                } else {
+                    this.swiper.slideNext(this.swiper.params.speed)
+
+                    let context = this;
+                    setTimeout(function() {
+                      context.swiperRestart()
+                    }, 1000);
+                }
+            }
+        },
         computed: {
+            swiper() {
+                return this.$refs.slider.swiper
+            },
             startTime() {
                 return event => event && this.schedule.getDate(event.start_date).format('h:mm') || 'N/A'
             },
@@ -80,13 +108,11 @@
         -webkit-transition-timing-function: linear!important;
         -o-transition-timing-function: linear!important;
         transition-timing-function: linear!important;
+        transform: translate3d(0px, 858px, 0px);
     }
     .events-wrapper {
         overflow: hidden;
-        height: 800px;
+        height: 858px;
         margin-top: 15px;
-    }
-    .long {
-        height: 870px !important;
     }
 </style>
