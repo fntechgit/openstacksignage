@@ -33,7 +33,6 @@
 
     import 'swiper/dist/css/swiper.css'
 
-    import $ from 'dom7'
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
@@ -52,7 +51,7 @@
                     speed: 5000,
                     on: {
                         init: function () {
-                            this.slideTo(1, 38000)
+                            this.slideTo(1, 25000)
                         },
                         transitionEnd: this.swiperTransitionEnd
                     }
@@ -76,8 +75,9 @@
                 if (!this.swiper.isEnd) {
                     this.swiper.slideNext(this.swiper.params.speed)
                 } else {
-                    this.swiper.slideNext(this.swiper.params.speed)
-
+                    if (this.swiper.realIndex <= this.swiper.slides.length - 1) {
+                        this.swiper.slideNext(this.swiper.params.speed)
+                    }
                     let context = this;
                     setTimeout(function() {
                       context.swiperRestart()
