@@ -75,13 +75,11 @@
                 if (!this.swiper.isEnd) {
                     this.swiper.slideNext(this.swiper.params.speed)
                 } else {
-                    if (this.swiper.realIndex <= this.swiper.slides.length - 1) {
-                        this.swiper.slideNext(this.swiper.params.speed)
-                    }
+                    this.swiper.slideNext(this.swiper.params.speed)
                     let context = this;
                     setTimeout(function() {
                       context.swiperRestart()
-                    }, 1000);
+                    }, 3000);
                 }
             }
         },
