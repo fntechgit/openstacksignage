@@ -36,11 +36,11 @@
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
-        props: ['schedule', 'events'],
-
+        props: ['schedule', 'upcoming'],
         data() {
             return {
-                firstLoad: true,
+                sliding: null,
+                eventsCache: null,
                 swiperOption: {
                     direction: 'vertical',
                     allowTouchMove: false,
@@ -51,19 +51,12 @@
                     speed: 5000,
                     on: {
                         init: function () {
-                            this.slideTo(1, 25000, false)
+                            this.slideTo(1, 25000, true)
                         },
                         transitionEnd: this.swiperTransitionEnd
                     }
                 }
             }
-        },
-        beforeUpdate: function () {
-            this.swiper.detachEvents()
-            this.swiper.destroy()
-        },
-        updated: function () {
-            this.$refs.slider.mountInstance()
         },
         methods: {
             swiperRestart: function () {
@@ -73,16 +66,32 @@
             },
             swiperTransitionEnd: function () {
                 if (!this.swiper.isEnd) {
+                    this.sliding = true
                     this.swiper.slideNext(this.swiper.params.speed)
                 } else {
-                    let context = this;
-                    setTimeout(function() {
-                      context.swiperRestart()
-                    }, 1);
+                    this.sliding = false
+
+                    let vm = this;
+                    vm.$nextTick(function () {
+                        vm.swiperRestart()
+                    });
                 }
             }
         },
         computed: {
+            events() {
+                if (this.sliding == null) {
+                    this.sliding = true
+                    this.eventsCache = this.upcoming
+                    
+                }
+
+                if (!this.sliding) {
+                    this.eventsCache = this.upcoming
+                }
+
+                return this.eventsCache
+            },
             swiper() {
                 return this.$refs.slider.swiper
             },
