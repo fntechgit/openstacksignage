@@ -26,7 +26,7 @@ module.exports = {
         //'opendev-banner': './src/entry-opendev-banner.js',
         'f8-schedule': './src/entry-fnopen-f8-schedule.js',
         'f8-sessions': './src/entry-fnopen-f8-sessions.js',
-		'zacks-test': './src/zacks-test.js',
+		'zacks-test': './src/entry-zacks-test.js',
         //'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         //'ocp-ams-content': './src/entry-ocp-ams-content.js',
         //'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
