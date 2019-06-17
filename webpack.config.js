@@ -24,7 +24,6 @@ module.exports = {
         //'schedule-mint': './src/entry-schedule-mint.js',
         //'opendev-schedule': './src/entry-opendev-schedule.js',
         //'opendev-banner': './src/entry-opendev-banner.js',
-		'zacks-test': './src/entry-zacks-test.js',
         'f8-schedule': './src/entry-fnopen-f8-schedule.js',
         'f8-sessions': './src/entry-fnopen-f8-sessions.js',
         //'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
