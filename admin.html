@@ -729,10 +729,10 @@
                             .data("content", "All <span style='font-style: italic;'>" + value.name + "</span> Locations");
 
                         locations.append(venue);
-			    
-                        let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
 
-                        if (sortedFloors != null) {
+                        if (value.floors != null) {
+
+                            let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
 
                             $.each(sortedFloors, function(floor_idx, floor_value) {
 
