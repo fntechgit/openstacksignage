@@ -732,33 +732,58 @@
 			    
                         let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
 
-                        $.each(sortedFloors, function(floor_idx, floor_value) {
+                        if (sortedFloors != null) {
 
-                            let floor = $("<optgroup></optgroup>")
-                                .attr("label", floor_value.name);
+                            $.each(sortedFloors, function(floor_idx, floor_value) {
 
-                            let floorRooms =
-                                $.grep(value.rooms, function(n, i) {
-                                    return n.floor_id == floor_value.id;
+                                let floor = $("<optgroup></optgroup>")
+                                    .attr("label", floor_value.name);
+
+                                let floorRooms =
+                                    $.grep(value.rooms, function(n, i) {
+                                        return n.floor_id == floor_value.id;
+                                    });
+
+                                $.each(floorRooms, function(room_idx, room_value) {
+
+                                    let room = $("<option></option>")
+                                        .attr("value", room_value.id)
+                                        .text(room_value.name)
+                                        .attr("data-subtext", '- ' + room_value.id)
+                                        .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
+
+                                    floor.append(room);
                                 });
 
-                            $.each(floorRooms, function(room_idx, room_value) {
+                                floor.html(floor.children("option").sort(function (x, y) {
+                                    return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
+                                }));
 
-                                let room = $("<option></option>")
-                                    .attr("value", room_value.id)
-                                    .text(room_value.name)
-                                    .attr("data-subtext", '- ' + room_value.id)
-                                    .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
-
-                                floor.append(room);
+                                locations.append(floor);
                             });
 
-                            floor.html(floor.children("option").sort(function (x, y) {
-                                return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-                            }));
+                        } else {
 
-                            locations.append(floor);
-                        });
+                            let floor = $("<optgroup></optgroup>")
+                                    .attr("label", " ");
+
+                                $.each(value.rooms, function(room_idx, room_value) {
+
+                                    let room = $("<option></option>")
+                                        .attr("value", room_value.id)
+                                        .text(room_value.name)
+                                        .attr("data-subtext", '- ' + room_value.id)
+                                        .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
+
+                                    floor.append(room);
+                                });
+
+                                floor.html(floor.children("option").sort(function (x, y) {
+                                    return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
+                                }));
+
+                                locations.append(floor);
+                        }
 			       
                     });
 
