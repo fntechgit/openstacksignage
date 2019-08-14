@@ -3,7 +3,7 @@ import App from './components/app.vue'
 
 import Schedule from './model/schedule'
 import { $store } from './store'
-import { $router } from './router/oc6'
+import { $router } from './router/router-oc6'
 
 require('./firebase')
 
