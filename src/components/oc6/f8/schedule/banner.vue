@@ -15,17 +15,19 @@
 </template>
 
 <script>
+
     export default {
         props: ['banner'],
     }
+
 </script>
 
 <style>
+
     .banner {
         height: 1030px;
-        position: relative;
-        top: 550px;
     }
+
     .banner h1 {
         font-weight: bold;
         padding: 6rem 0;
@@ -33,14 +35,21 @@
         font-size: 119px !important;
         font-family: Graphik Semibold;
         font-weight: 700;
+
     }
+
     .banner .content {
         font-size: 4.3rem;
     }
+
     .room-210E .banner .content {
         color: #8ACFE6 ;
     }
+
     .room-210G .banner .content {
         color: #5E4D80 ;
     }
+
+
 </style>
+
