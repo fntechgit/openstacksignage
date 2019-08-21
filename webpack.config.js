@@ -27,6 +27,7 @@ module.exports = {
         'f8-schedule': './src/entry-fnopen-f8-schedule.js',
         'f8-sessions': './src/entry-fnopen-f8-sessions.js',
 		'oc6': './src/entry-oc6.js',
+		'oc6': './src/entry-oc6-oculus.js',
         //'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         //'ocp-ams-content': './src/entry-ocp-ams-content.js',
         //'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
