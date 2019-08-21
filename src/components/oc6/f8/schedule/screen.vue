@@ -1,5 +1,6 @@
 <template>
-    <div id="app" :class="'day-' + getClass()">
+    <div id="app">
+
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
                 <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
@@ -67,40 +68,42 @@
             </tr>
         </table>
 
-        <banner :banner="schedule.state.scheduled_banners.curr"
-               v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
+        <event :schedule="schedule" :event="schedule.state.events.curr" :next="schedule.state.events.next"
+        v-if="schedule.state.events.curr"></event>
 
-        <div v-if="schedule.state.events.all && schedule.state.events.all.length <= 8">
-            <event :next="true" :schedule="schedule" v-for="evt in schedule.state.events.all" :event="evt">
-            </event>
-        </div>
+        <event :schedule="schedule" :event="schedule.state.events.next" :upcoming="schedule.state.events.upcoming"
+        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)
+         && schedule.state.events.next.location.name !== '210F'
+         && !schedule.isWithinHour(schedule.state.events.next.start_date)"></event>
 
-        <events :schedule="schedule" :events="schedule.state.events.all"
-                v-else-if="schedule.state.events.all && schedule.state.events.all.length > 8">
-        </events>
+        <event :schedule="schedule" :event="schedule.state.events.next" :upcoming="schedule.state.events.upcoming"
+        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)
+         && schedule.state.events.next.location.name === '210F'
+         && !schedule.isWithin45Minutes(schedule.state.events.next.start_date)"></event>
 
-        <div v-else-if="! schedule.state.events.curr" class="empty">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="display-4 font-weight-bold">
-                            All presentations are finished for today.
-                        </h1>
-                    </div>
+        <div class="container h-100 mw-100"
+        v-else-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)">
+            <div class="row h-100 p-10 align-items-center justify-content-center no-presentations">
+                <div class="col-9 text-center">
+                    {{ schedule.room.name }}
                 </div>
             </div>
         </div>
 
-        <banner :banner="schedule.state.scheduled_banners.curr"
-                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Secondary'"></banner>
-
-     </div>
+        <div class="container h-100 mw-100" v-else-if="true">
+            <div class="row h-100 p-10 align-items-center justify-content-center no-presentations">
+                <div class="col-9 text-center">
+                    {{ endOfDayMessage }}
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 
+    import '../../../../../assets/css/f8-2019/theme.scss'
     import Event from './event.vue'
-    import Events from './events.vue'
     import Banner from './banner.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
@@ -110,14 +113,22 @@
             ...mapGetters({
                 schedule: 'schedule'
             }),
+            endOfDayMessage: function() {
+                let date = this.schedule.todayDate()
+
+                // April 30
+                if (date === 30) return "After Party today from 6-9pm in Hall 3"
+
+                // May 1
+                if (date === 1) return "Happy Hour 4-6pm today on the Lower Level"
+
+                return "All presentations are finished for today"
+            }
         },
         methods: {
-            getClass() {
-                return this.schedule.format(this.schedule.state.now).startsWith('2018-09-27')  ? 'second' : 'first'   
-            },
             syncStart(item) {
                 this.schedule.setOffset(
-                    item.start_date - moment.utc().unix() - 5
+                    item.start_date - moment.utc().unix() - 65
                 )
             },
             syncEnd(item) {
@@ -126,61 +137,36 @@
                 )
             },
         },
-        components: { Event, Events, Banner }
+        mounted() {
+            let background = this.$store.getters.background
+            
+            this.$store.watch(
+                (state, getters) => getters.background,
+                (newValue, oldValue) => {
+                    const el = document.body
+                    el.style.backgroundImage = newValue ? "url(" + newValue + ")" : null
+                },
+            );
+
+            const el = document.body
+            el.style.backgroundImage = background ? "url(" + background + ")" : null
+        },
+        components: { Event, Banner }
     }
 
 </script>
 
 <style>
-
-    .location .label {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
-    .empty {
-        padding: 6rem 0;
-        position: relative;
-        top: 700px;
-        width: 880px;
-        left: 65px;
-    }
-
-    .empty h1 {
-        font-family: "Oculus Sans";
-        color: #fff;
-        font-size: 76px;
-        letter-spacing: 2px;
-        font-weight: normal!important;
-        line-height: 1.5;
-    } 
-
-    .room {
-        position: relative;
-        top: 558px;
-        padding-left: 65px;
-        padding-right: 65px;
-    }
     
-    .room .label {
-        font-size: 80px;
-        letter-spacing: 2px;
-        color: #000;
-        font-family: "Oculus Sans";
-    }
-
-    .room .value {
-        font-size: 80px;
-        letter-spacing: 2px;
-        color: #000;
-        font-family: "Oculus Sans";
-        font-weight: bold;
-        text-align: right;
+    #app {
+        color: white;
+        font-family: "Graphik Web";
+        font-weight: 500;
+        height: 100%;
     }
 
     .debug {
         background: rgba(0, 0, 0, 0.5);
-        color:white;
         position: fixed;
         top: 0;
         z-index: 1;
@@ -190,16 +176,9 @@
         color: yellow;
     }
 
-    #app.day-first {
-        width: 1080px;
-        height: 1920px;
-        background-image: url("~/assets/images/oc5-oculus/FN7_Bkgd_DAY1.png");
-    }    
-
-    #app.day-second {
-        width: 1080px;
-        height: 1920px;
-        background-image: url("~/assets/images/oc5-oculus/FN7_Bkgd_DAY2.png");
+    .no-presentations {
+        font-size: 7rem;
+        line-height: 1.18;
     }
 
 </style>
