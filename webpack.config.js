@@ -26,6 +26,7 @@ module.exports = {
         //'opendev-banner': './src/entry-opendev-banner.js',
         'f8-schedule': './src/entry-fnopen-f8-schedule.js',
         'f8-sessions': './src/entry-fnopen-f8-sessions.js',
+		'oc6': './src/entry-ocp-2019-ams.js',
 		'oc6': './src/entry-oc6.js',
 		'oc6': './src/entry-oc6-oculus.js',
         //'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
