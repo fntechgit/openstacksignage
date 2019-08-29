@@ -14,7 +14,7 @@
                     'height': '1080px',
                     'width' : '1920px', 
                     'background-size': 'cover',
-                    'background': 'url('assets/images/1.png') center bottom',
+                    'background': 'url(assets/images/1.png) center bottom',
                 };
             }
         },
