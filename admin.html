@@ -735,42 +735,43 @@
 
                         locations.append(venue);
 
-                        if (value.floors != null) {
+                        if (value.rooms != null) {
 
-                            let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
+                            if (value.floors != null) {
 
-                            $.each(sortedFloors, function(floor_idx, floor_value) {
+                                let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
 
-                                let floor = $("<optgroup></optgroup>")
-                                    .attr("label", floor_value.name);
+                                $.each(sortedFloors, function(floor_idx, floor_value) {
 
-                                let floorRooms =
-                                    $.grep(value.rooms, function(n, i) {
-                                        return n.floor_id == floor_value.id;
+                                    let floor = $("<optgroup></optgroup>")
+                                        .attr("label", floor_value.name);
+
+                                    let floorRooms =
+                                        $.grep(value.rooms, function(n, i) {
+                                            return n.floor_id == floor_value.id;
+                                        });
+
+                                    $.each(floorRooms, function(room_idx, room_value) {
+
+                                        let room = $("<option></option>")
+                                            .attr("value", room_value.id)
+                                            .text(room_value.name)
+                                            .attr("data-subtext", '- ' + room_value.id)
+                                            .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
+
+                                        floor.append(room);
                                     });
 
-                                $.each(floorRooms, function(room_idx, room_value) {
+                                    floor.html(floor.children("option").sort(function (x, y) {
+                                        return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
+                                    }));
 
-                                    let room = $("<option></option>")
-                                        .attr("value", room_value.id)
-                                        .text(room_value.name)
-                                        .attr("data-subtext", '- ' + room_value.id)
-                                        .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
-
-                                    floor.append(room);
+                                    locations.append(floor);
                                 });
 
-                                floor.html(floor.children("option").sort(function (x, y) {
-                                    return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-                                }));
+                            } else {
 
-                                locations.append(floor);
-                            });
-
-                        } else {
-
-                            let floor = $("<optgroup></optgroup>")
-                                    .attr("label", " ");
+                                let floor = $("<optgroup></optgroup>").attr("label", " ");
 
                                 $.each(value.rooms, function(room_idx, room_value) {
 
@@ -786,8 +787,8 @@
                                 }));
 
                                 locations.append(floor);
+                            }
                         }
-			       
                     });
 
                     locations.prop("disabled", false);
