@@ -3,7 +3,7 @@ import App from './components/app.vue'
 
 import Banner from './model/banner'
 import { $store } from './store'
-import { $router } from "./router/router-ocp-ams-image-g001";
+import { $router } from './router/router-ocp-ams-image-g001';
 
 require('./firebase')
 
