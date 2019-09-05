@@ -37,6 +37,8 @@ module.exports = {
 		'ocp-ams-image-g101': './src/entry-ocp-ams-image-g101.js',		
 		'ocp-ams-image-g108': './src/entry-ocp-ams-image-g108.js',
 		'ocp-ams-image-g109': './src/entry-ocp-ams-image-g109.js',
+		'ocp-ams-image-g110': './src/entry-ocp-ams-image-g110.js',
+		'ocp-ams-image-g111': './src/entry-ocp-ams-image-g111.js',
 		'ocp-ams-image-landscape': './src/entry-ocp-ams-image-landscape.js',
         //'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         //'ocp-ams-content': './src/entry-ocp-ams-content.js',
