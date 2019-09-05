@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Screen from '../components/ocp-ams-2019/ocp-ams-image-g101/screen.vue'
+import Screen from '../components/ocp-ams-image-g101/screen.vue'
 
 Vue.use(VueRouter)
 
