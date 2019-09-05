@@ -14,7 +14,7 @@
                     'height': '1920px',
                     'width' : '1080px', 
                     'background-size': 'cover',
-                    'background': 'url(assets/images/ocp-ams-2019/MR1_G001_OCP19R_260919_0000-1230.png) center bottom',
+                    'background': 'url(assets/images/ocp-ams-2019/MR11_G108_OCP19R_250919_0000-270919_2400.png) center bottom',
                 };
             }
         },
