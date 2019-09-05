@@ -31,6 +31,7 @@ module.exports = {
 		'oc6': './src/entry-oc6-oculus.js',
 		'ocp-ams-image': './src/entry-ocp-ams-image.js',
 		'ocp-ams-image-g001': './src/entry-ocp-ams-image-g001.js',
+		'ocp-ams-image-g001v2': './src/entry-ocp-ams-image-g001v2.js',
 		'ocp-ams-image-landscape': './src/entry-ocp-ams-image-landscape.js',
         //'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         //'ocp-ams-content': './src/entry-ocp-ams-content.js',
