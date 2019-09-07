@@ -707,8 +707,7 @@
 
                     } else {
                         
-                        $("#summits").empty();
-                        $("#summits")
+                        $("#summits").empty()
                             .selectpicker({"title": "No summits"})
                             .selectpicker('refresh');
                     }
@@ -818,6 +817,10 @@
                 },
                 error:function (jqXHR, textStatus, errorThrown ) {
 
+                    locations.empty()
+                        .selectpicker({"title": "No locations"})
+                        .selectpicker('refresh');
+                        
                     console.log(errorThrown);
                 }
             });
