@@ -682,26 +682,35 @@
 
                     let data = response.data.reverse();
 
-                    $("#summits").empty();
-                    $("#summits").prop("disabled", false);
+                    if (data.length) {
 
-                    $.each(data, function(index, value) {
+                        $("#summits").empty();
+                        $("#summits").prop("disabled", false);
 
-                        $('<option/>', {
-                            text: value.name,
-                            value: value.id,
-                            data: {
-                                time_zone: value.time_zone.name,
-                                start_date: value.start_date,
-                                end_date: value.end_date
-                            }
-                        }).appendTo($("#summits"));
+                        $.each(data, function(index, value) {
 
-                    });
+                            $('<option/>', {
+                                text: value.name,
+                                value: value.id,
+                                data: {
+                                    time_zone: value.time_zone.name,
+                                    start_date: value.start_date,
+                                    end_date: value.end_date
+                                }
+                            }).appendTo($("#summits"));
 
-                    $("#summits > option:first-child").attr("selected", "selected");
-                    $("#summits").selectpicker('refresh');
-                    $("#summits").change();
+                        });
+
+                        $("#summits > option:first-child").attr("selected", "selected");
+                        $("#summits").selectpicker('refresh');
+                        $("#summits").change();
+
+                    } else {
+
+                        $("#summits")
+                            .selectpicker({"title": "No summits"})
+                            .selectpicker('refresh');
+                    }
                 },
                 error:function (jqXHR, textStatus, errorThrown ) {
 
