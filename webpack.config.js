@@ -43,6 +43,7 @@ module.exports = {
         //'ocp-ams-meeting': './src/entry-ocp-ams-meeting.js',
         //'ocp-ams-content': './src/entry-ocp-ams-content.js',
         //'ocp-ams-signage': './src/entry-ocp-ams-signage.js',
+        'ocp-ams-fnsign-2019': './src/entry-ocp-ams-fnsign-2019.js',
         //'ocp-ams-fnsign': './src/entry-ocp-ams-fnsign.js',
         //'ocp-ams-fnsign-landscape': './src/entry-ocp-ams-fnsign-landscape.js',
         'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js',
