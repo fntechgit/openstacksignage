@@ -48,6 +48,8 @@ module.exports = {
         //'ocp-ams-fnsign-landscape': './src/entry-ocp-ams-fnsign-landscape.js',
         'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js',
         'oc5-oculus-registration': './src/entry-oc5-oculus-registration.js',
+        'oc6-oculus-signage': './src/entry-oc6-oculus-signage.js',
+        'oc6-oculus-registration': './src/entry-oc6-oculus-registration.js',
         //'my-new-template': './src/entry-my-new-template.js',
 		//'ocp-2019-sj-d1-v1': './src/entry-ocp-2019-sj-d1-v1.js',
         //'ocp-2019-breakout-rooms': './src/entry-ocp-2019-breakout-rooms',
