@@ -29,7 +29,7 @@
                     el.style.backgroundImage = "url(" + newValue + ")"
                 },
             );
-            el.style.backgroundImage = "url(" + this.$store.getters.background + ")"
+            el.style.backgroundImage = "url(assets/images/OCP19R_FNSign_BKGD_VERT.png)"
         }
     }
 
