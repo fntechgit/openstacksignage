@@ -26,7 +26,7 @@
             this.$store.watch(
                 (state, getters) => getters.background,
                 (newValue, oldValue) => {
-                    el.style.backgroundImage = "url(" + newValue + ")"
+                    el.style.backgroundImage = "url(assets/images/OCP19R_FNSign_BKGD_VERT.png)"
                 },
             );
             el.style.backgroundImage = "url(assets/images/OCP19R_FNSign_BKGD_VERT.png)"
