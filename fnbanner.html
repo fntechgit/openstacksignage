@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<meta http-equiv="Cache-Control" content="no-store, must-revalidate" />
+	<meta http-equiv="Expires" content="0" />
+	
+    <title>fnopen-signage</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/favicon/manifest.json">
+    <link rel="mask-icon" href="/assets/favicon/safari-pinned-tab.svg" color="#5bbad5">
+
+    <link rel="stylesheet" href="/assets/fonts/graphik/fonts.css" type="text/css">
+
+    <style>
+      body > * {
+        font-feature-settings: "liga", "kern";
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+      }
+      .fill {
+        overflow: hidden;
+        height: 1080px; 
+        width: 1920px;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    </style>
+  </head>
+  <body class="fill">
+    <div id="app"></div>
+    <script src="/dist/manifest.build.js"></script>
+    <script src="/dist/commons.build.js"></script>
+    <script src="/dist/banner.build.js"></script>
+  </body>
+</html>

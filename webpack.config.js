@@ -20,6 +20,7 @@ module.exports = {
         'image': './src/entry-image.js',
         'image-landscape': './src/entry-image-landscape.js',
         'banner': './src/entry-banner.js',
+        'fnbanner': './src/entry-fnbanner.js',
         'schedule': './src/entry-schedule.js',
         //'schedule-mint': './src/entry-schedule-mint.js',
         //'opendev-schedule': './src/entry-opendev-schedule.js',
