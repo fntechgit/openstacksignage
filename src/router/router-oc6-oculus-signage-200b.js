@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Screen from '../components/oc6-oculus/signage-200b/screen.vue'
+import Screen from '../components/oc6-oculus/signage/screen.vue'
 
 Vue.use(VueRouter)
 
