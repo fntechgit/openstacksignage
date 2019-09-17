@@ -193,13 +193,13 @@
     #app.day-first {
         width: 1080px;
         height: 1920px;
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd_LMU_edit.png");
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-thu.png");
     }    
 
     #app.day-second {
         width: 1080px;
         height: 1920px;
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd_LMU_edit.png");
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-thu.png");
     }
 
 </style>
