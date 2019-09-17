@@ -50,7 +50,7 @@ module.exports = {
         //'oc5-oculus-signage': './src/entry-oc5-oculus-signage.js',
         //'oc5-oculus-registration': './src/entry-oc5-oculus-registration.js',
         'oc6-oculus-signage': './src/entry-oc6-oculus-signage.js',
-        'oc6-oculus-signage-220b': './src/entry-oc6-oculus-signage.js',
+        'oc6-oculus-signage-220b': './src/entry-oc6-oculus-signage-220b.js',
         'oc5-oculus-signage-220c': './src/entry-oc5-oculus-signage-220c.js',
         'oc6-oculus-signage-210f': './src/entry-oc6-oculus-signage-210f.js',
         'oc6-oculus-signage-210h': './src/entry-oc6-oculus-signage-210h.js',
