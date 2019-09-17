@@ -222,29 +222,29 @@
     #app {
         width: 1080px;
         height: 1920px;
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png");
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd_LMU_edit.png");
     }    
 
     .room-671 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd_LMU_edit.png")!important;
     }
     .room-671 h1.time {
         color: rgb(186,1,255);
     }
     .room-670 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
+        background-image: url("~/assets/images/oc6-oculus/FOC6_FNSIGN_Bkgd_LMU_edit.png")!important;
     }
     .room-670 h1.time {
         color: rgb(20,138,255);
     }
     .room-667 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd_LMU_edit.png")!important;
     }
     .room-667 h1.time {
         color: rgb(183,236,0);
     }
     .room-668 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd_LMU_edit.png")!important;
     }
     .room-668 h1.time {
         color: rgb(255,186,0);

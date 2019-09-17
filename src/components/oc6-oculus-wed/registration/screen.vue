@@ -1,6 +1,5 @@
 <template>
-    <div id="app" :class="'room-' + schedule.room.id">
-        
+    <div id="app" :class="'day-' + getClass()">
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
                 <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
@@ -68,35 +67,16 @@
             </tr>
         </table>
 
-        <div class="room">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="label">
-                            Session
-                        </div>
-                    </div>
-                    <div class="col-md-8">
-                        <div class="text-uppercase value">
-                            {{ getRoomPrefix(schedule.room) }}
-                            <span>{{ getRoomSuffix(schedule.room) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
-        <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
+        <div v-if="schedule.state.events.all && schedule.state.events.all.length <= 8">
+            <event :next="true" :schedule="schedule" v-for="evt in schedule.state.events.all" :event="evt">
+            </event>
+        </div>
 
-        <event :fixed="true" :next="true" :schedule="schedule" :event="schedule.state.events.upcoming[0]"
-               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length == 1">
-        </event>
-
-        <events :current="schedule.state.events.curr" :schedule="schedule" :events="schedule.state.events.upcoming"
-                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 1">
+        <events :schedule="schedule" :events="schedule.state.events.all"
+                v-else-if="schedule.state.events.all && schedule.state.events.all.length > 8">
         </events>
 
         <div v-else-if="! schedule.state.events.curr" class="empty">
@@ -113,7 +93,8 @@
 
         <banner :banner="schedule.state.scheduled_banners.curr"
                 v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Secondary'"></banner>
-    </div>
+
+     </div>
 </template>
 
 <script>
@@ -131,6 +112,9 @@
             }),
         },
         methods: {
+            getClass() {
+                return this.schedule.format(this.schedule.state.now).startsWith('2018-09-27')  ? 'second' : 'first'   
+            },
             syncStart(item) {
                 this.schedule.setOffset(
                     item.start_date - moment.utc().unix() - 5
@@ -140,12 +124,6 @@
                 this.schedule.setOffset(
                     item.end_date - moment.utc().unix() - 5
                 )
-            },
-            getRoomPrefix(room) {
-                return room.name.trim().length > 4 ? room.name.trim() : room.name.substr(0, room.name.length - 1)
-            },  
-            getRoomSuffix(room) {
-                return room.name.trim().length > 4 ? "" : room.name.substr(room.name.length - 1)
             },
         },
         components: { Event, Events, Banner }
@@ -198,13 +176,6 @@
         font-family: "Oculus Sans";
         font-weight: bold;
         text-align: right;
-        display: flex;
-        float: right;
-    }
-
-    .room .value span {
-        font-weight: normal;
-        
     }
 
     .debug {
@@ -219,34 +190,16 @@
         color: yellow;
     }
 
-    #app {
+    #app.day-first {
         width: 1080px;
         height: 1920px;
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png");
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-wed.png");
     }    
 
-    .room-671 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
+    #app.day-second {
+        width: 1080px;
+        height: 1920px;
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-wed.png");
     }
-    .room-671 h1.time {
-        color: rgb(186,1,255);
-    }
-    .room-670 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
-    }
-    .room-670 h1.time {
-        color: rgb(20,138,255);
-    }
-    .room-667 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
-    }
-    .room-667 h1.time {
-        color: rgb(183,236,0);
-    }
-    .room-668 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-220b.png")!important;
-    }
-    .room-668 h1.time {
-        color: rgb(255,186,0);
-    }
+
 </style>
