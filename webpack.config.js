@@ -61,6 +61,7 @@ module.exports = {
         'oc6-oculus-registration-wed': './src/entry-oc6-oculus-registration-wed.js',
         'oc6-oculus-image-eod1': './src/entry-oc6-oculus-image-eod1.js',
         'oc6-oculus-image-eod2': './src/entry-oc6-oculus-image-eod2.js',
+        'oc6-oculus-image-sessionfull': './src/entry-oc6-oculus-image-sessionfull.js',
         //'my-new-template': './src/entry-my-new-template.js',
 		//'ocp-2019-sj-d1-v1': './src/entry-ocp-2019-sj-d1-v1.js',
         //'ocp-2019-breakout-rooms': './src/entry-ocp-2019-breakout-rooms',
