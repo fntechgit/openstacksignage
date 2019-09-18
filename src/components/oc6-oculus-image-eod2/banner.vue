@@ -14,7 +14,7 @@
                     'height': '1920px',
                     'width' : '1080px', 
                     'background-size': 'cover',
-                    'background': 'url(assets/images/FN-All_DAY-2_end-of-session.png) center bottom',
+                    'background': 'url(assets/images/oc6-oculus/FN-All_DAY-2_end-of-session.png) center bottom',
                 };
             }
         },
