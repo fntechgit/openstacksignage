@@ -16,7 +16,7 @@ const env = config.parsed,
 
 module.exports = {
     entry: {
-        //'config-admin': './src/config-admin.js',
+        'config-admin': './src/config-admin.js',
         'image': './src/entrypoints/entry-image.js',
         'image-landscape': './src/entrypoints/entry-image-landscape.js',
         'banner': './src/entrypoints/entry-banner.js',
