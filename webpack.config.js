@@ -20,7 +20,7 @@ module.exports = {
         'image': './src/entrypoints/entry-image.js',
         'image-landscape': './src/entrypoints/entry-image-landscape.js',
         'banner': './src/entrypoints/entry-banner.js',
-        //'schedule': './src/entrypoints/entry-schedule.js',
+        'schedule': './src/entrypoints/entry-schedule.js',
         //'schedule-mint': './src/entrypoints/entry-schedule-mint.js',
         //'ocp-2019-breakout-rooms': './src/entrypoints/entry-ocp-2019-breakout-rooms',
         //'ocp-2019-expo-hall-talks': './src/entrypoints/entry-ocp-2019-expo-hall-talks',
@@ -53,7 +53,7 @@ module.exports = {
         'oc6-oculus-signage-210h': './src/entrypoints/entry-oc6-oculus-signage-210h.js',
         'oc6-oculus-signage-tt': './src/entrypoints/entry-oc6-oculus-signage-tt.js',
         'oc6-oculus-signage-sp': './src/entrypoints/entry-oc6-oculus-signage-sp.js',*/
-        'oc6-oculus-registration': './src/entrypoints/entry-oc6-oculus-registration.js',
+        'oculus-oc6-sessions': './src/entrypoints/entry-oculus-oc6-sessions.js',
         'oc6-oculus-registration-thu': './src/entrypoints/entry-oc6-oculus-registration-thu.js',
         'oc6-oculus-registration-wed': './src/entrypoints/entry-oc6-oculus-registration-wed.js',
         'oc6-oculus-image-eod1': './src/entrypoints/entry-oc6-oculus-image-eod1.js',
