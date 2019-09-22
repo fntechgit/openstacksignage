@@ -102,7 +102,7 @@
 
 <script>
 
-    import '../../../../../assets/css/f8-2019/theme.scss'
+    import 'assets/css/f8-2019/theme.scss'
     import Event from './event.vue'
     import Banner from './banner.vue'
     import moment from 'moment'

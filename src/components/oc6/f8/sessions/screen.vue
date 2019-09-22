@@ -23,7 +23,7 @@
 
 <script>
 
-    import '../../../../../assets/css/f8-2019/theme.scss'
+    import 'assets/css/f8-2019/theme.scss'
     import Events from './events.vue'
     import EventsCarousel from './events-carousel.vue'
     import moment from 'moment'

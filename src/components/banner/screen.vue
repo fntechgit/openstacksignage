@@ -12,7 +12,7 @@
 
 <script>
 
-    import '../../../assets/css/f8-2019/theme.scss'
+    import 'assets/css/f8/2019/theme.scss'
     import { mapGetters } from 'vuex'
 
     export default {
