@@ -44,8 +44,6 @@ module.exports = {
 		'ocp-ams-image-g111': './src/entrypoints/entry-ocp-ams-image-g111.js',
         //'oculus-oc5-signage': './src/entrypoints/entry-oculus-oc5-signage.js',
         //'oculus-oc5-registration': './src/entrypoints/entry-oculus-oc5-registration.js',
-        //'oc6': './src/entrypoints/entry-oc6.js',
-        //'oc6': './src/entrypoints/entry-oc6-oculus.js',
         /*'oc6-oculus-signage': './src/entrypoints/entry-oc6-oculus-signage.js',
         'oc6-oculus-signage-220b': './src/entrypoints/entry-oc6-oculus-signage-220b.js',
         'oc6-oculus-signage-220c': './src/entrypoints/entry-oc6-oculus-signage-220c.js',
@@ -54,8 +52,6 @@ module.exports = {
         'oc6-oculus-signage-tt': './src/entrypoints/entry-oc6-oculus-signage-tt.js',
         'oc6-oculus-signage-sp': './src/entrypoints/entry-oc6-oculus-signage-sp.js',*/
         'oculus-oc6-sessions': './src/entrypoints/entry-oculus-oc6-sessions.js',
-        //'oc6-oculus-registration-thu': './src/entrypoints/entry-oc6-oculus-registration-thu.js',
-        //'oc6-oculus-registration-wed': './src/entrypoints/entry-oc6-oculus-registration-wed.js',
         'oc6-oculus-image-eod1': './src/entrypoints/entry-oc6-oculus-image-eod1.js',
         'oc6-oculus-image-eod2': './src/entrypoints/entry-oc6-oculus-image-eod2.js',
         'oc6-oculus-image-sessionfull': './src/entrypoints/entry-oc6-oculus-image-sessionfull.js',
