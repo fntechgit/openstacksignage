@@ -13,7 +13,7 @@
                             {{ event.title }}
                         </div>
                         <div class="col-12 location">
-                            <span class="room" v-if="room(event)">{{ room(event) }}</span> &nbsp;| &nbsp;{{ startTime(event) }} - {{ endTime(event) }}
+                            <span class="room" v-if="room(event)">{{ room(event) }}</span><span v-if="room(event)"> &nbsp;| &nbsp;</span>{{ startTime(event) }} - {{ endTime(event) }}
                         </div>
                     </div>
                 </div>
