@@ -123,7 +123,7 @@
         -webkit-transition-timing-function: linear!important;
         -o-transition-timing-function: linear!important;
         transition-timing-function: linear!important;
-        transform: translate3d(0px, 858px, 0px);
+        transform: translate3d(0px, 1080px, 0px);
     }
     .events-wrapper {
         overflow: hidden;
