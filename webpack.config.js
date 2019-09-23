@@ -54,8 +54,8 @@ module.exports = {
         'oc6-oculus-signage-tt': './src/entrypoints/entry-oc6-oculus-signage-tt.js',
         'oc6-oculus-signage-sp': './src/entrypoints/entry-oc6-oculus-signage-sp.js',*/
         'oculus-oc6-sessions': './src/entrypoints/entry-oculus-oc6-sessions.js',
-        'oc6-oculus-registration-thu': './src/entrypoints/entry-oc6-oculus-registration-thu.js',
-        'oc6-oculus-registration-wed': './src/entrypoints/entry-oc6-oculus-registration-wed.js',
+        //'oc6-oculus-registration-thu': './src/entrypoints/entry-oc6-oculus-registration-thu.js',
+        //'oc6-oculus-registration-wed': './src/entrypoints/entry-oc6-oculus-registration-wed.js',
         'oc6-oculus-image-eod1': './src/entrypoints/entry-oc6-oculus-image-eod1.js',
         'oc6-oculus-image-eod2': './src/entrypoints/entry-oc6-oculus-image-eod2.js',
         'oc6-oculus-image-sessionfull': './src/entrypoints/entry-oc6-oculus-image-sessionfull.js',
