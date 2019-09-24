@@ -33,7 +33,7 @@
                 </td>
             </tr>
         </table>
-        <div class="container" v-if="schedule.state.events.curr || schedule.state.events.upcoming">
+        <div class="container-fluid" v-if="schedule.state.events.curr || schedule.state.events.upcoming">
             <div class="row">
                 <div class="col-12 text-uppercase room"v-bind:style="roomStyle">
                     {{ formatRoomName(schedule.room) }}
