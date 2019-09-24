@@ -170,8 +170,9 @@
         font-family: MonumentExtended-Bold;
         margin-top: 6em;
         font-size: 4.95rem;
-        text-align: center;
+        text-align: left;
         line-height: 1;
+        margin-left: 61px;
     }
     .name {
         padding-top: 0.1em;
