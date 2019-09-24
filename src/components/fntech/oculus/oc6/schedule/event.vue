@@ -1,5 +1,5 @@
 <template>
-    <div class="container event" :class="{next, fixed}">
+    <div class="container event" :class="{next}" style="padding-top: 5.42em">
         <div class="row">
             <div class="col-12 delimiter-top"></div>
             <div class="col-12 text-uppercase title" style="padding-top: 0.2em" v-if="!next">
@@ -71,55 +71,3 @@
         }
     }
 </script>
-
-<style>
-    .event {
-        padding-top: 5.42em;
-    }
-    .name {
-        padding-top: 0.1em;
-        font-size: 3.3em;
-        line-height: 1.2em;
-        letter-spacing: 0.8px;
-    }
-    .title {
-        font-size: 2.7em;
-        letter-spacing: 1.5px;
-        color: #5d5e61;
-    }
-    .speaker {
-        font-size: 2.7em;
-        letter-spacing: 1px;
-    }
-    .speaker .affiliation {
-        font-size: 0.85em;
-        line-height: 0.85em;
-        color: #5d5e61;
-    }
-    .time {
-        padding-top: 0.7em;
-        font-size: 2em;
-        letter-spacing: 1.2px;
-        color: #f856f8;
-    }
-    .delimiter-top:before {
-        content: "";
-        position: absolute;
-        left: 15px;
-        top: -22px;
-        width: 97%;
-        border-color: #5d5e61;
-        border-style: solid;
-        border-width: 3px 0 0 0;
-    }
-    .delimiter-bottom:before {
-        content: "";
-        position: absolute;
-        width: 97%;
-        left: 15px;
-        bottom: -40px;
-        border-color: #5d5e61;
-        border-style: solid;
-        border-width: 3px 0 0 0;
-    }
-</style>

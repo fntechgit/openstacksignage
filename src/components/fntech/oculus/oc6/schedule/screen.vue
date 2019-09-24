@@ -42,8 +42,11 @@
         </div>
         <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
         <event :next="true" :schedule="schedule" :event="schedule.state.events.upcoming[0]"
-               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming[0] != schedule.state.events.curr">
+               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length == 1">
         </event>
+        <events-carousel :schedule="schedule" :upcoming="schedule.state.events.upcoming"
+                v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 1">
+        </events-carousel>
         <div class="container h-100 mw-100" v-if="!schedule.state.events.upcoming && !schedule.state.events.curr">
             <div class="row h-100 p-5 align-items-center justify-content-center">
                 <div class="col-10 text-center text-uppercase no-presentations">
@@ -59,7 +62,7 @@
     import 'assets/css/oculus/oc6/theme.scss'
 
     import Event from './event.vue'
-    import Events from './events.vue'
+    import EventsCarousel from './events-carousel.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
 
@@ -136,7 +139,7 @@
             const el = document.body
             el.style.backgroundImage = background ? 'url(' + background + ')' : null
         },
-        components: { Event, Events }
+        components: { Event, EventsCarousel }
     }
 
 </script>
@@ -149,24 +152,20 @@
         font-weight: 500;
         height: 100%;
     }
-
     .debug {
         background: rgba(0, 0, 0, 0.5);
         position: fixed;
         top: 0;
         z-index: 1;
     }
-
     .debug a {
         color: yellow;
     }
-
     .no-presentations {
         font-family: MonumentExtended-Bold;
         font-size: 4rem;
         line-height: 1;
     }
-
     .room {
         font-family: MonumentExtended-Bold;
         margin-top: 6em;
@@ -174,5 +173,50 @@
         text-align: center;
         line-height: 1;
     }
-
+    .name {
+        padding-top: 0.1em;
+        font-size: 3.3em;
+        line-height: 1.2em;
+        letter-spacing: 0.8px;
+    }
+    .title {
+        font-size: 2.7em;
+        letter-spacing: 1.5px;
+        color: #5d5e61;
+    }
+    .speaker {
+        font-size: 2.7em;
+        letter-spacing: 1px;
+    }
+    .speaker .affiliation {
+        font-size: 0.85em;
+        line-height: 0.85em;
+        color: #5d5e61;
+    }
+    .time {
+        padding-top: 0.7em;
+        font-size: 2em;
+        letter-spacing: 1.2px;
+        color: #f856f8;
+    }
+    .delimiter-top:before {
+        content: "";
+        position: absolute;
+        left: 15px;
+        top: -22px;
+        width: 97%;
+        border-color: #5d5e61;
+        border-style: solid;
+        border-width: 3px 0 0 0;
+    }
+    .delimiter-bottom:before {
+        content: "";
+        position: absolute;
+        width: 97%;
+        left: 15px;
+        bottom: -40px;
+        border-color: #5d5e61;
+        border-style: solid;
+        border-width: 3px 0 0 0;
+    }
 </style>
