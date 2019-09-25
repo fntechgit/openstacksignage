@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 time">
+                        <div class="col-12 time" v-bind:style="timeStyle">
                             {{ time(event) }}
                         </div>
                     </div>
@@ -35,7 +35,7 @@
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
     export default {
-        props: ['schedule', 'upcoming'],
+        props: ['schedule', 'upcoming', 'timeStyle'],
         data() {
             return {
                 eventsCache: null,

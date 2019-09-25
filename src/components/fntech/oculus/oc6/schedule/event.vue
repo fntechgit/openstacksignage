@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 time">
+            <div class="col-12 time" v-bind:style="timeStyle">
                 {{ time(event) }}
             </div>
         </div>
@@ -40,7 +40,7 @@
 
 <script>
     export default {
-        props: ['next', 'event', 'schedule', 'fixed'],
+        props: ['next', 'event', 'schedule', 'timeStyle'],
         computed: {
             speakerName() {
                 return speaker => speaker && [
