@@ -74,10 +74,7 @@
         },
         methods: {
             formatRoomName(name) {
-                if (name.match(/^\d/)) {
-                    return name.replace(/\s/g, '');
-                }
-                return name
+                return name.replace(' Theatre', '');
             },
             syncStart(item) {
                 this.schedule.setOffset(
@@ -124,14 +121,14 @@
     
     .room {
         position: absolute;
-        right: 1em;
-        top: 0.7em;
+        right: 0.8em;
+        top: 1em;
         width: 7em;
         color: #262673;
         font-weight: 700;
-        font-size: 3.7em;
-        letter-spacing: -6px;
+        font-size: 4em;
         text-align: center;
+        line-height: 1.1em;
     }
     
     .time {

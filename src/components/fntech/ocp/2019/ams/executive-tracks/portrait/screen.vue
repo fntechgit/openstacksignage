@@ -80,10 +80,7 @@
         },
         methods: {
             formatRoomName(name) {
-                if (name.match(/^\d/)) {
-                    return name.replace(/\s/g, '');
-                }
-                return name
+                return name.replace(' Theatre', '');
             },
             syncStart(item) {
                 this.schedule.setOffset(
