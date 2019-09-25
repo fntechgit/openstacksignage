@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from '../components/app.vue'
 
-import Schedule from '../model/schedule'
+import Schedule from '../model/oculus-schedule'
 import { $store } from '../store'
 import { $router } from '../router/router-oculus-oc6-schedule.js'
 
