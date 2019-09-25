@@ -102,10 +102,10 @@
                 return weekday[this.schedule.now().format('d')];
             },
             startTime() {
-                return event => event && this.schedule.getDate(event.start_date).format('HH:mm A') || 'N/A'
+                return event => event && this.schedule.getDate(event.start_date).format('h:mm A') || 'N/A'
             },
             endTime() {
-                return event => event && this.schedule.getDate(event.end_date).format('HH:mm A') || 'N/A'
+                return event => event && this.schedule.getDate(event.end_date).format('h:mm A') || 'N/A'
             },
             room() {
                 return event => event && event.location.name || null

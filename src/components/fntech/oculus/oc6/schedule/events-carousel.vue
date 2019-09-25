@@ -75,8 +75,8 @@
             },
             time() {
                 return event => event && [
-                    this.schedule.getDate(event.start_date).format('HH:mma'),
-                    this.schedule.getDate(event.end_date).format('HH:mma')
+                    this.schedule.getDate(event.start_date).format('h:mma'),
+                    this.schedule.getDate(event.end_date).format('h:mma')
                 ].join(' - ') || 'N/A'
             }
         },
