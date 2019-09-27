@@ -49,9 +49,12 @@
         <event :schedule="schedule" :event="schedule.state.events.next" :next=true :current="schedule.state.events.curr != null" v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr, 'pt-5': !schedule.state.events.curr }" style="bottom: 9rem;"></event>
 
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
-            <div class="row p-7 mt-7 no-presentations">
+            <div class="row p-7 no-presentations">
                 <div class="col-12 text-left">
-                    All presentations are finished for today
+                    <p>Thank you for attending the 2019 OCP Regional Summit!</p>
+                    <p>Don’t miss the 2020 OCP Global Summit, March 4 - 5, 2020 in San Jose, CA.</p>
+                    <p>And we hope to see you at the 2020 OCP Regional Summit, in Prague September 30 - October 1, 2020.</p>
+                    <p>Open. Together.</p>
                 </div>
             </div>
         </div>
@@ -136,10 +139,14 @@
     }
 
     .no-presentations {
-        font-size: 5.3rem;
+        font-size: 3.8rem;
         line-height: 1.18;
         letter-spacing: 1px;
         padding-bottom: 6.5rem !important;
+    }
+
+    .no-presentations p {
+        padding-bottom: 2rem;
     }
 
 </style>
