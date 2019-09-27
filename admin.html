@@ -849,13 +849,20 @@
 
                     if (data.data.length) {
 
-                        let message = data.data[0];
+                        let staticBanners = data.data.filter(function(banner) {
+                            return banner.class_name == 'SummitLocationBanner';
+                        });
 
-                        $('#static-banner input[name=id]').val(message.id);
+                        if (staticBanners.length) {
 
-                        content.val(message.content);
+                            let message = staticBanners[0];
 
-                        autosize.update(content);
+                            $('#static-banner input[name=id]').val(message.id);
+
+                            content.val(message.content);
+
+                            autosize.update(content);
+                        }
                     }
 
                     content.prop("disabled", false);
