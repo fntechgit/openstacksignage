@@ -65,7 +65,7 @@
     import 'assets/css/ocp/2019/ams/theme.scss'
 
     import Event from './event.vue'
-    import Banner from './event.vue'
+    import Banner from './banner.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
 
