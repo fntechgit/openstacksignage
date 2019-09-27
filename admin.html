@@ -1589,7 +1589,7 @@
 
                     banner_actions: function (column, row) {
 
-                        let encoded = btoa(JSON.stringify(row));
+                        let encoded = utf8_to_b64(JSON.stringify(row));
 
                         var actions = "<button class=\"btn btn-primary btn-sm inline-space event-jump\" data-ts=\"" + row.start_date + "\">Jump</button>";
 
@@ -1652,7 +1652,7 @@
                         case "edit":
 
                             let encoded = target.data("base64");
-                            let decoded = JSON.parse(atob(encoded));
+                            let decoded = JSON.parse(b64_to_utf8(encoded));
 
                             if (decoded != null) {
 
@@ -1746,6 +1746,14 @@
             ajaxStop: function() { $(".glyphicon-refresh").removeClass("wheel-loading"); }
         });
     });
+
+    function utf8_to_b64( str ) {
+        return window.btoa(unescape(encodeURIComponent(str)));
+    }
+
+    function b64_to_utf8( str ) {
+        return decodeURIComponent(escape(window.atob(str)));
+    }
 </script>
 </body>
 </html>

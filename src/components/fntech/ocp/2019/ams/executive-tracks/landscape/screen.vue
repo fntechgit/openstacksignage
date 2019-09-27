@@ -33,16 +33,46 @@
                     {{ schedule.state.events.next && schedule.state.events.next.title || 'N/A' }}
                 </td>
             </tr>
+            <tr>
+                <td align="center" width="33%">
+                    <a v-if="schedule.state.scheduled_banners.prev" href="" @click.prevent="syncStart(schedule.state.scheduled_banners.prev)">[start-5s]</a>
+                    Previous Banner
+                    <a v-if="schedule.state.scheduled_banners.prev" href="" @click.prevent="syncEnd(schedule.state.scheduled_banners.prev)">[end-5s]</a>
+                </td>
+                <td align="center" width="33%">
+                    <a v-if="schedule.state.scheduled_banners.curr" href="" @click.prevent="syncStart(schedule.state.scheduled_banners.curr)">[start-5s]</a>
+                    Current Banner
+                    <a v-if="schedule.state.scheduled_banners.curr" href="" @click.prevent="syncEnd(schedule.state.scheduled_banners.curr)">[end-5s]</a>
+                </td>
+                <td align="center" width="33%">
+                    <a v-if="schedule.state.scheduled_banners.next" href="" @click.prevent="syncStart(schedule.state.scheduled_banners.next)">[start-5s]</a>
+                    Next Banner
+                    <a v-if="schedule.state.scheduled_banners.next" href="" @click.prevent="syncEnd(schedule.state.scheduled_banners.next)">[end-5s]</a>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" width="33%">
+                    {{ schedule.state.scheduled_banners.prev && schedule.state.scheduled_banners.prev.title || 'N/A' }}
+                </td>
+                <td align="center" width="33%">
+                    {{ schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.title || 'N/A' }}
+                </td>
+                <td align="center" width="33%">
+                    {{ schedule.state.scheduled_banners.next && schedule.state.scheduled_banners.next.title || 'N/A' }}
+                </td>
+            </tr>
         </table>
 
         <div class="room text-right" v-bind:style="roomStyle">{{ formatRoomName(schedule.room.name) }}</div>
 
-        <event :schedule="schedule" :event="schedule.state.events.curr" :current=true
-        v-if="schedule.state.events.curr"></event>
-        
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true :current="schedule.state.events.curr != null" v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr, 'pt-5': !schedule.state.events.curr }" style="bottom: 6rem;"></event>
+        <banner :banner="schedule.state.scheduled_banners.curr" v-if="schedule.state.scheduled_banners.curr"></banner>
 
-        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
+        <event :schedule="schedule" :event="schedule.state.events.curr" :current=true
+            v-if="!schedule.state.scheduled_banners.curr && schedule.state.events.curr"></event>
+        
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true :current="schedule.state.events.curr != null" v-if="!schedule.state.scheduled_banners.curr && schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr, 'pt-5': !schedule.state.events.curr }" style="bottom: 6rem;"></event>
+
+        <div class="container-fluid" v-else-if="!schedule.state.scheduled_banners.curr && !schedule.state.events.curr">
             <div class="row p-7 mt-7 no-presentations">
                 <div class="col-12 text-left">
                     All presentations are finished for today
@@ -57,6 +87,7 @@
     import 'assets/css/ocp/2019/ams/theme.scss'
 
     import Event from './event.vue'
+    import Banner from './banner.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
 
@@ -87,7 +118,7 @@
                 )
             },
         },
-        components: { Event }
+        components: { Event, Banner }
     }
 
 </script>

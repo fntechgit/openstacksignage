@@ -43,12 +43,14 @@
             </div>
         </div>
 
-        <event :schedule="schedule" :event="schedule.state.events.curr" :current=true
-        v-if="schedule.state.events.curr"></event>
-        
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true :current="schedule.state.events.curr != null" v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr, 'pt-5': !schedule.state.events.curr }" style="bottom: 9rem;"></event>
+        <banner :banner="schedule.state.scheduled_banners.curr" v-if="schedule.state.scheduled_banners.curr"></banner>
 
-        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
+        <event :schedule="schedule" :event="schedule.state.events.curr" :current=true
+        v-if="!schedule.state.scheduled_banners.curr && schedule.state.events.curr"></event>
+        
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true :current="schedule.state.events.curr != null" v-if="!schedule.state.scheduled_banners.curr && schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr, 'pt-5': !schedule.state.events.curr }" style="bottom: 9rem;"></event>
+
+        <div class="container-fluid" v-else-if="!schedule.state.scheduled_banners.curr && !schedule.state.events.curr">
             <div class="row p-7 mt-7 no-presentations">
                 <div class="col-12 text-left">
                     All presentations are finished for today
@@ -63,6 +65,7 @@
     import 'assets/css/ocp/2019/ams/theme.scss'
 
     import Event from './event.vue'
+    import Banner from './event.vue'
     import moment from 'moment'
     import { mapGetters } from 'vuex'
 
@@ -93,7 +96,7 @@
                 )
             },
         },
-        components: { Event }
+        components: { Event, Banner }
     }
 
 </script>
