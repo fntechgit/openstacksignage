@@ -53,6 +53,7 @@ module.exports = {
         'oc6-oculus-signage-sp': './src/entrypoints/entry-oc6-oculus-signage-sp.js',*/
         'oculus-oc6-sessions': './src/entrypoints/entry-oculus-oc6-sessions.js',
         'oculus-oc6-schedule': './src/entrypoints/entry-oculus-oc6-schedule.js',
+        'infinity-schedule': './src/entrypoints/entry-infinity-schedule.js',
         'oc6-oculus-image-eod1': './src/entrypoints/entry-oc6-oculus-image-eod1.js',
         'oc6-oculus-image-eod2': './src/entrypoints/entry-oc6-oculus-image-eod2.js',
         'oc6-oculus-image-sessionfull': './src/entrypoints/entry-oc6-oculus-image-sessionfull.js',
