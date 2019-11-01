@@ -23,7 +23,8 @@
 
 <script>
 
-    import 'assets/css/oculus/oc6/theme.scss'
+    import 'assets/css/infinity/theme.scss'
+    
     import Events from './events.vue'
     import EventsCarousel from './events-carousel.vue'
     import moment from 'moment'
@@ -58,9 +59,8 @@
     
     #app {
         color: white;
-        font-family: "basis-grotesque-regular-pro";
-        font-weight: 500;
-        height: 100%;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
     }
 
     .debug {
@@ -75,13 +75,11 @@
     }
 
     .no-presentations {
-        font-family: MonumentExtended-Bold;
         font-size: 4rem;
         line-height: 1;
     }
 
     .todays-sessions {
-        font-family: MonumentExtended-Bold;
         padding: 0 4em;
         margin-top: 7em;
         font-size: 4rem;

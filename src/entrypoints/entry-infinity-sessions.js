@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import App from '../components/app.vue'
 
-import Schedule from '../model/schedule'
+import Sessions from '../model/sessions'
 import { $store } from '../store'
-import { $router } from '../router/router-infinity-schedule'
+import { $router } from '../router/router-infinity-sessions'
 
 require('../firebase')
 
 $router.beforeEach((to, from, next) => {
-    const schedule = new Schedule()
+    const schedule = new Sessions()
 
     if ($store.getters.schedule) {
         $store.commit('setSchedule', null)
