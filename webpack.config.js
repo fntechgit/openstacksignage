@@ -21,6 +21,7 @@ module.exports = {
         'image-landscape': './src/entrypoints/entry-image-landscape.js',
         'banner': './src/entrypoints/entry-banner.js',
         'schedule': './src/entrypoints/entry-schedule.js',
+		'if-image-d101': './src/entrypoints/entry-if-image-d101.js',
         //'schedule-mint': './src/entrypoints/entry-schedule-mint.js',
         //'ocp-2019-breakout-rooms': './src/entrypoints/entry-ocp-2019-breakout-rooms',
         //'ocp-2019-expo-hall-talks': './src/entrypoints/entry-ocp-2019-expo-hall-talks',
