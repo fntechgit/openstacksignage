@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <div class="col-12 name" style="padding-top: 2rem !important;" v-bind:class="{ 'pb-2': next && !event.speakers.length }">
-                {{ event.title }}
+                {{ formatEventTitle(event.title) }}
             </div>
         </div>
         <div class="row" v-if="event.speakers.length">
@@ -60,6 +60,9 @@
                     break
                 }
                 return color;
+            },
+            formatEventTitle(title) {
+                return title.replace('BLOCKCHAIN: ', '');
             },
         },
         computed: {
