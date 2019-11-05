@@ -14,7 +14,7 @@
                                 {{ event.title }}
                             </div>
                             <div class="col-12 location">
-                                <span class="room" v-if="room(event)">{{ room(event) }}</span><span v-if="room(event)"><br></span><span class="time">{{ startTime(event) }} - {{ endTime(event) }}</span>
+                                <span class="room" v-if="room(event)">{{ room(event) }}</span><span v-if="room(event)"> &nbsp;| &nbsp;</span><span class="time">{{ startTime(event) }} - {{ endTime(event) }}</span>
                             </div>
                         </div>
                     </swiper-slide>
@@ -108,7 +108,28 @@
                 return event => event && this.schedule.getDate(event.end_date).format('h:mm A') || 'N/A'
             },
             room() {
-                return event => event && event.location.name || null
+                return event => {
+                    var location = event.location.name
+                    if (!(event && location)) return null
+                    switch (location) {
+                      case 'MONETIZATION STAGE @ Dream Hotel 2nd Floor Rorschach Room':
+                        location = 'MONETIZATION STAGE'
+                        break
+                      case 'MINI SUMMIT STAGE @ Dream Hotel 2nd Floor Think Tank Room':
+                        location = 'MINI SUMMIT STAGE'
+                        break
+                      case 'FESTIVAL HUB @ Goya Studios Central Lot':
+                        location = 'FESTIVAL HUB'
+                        break
+                      case 'CREATIVE STAGE @ GOYA Studios Stage B':
+                        location = 'CREATIVE STAGE'
+                        break
+                      case 'AWS MAIN STAGE @ GOYA Studios Stage A':
+                        location = 'AWS MAIN STAGE'
+                        break
+                    }
+                    return location
+                }
             }
         },
         components: {
