@@ -6,24 +6,28 @@
             </tr>
         </table>
         <events :schedule="schedule" :events="schedule.state.events.upcoming"
-               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length <= 7">
+               v-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length <= 4">
         </events>
         <events-carousel :schedule="schedule" :upcoming="schedule.state.events.upcoming"
-                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 7">
+                v-else-if="schedule.state.events.upcoming && schedule.state.events.upcoming.length > 4">
         </events-carousel>
-        <div class="container h-100 mw-100" v-else-if="!schedule.state.events.upcoming">
-            <div class="row h-100 p-5 align-items-center justify-content-center">
-                <div class="col-10 text-center text-uppercase no-presentations">
-                    All presentations are finished for today
+        <div class="container-fluid" v-else-if="!schedule.state.events.upcoming">
+            <div class="row pt-5 pl-8 pr-8 no-presentations">
+                <div class="col-12 text-left">
+                    All events are finished for today
                 </div>
             </div>
+        </div>
+        <div class="row fixed-bottom" style="bottom: 10em;">
+            <div class="col-12 delimiter-bottom"></div>
         </div>
     </div>
 </template>
 
 <script>
 
-    import 'assets/css/oculus/oc6/theme.scss'
+    import 'assets/css/infinity/theme.scss'
+    
     import Events from './events.vue'
     import EventsCarousel from './events-carousel.vue'
     import moment from 'moment'
@@ -58,9 +62,8 @@
     
     #app {
         color: white;
-        font-family: "basis-grotesque-regular-pro";
-        font-weight: 500;
-        height: 100%;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
     }
 
     .debug {
@@ -75,18 +78,20 @@
     }
 
     .no-presentations {
-        font-family: MonumentExtended-Bold;
-        font-size: 4rem;
-        line-height: 1;
+        font-size: 4.25rem;
+        line-height: 1.18;
+        letter-spacing: 1px;
+        padding-top: 6.5em !important;
+        font-weight: 700;
     }
 
     .todays-sessions {
-        font-family: MonumentExtended-Bold;
         padding: 0 4em;
         margin-top: 7em;
         font-size: 4rem;
         text-align: center;
         line-height: 1;
+        font-weight: 700;
     }
 
     .event {
@@ -96,27 +101,34 @@
     }
 
     .event .name {
-        padding-left: 50px;
-        padding-right: 70px;
+        padding-left: 1.9em;
+        padding-right: 2em;
         font-size: 2.3rem;
-        line-height: 1.18;
+        line-height: 1.2;
     }
 
     .event .location {
-        padding-left: 50px;
-        padding-right: 70px;
+        padding-left: 1.9em;
+        padding-right: 2em;
         font-size: 2.3rem;
         font-weight: 400;
     }
 
     .event .room {
-        color: #68c8cf;
+        margin-top: 15px;
+        display: inline-block;
+        color: #e62227;
+        line-height: 1.1;
     }
 
-    .event .time {
-        font-size: 2.6rem;
-        font-weight: 400;
-        line-height: 1.18;
+    .delimiter-bottom:before {
+        content: "";
+        position: absolute;
+        width: 82%;
+        left: 6.5em;
+        bottom: -40px;
+        border-color: #666666;
+        border-style: solid;
+        border-width: 3px 0 0 0;
     }
-
 </style>

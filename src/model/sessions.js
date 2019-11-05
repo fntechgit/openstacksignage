@@ -6,6 +6,8 @@ export default class Sessions {
 
     events = []
     location = null
+    includeLocations = null
+    excludeLocations = null
 
     offset = 0
     timezone = 0
@@ -29,6 +31,17 @@ export default class Sessions {
             this.getLocation().then(() => {
 
                 let params = new URLSearchParams(window.location.href.split('?')[1])
+
+                let includeLocations = params.get('include')
+                if (includeLocations) {
+                    this.includeLocations = includeLocations.split(',').map(Number)
+                }
+
+                let excludeLocations = params.get('exclude')
+                if (excludeLocations) {
+                    this.excludeLocations = excludeLocations.split(',').map(Number)
+                }
+
                 this.debug = !!params.get('debug')
 
                 this.loadSummit().then(summit => {
@@ -66,7 +79,24 @@ export default class Sessions {
 
     loadAllEvents() {
         return $store.dispatch('loadAllEvents', this.location).then(payload => {
-            this.events = payload.data.data; return this
+            let data = payload.data.data
+            let includes = this.includeLocations
+            let excludes = this.excludeLocations
+            if (includes != null) {
+                for (var i = data.length - 1; i >= 0; i--) {
+                    if (!includes.includes(data[i].location.id)) {
+                        data.splice(i, 1)
+                    }
+                }
+            }
+            if (excludes != null) {
+                for (var i = data.length - 1; i >= 0; i--) {
+                    if (excludes.includes(data[i].location.id)) {
+                        data.splice(i, 1)
+                    }
+                }
+            }
+            this.events = data; return this
         })
     }
 
