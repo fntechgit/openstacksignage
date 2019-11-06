@@ -61,10 +61,10 @@
             <div class="col-12 delimiter-top"></div>
         </div>
 
-        <event :schedule="schedule" :event="schedule.state.events.curr"
+        <event ref="current" :overlapping="this.overlapping" :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr"></event>
         
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr, 'pt-5': !schedule.state.events.curr }" style="bottom: 19em;"></event>
+        <event ref="next" :overlapping="this.overlapping" :schedule="schedule" :event="schedule.state.events.next" :next=true  v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr, 'pt-5': !schedule.state.events.curr }" style="bottom: 19em;"></event>
 
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row pt-5 pl-8 pr-8 no-presentations">
@@ -90,6 +90,25 @@
     import { mapGetters } from 'vuex'
 
     export default {
+        data: function () {
+          return {
+            overlapping: false,
+            pair: null
+          }
+        },
+        updated: function () {
+            if (this.$refs.current && this.$refs.next) {
+                let pair = this.schedule.state.events.curr.id + ',' + this.schedule.state.events.next.id
+                let overlaps = this.overlaps(this.$refs.current.$el, this.$refs.next.$el)
+                if (this.pair != pair) {
+                    if (overlaps) this.pair = pair
+                    this.overlapping = overlaps
+                }
+            } else {
+                this.pair = null
+                this.overlapping = false
+            }
+        },
         computed: {
             ...mapGetters({
                 schedule: 'schedule'
@@ -114,6 +133,14 @@
             },
         },
         methods: {
+            overlaps(element1, element2) {
+                var rect1 = element1.getBoundingClientRect()
+                var rect2 = element2.getBoundingClientRect()
+                return !(rect1.right < rect2.left || 
+                rect1.left > rect2.right || 
+                rect1.bottom - 70 < rect2.top || 
+                rect1.top > rect2.bottom)
+            },
             getLocation(venue) {
                 var location = null
                 switch (venue) {

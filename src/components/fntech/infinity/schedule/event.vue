@@ -1,27 +1,27 @@
 <template>
-    <div class="container-fluid px-8 pb-8 event" :class="{ next }">
+    <div class="container-fluid px-8 pb-8 event" :class="{ next, overlapping }">
         <div class="row" v-if="next">
             <div class="col-12 pb-2 text-uppercase">
                 <span class="highlight" :style="{ color: getHighlightTextColor(schedule.room.name), backgroundColor: getColor(schedule.room.name) }">Next Session</span>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 name" style="padding-top: 2rem !important;" v-bind:class="{ 'pb-2': next && !event.speakers.length }">
+            <div class="col-12 name" :style="{padding-top: overlapping ? '1rem !important' : '2rem !important'}" v-bind:class="{ 'pb-2': next && !event.speakers.length }">
                 {{ formatEventTitle(event.title) }}
             </div>
         </div>
         <div class="row" v-if="event.speakers.length">
-            <div class="col-12 text-uppercase speakers" :style="{ color: getColor(schedule.room.name) }" v-bind:class="next ? 'pt-4' : 'pt-5'">
+            <div class="col-12 text-uppercase speakers" :style="{ color: getColor(schedule.room.name) }" v-bind:class="next ? (overlapping ? 'pt-3' : 'pt-4') : (overlapping ? 'pt-4' : 'pt-5')">
                 <!--<div class="pb-1"> 
                     FIRST LAST
                 </div>-->
-                <div>
-                    <span v-for="(speaker, index) in event.speakers"><span v-if="index != 0">, </span>{{ speaker.first_name }} {{ speaker.last_name }}</span>
+                <div class="pb-1" v-for="speaker in event.speakers"> 
+                    {{ speaker.first_name }} {{ speaker.last_name }}
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 text-uppercase when" v-bind:class="next ? 'pt-4' : 'pt-5'">
+            <div class="col-12 text-uppercase when" v-bind:class="next ? (overlapping ? 'pt-3' : 'pt-4') : (overlapping ? 'pt-4' : 'pt-5')">
                 {{ time(event) }}
                 <!--00:00PM - 00:00PM-->
             </div>
@@ -32,7 +32,7 @@
 <script>
 
     export default {
-        props: ['event', 'next', 'schedule'],
+        props: ['event', 'next', 'overlapping', 'schedule'],
         methods: {
             getColor(venue) {
                 var color = '#8a54a2'
@@ -62,7 +62,9 @@
                 return color;
             },
             formatEventTitle(title) {
-                return title.replace('BLOCKCHAIN: ', '');
+                title = title.replace('BLOCKCHAIN: ', '')
+                return title
+                //return title.length > 80 ? `${title.substring(0, 80)}...` : title;
             },
         },
         computed: {
@@ -92,9 +94,17 @@
         font-size: 3.5rem;
         line-height: 1.2;
     }
+
+    .event.overlapping .speakers {
+        font-size: 2.94rem;
+    }
     
     .event.next .speakers {
         font-size: 2.5rem;
+    }
+
+    .event.next.overlapping .speakers {
+        font-size: 2.1rem;
     }
 
     .event .name {
@@ -102,8 +112,16 @@
         line-height: 1.2;
     }
 
+    .event.overlapping .name {
+        font-size: 3.57rem;
+    }
+
     .event.next .name {
         font-size: 3.3rem;
+    }
+
+    .event.next.overlapping .name {
+        font-size: 2.8rem;
     }
 
     .event .when {
