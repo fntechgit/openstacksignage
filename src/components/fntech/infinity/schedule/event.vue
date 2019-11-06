@@ -6,7 +6,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 name" :style="{padding-top: overlapping ? '1rem !important' : '2rem !important'}" v-bind:class="{ 'pb-2': next && !event.speakers.length }">
+            <div class="col-12 name" :style="{'padding-top': overlapping ? '1.5rem !important' : '2rem !important'}" v-bind:class="{ 'pb-2': next && !event.speakers.length }">
                 {{ formatEventTitle(event.title) }}
             </div>
         </div>
