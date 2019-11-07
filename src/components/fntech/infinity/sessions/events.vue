@@ -64,6 +64,9 @@
                       case 'AWS MAIN STAGE @ GOYA Studios Stage A':
                         location = 'AWS MAIN STAGE'
                         break
+                      case 'The Dolby Cinema at the Vine':
+                        location = 'Dolby Vine Theatre'
+                        break
                     }
                     return location
                 }
