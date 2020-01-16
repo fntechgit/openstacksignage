@@ -31,6 +31,7 @@ module.exports = {
         'if-image-od02': './src/entrypoints/entry-if-image-od02.js',
         'if-image-od03': './src/entrypoints/entry-if-image-od03.js',
         'if-image-od04': './src/entrypoints/entry-if-image-od04.js',
+        'ocp-2020': './src/entrypoints/entry-ocp-2020',		
         /*'schedule-mint': './src/entrypoints/entry-schedule-mint.js',
         'ocp-2019-breakout-rooms': './src/entrypoints/entry-ocp-2019-breakout-rooms',
         'ocp-2019-expo-hall-talks': './src/entrypoints/entry-ocp-2019-expo-hall-talks',
