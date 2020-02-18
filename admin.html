@@ -785,50 +785,29 @@
                             .data("content", "All <span style='font-style: italic;'>" + value.name + "</span> Locations");
 
                         locations.append(venue);
+                        // floors
+                        if(value.hasOwnProperty('floors')) {
+                            let sortedFloors = value.floors.sort(function (x, y) {
+                                return x.number > y.number
+                            });
 
-                        if (value.rooms != null) {
+                            $.each(sortedFloors, function (floor_idx, floor_value) {
 
-                            if (value.floors != null) {
+                                let floor = $("<optgroup></optgroup>")
+                                    .attr("label", floor_value.name);
 
-                                let sortedFloors = value.floors.sort(function(x, y) { return x.number > y.number });
-
-                                $.each(sortedFloors, function(floor_idx, floor_value) {
-
-                                    let floor = $("<optgroup></optgroup>")
-                                        .attr("label", floor_value.name);
-
-                                    let floorRooms =
-                                        $.grep(value.rooms, function(n, i) {
-                                            return n.floor_id == floor_value.id;
-                                        });
-
-                                    $.each(floorRooms, function(room_idx, room_value) {
-
-                                        let room = $("<option></option>")
-                                            .attr("value", room_value.id)
-                                            .text(room_value.name)
-                                            .attr("data-subtext", '- ' + room_value.id)
-                                            .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
-
-                                        floor.append(room);
+                                let floorRooms =
+                                    $.grep(value.rooms, function (n, i) {
+                                        return n.floor_id == floor_value.id;
                                     });
 
-                                    floor.html(floor.children("option").sort(function (x, y) {
-                                        return $(x).text().toUpperCase() < $(y).text().toUpperCase() ? -1 : 1;
-                                    }));
-
-                                    locations.append(floor);
-                                });
-
-                            } else {
-
-                                let floor = $("<optgroup></optgroup>").attr("label", " ");
-
-                                $.each(value.rooms, function(room_idx, room_value) {
+                                $.each(floorRooms, function (room_idx, room_value) {
 
                                     let room = $("<option></option>")
                                         .attr("value", room_value.id)
-                                        .text(room_value.name);
+                                        .text(room_value.name)
+                                        .attr("data-subtext", '- ' + room_value.id)
+                                        .attr("data-tokens", [floor_value.number, floor_value.name].join(' '));
 
                                     floor.append(room);
                                 });
@@ -838,7 +817,23 @@
                                 }));
 
                                 locations.append(floor);
-                            }
+                            });
+                        }
+
+                        // rooms without floors
+                        if(value.hasOwnProperty('rooms')) {
+                            let roomsWithoutFloors = value.rooms.filter(function (room) {
+                                return room.floor_id == 0
+                            });
+
+                            $.each(roomsWithoutFloors, function (room_idx, room_value) {
+                                let room = $("<option></option>")
+                                    .attr("value", room_value.id)
+                                    .text(room_value.name)
+                                    .attr("data-subtext", '- ' + room_value.id);
+
+                                locations.append(room);
+                            });
                         }
                     });
 
@@ -850,10 +845,6 @@
                 },
                 error:function (jqXHR, textStatus, errorThrown ) {
 
-                    locations.empty()
-                        .selectpicker({"title": "No locations"})
-                        .selectpicker('refresh');
-                        
                     console.log(errorThrown);
                 }
             });
@@ -1018,7 +1009,7 @@
 
         let authHost     = "https://" + setting.host;
         let summits_resource = "https://" + setting.rserver_host + "/api/v1/summits";
-        let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations?page=1&per_page=100";
+        let locations_resource = "https://" + setting.rserver_host + "/api/v1/summits/{summit_id}/locations?page=1&per_page=100&expand=rooms,floors";
         let summit_events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/events/published';
         let events_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/events/published';
         let banners_resource = "https://" + setting.rserver_host + '/api/v1/summits/{summit_id}/locations/{location_id}/banners';
