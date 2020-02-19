@@ -55,8 +55,8 @@
 <style>
 
     .highlight {
-        color: #333399;
-        background-color: #fca41b;
+        color: #00c4ff;
+        background-color: #36e1fd;
         padding: 7px 12px 3px 12px;
         font-size: 1.25rem;
         font-weight: 500;
