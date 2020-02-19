@@ -154,7 +154,7 @@
     }
     
     .highlight {
-        color: #333399;
+        color: #00c4ff;
         background-color: #36e1fd;
         padding: 4px 12px;
         font-size: 1.25rem;
