@@ -71,7 +71,7 @@
         <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track">
             <div class="row">
                 <div class="col">
-                    <div class="text-uppercase"></div>
+                    <div class="text-uppercase">Lightning Talks</div>
                 </div>
             </div>
         </div>
@@ -155,7 +155,7 @@
     
     .highlight {
         color: #333399;
-        background-color: #fca41b;
+        background-color: #36e1fd;
         padding: 4px 12px;
         font-size: 1.25rem;
         font-weight: 500;
@@ -165,8 +165,8 @@
     .track {
         font-size: 5rem;
         font-weight: 500;
-        color: #343895;
-        background-color: #fca41b;
+        color: #0a36a0;
+        background-color: #36e1fd;
     }
     
     .room {
