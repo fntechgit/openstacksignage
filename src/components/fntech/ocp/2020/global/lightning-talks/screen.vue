@@ -165,7 +165,7 @@
     .track {
         font-size: 5rem;
         font-weight: 500;
-        color: #0a36a0;
+        color: #00c4ff;
         background-color: #36e1fd;
     }
     
