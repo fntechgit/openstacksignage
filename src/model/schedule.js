@@ -152,7 +152,7 @@ export default class Schedule {
                     
                     if (track == null) {
                         
-                        track = event.type
+                        track = event.track
                     }
                 }
             }
