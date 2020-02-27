@@ -134,7 +134,7 @@
                     this.schedule.state.track.track_groups &&
                     this.schedule.state.track.track_groups.length) {
 
-                    color =  schedule.state.track_groups[0].color;
+                    color = this.schedule.state.track_groups[0].color;
                 }
                 return { 'backgroundColor': color }
             }
