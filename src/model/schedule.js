@@ -150,7 +150,7 @@ export default class Schedule {
                     events.upcoming.push(event)
                     events.all.push(event)
                     
-                    if (track == null) {
+                    if (track == null && event.track) {
                         
                         track = event.track
                     }

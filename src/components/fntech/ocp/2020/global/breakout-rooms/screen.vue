@@ -68,7 +68,7 @@
             </tr>
         </table>
 
-        <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track" :style="{ backgroundColor: schedule.state.track.color }">
+        <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track" v-bind:style="trackStyle">
             <div class="row">
                 <div class="col">
                     <div class="text-uppercase">{{ formatTrackName(schedule.state.track.name) }}</div>
@@ -128,6 +128,16 @@
                     'line-height': this.schedule.room.name.startsWith('Marriott') ? '5.5rem' : '4rem',
                 }
             },
+            trackStyle: function() {
+                var color = '#ffffff';
+                if (this.schedule.state.track &&
+                    this.schedule.state.track.track_groups &&
+                    this.schedule.state.track.track_groups.length) {
+
+                    color =  schedule.state.track_groups[0].color;
+                }
+                return { 'backgroundColor': color }
+            }
         },
         methods: {
             formatTrackName(name) {
