@@ -246,13 +246,16 @@
                         <!--<option value="schedule">Schedule</option>
                         <option value="schedule-mint">Schedule Mint</option>
                         <option value="banner">Static Message</option>-->
-                        <option value="infinity-schedule" selected>Infinity Schedule</option>
+                        <option value="ocp-2021">OCP 2021</option>
+                        <option value="ocp-2021-expo-hall-talks">OCP 2021 Expo Hall Talks</option>
+                        <option value="ocp-2021-lightning-talks">OCP 2021 Lightning Talks</option>
+						<!--<option value="infinity-schedule" selected>Infinity Schedule</option>
                         <option value="infinity-sessions">Infinity Sessions</option>
-						<option value="if-image-d101">IF Image D101</option>
-                        <option value="ocp-2020">OCP 2020</option>						
+                        <option value="if-image-d101">IF Image D101</option>
+                        <option value="ocp-2020">OCP 2020</option>
                         <option value="ocp-2020-expo-hall-talks">OCP 2020 Expo Hall Talks</option>
-                        <option value="ocp-2020-lightning-talks">OCP 2020 Lightning Talks</option>								
-						<!--<option value="if-image-d202">IF Image D202</option>
+                        <option value="ocp-2020-lightning-talks">OCP 2020 Lightning Talks</option>
+                        <option value="if-image-d202">IF Image D202</option>
 						<option value="if-image-g101">IF Image g101</option>
 						<option value="if-image-g102">IF Image g102</option>
 						<option value="if-image-od01">IF Image od01</option>
@@ -260,7 +263,7 @@
 						<option value="if-image-od03">IF Image od03</option>
 						<option value="if-image-od04">IF Image od04</option>-->
                         <option value="image">Static Image</option>
-                        <option value="image-landscape">Static Image Landscape</option>						
+                        <option value="image-landscape">Static Image Landscape</option>
                         <!--<option value="ocp-2019-breakout-rooms">OCP 2019 Breakout Rooms</option>
                         <option value="ocp-2019-expo-hall-talks">OCP 2019 Expo Hall Talks</option>
                         <option value="ocp-2019-ams-exec-tracks-portrait">OCP 2019 AMS Executive Tracks Portrait</option>
@@ -993,6 +996,7 @@
 
         var idp_host = adminConfig.IDP_HOST;
         var resource_server_host = adminConfig.RESOURCE_SERVER_HOST;
+        var scopes_realm = adminConfig.SCOPES_REALM;
         var client_id = adminConfig.CLIENT_ID;
 
         let setting =
@@ -1000,8 +1004,8 @@
                 'host': idp_host,
                 'rserver_host': resource_server_host,
                 'clientId': client_id,
-                'scopes':   'https://' + resource_server_host + '/summits/read ' +
-                'https://' + resource_server_host + '/locations/banners/write'
+                'scopes':   'https://' + scopes_realm + '/summits/read ' +
+                'https://' + scopes_realm + '/locations/banners/write'
             };
 
         //these values might be taken from query string, however auth2 redirection is not returning second parameter

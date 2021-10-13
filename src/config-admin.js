@@ -8,5 +8,6 @@ window.adminFirebaseConfig = {
 window.adminConfig = {
 	IDP_HOST: process.env.IDP_HOST,
 	RESOURCE_SERVER_HOST: process.env.RESOURCE_SERVER_HOST,
+	SCOPES_REALM: process.env.SCOPES_REALM,
 	CLIENT_ID: process.env.CLIENT_ID
 };

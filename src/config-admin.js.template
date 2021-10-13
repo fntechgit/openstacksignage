@@ -8,5 +8,6 @@ var adminFirebaseConfig={
 var adminConfig={
        'IDP_HOST' : '',
        'RESOURCE_SERVER_HOST' : '',
+       'SCOPES_REALM': '',
        'CLIENT_ID' : ''
 };
