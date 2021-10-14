@@ -20,7 +20,7 @@ module.exports = {
         'image': './src/entrypoints/entry-image.js',
         'image-landscape': './src/entrypoints/entry-image-landscape.js',
         //'banner': './src/entrypoints/entry-banner.js',
-        //'schedule': './src/entrypoints/entry-schedule.js',
+        'schedule': './src/entrypoints/entry-schedule.js',
         'ocp-2021': './src/entrypoints/entry-ocp-2021',
         'ocp-2021-expo-hall-talks': './src/entrypoints/entry-ocp-2021-expo-hall-talks',
         'ocp-2021-lightning-talks': './src/entrypoints/entry-ocp-2021-lightning-talks',
