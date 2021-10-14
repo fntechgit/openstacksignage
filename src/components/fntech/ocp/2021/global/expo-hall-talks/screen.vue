@@ -92,6 +92,11 @@
             </div>
         </div>
         
+        <div v-if="schedule.state.events.curr">
+            <qr-code class="fixed-bottom qr-code" size="170" color="#181a4a" :text="virtualSessionUrl"></qr-code>
+            <span class="fixed-bottom qr-code-message">Scan code <br> to experience this session online.</span>
+        </div>
+
         <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
     </div>
 </template>
@@ -109,6 +114,12 @@
             ...mapGetters({
                 schedule: 'schedule'
             }),
+            virtualSessionUrl: function() {
+                var url = 'https://2021ocpglobal.fnvirtual.app';
+                let curr = this.schedule.state.events.curr
+                if (curr) url = `${url}/a/event/${curr.id}?autoplay=false`
+                return url
+            }
         },
         methods: {
             formatRoomName(name) {
@@ -183,6 +194,22 @@
         line-height: 1.18;
         letter-spacing: 1px;
         padding-bottom: 6.5rem !important;
+    }
+
+    .qr-code {
+        bottom: 6.5rem;
+        left: 6rem;
+    }
+
+    .qr-code-message {
+        bottom: 6.3rem;
+        left: 18.5rem;
+        color: #00B189;
+        font-size: 2.3rem;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 0px;
+        width: 230px;
     }
 
 </style>
