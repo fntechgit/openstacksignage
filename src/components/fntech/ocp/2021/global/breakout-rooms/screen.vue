@@ -137,9 +137,8 @@
             trackStyle: function() {
                 var color = '#ffffff';
                 if (this.schedule.state.track &&
-                    this.schedule.state.track.track_groups &&
-                    this.schedule.state.track.track_groups.length) {
-                    color = this.schedule.state.track.track_groups[0].color;
+                    this.schedule.state.track.color) {
+                    color = this.schedule.state.track.color;
                 }
                 return { 'backgroundColor': color }
             },
