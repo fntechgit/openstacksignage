@@ -117,7 +117,7 @@
             virtualSessionUrl: function() {
                 var url = 'https://2021ocpglobal.fnvirtual.app';
                 let curr = this.schedule.state.events.curr
-                if (curr) url = `${url}/a/event/${curr.id}?autoplay=false`
+                if (curr) url = `${url}/a/event/${curr.id}`
                 return url
             }
         },
