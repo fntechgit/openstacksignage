@@ -130,8 +130,8 @@
             }),
             roomStyle: function() {
                 return {
-                    'font-size': this.schedule.room.name.startsWith('Marriott') ? '8rem' : '10.5rem',
-                    'line-height': this.schedule.room.name.startsWith('Marriott') ? '5.5rem' : '4rem',
+                    'font-size': this.schedule.room.name.length >= 10 ? '4.5rem' : '10.5rem',
+                    'line-height': '4rem',
                 }
             },
             trackStyle: function() {
