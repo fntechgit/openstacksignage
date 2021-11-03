@@ -163,8 +163,10 @@ if (process.env.NODE_ENV === 'production') {
         // for entry names that different html name:
         if (entryName == 'config-admin') fileName = 'admin'
         if (entryName == 'schedule') fileName = 'index'
+        var inject = 'body'
+        if (entryName == 'config-admin') inject = 'head'
         return new HtmlWebpackPlugin({
-            inject: true,
+            inject: inject,
             hash: true,
             template: `${fileName}.html`,
             filename: `../${fileName}.html`,
