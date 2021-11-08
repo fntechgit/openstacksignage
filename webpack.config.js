@@ -24,6 +24,8 @@ const entry = {
     'ocp-2021': './src/entrypoints/entry-ocp-2021',
     'ocp-2021-expo-hall-talks': './src/entrypoints/entry-ocp-2021-expo-hall-talks',
     'ocp-2021-lightning-talks': './src/entrypoints/entry-ocp-2021-lightning-talks',
+    'ocp-2021-session-full': './src/entrypoints/entry-ocp-2021-session-full',
+    'ocp-2021-open-possibilities': './src/entrypoints/entry-ocp-2021-open-possibilities',
     /*
     'infinity-schedule': './src/entrypoints/entry-infinity-schedule.js',
     'infinity-sessions': './src/entrypoints/entry-infinity-sessions.js',
