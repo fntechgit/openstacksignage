@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const config = dotenv.config()
 
@@ -146,7 +147,8 @@ module.exports = {
         disableHostCheck: true,
         historyApiFallback: true,
         noInfo: true,
-        https: true
+        https: true,
+        contentBase: './dist',
     },
     performance: {
         hints: false
@@ -156,23 +158,30 @@ module.exports = {
 
 module.exports.plugins = [
     new webpack.DefinePlugin(envKeys),
+    new CopyWebpackPlugin([
+        { from: 'assets', to: 'assets' }
+    ])
 ]
 
 if (process.env.NODE_ENV === 'production') {
     // inject compiled entry chunk htmls in root dir
     const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
         var fileName = entryName
-        // for entry names that different html name:
-        if (entryName == 'config-admin') fileName = 'admin'
-        if (entryName == 'schedule') fileName = 'index'
         var inject = 'body'
-        if (entryName == 'config-admin') inject = 'head'
+        var chunks = ['commons', 'manifest', entryName]
+        // for entry names that different html name:
+        if (entryName == 'schedule') fileName = 'index'
+        if (entryName == 'config-admin') {
+            inject = 'head'
+            fileName = 'admin'
+            chunks = ['manifest', entryName]
+        }
         return new HtmlWebpackPlugin({
             inject: inject,
             hash: true,
             template: `${fileName}.html`,
-            filename: `../${fileName}.html`,
-            chunks: [entryName]
+            filename: `${fileName}.html`,
+            chunks: chunks
         })
     })
     module.exports.devtool = '#source-map'
