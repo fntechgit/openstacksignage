@@ -22,12 +22,15 @@ const entry = {
     'image-landscape': './src/entrypoints/entry-image-landscape.js',
     //'banner': './src/entrypoints/entry-banner.js',
     'schedule': './src/entrypoints/entry-schedule.js',
+    'ocp-2022': './src/entrypoints/entry-ocp-2022',
+    'ocp-2022-expo-hall-talks': './src/entrypoints/entry-ocp-2022-expo-hall-talks',
+    'ocp-2022-lightning-talks': './src/entrypoints/entry-ocp-2022-lightning-talks',
+    /*
     'ocp-2021': './src/entrypoints/entry-ocp-2021',
     'ocp-2021-expo-hall-talks': './src/entrypoints/entry-ocp-2021-expo-hall-talks',
     'ocp-2021-lightning-talks': './src/entrypoints/entry-ocp-2021-lightning-talks',
     'ocp-2021-session-full': './src/entrypoints/entry-ocp-2021-session-full',
     'ocp-2021-open-possibilities': './src/entrypoints/entry-ocp-2021-open-possibilities',
-    /*
     'infinity-schedule': './src/entrypoints/entry-infinity-schedule.js',
     'infinity-sessions': './src/entrypoints/entry-infinity-sessions.js',
     'if-image-d101': './src/entrypoints/entry-if-image-d101.js',
