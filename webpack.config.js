@@ -176,7 +176,6 @@ if (process.env.NODE_ENV === 'production') {
         if (entryName == 'config-admin') {
             inject = 'head'
             fileName = 'admin'
-            chunks = [entryName]
         }
         return new HtmlWebpackPlugin({
             inject: inject,
