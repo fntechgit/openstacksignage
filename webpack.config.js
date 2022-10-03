@@ -87,7 +87,6 @@ module.exports = {
     entry: entry,
     output: {
         path: path.resolve(__dirname, './dist'),
-        publicPath: '/dist/',
         filename: '[name].build.js',
     },
     module: {
@@ -171,13 +170,13 @@ if (process.env.NODE_ENV === 'production') {
     const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
         var fileName = entryName
         var inject = 'body'
-        var chunks = ['manifest', 'commons', entryName]
+        var chunks = ['manifest', entryName]
         // for entry names that different html name:
         if (entryName == 'schedule') fileName = 'index'
         if (entryName == 'config-admin') {
             inject = 'head'
             fileName = 'admin'
-            chunks = ['manifest', entryName]
+            chunks = [entryName]
         }
         return new HtmlWebpackPlugin({
             inject: inject,
@@ -196,7 +195,8 @@ if (process.env.NODE_ENV === 'production') {
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['manifest', 'commons', 'config-admin']
+            names: 'manifest',
+            minChunks: 3,
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
