@@ -171,7 +171,7 @@ if (process.env.NODE_ENV === 'production') {
     const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
         var fileName = entryName
         var inject = 'body'
-        var chunks = ['commons', 'manifest', entryName]
+        var chunks = ['manifest', 'commons', entryName]
         // for entry names that different html name:
         if (entryName == 'schedule') fileName = 'index'
         if (entryName == 'config-admin') {
@@ -196,7 +196,7 @@ if (process.env.NODE_ENV === 'production') {
             }
         }),
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['commons', 'config-admin', 'manifest']
+            name: ['manifest', 'commons', 'config-admin']
         }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
