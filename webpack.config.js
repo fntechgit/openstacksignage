@@ -158,33 +158,34 @@ module.exports = {
     devtool: '#eval-source-map'
 }
 
+// inject compiled entry chunk htmls in root dir
+const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
+    var fileName = entryName
+    var inject = 'body'
+    var chunks = ['manifest', entryName]
+    // for entry names that different html name:
+    if (entryName == 'schedule') fileName = 'index'
+    if (entryName == 'config-admin') {
+        inject = 'head'
+        fileName = 'admin'
+    }
+    return new HtmlWebpackPlugin({
+        inject: inject,
+        hash: true,
+        template: `${fileName}.html`,
+        filename: `${fileName}.html`,
+        chunks: chunks
+    })
+});
+
 module.exports.plugins = [
     new webpack.DefinePlugin(envKeys),
     new CopyWebpackPlugin([
         { from: 'assets', to: 'assets' }
     ])
-]
+].concat(entryHtmlPlugins);
 
 if (process.env.NODE_ENV === 'production') {
-    // inject compiled entry chunk htmls in root dir
-    const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
-        var fileName = entryName
-        var inject = 'body'
-        var chunks = ['manifest', entryName]
-        // for entry names that different html name:
-        if (entryName == 'schedule') fileName = 'index'
-        if (entryName == 'config-admin') {
-            inject = 'head'
-            fileName = 'admin'
-        }
-        return new HtmlWebpackPlugin({
-            inject: inject,
-            hash: true,
-            template: `${fileName}.html`,
-            filename: `${fileName}.html`,
-            chunks: chunks
-        })
-    })
     module.exports.devtool = '#source-map'
     // http://vue-loader.vuejs.org/en/workflow/production.html
     module.exports.plugins = (module.exports.plugins || []).concat([
@@ -206,5 +207,5 @@ if (process.env.NODE_ENV === 'production') {
         new webpack.LoaderOptionsPlugin({
             minimize: true
         })
-    ]).concat(entryHtmlPlugins)
+    ])
 }
