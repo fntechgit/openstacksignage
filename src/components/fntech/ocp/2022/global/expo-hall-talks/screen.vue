@@ -68,10 +68,23 @@
             </tr>
         </table>
 
-        <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track">
+        <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track" v-bind:style="trackStyle">
             <div class="row">
                 <div class="col">
-                    <div class="text-uppercase">Expo Hall Talks</div>
+                    <div class="text-uppercase">{{ formatTrackName(schedule.state.track.name) }}</div>
+                </div>
+            </div>
+            <img class="track-image" v-if="schedule.state.track.icon_url" :src="schedule.state.track.icon_url">
+        </div>
+
+        <div class="container-fluid px-7 pt-6 pb-3">
+            <div class="row">
+                <div class="col-9">
+                    <div v-bind:style="roomStyle">Expo Hall</div>
+                </div>
+                <div class="col-3 pt-2 text-right">
+                    <div class="text-uppercase"><span class="highlight">Current Time</span></div>
+                    <div class="time">{{ schedule.getDate(schedule.state.now).format('h:mmA') }}</div>
                 </div>
             </div>
         </div>
@@ -82,7 +95,7 @@
         <event :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr"></event>
         
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true  v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 26rem;"></event>
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 26rem;"></event>
 
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row p-7 no-presentations">
@@ -91,12 +104,12 @@
                 </div>
             </div>
         </div>
-        
+        <!--
         <div v-if="schedule.state.events.curr">
             <qr-code class="fixed-bottom qr-code" :size="170" color="#181a4a" :text="summitScheduleUrl"></qr-code>
             <span class="fixed-bottom qr-code-message">Scan code <br> to view summit schedule.</span>
         </div>
-
+        -->
         <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
     </div>
 </template>
@@ -104,9 +117,11 @@
 <script>
 
     import 'assets/css/ocp/2019/global/theme.scss'
+
     import Event from './event.vue'
     import Banner from './banner.vue'
     import moment from 'moment'
+
     import { mapGetters } from 'vuex'
 
     export default {
@@ -114,14 +129,34 @@
             ...mapGetters({
                 schedule: 'schedule'
             }),
+            roomStyle: function() {
+                return {
+                    'font-size': '8.5rem',
+                    'line-height': '4rem',
+                }
+            },
+            trackStyle: function() {
+                var color = '#ffffff';
+                if (this.schedule.state.track &&
+                    this.schedule.state.track.color) {
+                    color = this.schedule.state.track.color;
+                }
+                return { 'backgroundColor': color }
+            },
             summitScheduleUrl: function() {
                 return 'https://2022ocpglobal.fnvirtual.app/a/schedule'
             }
         },
         methods: {
+            formatTrackName(name) {
+                return name.replace('EW: ', '');
+            },
             formatRoomName(name) {
                 if (name.match(/^\d/)) {
                     return name.replace(/\s/g, '');
+                }
+                if (name.startsWith('Marriott')) {
+                    return name.replace('Marriott ', '');
                 }
                 return name
             },
@@ -161,8 +196,8 @@
     }
     
     .highlight {
-        color: #333399;
-        background-color: #fca41b;
+        color: #191A4F;
+        background-color: #8DC63F;
         padding: 4px 12px;
         font-size: 1.25rem;
         font-weight: 500;
@@ -170,17 +205,18 @@
     }
     
     .track {
-        font-size: 5rem;
+        font-size: 3.25rem;
         font-weight: 500;
-        color: #343895;
-        background-color: #fca41b;
+        color: #191A4F;
     }
     
-    .room {
-        font-size: 10.5rem;
-        line-height: 4rem;
+    .track-image {
+        position: absolute;
+        width: 311px;
+        top: 1538px;
+        right: 112px;
     }
-    
+
     .time {
         font-size: 2.6rem;
         font-weight: 400;

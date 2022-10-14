@@ -1,11 +1,5 @@
 <template>
     <div class="container-fluid px-7 pb-7 event" :class="{ next }">
-        <div class="row" v-if="!next">
-            <div class="col-12 pt-6 pb-2 text-uppercase">
-                <span class="highlight">Current Time</span>
-                <span class="time when">{{ schedule.getDate(schedule.state.now).format('h:mmA') }}</span>
-            </div>
-        </div>
         <div class="row" v-if="next">
             <div class="col-12 pt-5 pb-2 text-uppercase">
                 <span class="highlight">Next Session</span>
@@ -18,7 +12,7 @@
         </div>
         <div class="row" v-if="event.speakers.length">
             <div class="col-12 text-uppercase speakers" v-bind:class="next ? 'pt-4' : 'pt-5'">
-                <div class="pb-1" v-for="speaker in event.speakers">
+                <div class="pb-1" v-for="speaker in event.speakers"> 
                     {{ speaker.first_name }} {{ speaker.last_name }}
                 </div>
             </div>
@@ -55,9 +49,9 @@
 <style>
 
     .highlight {
-        color: #333399;
-        background-color: #fca41b;
-        padding: 7px 12px 3px 12px;
+        color: #191A4F;
+        background-color: #8DC63F;
+        padding: 5px 13px;
         font-size: 1.25rem;
         font-weight: 500;
         letter-spacing: -1px;
@@ -66,16 +60,9 @@
     .event {
         color: white;
     }
-    
-    .event .time {
-        display: inline-block;
-        margin-left: 1rem;
-        font-size: 2rem !important;
-        line-height: 0.9;
-    }
 
     .event .speakers {
-        color: #00B189;
+        color: #8DC63F;
         font-size: 3rem;
         line-height: 1;
         letter-spacing: 2px;

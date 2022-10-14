@@ -24,7 +24,8 @@ const entry = {
     'schedule': './src/entrypoints/entry-schedule.js',
     'ocp-2022': './src/entrypoints/entry-ocp-2022',
     'ocp-2022-expo-hall-talks': './src/entrypoints/entry-ocp-2022-expo-hall-talks',
-    'ocp-2022-lightning-talks': './src/entrypoints/entry-ocp-2022-lightning-talks',
+    'ocp-2022-session-full': './src/entrypoints/entry-ocp-2022-session-full',
+    'ocp-2022-empowering-open': './src/entrypoints/entry-ocp-2022-empowering-open',
     /*
     'ocp-2021': './src/entrypoints/entry-ocp-2021',
     'ocp-2021-expo-hall-talks': './src/entrypoints/entry-ocp-2021-expo-hall-talks',

@@ -74,6 +74,7 @@
                     <div class="text-uppercase">{{ formatTrackName(schedule.state.track.name) }}</div>
                 </div>
             </div>
+            <img class="track-image" v-if="schedule.state.track.icon_url" :src="schedule.state.track.icon_url">
         </div>
 
         <div class="container-fluid px-7 pt-6 pb-3">
@@ -103,12 +104,12 @@
                 </div>
             </div>
         </div>
-
+        <!--
         <div v-if="schedule.state.events.curr">
             <qr-code class="fixed-bottom qr-code" :size="170" color="#181a4a" :text="summitScheduleUrl"></qr-code>
             <span class="fixed-bottom qr-code-message">Scan code <br> to view summit schedule.</span>
         </div>
-
+        -->
         <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
     </div>
 </template>
@@ -136,6 +137,7 @@
             },
             trackStyle: function() {
                 var color = '#ffffff';
+                console.log(this.schedule.state.track)
                 if (this.schedule.state.track &&
                     this.schedule.state.track.color) {
                     color = this.schedule.state.track.color;
@@ -195,8 +197,8 @@
     }
     
     .highlight {
-        color: #333399;
-        background-color: #00B189;
+        color: #191A4F;
+        background-color: #8DC63F;
         padding: 4px 12px;
         font-size: 1.25rem;
         font-weight: 500;
@@ -206,9 +208,16 @@
     .track {
         font-size: 3.25rem;
         font-weight: 500;
-        color: #343895;
+        color: #191A4F;
     }
-    
+
+    .track-image {
+        position: absolute;
+        width: 311px;
+        top: 1538px;
+        right: 112px;
+    }
+
     .time {
         font-size: 2.6rem;
         font-weight: 400;
