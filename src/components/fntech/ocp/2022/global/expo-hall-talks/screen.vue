@@ -213,8 +213,8 @@
     .track-image {
         position: absolute;
         width: 311px;
-        top: 1538px;
-        right: 112px;
+        top: 1540px;
+        left: 656px;
     }
 
     .time {
