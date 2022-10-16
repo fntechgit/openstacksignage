@@ -7,6 +7,7 @@ export default class Schedule {
     events = []
     banners = []
     location = null
+    trackGroup = null
 
     offset = 0
     timezone = 0
@@ -52,6 +53,11 @@ export default class Schedule {
 
                 let params = new URLSearchParams(window.location.href.split('?')[1])
                 this.debug = !!params.get('debug')
+
+                let trackGroup = params.get('track_group')
+                if (trackGroup) {
+                    this.trackGroup = trackGroup
+                }
 
                 // // Uncomment for offline debugging.
                 // this.offset = 10*60
@@ -102,7 +108,20 @@ export default class Schedule {
 
     loadEvents() {
         return $store.dispatch('loadEvents', this.location).then(payload => {
-            this.events = payload.data.data; return this
+            var events = payload.data.data;
+            if (this.trackGroup) {
+                events = events.filter(
+                    (event) => {
+                        let track = event.track
+                        if (track) {
+                            console.log(track.track_groups.some(trackGroup => trackGroup.id == this.trackGroup))
+                            return track.track_groups.some(trackGroup => trackGroup.id == this.trackGroup)
+                        }
+                        return false
+                    }
+                );
+            }
+            this.events = events; return this
         })
     }
 
