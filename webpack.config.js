@@ -55,7 +55,7 @@ const generateTemplateEntryPoints = (templateList) => {
         const entryNameRegex = /\/([\w-]+)\.html$/;
         const summitIdMatch = templatePath.match(summitIdRegex);
         const entryNameMatch = templatePath.match(entryNameRegex);
-
+        // if the template is in a folder that's not only digits, do not add it
         if (summitIdMatch && entryNameMatch) {
             const entryName = entryNameMatch[1];
             entryPoints[entryName] = `./src/entrypoints/entry-${entryName}`;
@@ -152,12 +152,13 @@ const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
     if (entryName == 'config-admin') {
         inject = 'head'
         fileName = 'admin'
-    }
+    }    
     const templateFile = htmlTemplatesFiles.find((file) => {
         // Check if the file name matches the entry name
         const name = file.split('/')[2].split('.')[0];
         return name === entryName;
     });
+    // if it's not a file from template folder, it should be on root folder
     return new HtmlWebpackPlugin({
         inject: inject,
         hash: true,
