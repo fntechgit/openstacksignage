@@ -17,6 +17,14 @@ const env = config.parsed,
         return prev;
     }, {});
 
+const defaultEntryPoints = {
+    'config-admin': './src/config-admin.js',
+    'image-landscape': './src/entrypoints/entry-image-landscape.js',
+    'image': './src/entrypoints/entry-image.js',
+    'banner': './src/entrypoints/entry-banner.js',
+    'schedule': './src/entrypoints/entry-schedule.js',
+};
+
 const templateMetadata = {};
 
 const getHTMLFiles = (dir, fileList = []) => {
@@ -28,9 +36,8 @@ const getHTMLFiles = (dir, fileList = []) => {
         if (isDirectory) {
             getHTMLFiles(filePath, fileList);
         } else {
-            if (path.extname(filePath).toLowerCase() === '.html') {                
-                const relativePath = path.relative('templates', filePath);
-                fileList.push(relativePath);
+            if (path.extname(filePath).toLowerCase() === '.html') {
+                fileList.push(filePath);
             }
         }
     });
@@ -45,14 +52,6 @@ const getHTMLFiles = (dir, fileList = []) => {
 const templateHTMLEntries = getHTMLFiles('./templates');
 
 const generateTemplateEntryPoints = (templateList) => {
-
-    const defaultEntryPoints = {
-        'config-admin': './src/config-admin.js',
-        'image-landscape': './src/entrypoints/entry-image-landscape.js',
-        'image': './src/entrypoints/entry-image.js',
-        'banner': './src/entrypoints/entry-banner.js',
-        'schedule': './src/entrypoints/entry-schedule.js',
-    };
 
     const entryPoints = {};
 
@@ -154,7 +153,7 @@ module.exports = {
 }
 
 // inject compiled entry chunk htmls in root dir
-const entryHtmlPlugins = Object.keys(templateEntryPoints).map(function(entryName) {
+const entryHtmlPlugins = Object.entries({...defaultEntryPoints, ...templateHTMLEntries}).map(([entryName, template]) => {
     var fileName = entryName
     var inject = 'body'
     var chunks = ['manifest', entryName]
@@ -164,11 +163,10 @@ const entryHtmlPlugins = Object.keys(templateEntryPoints).map(function(entryName
         inject = 'head'
         fileName = 'admin'
     }
-    // if it's not default, it should be on html dictionary
     return new HtmlWebpackPlugin({
         inject: inject,
         hash: true,
-        template: `${templateHTMLEntries[entryName] ? `templates/${templateHTMLEntries[entryName]}` : `${fileName}.html`}`,
+        template: Object.keys(defaultEntryPoints).includes(entryName) ? `${fileName}.html` : template,
         filename: `${fileName}.html`,
         chunks: chunks
     })
