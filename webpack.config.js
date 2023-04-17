@@ -19,21 +19,6 @@ const env = config.parsed,
 
 const templateMetadata = {};
 
-const getDefaultHTMLTemplates = (fileList = []) => {
-    const dir = './'
-    const files = fs.readdirSync(dir);
-    files.forEach((file) => {
-        const filePath = path.join(dir, file);                
-        if (path.extname(filePath).toLowerCase() === '.html') {
-            const relativePath = path.relative(dir, filePath);            
-            fileList.push(relativePath);
-        }
-    });
-    return fileList
-}
-
-const defaultHTMLTemplates = getDefaultHTMLTemplates();
-    
 const getHTMLFiles = (dir, fileList = []) => {
     const files = fs.readdirSync(dir);
     files.forEach((file) => {
@@ -179,16 +164,11 @@ const entryHtmlPlugins = Object.keys(templateEntryPoints).map(function(entryName
         inject = 'head'
         fileName = 'admin'
     }
-    // Check if it's a default template
-    const defaultTemplateFile = defaultHTMLTemplates.find((file) => {
-        const name = file?.split('.')[0];
-        return name === fileName;
-    })
     // if it's not default, it should be on html dictionary
     return new HtmlWebpackPlugin({
         inject: inject,
         hash: true,
-        template: `${defaultTemplateFile ? `${defaultTemplateFile}` : `templates/${templateHTMLEntries[entryName]}`}`,
+        template: `${templateHTMLEntries[entryName] ? `templates/${templateHTMLEntries[entryName]}` : `${fileName}.html`}`,
         filename: `${fileName}.html`,
         chunks: chunks
     })
