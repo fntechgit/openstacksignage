@@ -17,6 +17,23 @@ const env = config.parsed,
         return prev;
     }, {});
 
+const templateMetadata = {};
+
+const getDefaultHTMLTemplates = (fileList = []) => {
+    const dir = './'
+    const files = fs.readdirSync(dir);
+    files.forEach((file) => {
+        const filePath = path.join(dir, file);                
+        if (path.extname(filePath).toLowerCase() === '.html') {
+            const relativePath = path.relative(dir, filePath);            
+            fileList.push(relativePath);
+        }
+    });
+    return fileList
+}
+
+const defaultHTMLTemplates = getDefaultHTMLTemplates();
+    
 const getHTMLFiles = (dir, fileList = []) => {
     const files = fs.readdirSync(dir);
     files.forEach((file) => {
@@ -26,17 +43,21 @@ const getHTMLFiles = (dir, fileList = []) => {
         if (isDirectory) {
             getHTMLFiles(filePath, fileList);
         } else {
-            if (path.extname(filePath).toLowerCase() === '.html') {
+            if (path.extname(filePath).toLowerCase() === '.html') {                
                 const relativePath = path.relative('templates', filePath);
                 fileList.push(relativePath);
             }
         }
-
     });
-    return fileList;
+    const templateHTMLObject = {};
+    fileList.forEach((page) => {
+        const key = page.replace(/\.(html|htm)$/, '').split('/').pop();
+        templateHTMLObject[key] = page;
+    });
+    return templateHTMLObject;
 };
 
-const htmlTemplatesFiles = getHTMLFiles('./templates');
+const templateHTMLEntries = getHTMLFiles('./templates');
 
 const generateTemplateEntryPoints = (templateList) => {
 
@@ -50,25 +71,30 @@ const generateTemplateEntryPoints = (templateList) => {
 
     const entryPoints = {};
 
-    templateList.forEach((templatePath) => {
+    Object.values(templateList).forEach((templatePath) => {
         const summitIdRegex = /\/(\d+)\//;
+        const underscoreRegex = /^(?!_).*\//;
         const entryNameRegex = /\/([\w-]+)\.html$/;
         const summitIdMatch = templatePath.match(summitIdRegex);
         const entryNameMatch = templatePath.match(entryNameRegex);
+        const underscoreMatch = templatePath.match(underscoreRegex);
         // if the template is in a folder that's not only digits, do not add it
-        if (summitIdMatch && entryNameMatch) {
+        if (summitIdMatch && entryNameMatch && underscoreMatch) {
             const entryName = entryNameMatch[1];
-            entryPoints[entryName] = `./src/entrypoints/entry-${entryName}`;
+            const entryPointPath = `./src/entrypoints/entry-${entryName}`;
+            if (fs.existsSync(`${entryPointPath}.js`)) {
+                entryPoints[entryName] = entryPointPath;
+            }
         }
     });
 
     return { ...defaultEntryPoints, ...entryPoints };
 }
 
-const entrypoints = generateTemplateEntryPoints(htmlTemplatesFiles);
+const templateEntryPoints = generateTemplateEntryPoints(templateHTMLEntries);
 
 module.exports = {
-    entry: entrypoints,
+    entry: templateEntryPoints,
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: '[name].build.js',
@@ -143,7 +169,7 @@ module.exports = {
 }
 
 // inject compiled entry chunk htmls in root dir
-const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
+const entryHtmlPlugins = Object.keys(templateEntryPoints).map(function(entryName) {
     var fileName = entryName
     var inject = 'body'
     var chunks = ['manifest', entryName]
@@ -152,17 +178,17 @@ const entryHtmlPlugins = Object.keys(entry).map(function(entryName) {
     if (entryName == 'config-admin') {
         inject = 'head'
         fileName = 'admin'
-    }    
-    const templateFile = htmlTemplatesFiles.find((file) => {
-        // Check if the file name matches the entry name
-        const name = file.split('/')[2].split('.')[0];
-        return name === entryName;
-    });
-    // if it's not a file from template folder, it should be on root folder
+    }
+    // Check if it's a default template
+    const defaultTemplateFile = defaultHTMLTemplates.find((file) => {
+        const name = file?.split('.')[0];
+        return name === fileName;
+    })
+    // if it's not default, it should be on html dictionary
     return new HtmlWebpackPlugin({
         inject: inject,
         hash: true,
-        template: `${templateFile ? `templates/${templateFile}` : `${fileName}.html`}`,
+        template: `${defaultTemplateFile ? `${defaultTemplateFile}` : `templates/${templateHTMLEntries[entryName]}`}`,
         filename: `${fileName}.html`,
         chunks: chunks
     })
