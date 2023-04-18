@@ -13,3 +13,4 @@ yarn-error.log
 *.sln
 /src/config.js
 /src/config-admin.js
+/templates.json

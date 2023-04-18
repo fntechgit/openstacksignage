@@ -1,10 +1,9 @@
 const path = require('path')
-const fs = require('fs')
+const fs = require('fs');
 const webpack = require('webpack')
 const dotenv = require('dotenv')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
-
 const config = dotenv.config()
 
 if (config.error) {
@@ -17,68 +16,82 @@ const env = config.parsed,
         return prev;
     }, {});
 
+const templatesDir = 'templates';
+const templatesMetadataFile = './templates.json';
+
 const defaultEntryPoints = {
     'config-admin': './src/config-admin.js',
-    'image-landscape': './src/entrypoints/entry-image-landscape.js',
     'image': './src/entrypoints/entry-image.js',
-    'banner': './src/entrypoints/entry-banner.js',
+    'image-landscape': './src/entrypoints/entry-image-landscape.js',
+    //'banner': './src/entrypoints/entry-banner.js',
     'schedule': './src/entrypoints/entry-schedule.js',
 };
 
+
 const templateMetadata = {};
+const templateEntryPoints = {};
+const templateHTMLEntries = {};
 
-const getHTMLFiles = (dir, fileList = []) => {
-    const files = fs.readdirSync(dir);
-    files.forEach((file) => {
-        const filePath = path.join(dir, file);
-        const isDirectory = fs.statSync(filePath).isDirectory();
-
-        if (isDirectory) {
-            getHTMLFiles(filePath, fileList);
+const getHTMLFiles = (dir, files_) => {
+    files_ = files_ || [];
+    let files = fs.readdirSync(dir);
+    for (let i in files) {
+        const name = `${dir}/${files[i]}`;
+        if (fs.statSync(name).isDirectory()) {
+            getHTMLFiles(name, files_);
         } else {
-            if (path.extname(filePath).toLowerCase() === '.html') {
-                fileList.push(filePath);
-            }
+            if (name.toLowerCase().endsWith('.html'))
+                files_.push(name);
         }
-    });
-    const templateHTMLObject = {};
-    fileList.forEach((page) => {
-        const key = page.replace(/\.(html|htm)$/, '').split('/').pop();
-        templateHTMLObject[key] = page;
-    });
-    return templateHTMLObject;
-};
-
-const templateHTMLEntries = getHTMLFiles('./templates');
-
-const generateTemplateEntryPoints = (templateList) => {
-
-    const entryPoints = {};
-
-    Object.values(templateList).forEach((templatePath) => {
-        const summitIdRegex = /\/(\d+)\//;
-        const underscoreRegex = /^(?!_).*\//;
-        const entryNameRegex = /\/([\w-]+)\.html$/;
-        const summitIdMatch = templatePath.match(summitIdRegex);
-        const entryNameMatch = templatePath.match(entryNameRegex);
-        const underscoreMatch = templatePath.match(underscoreRegex);
-        // if the template is in a folder that's not only digits, do not add it
-        if (summitIdMatch && entryNameMatch && underscoreMatch) {
-            const entryName = entryNameMatch[1];
-            const entryPointPath = `./src/entrypoints/entry-${entryName}`;
-            if (fs.existsSync(`${entryPointPath}.js`)) {
-                entryPoints[entryName] = entryPointPath;
-            }
-        }
-    });
-
-    return { ...defaultEntryPoints, ...entryPoints };
+    }
+    return files_;
 }
 
-const templateEntryPoints = generateTemplateEntryPoints(templateHTMLEntries);
+const isNumeric = (value) => {
+    return /^-?\d+$/.test(value);
+}
+
+getHTMLFiles(templatesDir).forEach(htmlFile => {
+    const fileParts = htmlFile.split('/');
+    const root = fileParts[0];
+    const tenant = fileParts[1];
+    if(!isNumeric(fileParts[2])){
+        console.log(`skipping tenant ${tenant} summit ${fileParts[2]}...`)
+        return;
+    }
+    const summitId = parseInt(fileParts[2]);
+    const file = fileParts[3]
+    if (!templateMetadata.hasOwnProperty(tenant)) {
+        templateMetadata[tenant] = {};
+    }
+    if (!templateMetadata[tenant].hasOwnProperty(summitId)) {
+        templateMetadata[tenant][summitId] = [];
+    }
+    const fileEntry = file.toLowerCase().replace(".html", "");
+
+    templateMetadata[tenant][summitId].push({
+        'name': fileEntry,
+        'file': file,
+    });
+
+    // all entrypoints should follow this convention
+    if(fs.existsSync(`./src/entrypoints/entry-${fileEntry}.js`)) {
+        console.log(`adding template entry point ${fileEntry} ...`);
+        templateEntryPoints[fileEntry] = `./src/entrypoints/entry-${fileEntry}`
+    }
+    templateHTMLEntries[fileEntry] = htmlFile;
+});
+
+// write metadata file
+fs.writeFileSync(templatesMetadataFile, JSON.stringify(templateMetadata), 'utf8');
+
+const entry = {
+    ...defaultEntryPoints,
+    ...templateEntryPoints
+}
 
 module.exports = {
-    entry: templateEntryPoints,
+    entry: entry,
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: '[name].build.js',
@@ -100,24 +113,24 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-              test: /\.(scss)$/,
-              use: [{
-                loader: 'style-loader', // inject CSS to page
-              }, {
-                loader: 'css-loader', // translates CSS into CommonJS modules
-              }, {
-                loader: 'postcss-loader', // Run post css actions
-                options: {
-                  plugins: function () { // post css plugins, can be exported to postcss.config.js
-                    return [
-                      require('precss'),
-                      require('autoprefixer')
-                    ];
-                  }
-                }
-              }, {
-                loader: 'sass-loader' // compiles Sass to CSS
-              }]
+                test: /\.(scss)$/,
+                use: [{
+                    loader: 'style-loader', // inject CSS to page
+                }, {
+                    loader: 'css-loader', // translates CSS into CommonJS modules
+                }, {
+                    loader: 'postcss-loader', // Run post css actions
+                    options: {
+                        plugins: function () { // post css plugins, can be exported to postcss.config.js
+                            return [
+                                require('precss'),
+                                require('autoprefixer')
+                            ];
+                        }
+                    }
+                }, {
+                    loader: 'sass-loader' // compiles Sass to CSS
+                }]
             },
             {
                 test: /\.css$/,
@@ -152,17 +165,19 @@ module.exports = {
     devtool: '#eval-source-map'
 }
 
-// inject compiled entry chunk htmls in root dir
-const entryHtmlPlugins = Object.entries({...defaultEntryPoints, ...templateHTMLEntries}).map(([entryName, template]) => {
-    var fileName = entryName
-    var inject = 'body'
-    var chunks = ['manifest', entryName]
+const mapHTMLEntry = ([entryName, template]) => {
+
+    let fileName = entryName
+
+    let inject = 'body'
+    let chunks = ['manifest', entryName]
     // for entry names that different html name:
     if (entryName == 'schedule') fileName = 'index'
     if (entryName == 'config-admin') {
         inject = 'head'
         fileName = 'admin'
     }
+
     return new HtmlWebpackPlugin({
         inject: inject,
         hash: true,
@@ -170,12 +185,21 @@ const entryHtmlPlugins = Object.entries({...defaultEntryPoints, ...templateHTMLE
         filename: `${fileName}.html`,
         chunks: chunks
     })
-});
+}
+
+
+// inject compiled entry chunk HTML from defaultEntries and templates
+const entryHtmlPlugins = [
+    ...Object.entries(defaultEntryPoints).map(mapHTMLEntry),
+    ...Object.entries(templateHTMLEntries).map(mapHTMLEntry)
+]
 
 module.exports.plugins = [
     new webpack.DefinePlugin(envKeys),
     new CopyWebpackPlugin([
-        { from: 'assets', to: 'assets' }
+        { from: 'assets', to: 'assets' },
+        // metadata
+        { from: templatesMetadataFile, to: templatesMetadataFile}
     ])
 ].concat(entryHtmlPlugins);
 
