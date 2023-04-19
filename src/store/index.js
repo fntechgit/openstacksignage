@@ -16,6 +16,7 @@ export const $store = new Vuex.Store({
         banner: null,
         schedule: null,
         background: null,
+        summit_id: null,
     },
     getters: {
         error(state) {
@@ -29,6 +30,9 @@ export const $store = new Vuex.Store({
         },
         schedule(state) {
             return state.schedule
+        },
+        summit(state){
+          return state.summit
         },
         background(state) {
             return state.background
@@ -67,6 +71,22 @@ export const $store = new Vuex.Store({
                     reject('Missing location')
                 } else {
                     resolve(context.state.location = location)
+                }
+            })
+        },
+        getSummitId(context) {
+            if (context.state.summit_id) {
+                return new Promise(
+                    resolve => resolve(context.state.summit_id)
+                )
+            }
+            return new Promise((resolve, reject) => {
+                let params = new URLSearchParams(window.location.href.split('?')[1])
+                let summit_id = parseInt(params.get('summit'))
+                if (isNaN(summit_id)) {
+                    reject('Missing Summit')
+                } else {
+                    resolve(context.state.summit_id = summit_id)
                 }
             })
         },

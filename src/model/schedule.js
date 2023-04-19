@@ -5,6 +5,7 @@ import { $store } from '../store'
 export default class Schedule {
 
     events = []
+    idx_events = {}
     banners = []
     location = null
     trackGroup = null
@@ -121,7 +122,12 @@ export default class Schedule {
                     }
                 );
             }
-            this.events = events; return this
+            this.events = events;
+            this.idx_events = {};
+            this.events.forEach((e, idx) =>{
+                this.idx_events[e.id] = idx;
+            })
+            return this
         })
     }
 
