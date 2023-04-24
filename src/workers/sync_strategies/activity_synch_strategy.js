@@ -70,44 +70,58 @@ class ActivitySynchStrategy extends AbstractSynchStrategy{
                         return intCheck(a.start_date, b.start_date);
                     });
                 }
-                else if
-                (
-                    formerEntity.start_date === entity.start_date &&
-                    formerEntity.end_date === entity.end_date
-                ) {
-                    // presentation was just updated
-                    console.log(`ActivitySynchStrategy::process updating presentation ${entity.id} at idx ${idx}`)
-                    eventsData[idx] = entity;
-                } else {
-                    // publishing dates changed, we need to remove and do ordered re-insert
-                    // remove it first
+                else{
+                    // we have a former entity
+                    // check location
+                    const formerLocationId = formerEntity.location.id;
+                    const currentLocationId = entity.hasOwnProperty('location')? entity.location.id:entity.location_id;
+                    if(formerLocationId != currentLocationId){
+                        console.log(`ActivitySynchStrategy::process non matching locations, former location ${formerLocationId} current location ${currentLocationId} for ${entity.id} at idx ${idx}`)
+                        // we need to remove it
+                        if(idx === -1)
+                            return Promise.reject('ActivitySynchStrategy::process non matching location idx === -1.'); // does not exists on index ...
+                        // remove it from dataset
+                        eventsData.splice(idx, 1);
+                        // remove it from index
+                        delete this.allIDXEvents[entity_id];
+                    }
+                    else if
+                    (
+                        formerEntity.start_date === entity.start_date &&
+                        formerEntity.end_date === entity.end_date
+                    ) {
+                        // presentation was just updated
+                        console.log(`ActivitySynchStrategy::process updating presentation ${entity.id} at idx ${idx}`)
+                        eventsData[idx] = entity;
+                    } else {
+                        // publishing dates changed, we need to remove and do ordered re-insert
+                        // remove it first
 
-                    console.log(`ActivitySynchStrategy::process publishing dates had changed, deleting at idx ${idx}`, entity);
-                    eventsData.splice(idx, 1);
-                    // then do insert ordering
-                    this.allIDXEvents[entity.id] = insertSorted(eventsData, entity, (a, b) => {
-                        // multi-criteria sort
+                        console.log(`ActivitySynchStrategy::process publishing dates had changed, deleting at idx ${idx}`, entity);
+                        eventsData.splice(idx, 1);
+                        // then do insert ordering
+                        this.allIDXEvents[entity.id] = insertSorted(eventsData, entity, (a, b) => {
+                            // multi-criteria sort
 
-                        if (a.start_date === b.start_date) {
+                            if (a.start_date === b.start_date) {
 
-                            if (a.end_date === b.end_date) {
-                                return intCheck(a.id, b.id);
+                                if (a.end_date === b.end_date) {
+                                    return intCheck(a.id, b.id);
+                                }
+
+                                return intCheck(a.end_date, b.end_date);
                             }
 
-                            return intCheck(a.end_date, b.end_date);
-                        }
+                            return intCheck(a.start_date, b.start_date);
+                        });
 
-                        return intCheck(a.start_date, b.start_date);
-                    });
-
-                    let newAllIDXEvents = {};
-                    eventsData.forEach((e, index) => newAllIDXEvents[e.id] = index);
-                    this.allIDXEvents = newAllIDXEvents;
+                        let newAllIDXEvents = {};
+                        eventsData.forEach((e, index) => newAllIDXEvents[e.id] = index);
+                        this.allIDXEvents = newAllIDXEvents;
+                    }
                 }
-            }
 
-            // update files on cache
-            console.log(`ActivitySynchStrategy::process updating cache files`);
+            }
 
             let res = {
                 payload,

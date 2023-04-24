@@ -2,6 +2,7 @@ import SynchStrategyFactory from "./sync_strategies/synch_strategy_factory";
 // internal state
 const queue = [];
 let busy = false;
+let localLocation = null;
 let localSummit = null;
 let localAllEvents = null;
 let localAllIDXEvents = null;
@@ -20,7 +21,7 @@ self.onmessage =  async (e) => {
 
 const run = async ( {
                         data: {
-                            accessToken,
+                            location,
                             noveltiesArray,
                             summit,
                             allEvents,
@@ -32,6 +33,9 @@ const run = async ( {
 
     if(localSummit === null)
         localSummit = JSON.parse(summit);
+
+    if(localLocation === null)
+        localLocation = JSON.parse(location);
 
     if(localAllEvents === null)
         localAllEvents = JSON.parse(allEvents);
@@ -60,7 +64,7 @@ const run = async ( {
         // micro updates logic goes here ...
         console.log(`synch worker trying to create process strategy for payload `, payload);
 
-        let s = SynchStrategyFactory.build(localSummit, localAllEvents, localAllIDXEvents, accessToken, payload);
+        let s = SynchStrategyFactory.build(localSummit, localLocation, localAllEvents, localAllIDXEvents, payload);
 
         lastPayload = payload;
         if (s === null) {
@@ -102,6 +106,7 @@ const run = async ( {
     // reset internal state
     busy = false;
     localSummit = null;
+    localLocation = null;
     localAllEvents = null;
     localAllIDXEvents = null;
 }

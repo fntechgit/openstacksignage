@@ -26,3 +26,80 @@ export const fetchEventById = async (summitId, eventId, accessToken = null) => {
         return null;
     });
 }
+
+/**
+ *
+ * @param summitId
+ * @param locationId
+ * @param expand
+ * @param accessToken
+ * @returns {Promise<Response>}
+ */
+export const fetchLocationById = async(summitId, locationId, expand, accessToken = null) => {
+
+    let apiUrl = URI(`${API_URL}/api/public/v1/summits/${summitId}/locations/${locationId}`);
+    if(accessToken){
+        apiUrl = URI(`${API_URL}/api/v1/summits/${summitId}/locations/${locationId}`);
+        apiUrl.addQuery('access_token', accessToken);
+    }
+
+    if(expand)
+        apiUrl.addQuery('expand', expand);
+
+    return fetch(apiUrl.toString(), {
+        method: 'GET'
+    }).then(async (response) => {
+        if (response.status === 200) {
+            return await response.json();
+        }
+        return null;
+    });
+}
+
+/**
+ *
+ * @param summitId
+ * @param speakerId
+ * @param accessToken
+ * @returns {Promise<Response>}
+ */
+export const fetchSpeakerById = async(summitId, speakerId, accessToken = null) => {
+
+    let apiUrl = URI(`${API_URL}/api/public/v1/summits/${summitId}/speakers/${speakerId}`);
+
+    if(accessToken){
+        apiUrl = URI(`${API_URL}/api/v1/summits/${summitId}/speaker/${speakerId}`);
+        apiUrl.addQuery('access_token', accessToken);
+    }
+
+    return fetch(apiUrl.toString(), {
+        method: 'GET'
+    }).then(async (response) => {
+        if (response.status === 200) {
+            return await response.json();
+        }
+        return null;
+    });
+}
+
+/**
+ *
+ * @param summitId
+ * @param accessToken
+ * @returns {Promise<Response>}
+ */
+export const fetchSummitById =  async(summitId, accessToken = null) => {
+    let apiUrl = URI(`${API_URL}/api/public/v1/summits/${summitId}`);
+
+    apiUrl.addQuery('expand', 'event_types,tracks,track_groups,presentation_levels,locations.rooms,locations.floors,order_extra_questions.values,schedule_settings,schedule_settings.filters,schedule_settings.pre_filters');
+    apiUrl.addQuery('t', Date.now());
+
+    return fetch(apiUrl.toString(), {
+        method: 'GET'
+    }).then(async (response) => {
+        if (response.status === 200) {
+            return await response.json();
+        }
+        return null;
+    });
+}

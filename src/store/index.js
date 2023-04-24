@@ -38,21 +38,24 @@ export const $store = new Vuex.Store({
             return state.background
         },
         room(state) {
-            return locationId => state.summit.locations.filter(
-                location => location.id === locationId
-            ).shift()
+            return locationId => state?.summit?.locations.filter(
+                location => {
+                    console.log(`room locationId ${locationId} location.id ${location.id} location.name ${location.name}`)
+                    return location.id == locationId
+                }
+            ).shift();
         },
         floor(state) {
-            let location = state.summit.locations.filter(
+            let location = state?.summit?.locations.filter(
                 location => location.id === state.location
             ).shift()
-            let venue = state.summit.locations.filter(
+            let venue = state?.summit?.locations.filter(
                 venue => venue.id === location.venue_id
             ).shift()
-            if (venue.floors == null) {
+            if (venue?.floors == null) {
                 return locationId => null
             }
-            return locationId => venue.floors.filter(
+            return locationId => venue?.floors.filter(
                 floor => floor.rooms && floor.rooms.indexOf(locationId) >= 0
             ).shift()
         }
@@ -194,7 +197,11 @@ export const $store = new Vuex.Store({
             }
 
             schedule.syncTime()
-        }
+        },
+        updateEvents(context, {summit, eventsData, allIDXEvents}){
+            const schedule = context.state.schedule
+            schedule.update({eventsData, allIDXEvents, summit});
+        },
     },
     mutations: {
         setError(state, error) {
@@ -213,7 +220,7 @@ export const $store = new Vuex.Store({
         },
         setBackground(state, background) {
             state.background = background
-        }
+        },
     }
 })
 

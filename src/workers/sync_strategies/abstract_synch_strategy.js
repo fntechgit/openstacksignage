@@ -4,14 +4,16 @@
 class AbstractSynchStrategy {
 
     /**
-     * 
+     *
      * @param summit
+     * @param location
      * @param allEvents
      * @param allIDXEvents
      * @param accessToken
      */
-    constructor(summit, allEvents, allIDXEvents, accessToken = null) {
+    constructor(summit, location, allEvents, allIDXEvents, accessToken = null) {
         this.summit = summit;
+        this.location = location;
         this.allEvents = allEvents;
         this.allIDXEvents = allIDXEvents;
         this.accessToken = accessToken;

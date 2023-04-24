@@ -1,36 +1,31 @@
-import moment from 'moment'
 import { $store } from '../store'
-//import { SUMMIT, EVENTS } from '../data'
+import AbstractEventsModel from './abstract-events-model';
 
-export default class Schedule {
+export default class Schedule extends AbstractEventsModel {
 
-    events = []
-    idx_events = {}
-    banners = []
-    location = null
-    trackGroup = null
-
-    offset = 0
-    timezone = 0
-
-    timeout = null
-
-    state = {
-        now: null,
-        track: null,
-        events: {
-            curr: null,
-            next: null,
-            prev: null,
-            all: null,
-            upcoming: null
-        },
-        scheduled_banners: {
-            curr: null,
-            next: null,
-            prev: null
-        },
-        static_banner: null
+    constructor() {
+        super();
+        this.banners = [];
+        this.trackGroup = null;
+        this.room = null;
+        this.floor = null;
+        this.state = {
+            now: null,
+            track: null,
+            events: {
+                curr: null,
+                next: null,
+                prev: null,
+                all: null,
+                upcoming: null
+            },
+            scheduled_banners: {
+                curr: null,
+                next: null,
+                prev: null
+            },
+            static_banner: null
+        }
     }
 
     get scheduled_banners() {
@@ -48,12 +43,13 @@ export default class Schedule {
 
     setup() {
 
+        super.setup();
+
         return new Promise((resolve, reject) => {
 
             this.getLocation().then(() => {
 
                 let params = new URLSearchParams(window.location.href.split('?')[1])
-                this.debug = !!params.get('debug')
 
                 let trackGroup = params.get('track_group')
                 if (trackGroup) {
@@ -78,32 +74,16 @@ export default class Schedule {
                     return Promise.all([this.loadEvents(), this.loadBanners()]).then(() => {
                         return this.syncTime().then(() => {
                             this.state.static_banner = this.static_banner
-                            this.update(); resolve()
+                            this.update();
+                            resolve();
                         })
                     })
                 }).catch(reject)
 
-                this.setupClock()
+                this.setupClock();
+
 
             }).catch(reject)
-        })
-    }
-
-    setupClock() {
-        setTimeout(() => { // Start at .0000
-            setInterval(() => this.tick(), 1000); this.update()
-        }, 1000 - new Date().getTime() % 1000)
-    }
-
-    getLocation() {
-        return $store.dispatch('getLocation').then(location => {
-            this.location = location; return this
-        })
-    }
-
-    loadSummit() {
-        return $store.dispatch('loadSummit').then(summit => {
-            this.timezone = summit.time_zone.offset; return this
         })
     }
 
@@ -137,29 +117,18 @@ export default class Schedule {
         })
     }
 
-    syncTime() {
-        return $store.dispatch('loadDate').then(timestamp => {
-            this.offset = moment.unix(timestamp).diff(
-                moment.utc(), 'seconds'
-            ); return this
-        })
-    }
+    update(newState = {}) {
 
-    tick() {
-        this.state.now = moment.utc().unix() + parseInt(this.offset)
-    }
-
-    now() {
-        return this.getDate(this.state.now)
-    }
-
-    update() {
         this.tick()
+
+        console.log('Schedule::update current state', this.events)
+
+        super.update(newState);
 
         let events = { curr: null, next: [], prev: [], upcoming: [], all: [] }
         let banners = { curr: null, next: [], prev: [] }
         let track = null
-        
+
         this.events.forEach(event => {
             
             if (this.state.now >= event.end_date) {
@@ -226,6 +195,13 @@ export default class Schedule {
             next: banners.next.length ? banners.next[0] : null,
         }
 
+        if(this.location) {
+            this.room = $store.getters.room(this.location);
+            console.log(`Schedule::update room`, this.room);
+            this.floor = $store.getters.floor(this.location)
+            console.log(`Schedule::update floor`, this.floor);
+        }
+
         this.setupTimer()
     }
 
@@ -263,47 +239,5 @@ export default class Schedule {
                 (this.state.scheduled_banners.next.start_date - this.state.now) * 1000
             )
         }
-    }
-
-    setTimeout(interval) {
-        this.timeout && clearTimeout(this.timeout)
-
-        const msOffset = new Date().getTime() % 1000
-
-        this.timeout = setTimeout(() => this.update(),
-            Math.min(interval, (5 * 60 * 1000)) - msOffset
-        )
-    }
-
-    getDate(ts, raw) {
-        return moment.unix(
-            ts + ( ! raw ? parseInt(this.timezone) : 0)
-        ).utc()
-    }
-
-    format(ts, raw) {
-        return this.getDate(ts, raw).format(
-            raw ? 'Y-MM-DD h:mm:ss A' : 'Y-MM-DD <b>h:mm:ss A</b>'
-        )
-    }
-
-    todayDate() {
-        return this.now().date()
-    }
-
-    isToday(timestamp) {
-        return this.getDate(timestamp).isSame(this.now(), 'd')
-    }
-
-    isWithinHour(timestamp) {
-        return this.getDate(timestamp).diff(this.now(), 'h');   
-    }
-
-    isWithin45Minutes(timestamp) {
-        return this.getDate(timestamp).diff(this.now() - (15 * 60 * 1000), 'h');   
-    }
-
-    setOffset(offset) {
-        this.offset = offset; this.update()
     }
 }

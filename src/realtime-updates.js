@@ -4,8 +4,11 @@ import {ABLY_SCHEDULE_UPDATES_SUBSCRIBER_API_KEY} from "./config";
 
 class RealtimeUpdates
 {
+    /**
+     * @param apiKey
+     */
     constructor(apiKey) {
-        this._client = new Ably.Realtime(ABLY_SCHEDULE_UPDATES_SUBSCRIBER_API_KEY);
+        this._client = new Ably.Realtime(apiKey);
         this._wsError = false;
         this._worker = null;
     }
@@ -21,16 +24,9 @@ class RealtimeUpdates
 
         this._worker.onmessage = (event) => {
             let {data} = event;
-            let {
-                payload,
-                entity,
-                summit,
-                eventsData,
-                allIDXEvents: newAllIDXEvents,
-            } = data;
             // do model update
-            // $store.dispatch()
             console.log('RealtimeUpdates processed', data);
+            $store.dispatch('updateEvents', data);
         }
 
         this._worker.onerror = (event) => {
@@ -60,31 +56,35 @@ class RealtimeUpdates
         });
 
         $store.dispatch('getSummitId').then(summitId => {
-            console.log(`RealtimeUpdates got summit ${summitId}`);
+            $store.dispatch('getLocation').then(location => {
 
-            const channel = this._client.channels.get(`${summitId}:*:*`);
+                console.log(`RealtimeUpdates got summit ${summitId} and location ${location}`);
 
-            channel.subscribe((message) => {
-                const {data: payload} = message;
-                console.log('RealtimeUpdates Change received', payload)
-                if(!this._worker)
-                {
-                    console.log('RealtimeUpdates worker is null');
-                    return;
-                }
-                // get model from store to update
+                const channel = this._client.channels.get(`${summitId}:*:*`);
 
-                const schedule = $store.getters.schedule;
-                const summit = $store.getters.summit;
+                channel.subscribe((message) => {
+                    const {data: payload} = message;
+                    console.log('RealtimeUpdates Change received', payload)
+                    if(!this._worker)
+                    {
+                        console.log('RealtimeUpdates worker is null');
+                        return;
+                    }
+                    // get model from store to update
 
-                this._worker.postMessage({
-                    accessToken: null,
-                    noveltiesArray: JSON.stringify([payload]),
-                    summit: JSON.stringify(summit),
-                    allEvents: JSON.stringify(schedule.events),
-                    allIDXEvents: JSON.stringify(schedule.idx_events),
+                    const model = $store.getters.schedule;
+                    const summit = $store.getters.summit;
+
+                    this._worker.postMessage({
+                        location: JSON.stringify(location),
+                        noveltiesArray: JSON.stringify([payload]),
+                        summit: JSON.stringify(summit),
+                        allEvents: JSON.stringify(model.getEvents()),
+                        allIDXEvents: JSON.stringify(model.getEventsIdx()),
+                    });
                 });
             });
+
         })
     }
 
