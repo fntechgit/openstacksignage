@@ -24,7 +24,7 @@ const defaultEntryPoints = {
     'config-admin': './src/config-admin.js',
     'image': './src/entrypoints/entry-image.js',
     'image-landscape': './src/entrypoints/entry-image-landscape.js',
-    //'banner': './src/entrypoints/entry-banner.js',
+    'banner': './src/entrypoints/entry-banner.js',
     'schedule': './src/entrypoints/entry-schedule.js',
 };
 
@@ -111,7 +111,8 @@ const mapHTMLEntry = ([entryName, template]) => {
         hash: true,
         template: Object.keys(defaultEntryPoints).includes(entryName) ? `${fileName}.html` : template,
         filename: `${fileName}.html`,
-        chunks: chunks
+        chunks: chunks,
+        minify:false,
     })
 }
 

@@ -74,7 +74,13 @@ export default class Sessions extends AbstractEventsModel {
                     }
                 }
             }
-            this.events = data; return this
+            this.events = data;
+            // build index for data updates
+            this.idx_events = {};
+            this.events.forEach((e, idx) =>{
+                this.idx_events[e.id] = idx;
+            })
+            return this;
         })
     }
 

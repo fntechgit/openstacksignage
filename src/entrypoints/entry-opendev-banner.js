@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from '../components/app.vue'
+import '../../assets/css/openstack/theme.scss';
 
 import Banner from '../model/banner'
 import { $store } from '../store'

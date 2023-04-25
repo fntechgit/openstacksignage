@@ -6,6 +6,7 @@ import { $store } from '../store'
 import { $router } from '../router/router-schedule'
 
 require('../firebase')
+require('../realtime-updates');
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()

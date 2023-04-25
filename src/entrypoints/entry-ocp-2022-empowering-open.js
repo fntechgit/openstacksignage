@@ -6,6 +6,7 @@ import { $store } from '../store'
 import { $router } from '../router/router-ocp-2022-empowering-open'
 
 require('../firebase')
+require('../realtime-updates');
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()

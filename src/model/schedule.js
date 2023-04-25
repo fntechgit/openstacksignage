@@ -103,11 +103,12 @@ export default class Schedule extends AbstractEventsModel {
                 );
             }
             this.events = events;
+            // build index for data updates
             this.idx_events = {};
             this.events.forEach((e, idx) =>{
                 this.idx_events[e.id] = idx;
             })
-            return this
+            return this;
         })
     }
 
