@@ -28,7 +28,7 @@ class AblyUpdates {
 
         // connect handler
         this._client.connection.on((stateChange) => {
-            const { current: state } = stateChange;            
+            const { current: state } = stateChange;
             console.log(`AblyUpdates::connection WS ${state}`);
             if (state === 'connected') {
                 this._wsError = false;
@@ -47,39 +47,29 @@ class AblyUpdates {
             }
         });
 
-        $store.dispatch('getSummitId').then(summitId => {            
+        $store.dispatch('getSummitId').then(summitId => {
             $store.dispatch('getLocation').then(location => {
                 console.log(`AblyUpdates got summit ${summitId} and location ${location}`);
 
-                const channel = this._client.channels.get(`SIGNAGE:${summitId}:${location}:*`);
+                const channel = this._client.channels.get(`SIGNAGE:${summitId}:${location}`);
 
                 channel.subscribe('SET_TEMPLATE', (message) => {
                     const { data: payload } = message;
                     console.log("Received: " + JSON.stringify(payload));
 
-                    // let decoded = atob(message.val())
-                    // let obj = JSON.parse(decoded)
+                    let { template } = payload;
+                    let path = '/'
 
-                    // let path = '/'
-                    // Object.keys(obj).forEach(function (key) {
+                    if (window.location.pathname === path) {
+                        return
+                    }
 
-                    //     let locations = obj[key].map(Number)
-                    //     if (key !== 'schedule' && locations.includes(location)) {
-                    //         path += key + '.html'
-                    //     }
-                    // });
-                    
-                    // if (window.location.pathname === path) {
-                    //     return
-                    // }
-                    // let params = new URLSearchParams(window.location.href.split('?')[1])
-                    // let url = path + '#/?' + params
+                    let params = new URLSearchParams(window.location.href.split('?')[1]);
+                    let url = path + template + '#/?' + params;
 
-                    // window.location = url
-
-                });                
+                    window.location = url
+                });
             });
-
         })
     }
 
