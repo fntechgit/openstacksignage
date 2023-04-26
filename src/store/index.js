@@ -16,6 +16,7 @@ export const $store = new Vuex.Store({
         banner: null,
         schedule: null,
         background: null,
+        template: null,
         summit_id: null,
     },
     getters: {
@@ -36,6 +37,9 @@ export const $store = new Vuex.Store({
         },
         background(state) {
             return state.background
+        },
+        template(state) {
+            return state.template
         },
         room(state) {
             return locationId => state?.summit?.locations.filter(
@@ -241,6 +245,16 @@ export const $store = new Vuex.Store({
         },
         setBackground(state, background) {
             state.background = background
+        },
+        setTemplate(state, template) {
+            let path = '/'
+            if (window.location.pathname === path) {
+                return
+            }
+            let params = new URLSearchParams(window.location.href.split('?')[1]);
+            let url = path + template + '#/?' + params;
+            window.location = url
+            state.template = template
         },
     }
 })

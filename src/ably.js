@@ -16,16 +16,9 @@ class AblyUpdates {
     constructor(apiKey) {
         this._client = new Ably.Realtime(apiKey);
         this._wsError = false;
-        this._worker = null;
     }
 
     run() {
-
-        if (this._worker) {
-            this._worker.terminate();
-            this._worker = null;
-        }
-
         // connect handler
         this._client.connection.on((stateChange) => {
             const { current: state } = stateChange;
@@ -52,14 +45,7 @@ class AblyUpdates {
                 console.log(`AblyUpdates got summit ${summitId} and location ${location}`);
 
                 $store.dispatch('loadTemplate').then(({ data }) => {
-                    let initialTemplate = data[0]?.template;
-                    const currentPathname = window.location.pathname.replace('/', '');
-                    if (initialTemplate !== currentPathname) {
-                        let path = '/'
-                        let params = new URLSearchParams(window.location.href.split('?')[1]);
-                        let url = path + initialTemplate + '#/?' + params;
-                        window.location = url
-                    }
+                    $store.commit('setTemplate', data[0]?.template);
                 })
 
                 const channel = this._client.channels.get(`SIGNAGE:${summitId}:${location}`);
@@ -67,27 +53,33 @@ class AblyUpdates {
                 channel.subscribe('SET_TEMPLATE', (message) => {
                     const { data: payload } = message;
                     console.log("Received: " + JSON.stringify(payload));
-
                     let { template } = payload;
-                    let path = '/'
-
-                    if (window.location.pathname === path) {
-                        return
-                    }
-
-                    let params = new URLSearchParams(window.location.href.split('?')[1]);
-                    let url = path + template + '#/?' + params;
-
-                    window.location = url
+                    $store.commit('setTemplate', template);
                 });
+
+                channel.subscribe('RELOAD', (message) => {
+                    const { data: payload } = message;
+                    console.log("Received: " + JSON.stringify(payload));
+                    $store.dispatch('reload', location);
+                })
+
+                channel.subscribe('JUMP_TIME', (message) => {
+                    const { data: payload } = message;
+                    console.log("Received: " + JSON.stringify(payload));
+                    let { timestamp } = payload;
+
+                    $store.dispatch('updateTime', {
+                        location: parseInt(location),
+                        timestamp: parseInt(timestamp),
+                    })
+                })
+
             });
         })
     }
 
     stop() {
         console.log('AblyUpdates::stop terminating worker');
-        this._worker.terminate();
-        this._worker = null;
         this._client.close();
         this._client = null;
     }
