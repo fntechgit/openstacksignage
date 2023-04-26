@@ -51,6 +51,17 @@ class AblyUpdates {
             $store.dispatch('getLocation').then(location => {
                 console.log(`AblyUpdates got summit ${summitId} and location ${location}`);
 
+                $store.dispatch('loadTemplate').then(({ data }) => {
+                    let initialTemplate = data[0]?.template;
+                    const currentPathname = window.location.pathname.replace('/', '');
+                    if (initialTemplate !== currentPathname) {
+                        let path = '/'
+                        let params = new URLSearchParams(window.location.href.split('?')[1]);
+                        let url = path + initialTemplate + '#/?' + params;
+                        window.location = url
+                    }
+                })
+
                 const channel = this._client.channels.get(`SIGNAGE:${summitId}:${location}`);
 
                 channel.subscribe('SET_TEMPLATE', (message) => {
