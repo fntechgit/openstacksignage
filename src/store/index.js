@@ -16,6 +16,7 @@ export const $store = new Vuex.Store({
         banner: null,
         schedule: null,
         background: null,
+        template: null,
         summit_id: null,
     },
     getters: {
@@ -36,6 +37,9 @@ export const $store = new Vuex.Store({
         },
         background(state) {
             return state.background
+        },
+        template(state) {
+            return state.template
         },
         room(state) {
             return locationId => state?.summit?.locations.filter(
@@ -174,6 +178,26 @@ export const $store = new Vuex.Store({
                 `summits/${summit_id}/locations/${location}/banners?${query}`
             ))
         },
+        loadTemplate(context, location) {
+            var params = new URLSearchParams(window.location.href.split('?')[1])
+            var summit_id =  parseInt(params.get('summit'));
+            var location_id =  parseInt(params.get('location'));
+
+            const query = qs.stringify({
+                'filter[]': [
+                    'location_id' + '==' + location_id
+                ],
+                page: 1,
+                per_page: 100,
+            }, { indices: false })
+
+            return axios.get(getEndpoint(
+                `summits/${summit_id}/signs?${query}`
+            )).then(response => {
+                const {data} = response;
+                return data;
+            })
+        },
         reload(context, location) {
             const model = context.state.schedule || context.state.banner
 
@@ -221,6 +245,19 @@ export const $store = new Vuex.Store({
         },
         setBackground(state, background) {
             state.background = background
+        },
+        setTemplate(state, template) {
+            if (!template) {
+                return
+            }
+            const path = '/'
+            if (window.location.pathname === path) {
+                return
+            }
+            const params = new URLSearchParams(window.location.href.split('?')[1]);
+            const url = `${path}${template}#/?${params}`;
+            window.location = url
+            state.template = template
         },
     }
 })
