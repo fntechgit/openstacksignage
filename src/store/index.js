@@ -247,12 +247,15 @@ export const $store = new Vuex.Store({
             state.background = background
         },
         setTemplate(state, template) {
-            let path = '/'
+            if (!template) {
+                return
+            }
+            const path = '/'
             if (window.location.pathname === path) {
                 return
             }
-            let params = new URLSearchParams(window.location.href.split('?')[1]);
-            let url = path + template + '#/?' + params;
+            const params = new URLSearchParams(window.location.href.split('?')[1]);
+            const url = `${path}${template}#/?${params}`;
             window.location = url
             state.template = template
         },
