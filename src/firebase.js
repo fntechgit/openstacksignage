@@ -1,3 +1,7 @@
+/**
+ * DEPRECATED YOU SHOULD BE using ably.js
+ * */
+
 import firebase from 'firebase'
 import { $store } from './store'
 
@@ -8,6 +12,8 @@ import {
     FIREBASE_PROJECT_ID,
     FIREBASE_DATABASE_URL,
 } from './config'
+
+console.log(`DEPRECATED: you should be using ably.js`);
 
 const db = firebase.initializeApp({
     apiKey: FIREBASE_API_KEY,

@@ -21,13 +21,18 @@ const templatesDir = 'templates';
 const templatesMetadataFile = './templates.json';
 
 const defaultEntryPoints = {
-    'config-admin': './src/config-admin.js',
     'image': './src/entrypoints/entry-image.js',
     'image-landscape': './src/entrypoints/entry-image-landscape.js',
     'banner': './src/entrypoints/entry-banner.js',
     'schedule': './src/entrypoints/entry-schedule.js',
 };
 
+const defaultTemplates = [
+  /*  {'name':'image','file':'image.html'},
+    {'name':'image-landscape','file':'image-landscape.html'},
+    {'name':'index','file':'index.html'},
+    {'name':'banner','file':'banner.html'},*/
+];
 
 const templateMetadata = {};
 const templateEntryPoints = {};
@@ -63,12 +68,15 @@ getHTMLFiles(templatesDir).forEach(htmlFile => {
     }
     const summitId = parseInt(fileParts[2]);
     const file = fileParts[3]
+
     if (!templateMetadata.hasOwnProperty(tenant)) {
         templateMetadata[tenant] = {};
     }
+
     if (!templateMetadata[tenant].hasOwnProperty(summitId)) {
-        templateMetadata[tenant][summitId] = [];
+        templateMetadata[tenant][summitId] = [...defaultTemplates];
     }
+
     const fileEntry = file.toLowerCase().replace(".html", "");
 
     templateMetadata[tenant][summitId].push({

@@ -5,7 +5,8 @@ import Schedule from '../model/oculus-schedule'
 import { $store } from '../store'
 import { $router } from '../router/router-oculus-oc6-schedule.js'
 
-require('../firebase')
+require('../ably')
+require('../realtime-updates');
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()

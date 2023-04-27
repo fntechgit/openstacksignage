@@ -44,7 +44,7 @@ class AblyUpdates {
             $store.dispatch('getLocation').then(location => {
                 console.log(`AblyUpdates got summit ${summitId} and location ${location}`);
 
-                $store.dispatch('loadTemplate').then(({ data }) => {
+                $store.dispatch('loadTemplate', location).then(({ data }) => {
                     $store.commit('setTemplate', data[0]?.template);
                 })
 

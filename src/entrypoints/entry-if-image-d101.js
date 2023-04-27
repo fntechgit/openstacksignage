@@ -5,7 +5,8 @@ import Banner from '../model/banner'
 import { $store } from '../store'
 import { $router } from '../router/router-if-image-d101';
 
-require('../firebase')
+require('../ably')
+
 
 $router.beforeEach((to, from, next) => {
     const banner = new Banner()

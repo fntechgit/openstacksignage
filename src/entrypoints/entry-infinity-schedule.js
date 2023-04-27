@@ -5,7 +5,7 @@ import Schedule from '../model/schedule'
 import { $store } from '../store'
 import { $router } from '../router/router-infinity-schedule'
 
-require('../firebase')
+require('../ably')
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()

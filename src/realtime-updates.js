@@ -102,6 +102,6 @@ if(ABLY_SCHEDULE_UPDATES_SUBSCRIBER_API_KEY) {
     rt.run();
 }
 else{
-    console.log(`ABLY_SCHEDULE_UPDATES_SUBSCRIBER_API_KEY missing, can not enable real time updates!`);
+    console.log(`ABLY_SCHEDULE_UPDATES_SUBSCRIBER_API_KEY missing, can not enable schedule real time updates!`);
 }
 

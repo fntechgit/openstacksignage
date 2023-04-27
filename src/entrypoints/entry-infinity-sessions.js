@@ -5,7 +5,7 @@ import Sessions from '../model/sessions'
 import { $store } from '../store'
 import { $router } from '../router/router-infinity-sessions'
 
-require('../firebase')
+require('../ably')
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Sessions()

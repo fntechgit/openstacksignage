@@ -44,7 +44,6 @@ export const $store = new Vuex.Store({
         room(state) {
             return locationId => state?.summit?.locations.filter(
                 location => {
-                    console.log(`Store::getRoom room locationId ${locationId} location.id ${location.id} location.name ${location.name}`)
                     return location.id == locationId
                 }
             ).shift();
@@ -179,20 +178,17 @@ export const $store = new Vuex.Store({
             ))
         },
         loadTemplate(context, location) {
-            var params = new URLSearchParams(window.location.href.split('?')[1])
-            var summit_id =  parseInt(params.get('summit'));
-            var location_id =  parseInt(params.get('location'));
 
             const query = qs.stringify({
                 'filter[]': [
-                    'location_id' + '==' + location_id
+                    `location_id==${location}`
                 ],
                 page: 1,
                 per_page: 100,
             }, { indices: false })
 
             return axios.get(getEndpoint(
-                `summits/${summit_id}/signs?${query}`
+                `summits/${context.state.summit_id}/signs?${query}`
             )).then(response => {
                 const {data} = response;
                 return data;
@@ -250,13 +246,16 @@ export const $store = new Vuex.Store({
             if (!template) {
                 return
             }
-            const path = '/'
+            const path = `/${template}`;
             if (window.location.pathname === path) {
+                // already set
                 return
             }
+
             const params = new URLSearchParams(window.location.href.split('?')[1]);
-            const url = `${path}${template}#/?${params}`;
-            window.location = url
+            console.log(`Store::setTemplate setting template ${template}`);
+
+            window.location = `${path}#/?${params}`;
             state.template = template
         },
     }

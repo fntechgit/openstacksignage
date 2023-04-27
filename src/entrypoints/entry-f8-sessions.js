@@ -5,7 +5,8 @@ import Sessions from '../model/sessions'
 import { $store } from '../store'
 import { $router } from '../router/router-f8-sessions'
 
-require('../firebase')
+require('../ably')
+require('../realtime-updates');
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Sessions()
