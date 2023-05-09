@@ -76,8 +76,8 @@
                     <div class="col-md-8">
                         <div class="text-uppercase label">Room</div>
                         <div class="text-uppercase value">
-                            {{ schedule.floor.name }}
-                            ({{ schedule.room.name }})
+                            {{ schedule?.floor?.name }}
+                            ({{ schedule?.room?.name }})
                         </div>
                     </div>
                     <div class="col-md-4 text-center">
