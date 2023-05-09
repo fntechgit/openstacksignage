@@ -5,7 +5,7 @@ import Banner from '../model/banner'
 import { $store } from '../store'
 import { $router } from '../router/router-oc6-oculus-image-eod1';
 
-require('../firebase')
+require('../ably')
 
 $router.beforeEach((to, from, next) => {
     const banner = new Banner()

@@ -1,30 +1,28 @@
-import moment from 'moment'
 import { $store } from '../store'
+import AbstractEventsModel from "./abstract-events-model";
 //import { SUMMIT, EVENTS } from '../data'
 
-export default class Sessions {
+export default class Sessions extends AbstractEventsModel {
 
-    events = []
-    location = null
-    includeLocations = null
-    excludeLocations = null
+    constructor() {
+        super();
+        this.includeLocations = null;
+        this.excludeLocations = null;
 
-    offset = 0
-    timezone = 0
-
-    timeout = null
-
-    state = {
-        now: null,
-        events: {
-            curr: null,
-            next: null,
-            prev: null,
-            upcoming: null
-        },
+        this.state = {
+            now: null,
+            events: {
+                curr: null,
+                next: null,
+                prev: null,
+                upcoming: null
+            },
+        };
     }
 
     setup() {
+
+        super.setup();
 
         return new Promise((resolve, reject) => {
 
@@ -42,8 +40,6 @@ export default class Sessions {
                     this.excludeLocations = excludeLocations.split(',').map(Number)
                 }
 
-                this.debug = !!params.get('debug')
-
                 this.loadSummit().then(summit => {
 
                     return Promise.all([this.loadAllEvents()]).then(() => {
@@ -56,24 +52,6 @@ export default class Sessions {
                 this.setupClock()
 
             }).catch(reject)
-        })
-    }
-
-    setupClock() {
-        setTimeout(() => { // Start at .0000
-            setInterval(() => this.tick(), 1000); this.update()
-        }, 1000 - new Date().getTime() % 1000)
-    }
-
-    getLocation() {
-        return $store.dispatch('getLocation').then(location => {
-            this.location = location; return this
-        })
-    }
-
-    loadSummit() {
-        return $store.dispatch('loadSummit').then(summit => {
-            this.timezone = summit.time_zone.offset; return this
         })
     }
 
@@ -96,28 +74,23 @@ export default class Sessions {
                     }
                 }
             }
-            this.events = data; return this
+            this.events = data;
+            // build index for data updates
+            this.idx_events = {};
+            this.events.forEach((e, idx) =>{
+                this.idx_events[e.id] = idx;
+            })
+            return this;
         })
     }
 
-    syncTime() {
-        return $store.dispatch('loadDate').then(timestamp => {
-            this.offset = moment.unix(timestamp).diff(
-                moment.utc(), 'seconds'
-            ); return this
-        })
-    }
+    update(newState= {}) {
 
-    tick() {
-        this.state.now = moment.utc().unix() + parseInt(this.offset)
-    }
-
-    now() {
-        return this.getDate(this.state.now)
-    }
-
-    update() {
         this.tick()
+
+        console.log('Sessions::update current state', this.events)
+
+        super.update(newState);
 
         let events = { curr: null, next: [], prev: [], upcoming: [] }
         
@@ -165,41 +138,4 @@ export default class Sessions {
         }
     }
 
-    setTimeout(interval) {
-        this.timeout && clearTimeout(this.timeout)
-
-        const msOffset = new Date().getTime() % 1000
-
-        this.timeout = setTimeout(() => this.update(),
-            Math.min(interval, (5 * 60 * 1000)) - msOffset
-        )
-    }
-
-    getDate(ts, raw) {
-        return moment.unix(
-            ts + ( ! raw ? parseInt(this.timezone) : 0)
-        ).utc()
-    }
-
-    format(ts, raw) {
-        return this.getDate(ts, raw).format(
-            raw ? 'Y-MM-DD h:mm:ss A' : 'Y-MM-DD <b>h:mm:ss A</b>'
-        )
-    }
-
-    todayDate() {
-        return this.now().date()
-    }
-
-    isToday(timestamp) {
-        return this.getDate(timestamp).isSame(this.now(), 'd')
-    }
-
-    isWithinHour(timestamp) {
-        return this.getDate(timestamp).diff(this.now(), 'h');   
-    }
-
-    setOffset(offset) {
-        this.offset = offset; this.update()
-    }
 }

@@ -4,8 +4,9 @@ import App from '../components/app.vue'
 import Schedule from '../model/schedule'
 import { $store } from '../store'
 import { $router } from '../router/router-schedule'
-
-require('../firebase')
+import '../../assets/css/openstack/theme.scss'
+require('../ably')
+require('../realtime-updates');
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()

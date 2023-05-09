@@ -16,6 +16,8 @@ export const $store = new Vuex.Store({
         banner: null,
         schedule: null,
         background: null,
+        template: null,
+        summit_id: null,
     },
     getters: {
         error(state) {
@@ -30,26 +32,37 @@ export const $store = new Vuex.Store({
         schedule(state) {
             return state.schedule
         },
+        summit(state){
+          return state.summit
+        },
         background(state) {
             return state.background
         },
+        template(state) {
+            return state.template
+        },
         room(state) {
-            return locationId => state.summit.locations.filter(
-                location => location.id === locationId
-            ).shift()
+            return locationId => state?.summit?.locations.filter(
+                location => {
+                    return location.id == locationId
+                }
+            ).shift();
         },
         floor(state) {
-            let location = state.summit.locations.filter(
+            const location = state?.summit?.locations.filter(
                 location => location.id === state.location
             ).shift()
-            let venue = state.summit.locations.filter(
+            const venue = state?.summit?.locations.filter(
                 venue => venue.id === location.venue_id
             ).shift()
-            if (venue.floors == null) {
+
+            if (venue?.floors == null) {
                 return locationId => null
             }
-            return locationId => venue.floors.filter(
-                floor => floor.rooms && floor.rooms.indexOf(locationId) >= 0
+            return locationId => venue?.floors.filter(
+                floor => {
+                    return floor?.rooms && floor.rooms.some( r => r?.id == locationId)
+                }
             ).shift()
         }
     },
@@ -70,6 +83,22 @@ export const $store = new Vuex.Store({
                 }
             })
         },
+        getSummitId(context) {
+            if (context.state.summit_id) {
+                return new Promise(
+                    resolve => resolve(context.state.summit_id)
+                )
+            }
+            return new Promise((resolve, reject) => {
+                let params = new URLSearchParams(window.location.href.split('?')[1])
+                let summit_id = parseInt(params.get('summit'))
+                if (isNaN(summit_id)) {
+                    reject('Missing Summit')
+                } else {
+                    resolve(context.state.summit_id = summit_id)
+                }
+            })
+        },
         loadDate() {
             return axios.get(TIME_URL).then(payload => {
                 return Math.ceil(payload.data.timestamp)
@@ -82,21 +111,19 @@ export const $store = new Vuex.Store({
                 )
             }
 
+            const params = new URLSearchParams(window.location.href.split('?')[1])
+            const summit_id = parseInt(params.get('summit'))
             const query = qs.stringify({
-                relationships: 'none',
-                expand: 'none'
+                relationships: 'locations',
+                expand: 'locations,locations.floors,locations.floors.rooms'
             }, { indices: false })
 
-            return axios.get(getEndpoint(`summits?${query}`)).then(response => {
-                var params = new URLSearchParams(window.location.href.split('?')[1])
-                var summit_id = parseInt(params.get('summit'))		    
-                var summits = response.data.data.filter(function(summit) {
-                    return summit.id == summit_id 
-                })
-
-                return context.state.summit = (summits.length == 1 ? summits[0] :  response.data.data.pop())		    
+            return axios.get(getEndpoint(`summits/all/${summit_id}?${query}`)).then(response => {
+                const {data} = response;
+                return context.state.summit = data;
             })
         },
+
         loadEvents(context, location) {
             var params = new URLSearchParams(window.location.href.split('?')[1])
             var summit_id =  parseInt(params.get('summit'))
@@ -150,6 +177,23 @@ export const $store = new Vuex.Store({
                 `summits/${summit_id}/locations/${location}/banners?${query}`
             ))
         },
+        loadTemplate(context, location) {
+
+            const query = qs.stringify({
+                'filter[]': [
+                    `location_id==${location}`
+                ],
+                page: 1,
+                per_page: 100,
+            }, { indices: false })
+
+            return axios.get(getEndpoint(
+                `summits/${context.state.summit_id}/signs?${query}`
+            )).then(response => {
+                const {data} = response;
+                return data;
+            })
+        },
         reload(context, location) {
             const model = context.state.schedule || context.state.banner
 
@@ -174,7 +218,11 @@ export const $store = new Vuex.Store({
             }
 
             schedule.syncTime()
-        }
+        },
+        updateEvents(context, {summit, eventsData, allIDXEvents}){
+            const schedule = context.state.schedule
+            schedule.update({eventsData, allIDXEvents, summit});
+        },
     },
     mutations: {
         setError(state, error) {
@@ -193,7 +241,23 @@ export const $store = new Vuex.Store({
         },
         setBackground(state, background) {
             state.background = background
-        }
+        },
+        setTemplate(state, template) {
+            if (!template) {
+                return
+            }
+            const path = `/${template}`;
+            if (window.location.pathname === path) {
+                // already set
+                return
+            }
+
+            const params = new URLSearchParams(window.location.href.split('?')[1]);
+            console.log(`Store::setTemplate setting template ${template}`);
+
+            window.location = `${path}#/?${params}`;
+            state.template = template
+        },
     }
 })
 

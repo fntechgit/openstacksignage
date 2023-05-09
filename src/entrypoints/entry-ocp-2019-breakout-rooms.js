@@ -5,7 +5,8 @@ import Schedule from '../model/schedule'
 import { $store } from '../store'
 import { $router } from '../router/router-ocp-2019-breakout-rooms'
 
-require('../firebase')
+require('../ably')
+require('../realtime-updates');
 
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()
