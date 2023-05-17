@@ -84,6 +84,9 @@
                     <div class="col-9">
                         <div class="text-uppercase" v-bind:style="roomStyle">{{ formatRoomName(schedule.room.name) }}</div>
                     </div>
+                    <div class="col-3 text-right" v-if="!schedule.state.events.curr">                    
+                        <div class="time">{{ schedule.getDate(schedule.state.now).format('h:mmA') }}</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -218,7 +221,7 @@
         background-image: url('assets/images/oif-vancouver/PNG/D/OI_Vancouver-Digital-Signage-WhitLogo-D.png');
     }
     .background-no-events {
-        background-image: url('assets/images/infinity-festival/ryot-schedule-background.png');
+        background-image: url('assets/images/oif-vancouver/OI_Vancouver-Digital-Signage-WithLogo-End.png');
     }
 
     .debug {
