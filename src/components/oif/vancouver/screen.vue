@@ -141,12 +141,7 @@
         },
         watch: {
             scheduleIsOver (newValue, oldValue) {
-                if(newValue) {
-                    this.toggleBodyClass('addClass', 'background-no-events');
-                } else {
-                this.toggleBodyClass('removeClass', 'background-no-events');
-                this.setRandomBackground();
-                }
+                this.setBackground(newValue);                
             }
         },
         methods: {
@@ -175,6 +170,14 @@
                 el.classList.remove(className);
                 }
             },
+            setBackground(showNoEvents) {
+                if (showNoEvents) {
+                    this.toggleBodyClass('addClass', 'background-no-events');
+                } else {
+                    this.toggleBodyClass('removeClass', 'background-no-events');
+                    this.setRandomBackground();
+                }
+            },
             syncStart(item) {
                 this.schedule.setOffset(
                     item.start_date - moment.utc().unix() - 65
@@ -187,13 +190,7 @@
             },
         },
         mounted() {
-
-            if(this.scheduleIsOver) {
-                this.toggleBodyClass('addClass', 'background-no-events');
-            } else {
-                this.toggleBodyClass('removeClass', 'background-no-events');
-                this.setRandomBackground();
-            }
+            this.setBackground(this.scheduleIsOver)            
         },
         components: { Event }
     }
