@@ -8,8 +8,6 @@ import { $router } from '../router/router-oif-vancouver'
 require('../ably')
 require('../realtime-updates');
 
-console.log('entry vue file')
-
 $router.beforeEach((to, from, next) => {
     const schedule = new Schedule()
 

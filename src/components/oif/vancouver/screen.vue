@@ -135,8 +135,18 @@
                 }
                 return { 'color': color, 'font-size': this.schedule.room.name.length >= 15 ? '2.5rem' : '2rem' }
             },
-            summitScheduleUrl: function() {
-                return 'https://2022ocpglobal.fnvirtual.app/a/schedule'
+            scheduleIsOver: function() {
+                return !this.schedule.state.events.curr;
+            }
+        },
+        watch: {
+            scheduleIsOver (newValue, oldValue) {
+                if(newValue) {
+                    this.toggleBodyClass('addClass', 'background-no-events');
+                } else {
+                this.toggleBodyClass('removeClass', 'background-no-events');
+                this.setRandomBackground();
+                }
             }
         },
         methods: {
@@ -145,9 +155,6 @@
                     return name.replace(/\s/g, '');
                 }
                 return name
-            },
-            scheduleIsOver() {
-                return !this.schedule.state.events.curr;
             },
             setRandomBackground() {
                 const el = document.body;
@@ -165,7 +172,6 @@
                     el.classList.remove(previousBackground);
                     el.classList.add(className);
                 } else {
-                this.setRandomBackground();
                 el.classList.remove(className);
                 }
             },
@@ -182,23 +188,12 @@
         },
         mounted() {
 
-            if (!this.schedule.state.events.curr) {
+            if(this.scheduleIsOver) {
                 this.toggleBodyClass('addClass', 'background-no-events');
             } else {
                 this.toggleBodyClass('removeClass', 'background-no-events');
+                this.setRandomBackground();
             }
-
-            this.$store.watch(
-                (state, getters) => getters.schedule.state.events,
-                (newValue, oldValue) => {
-                    if(this.scheduleIsOver()) {
-                        this.toggleBodyClass('addClass', 'background-no-events');
-                    } else {
-                        this.toggleBodyClass('removeClass', 'background-no-events');
-                        this.setRandomBackground();
-                    }
-                },
-            );
         },
         components: { Event }
     }

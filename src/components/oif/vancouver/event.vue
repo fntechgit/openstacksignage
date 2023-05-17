@@ -28,8 +28,6 @@
 
 <script>
 
-    console.log('event vue')
-
     export default {
         props: ['event', 'next', 'schedule'],
         computed: {
