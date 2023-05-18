@@ -1,17 +1,17 @@
 <template>
-    <div class="container-fluid px-7 pt-7 event" :class="{ next }">
+    <div class="container-fluid px-7 event" :class="{ next }">
         <div class="row" v-if="next">
-            <div class="col-11 pt-5 pb-2 text-uppercase">
+            <div class="col-11 pb-2 text-uppercase">
                 <span class="highlight">Next Session</span>
             </div>
         </div>
         <div class="row">
-            <div class="pt-4 name" v-bind:class="{ 'pb-2': next && !event.speakers.length, 'col-10' : next, 'col-12': !next }">
+            <div class="name" v-bind:class="{ 'pb-2': next && !event.speakers.length, 'col-10 pt-4' : next, 'col-12': !next }">
                 {{ event.title }}
             </div>
         </div>
         <div class="row" v-if="event.speakers.length">
-            <div class="col-12 text-uppercase speakers" v-bind:class="next ? 'pt-4' : 'pt-4'">
+            <div class="col-12 pt-4 text-uppercase speakers">
                 <div class="pb-2 by">By</div>
                 <div class="pb-1" v-for="speaker in event.speakers"> 
                     {{ speaker.first_name }} {{ speaker.last_name }}
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 text-uppercase when" v-bind:class="next ? 'pt-4' : 'pt-4'">
+            <div class="col-12 pt-4 text-uppercase when">
                 {{ time(event) }}
             </div>
         </div>
@@ -52,7 +52,7 @@
     .highlight {
         color: #FFFFFF;
         background-color: #000000;
-        border-radius: 10px;
+        border-radius: 100px;
         padding: 5px 13px;
         font-size: 1rem;
         line-height: 1.25rem;

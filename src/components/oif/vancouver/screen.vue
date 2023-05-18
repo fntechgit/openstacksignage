@@ -69,42 +69,36 @@
         </table>
 
         <div class="header">
-            <div class="container-fluid px-7 pt-6 track" v-if="schedule.state.track" v-bind:style="trackStyle">
+            <div class="container-fluid px-7 pt-6">
                 <div class="row">
                     <div class="col-9">
-                        <div class="text-uppercase">{{ schedule.state.track.name }}</div>
+                        <div class="track text-uppercase" v-if="schedule.state.track" v-bind:style="trackStyle">{{ schedule.state.track.name }}</div>
+                        <div class="text-uppercase" v-bind:class="{ 'pt-6' : !schedule.state.events.curr && !schedule.state.events.next }"
+                             v-bind:style="roomStyle">{{ formatRoomName(schedule.room.name) }}</div>
                     </div>
-                    <div class="col-3 text-right">                    
+                    <div class="col-3 text-right">
                         <div class="time">{{ schedule.getDate(schedule.state.now).format('h:mmA') }}</div>
                     </div>
                 </div>            
-            </div>                    
-            <div class="container-fluid px-7" v-bind:class="schedule.state.events.curr ? 'pt-3' : 'pt-6'">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="text-uppercase" v-bind:style="roomStyle">{{ formatRoomName(schedule.room.name) }}</div>
-                    </div>
-                    <div class="col-3 text-right" v-if="!schedule.state.events.curr">                    
-                        <div class="time">{{ schedule.getDate(schedule.state.now).format('h:mmA') }}</div>
-                    </div>
-                </div>
             </div>
         </div>
 
-
-        <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
-        
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true 
-            v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" 
-            v-bind:class="{ '': schedule.state.events.curr }"></event>
-
-        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
-            <div class="row p-7 no-presentations">
-                <div class="col-12 text-left">
-                    All presentations are finished for today
+        <div class="event-container pt-7 pb-7">
+            <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
+            
+            <event :schedule="schedule" :event="schedule.state.events.next" :next=true 
+                v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" 
+                v-bind:class="{ '': schedule.state.events.curr }"></event>
+    
+    
+            <div class="container-fluid" v-else-if="!schedule.state.events.curr">
+                <div class="row p-7 no-presentations">
+                    <div class="col-12 text-left">
+                        All presentations are finished for today
+                    </div>
                 </div>
-            </div>
-        </div>        
+            </div>        
+        </div>
 
     </div>
 </template>
@@ -204,7 +198,7 @@
     
     #app {
         color: #FFFFFF;
-        font-family: "roboto",sans-serif;
+        font-family: "roboto condensed",sans-serif;
         font-weight: 700;
     }
 
@@ -258,6 +252,13 @@
         font-size: 40px;
         color: #FFFFFF;
         letter-spacing: 0;
+    }
+
+    .event-container {
+        display: flex;
+        flex-direction: column;
+        height: 1417px;
+        justify-content: space-between;
     }
 
     .no-presentations {                
