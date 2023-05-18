@@ -139,12 +139,12 @@
                 return { 'color': color, 'font-size': this.schedule.room.name.length >= 15 ? '2.5rem' : '2rem' }
             },
             scheduleIsOver: function() {
-                return !this.schedule.state.events.curr;
+                return !this.schedule.state.events.curr && !this.schedule.state.events.upcoming;
             }
         },
         watch: {
             scheduleIsOver (newValue, oldValue) {
-                this.setBackground(newValue);                
+                this.setBackground(newValue);
             }
         },
         methods: {
