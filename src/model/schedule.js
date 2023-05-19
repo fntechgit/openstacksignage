@@ -207,13 +207,23 @@ export default class Schedule extends AbstractEventsModel {
     }
 
     setupTimer() {
-        if (this.state.events.curr && this.state.scheduled_banners.curr) { // Wait for current event or banner to finish.
+
+        if (this.state.events.curr && this.state.scheduled_banners.curr) {
+            // Wait for current event or banner to finish.
             let end_date = Math.min(this.state.events.curr.end_date, this.state.scheduled_banners.curr.end_date)
             return this.setTimeout(
                 (end_date - this.state.now) * 1000
             )
         } else if (this.state.events.curr) {
-            if (!(this.state.events.next && this.state.events.curr.end_date > this.state.events.next.start_date)) {
+            // we are on a middle of an event
+            if(this.state.scheduled_banners.next && this.state.events.curr.end_date > this.state.scheduled_banners.next.start_date){
+                // we have a next banner, check if we are near to it starts ...
+                return this.setTimeout(
+                    (this.state.scheduled_banners.next.start_date - this.state.now) * 1000
+                )
+            }
+            else if (!(this.state.events.next && this.state.events.curr.end_date > this.state.events.next.start_date)) {
+                // we are not near to the next event , so we set next tick to the ongoing event end date
                 return this.setTimeout(
                     (this.state.events.curr.end_date - this.state.now) * 1000
                 )
