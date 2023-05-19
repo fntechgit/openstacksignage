@@ -83,13 +83,15 @@
             </div>
         </div>
 
+        <banner :banner="schedule.state.scheduled_banners.curr"
+               v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
+
         <div class="event-container pt-7 pb-7">
             <event :schedule="schedule" :event="schedule.state.events.curr" v-if="schedule.state.events.curr"></event>
             
             <event :schedule="schedule" :event="schedule.state.events.next" :next=true 
                 v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" 
                 v-bind:class="{ '': schedule.state.events.curr }"></event>
-    
     
             <div class="container-fluid" v-else-if="!schedule.state.events.curr">
                 <div class="row p-7 no-presentations">
@@ -100,6 +102,8 @@
             </div>        
         </div>
 
+        <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
+
     </div>
 </template>
 
@@ -108,6 +112,7 @@
     import 'assets/css/ocp/2019/global/theme.scss'
 
     import Event from './event.vue'
+    import Banner from './banner.vue'
     import moment from 'moment'
 
     import { mapGetters } from 'vuex'    
@@ -189,7 +194,7 @@
         mounted() {
             this.setBackground(this.scheduleIsOver)            
         },
-        components: { Event }
+        components: { Event, Banner }
     }
 
 </script>
