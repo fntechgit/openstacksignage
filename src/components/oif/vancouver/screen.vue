@@ -137,12 +137,20 @@
                 }
                 return { 'color': color, 'font-size': this.schedule.room.name.length >= 15 ? '2.5rem' : '2rem' }
             },
-            scheduleIsOver: function() {
-                return !this.schedule.state.events.curr && !this.schedule.state.events.upcoming;
+            dayIsOver: function() {
+               /*
+                *          first event                         last event
+                *  |-------X-----------------------------------X--------------------->
+                *
+                *                day is not over               | after this day is over till midnite
+                */
+                return !(this.schedule.state.events.curr ||
+                         this.schedule.state.events.upcoming ||
+                    (this.schedule.state.events.next && this.schedule.isToday(this.schedule.state.events.next.start_date)));
             }
         },
         watch: {
-            scheduleIsOver (newValue, oldValue) {
+            dayIsOver (newValue, oldValue) {
                 this.setBackground(newValue);
             }
         },
@@ -192,7 +200,7 @@
             },
         },
         mounted() {
-            this.setBackground(this.scheduleIsOver)            
+            this.setBackground(this.dayIsOver)
         },
         components: { Event, Banner }
     }
