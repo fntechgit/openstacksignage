@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid banner">
+    <div class="banner">
         <div class="row align-items-center">
             <div class="col-12">
                 <div class="ticker-wrap">
@@ -24,9 +24,12 @@
 <style>
 
     .banner {
-        font-size: 4rem;
-        line-height: 1.2;
-        letter-spacing: 1px;
+        font-size: 35px;
+        line-height: 41px;
+        letter-spacing: 0.01em;
+        width: 100%;
+        position: fixed;
+        bottom: 217px;
     }
 
     @-webkit-keyframes ticker {
@@ -53,20 +56,19 @@
         }
     }
 
-    .ticker-wrap {
-        position: fixed;
-        bottom: 3px;
+    .ticker-wrap {        
         width: 100%;
         overflow: hidden;
-        height: 6rem;
+        height: 82px;
+        background-color: #FFFFFF;
         padding-left: 100%;
         box-sizing: content-box;
     }
 
     .ticker-wrap .ticker {
         display: inline-block;
-        height: 6rem;
-        line-height: 6rem;
+        height: 82px;
+        line-height: 41px;
         white-space: nowrap;
         padding-right: 100%;
         box-sizing: content-box;
@@ -81,10 +83,14 @@
         animation-duration: 30s;
     }
     .ticker-wrap .ticker__item {
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         padding: 0 2rem;
-        font-size: 4rem;
-        color: #8DC63F;
+        height: 82px;
+        font-size: 35px;
+        line-height: 41px;
+        text-transform: uppercase;
+        color: #000000;
     }
 
 </style>

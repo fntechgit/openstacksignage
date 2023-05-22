@@ -102,7 +102,7 @@
             </div>        
         </div>
 
-        <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
+        <banner :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
 
     </div>
 </template>
@@ -270,7 +270,7 @@
     .event-container {
         display: flex;
         flex-direction: column;
-        height: 1417px;
+        height: 1335px;
         justify-content: space-between;
     }
 
