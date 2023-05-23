@@ -103,7 +103,7 @@
         </div>
 
         <banner :banner="schedule.state.static_banner" 
-                v-if="schedule.state.static_banner && schedule.state.static_banner.current"></banner>
+                v-if="schedule.state.static_banner && schedule.state.static_banner.content"></banner>
 
     </div>
 </template>
@@ -201,10 +201,7 @@
             },
         },
         mounted() {
-            this.setBackground(this.dayIsOver);
-
-            console.log('static banner?', this.schedule.state.static_banner);
-            console.log('scheduled banner?', this.schedule.state.scheduled_banners.curr);
+            this.setBackground(this.dayIsOver)
         },
         components: { Event, Banner }
     }
