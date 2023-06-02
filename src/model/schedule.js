@@ -122,8 +122,6 @@ export default class Schedule extends AbstractEventsModel {
 
         this.tick()
 
-        console.log('Schedule::update current state', this.events)
-
         super.update(newState);
 
         let events = { curr: null, next: [], prev: [], upcoming: [], all: [] }
@@ -198,11 +196,10 @@ export default class Schedule extends AbstractEventsModel {
 
         if(this.location) {
             this.room = $store.getters.room(this.location);
-            console.log(`Schedule::update room`, this.room);
             this.floor = $store.getters.floor(this.location)
-            console.log(`Schedule::update floor`, this.floor);
         }
 
+        console.log('Schedule::update current state', this.state.events)
         this.setupTimer()
     }
 
