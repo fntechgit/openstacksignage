@@ -28,10 +28,10 @@ const defaultEntryPoints = {
 };
 
 const defaultTemplates = [
-  /*  {'name':'image','file':'image.html'},
+    {'name':'image','file':'image.html'},
     {'name':'image-landscape','file':'image-landscape.html'},
-    {'name':'index','file':'index.html'},
-    {'name':'banner','file':'banner.html'},*/
+//  {'name':'index','file':'index.html'},
+//  {'name':'banner','file':'banner.html'},
 ];
 
 const templateMetadata = {};
