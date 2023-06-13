@@ -57,7 +57,6 @@
         font-size: 1rem;
         line-height: 1.25rem;
         height: 40px;
-        width: 175px;
         letter-spacing: 0.1em;
         display: inline-flex;
         justify-content: center;
