@@ -87,11 +87,12 @@
 
     .event .name {
         font-size: 4rem;
-        line-height: 1;
+        line-height: 1.1;
     }
 
     .event.next .name {
         font-size: 2.8rem;
+        line-height: 1.1;
     }
 
     .event .when {
