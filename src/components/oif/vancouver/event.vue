@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid px-7 event" :class="{ next }">
         <div class="row" v-if="next">
-            <div class="col-11 pb-2 text-uppercase">
+            <div class="col-11 pt-2 pb-2 text-uppercase">
                 <span class="highlight">Next Session</span>
             </div>
         </div>
@@ -73,25 +73,29 @@
 
     .event .speakers {
         color: #000000;
-        font-size: 3rem;
+        font-size: 2.4rem;
         line-height: 1;        
     }
     
+    .event.next .by {
+        font-size: 1.6rem;
+    }
+
     .event.next .speakers {
-        font-size: 2.2rem;
+        font-size: 1.8rem;
     }
 
     .event .name {
-        font-size: 4.5rem;
-        line-height: 1.2;
+        font-size: 4rem;
+        line-height: 1;
     }
 
     .event.next .name {
-        font-size: 3.15rem;
+        font-size: 2.8rem;
     }
 
     .event .when {
-        font-size: 2.6rem;
+        font-size: 2.5rem;
         line-height: 1.2;
     }
     
