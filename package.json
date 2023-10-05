@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "clean": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' + && yarn",
-    "dev": "cross-env NODE_ENV=development webpack serve --config webpack.dev.js --https",
+    "serve": "cross-env NODE_ENV=development webpack serve --config webpack.dev.js --https",
     "watch": "cross-env NODE_ENV=development webpack -w --config webpack.dev.js",
     "build": "cross-env NODE_ENV=production webpack --progress --config webpack.prod.js"
   },
