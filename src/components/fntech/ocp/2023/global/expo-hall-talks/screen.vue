@@ -124,8 +124,6 @@
 
     import { mapGetters } from 'vuex'
 
-    console.log('expo hall', this.schedule)
-
     export default {
         computed: {
             ...mapGetters({
