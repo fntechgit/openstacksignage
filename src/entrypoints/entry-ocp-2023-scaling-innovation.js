@@ -3,7 +3,7 @@ import App from '../components/app.vue'
 
 import Schedule from '../model/schedule'
 import { $store } from '../store'
-import { $router } from '../router/router-ocp-2023-empowering-open'
+import { $router } from '../router/router-ocp-2023-scaling-innovation'
 
 require('../ably')
 require('../realtime-updates');
