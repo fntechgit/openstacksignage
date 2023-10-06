@@ -1,6 +1,8 @@
 <template>
     <div id="app">
 
+        <img class="track-image" v-bind:src="iconSource">
+
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
                 <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
@@ -83,6 +85,10 @@
             ...mapGetters({
                 schedule: 'schedule'
             }),
+            iconSource: function() {
+                var url = 'assets/images/ocp-2023/icons/OCP23_Activity_Icon_GLOLogo.svg';
+                return url;
+            },
         },
         methods: {
             syncStart(item) {
@@ -99,3 +105,13 @@
     }
 
 </script>
+
+<style>
+        
+    .track-image {
+        position: absolute;
+        width: 200px;
+        top: 1400px;
+        left: 850px;
+    }
+</style>

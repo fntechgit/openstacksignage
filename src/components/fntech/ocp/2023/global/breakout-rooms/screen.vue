@@ -215,9 +215,9 @@
 
     .track-image {
         position: absolute;
-        width: 311px;
-        top: 1540px;
-        left: 656px;
+        width: 200px;
+        top: 1400px;
+        left: 850px;
     }
 
     .time {
