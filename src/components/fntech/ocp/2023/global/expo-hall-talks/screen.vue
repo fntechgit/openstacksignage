@@ -124,6 +124,8 @@
 
     import { mapGetters } from 'vuex'
 
+    console.log('expo hall', this.schedule)
+
     export default {
         computed: {
             ...mapGetters({
@@ -144,7 +146,7 @@
                 return { 'backgroundColor': color }
             },
             summitScheduleUrl: function() {
-                return 'https://2022ocpglobal.fnvirtual.app/a/schedule'
+                return 'https://2023ocpglobal.fnvirtual.app/a/schedule'
             }
         },
         methods: {
@@ -212,9 +214,9 @@
     
     .track-image {
         position: absolute;
-        width: 311px;
-        top: 1540px;
-        left: 656px;
+        width: 200px;
+        top: 1400px;
+        left: 850px;
     }
 
     .time {
