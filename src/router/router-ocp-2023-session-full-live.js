@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Screen from '../components/fntech/ocp/2022/global/empowering-open/screen.vue'
+import Screen from '../components/fntech/ocp/2022/global/session-full/screen.vue'
 
 Vue.use(VueRouter)
 
