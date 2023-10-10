@@ -124,8 +124,6 @@
 
     import { mapGetters } from 'vuex'
 
-    console.log('oover here...')
-
     export default {
         computed: {
             ...mapGetters({
