@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueQRCodeComponent from 'vue-qrcode-component'
 
-import Screen from '../components/fntech/ocp/2023/global/breakout-rooms/screen.vue'
+import Screen from '../components/fntech/ocp/2023/global/ocp-2023/screen.vue'
 
 Vue.use(VueRouter)
 Vue.component('qr-code', VueQRCodeComponent)
