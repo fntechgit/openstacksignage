@@ -103,6 +103,7 @@
                     All presentations are finished for today
                 </div>
             </div>
+            <img class="track-image" :src="getDefaultIcon">
         </div>
         <!--
         <div v-if="schedule.state.events.curr">
@@ -146,7 +147,11 @@
             },
             summitScheduleUrl: function() {
                 return 'https://2023ocpglobal.fnvirtual.app/a/schedule'
-            }
+            },
+            getDefaultIcon: function() {
+                var url = 'assets/images/ocp-2023/icons/OCP23_Activity_Icon_GLOLogo.svg';
+                return url;
+            },
         },
         methods: {
             formatTrackName(name) {
