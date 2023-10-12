@@ -100,9 +100,10 @@
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row p-7 no-presentations">
                 <div class="col-12 text-left">
-                    All presentations are finished for today
+                    All presentations are finished for today asdasdas
                 </div>
             </div>
+            <img class="track-image" :src="getDefaultIcon">
         </div>
         <!--
         <div v-if="schedule.state.events.curr">
@@ -146,7 +147,11 @@
             },
             summitScheduleUrl: function() {
                 return 'https://2023ocpglobal.fnvirtual.app/a/schedule'
-            }
+            },
+            getDefaultIcon: function() {
+                var url = 'assets/images/ocp-2023/icons/OCP23_Activity_Icon_GLOLogo.svg';
+                return url;
+            },
         },
         methods: {
             formatTrackName(name) {
