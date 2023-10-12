@@ -100,7 +100,7 @@
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row p-7 no-presentations">
                 <div class="col-12 text-left">
-                    All presentations are finished for today asdasdas
+                    All presentations are finished for today
                 </div>
             </div>
             <img class="track-image" :src="getDefaultIcon">
