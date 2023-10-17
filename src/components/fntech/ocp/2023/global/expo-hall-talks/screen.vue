@@ -137,12 +137,17 @@
                 }
             },
             trackStyle: function() {
-                var color = '#ffffff';
+                var bgColor = '#ffffff';
+                var textColor = '#191A4F';
                 if (this.schedule.state.track &&
                     this.schedule.state.track.color) {
-                    color = this.schedule.state.track.color;
+                    bgColor = this.schedule.state.track.color;
                 }
-                return { 'backgroundColor': color }
+                if (this.schedule.state.track &&
+                    this.schedule.state.track.text_color) {
+                    textColor = this.schedule.state.track.text_color;
+                }
+                return { 'backgroundColor': bgColor, 'color': textColor }
             },
             summitScheduleUrl: function() {
                 return 'https://2023ocpglobal.fnvirtual.app/a/schedule'
