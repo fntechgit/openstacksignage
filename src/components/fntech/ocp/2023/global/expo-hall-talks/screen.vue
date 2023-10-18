@@ -68,7 +68,7 @@
             </tr>
         </table>
 
-        <div class="container-fluid pl-7 py-2 track" v-if="schedule.state.track" v-bind:style="trackStyle">
+        <div class="container-fluid py-2 track" v-if="schedule.state.track" v-bind:style="trackStyle">
             <div class="row">
                 <div class="col">
                     <div class="text-uppercase">{{ formatTrackName(schedule.state.track.name) }}</div>
@@ -218,6 +218,7 @@
         font-size: 3.25rem;
         font-weight: 500;
         color: #191A4F;
+        text-align: center;
     }
     
     .track-image {
