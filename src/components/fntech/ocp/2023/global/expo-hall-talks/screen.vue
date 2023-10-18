@@ -224,8 +224,8 @@
     .track-image {
         position: absolute;
         width: 200px;
-        top: 1400px;
-        left: 850px;
+        top: 1403px;
+        left: 848px;
     }
 
     .time {
