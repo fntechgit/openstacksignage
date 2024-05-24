@@ -244,7 +244,7 @@
         color: rgb(183,236,0);
     }
     .room-668 {
-        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-210f")!important;
+        background-image: url("~/assets/images/oc6-oculus/OC6_FNSIGN_Bkgd-210f.png")!important;
     }
     .room-668 h1.time {
         color: rgb(255,186,0);
