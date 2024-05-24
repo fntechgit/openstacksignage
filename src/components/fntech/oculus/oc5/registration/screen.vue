@@ -71,7 +71,7 @@
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
         <div v-if="schedule.state.events.all && schedule.state.events.all.length <= 8">
-            <event :next="true" :schedule="schedule" v-for="evt in schedule.state.events.all" :event="evt">
+            <event :next="true" :schedule="schedule" v-for="evt in schedule.state.events.all" :event="evt" :key="evt.id">
             </event>
         </div>
 
