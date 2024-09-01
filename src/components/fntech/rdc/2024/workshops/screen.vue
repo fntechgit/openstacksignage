@@ -100,6 +100,8 @@
 
     const getters = mapGetters({ schedule: 'schedule' });
 
+    const eodValidOptions = ['eod-option-1', 'eod-option-2'];
+    const eodRandomOption = eodValidOptions[Math.floor(Math.random() * eodValidOptions.length)]
 
     const validOptions = ['option-1', 'option-2', 'option-3'];
     const randomOption = validOptions[Math.floor(Math.random() * validOptions.length)]
@@ -113,7 +115,7 @@
             },
             backgroundClass() {
                 if (this.endOfDay) {
-                    return 'end-of-day-background';
+                    return eodRandomOption;
                 }
 
                 const urlParams = new URLSearchParams(window.location.search);
@@ -186,8 +188,12 @@
         background-image: url('~/assets/images/rdc/rdc24/RDC24_FNTechScreens_Static_Graphic_Option_03_Reference.png');
     }
 
-    .end-of-day-background {
+    .eod-option-1 {
         background-image: url('~/assets/images/rdc/rdc24/RDC24_FNTechScreens_Static_FN-154_Create.png');
+    }
+
+    .eod-option-2 {
+        background-image: url('~/assets/images/rdc/rdc24/RDC24_FNTechScreens_Static_FN-154_Grow.png');
     }
 
     .title-room-wrapper {
