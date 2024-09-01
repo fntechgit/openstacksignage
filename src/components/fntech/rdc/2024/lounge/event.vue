@@ -204,6 +204,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
+    margin-bottom: 7px;
 }
 
 .speaker-name {

@@ -165,7 +165,7 @@
     }
 
     .track-background {
-        background-image: url('~/assets/images/rdc/rdc24/RDC24_FNTechScreens_Digital Assets-Demo_Booths_1080x1920.png');
+        background-image: url('~/assets/images/rdc/rdc24/RDC24_FNTechScreens_Digital_Assets-Demo_Booths_1080x1920.png');
     }
 
     .end-of-day-background {
