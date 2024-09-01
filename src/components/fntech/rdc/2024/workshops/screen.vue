@@ -100,6 +100,10 @@
 
     const getters = mapGetters({ schedule: 'schedule' });
 
+
+    const validOptions = ['option-1', 'option-2', 'option-3'];
+    const randomOption = validOptions[Math.floor(Math.random() * validOptions.length)]
+
     export default {
         computed: {
             ...getters,
@@ -119,7 +123,7 @@
                 if (validOptions.includes(`option-${option}`)) {
                     return `option-${option}`;
                 } else {
-                    return validOptions[Math.floor(Math.random() * validOptions.length)];
+                    return randomOption;
                 }
             }
         },
