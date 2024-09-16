@@ -267,14 +267,18 @@ export const $store = new Vuex.Store({
             window.location = `${path}#/?${params}`;
             state.template = template
         },
-        setUpdatedEventInState(state, updatedEvent) {
+        setUpdatedEventInState(state, {event_id, overflow_url}) {
+            
+            let updatedEvent = state.schedule.state.events.all.find(e => e.id === event_id);
+
+            updatedEvent.overflow_url = overflow_url;
             
             const updateEventInArray = (events) => {
-                return events.map(event => event.id === updatedEvent.id ? updatedEvent : event);
+                return events.map(event => event.id === event_id ? updatedEvent : event);
             };
                 
             const updateEventInObject = (currentEvent) => {
-                return currentEvent && eventObj.id === updatedEvent.id ? updatedEvent : eventObj;
+                return currentEvent && eventObj.id === event_id ? updatedEvent : eventObj;
             };
                 
             state.schedule.state.events.all = updateEventInArray(state.schedule.state.events.all);
