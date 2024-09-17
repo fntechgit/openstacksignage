@@ -74,16 +74,6 @@ class AblyUpdates {
                     })
                 })
 
-                channel.subscribe('OVERFLOW', (message) => {
-                    const { data: payload } = message;
-                    const { event_id, overflow_url } = payload;
-                    console.log("Overflowed event: ", event_id, overflow_url);
-                    $store.commit('setUpdatedEventInState', {
-                        event_id: parseInt(event_id),
-                        overflow_url: overflow_url,
-                    })
-                })
-
             });
         })
     }
