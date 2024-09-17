@@ -223,15 +223,6 @@ export const $store = new Vuex.Store({
             const schedule = context.state.schedule
             schedule.update({eventsData, allIDXEvents, summit});
         },
-        overflowEvent(context, {event_id, overflow_url}) {
-            const schedule = context.state.schedule;
-            let event = schedule.state.events.all.find(e => e.id === event_id);
-    
-            if (event) {
-                event.overflow_url = overflow_url;        
-                context.commit('setUpdatedEventInState', event);
-            }
-        }
     },
     mutations: {
         setError(state, error) {
@@ -267,28 +258,6 @@ export const $store = new Vuex.Store({
             window.location = `${path}#/?${params}`;
             state.template = template
         },
-        setUpdatedEventInState(state, {event_id, overflow_url}) {
-            
-            let updatedEvent = state.schedule.state.events.all.find(e => e.id === event_id);
-
-            updatedEvent.overflow_url = overflow_url;
-            
-            const updateEventInArray = (events) => {
-                return events.map(event => event.id === event_id ? updatedEvent : event);
-            };
-                
-            const updateEventInObject = (currentEvent) => {
-                return currentEvent && eventObj.id === event_id ? updatedEvent : eventObj;
-            };
-                
-            state.schedule.state.events.all = updateEventInArray(state.schedule.state.events.all);
-                
-            state.schedule.state.events.curr = updateEventInObject(state.schedule.state.events.curr);
-            state.schedule.state.events.next = updateEventInObject(state.schedule.state.events.next);
-            state.schedule.state.events.prev = updateEventInObject(state.schedule.state.events.prev);
-    
-            state.schedule.state.events.upcoming = updateEventInArray(state.schedule.state.events.upcoming);
-        }        
     }
 })
 
