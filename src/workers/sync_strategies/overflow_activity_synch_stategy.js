@@ -7,22 +7,22 @@ class OverflowActivitySynchStrategy extends AbstractSynchStrategy{
 
     async process(payload){
 
-        const {event_id, overflow_url} = payload;
+        const {entity_id, params: { overflow_url }} = payload;
         
-        console.log(`OverflowActivitySynchStrategy::overflow event ${event_id}`, payload);
+        console.log(`OverflowActivitySynchStrategy::overflow event ${entity_id}`, payload);
 
         let eventsData = [...this.allEvents];
 
         // Find the event and update its overflow_url        
-        const eventIndex = this.allIDXEvents[event_id];
+        const eventIndex = this.allIDXEvents[entity_id];
 
         if (eventIndex === undefined) {
-            console.log(`OverflowActivitySynchStrategy::overflow event ${event_id} not found in events`);
-            return Promise.reject(`OverflowActivitySynchStrategy::Event ${event_id} not found`);
+            console.log(`OverflowActivitySynchStrategy::overflow event ${entity_id} not found in events`);
+            return Promise.reject(`OverflowActivitySynchStrategy::Event ${entity_id} not found`);
         }
 
         eventsData[eventIndex].overflow_url = overflow_url;
-        console.log(`OverflowActivitySynchStrategy::overlow event ${event_id} with overflow_url`);
+        console.log(`OverflowActivitySynchStrategy::overlow event ${entity_id} with overflow_url`);
 
         return Promise.resolve({
             summit: this.summit,
