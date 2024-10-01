@@ -84,7 +84,7 @@
         display: inline-block;
         padding: 0 2rem;
         font-size: 4rem;
-        color: #FFFFFF;
+        color: #000000;
     }
 
 </style>
