@@ -1,4 +1,5 @@
 import {isSummitEventDataUpdate} from "../../utils/data_update_utils";
+import OverflowActivitySynchStrategy from "../sync_strategies/overflow_activity_synch_stategy";
 import ActivitySynchStrategy from "../sync_strategies/activity_synch_strategy";
 import SpeakerSynchStrategy from "./speaker_synch_strategy";
 import VenueRoomSynchStrategy from "./venue_room_synch_strategy";
@@ -28,6 +29,10 @@ class SynchStrategyFactory {
 
         if (entity_type === 'PresentationSpeaker') {
             return new SpeakerSynchStrategy(summit, location, allEvents, allIDXEvents);
+        }
+
+        if (entity_type === 'PresentationOverflow') {
+            return new OverflowActivitySynchStrategy(summit, location, allEvents, allIDXEvents);
         }
         /*
         if (entity_type === 'Summit') {
