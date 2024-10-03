@@ -105,12 +105,10 @@
             </div>
             <img class="track-image" :src="getDefaultIcon">
         </div>
-        <!--
         <div v-if="schedule.state.events.curr">
-            <qr-code class="fixed-bottom qr-code" :size="170" color="#181a4a" :text="summitScheduleUrl"></qr-code>
-            <span class="fixed-bottom qr-code-message">Scan code <br> to view summit schedule.</span>
+            <qr-code class="fixed-bottom qr-code" :size="170" color="#181a4a" :text="virtualSessionUrl"></qr-code>
+            <span class="fixed-bottom qr-code-message">Scan here to view on the summit platform</span>
         </div>
-        -->
         <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
     </div>
 </template>
@@ -151,6 +149,12 @@
             },
             summitScheduleUrl: function() {
                 return 'https://2024ocpglobal.fnvirtual.app/a/schedule'
+            },
+            virtualSessionUrl: function() {
+                var url = 'https://2024ocpglobal.fnvirtual.app';
+                let curr = this.schedule.state.events.curr
+                if (curr) url = `${url}/a/event/${curr.id}`
+                return url
             },
             getDefaultIcon: function() {
                 var url = 'assets/images/ocp-2024/icons/OCP23_Activity_Icon_GLOLogo.svg';
@@ -241,19 +245,19 @@
     }
 
     .qr-code {
-        bottom: 6.5rem;
-        left: 6rem;
+        bottom: 3.5rem;
+        left: 54rem;
     }
 
     .qr-code-message {
-        bottom: 6.3rem;
-        left: 18.5rem;
-        color: #00B189;
-        font-size: 2.3rem;
+        bottom: 4.5rem;
+        left: 43.5rem;
+        color: #FFFFFF;
+        font-size: 1.8rem;
         font-weight: 500;
         line-height: 1.2;
         letter-spacing: 0px;
-        width: 230px;
+        width: 150px;
     }
 
 </style>
