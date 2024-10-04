@@ -74,7 +74,7 @@
                     <div class="text-uppercase">{{ formatTrackName(schedule.state.track.name) }}</div>
                 </div>
             </div>
-            <img class="track-image" v-if="schedule.state.track.icon_url" :src="schedule.state.track.icon_url">
+            <img class="track-image" :src="trackIconUrl" alt="Track or Default Icon">
         </div>
 
         <div class="container-fluid px-7 pt-6 pb-3">
@@ -160,6 +160,9 @@
                 var url = 'assets/images/ocp-2024/icons/OCP23_Activity_Icon_GLOLogo.svg';
                 return url;
             },
+            trackIconUrl: function() {
+                return (this.schedule.state.track && this.schedule.state.track.icon_url) || this.getDefaultIcon;
+            }
         },
         methods: {
             formatTrackName(name) {
