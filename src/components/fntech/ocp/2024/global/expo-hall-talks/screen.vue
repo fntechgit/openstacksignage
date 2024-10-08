@@ -106,7 +106,7 @@
             <img class="track-image" :src="getDefaultIcon">
         </div>
         <div v-if="schedule.state.events.curr">
-            <qr-code class="fixed-bottom qr-code" :size="170" color="#181a4a" :text="virtualSessionUrl"></qr-code>
+            <qr-code class="fixed-bottom qr-code" :size="122" color="#ffffff" bg-color="transparent" :text="virtualSessionUrl"></qr-code>
             <span class="fixed-bottom qr-code-message">Scan here to view on the summit platform</span>
         </div>
         <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
@@ -248,19 +248,20 @@
     }
 
     .qr-code {
-        bottom: 3.5rem;
-        left: 54rem;
+        bottom: 6.5rem;
+        left: 57rem;
     }
 
     .qr-code-message {
-        bottom: 4.5rem;
-        left: 43.5rem;
+        bottom: 6rem;
+        left: 46rem;
         color: #FFFFFF;
         font-size: 1.8rem;
         font-weight: 500;
         line-height: 1.2;
         letter-spacing: 0px;
         width: 150px;
+        text-align: right;
     }
 
 </style>
