@@ -1,6 +1,7 @@
 <template>
     <div id="app">
 
+        <!-- Debug Table -->
         <table v-if="schedule.debug" border="1" width="100%" class="debug">
             <tr>
                 <td align="center" colspan="3" v-html="schedule.format(schedule.state.now)"></td>
@@ -68,15 +69,22 @@
             </tr>
         </table>
 
+        <!-- Track Information -->
         <div class="container-fluid py-2 track" v-if="schedule.state.track" v-bind:style="trackStyle">
             <div class="row">
                 <div class="col">
                     <div class="text-uppercase">{{ formatTrackName(schedule.state.track.name) }}</div>
                 </div>
             </div>
-            <img class="track-image" :src="trackIconUrl" alt="Track or Default Icon">
+            <img
+                class="track-image"
+                :src="trackIconUrl"
+                alt="Track Icon"
+                @error="handleImageError"
+            >
         </div>
 
+        <!-- Room and Time Information -->
         <div class="container-fluid px-7 pt-6 pb-3">
             <div class="row">
                 <div class="col-9">
@@ -89,22 +97,28 @@
             </div>
         </div>
 
+        <!-- Primary Banner -->
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
+        <!-- Current Event -->
         <event :schedule="schedule" :event="schedule.state.events.curr"
         v-if="schedule.state.events.curr"></event>
         
+        <!-- Next Event -->
         <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 26rem;"></event>
 
+        <!-- No Presentations Message -->
         <div class="container-fluid" v-else-if="!schedule.state.events.curr">
             <div class="row p-7 no-presentations">
                 <div class="col-12 text-left">
                     All presentations are finished for today
                 </div>
             </div>
-            <img class="track-image" :src="getDefaultIcon">
+            <img class="track-image" :src="getDefaultIcon" alt="Default Icon">
         </div>
+
+        <!-- QR Code and Static Banner -->
         <div v-if="schedule.state.events.curr">
             <qr-code class="fixed-bottom qr-code" :size="122" color="#ffffff" bg-color="transparent" :text="virtualSessionUrl"></qr-code>
             <span class="fixed-bottom qr-code-message">Scan here to view on the summit platform</span>
@@ -114,90 +128,153 @@
 </template>
 
 <script>
+import 'assets/css/ocp/2019/global/theme.scss'
 
-    import 'assets/css/ocp/2019/global/theme.scss'
+import Event from './event.vue'
+import Banner from './banner.vue'
+import moment from 'moment'
 
-    import Event from './event.vue'
-    import Banner from './banner.vue'
-    import moment from 'moment'
+import { mapGetters } from 'vuex'
 
-    import { mapGetters } from 'vuex'
-
-    export default {
-        computed: {
-            ...mapGetters({
-                schedule: 'schedule'
-            }),
-            roomStyle: function() {
-                return {
-                    'font-size': '8.5rem',
-                    'line-height': '4rem',
-                }
-            },
-            trackStyle: function() {
-                var bgColor = '#ffffff';
-                var textColor = '#191A4F';
-                if (this.schedule.state.track &&
-                    this.schedule.state.track.color) {
-                    bgColor = this.schedule.state.track.color;
-                }
-                if (this.schedule.state.track &&
-                    this.schedule.state.track.text_color) {
-                    textColor = this.schedule.state.track.text_color;
-                }
-                return { 'backgroundColor': bgColor, 'color': textColor }
-            },
-            summitScheduleUrl: function() {
-                return 'https://2024ocpglobal.fnvirtual.app/a/schedule'
-            },
-            virtualSessionUrl: function() {
-                var url = 'https://2024ocpglobal.fnvirtual.app';
-                let curr = this.schedule.state.events.curr
-                if (curr) url = `${url}/a/event/${curr.id}`
-                return url
-            },
-            getDefaultIcon: function() {
-                var url = 'assets/images/ocp-2024/icons/OCP23_Activity_Icon_GLOLogo.svg';
-                return url;
-            },
-            trackIconUrl: function() {
-                return (this.schedule.state.track && this.schedule.state.track.icon_url) || this.getDefaultIcon;
+export default {
+    data() {
+        return {
+            trackIconUrl: '', // Will be set in mounted or watcher
+            attemptedExtensions: [] // To keep track of tried extensions
+        }
+    },
+    computed: {
+        ...mapGetters({
+            schedule: 'schedule'
+        }),
+        roomStyle() {
+            return {
+                'font-size': '8.5rem',
+                'line-height': '4rem',
             }
         },
-        methods: {
-            formatTrackName(name) {
-                return name.replace('EW: ', '');
-            },
-            formatRoomName(name) {
-                if (name.match(/^\d/)) {
-                    return name.replace(/\s/g, '');
-                }
-                if (name.startsWith('Marriott')) {
-                    return name.replace('Marriott ', '');
-                }
-                return name
-            },
-            syncStart(item) {
-                this.schedule.setOffset(
-                    item.start_date - moment.utc().unix() - 65
-                )
-            },
-            syncEnd(item) {
-                this.schedule.setOffset(
-                    item.end_date - moment.utc().unix() - 5
-                )
-            },
+        trackStyle() {
+            let bgColor = '#ffffff';
+            let textColor = '#191A4F';
+            if (this.schedule.state.track && this.schedule.state.track.color) {
+                bgColor = this.schedule.state.track.color;
+            }
+            if (this.schedule.state.track && this.schedule.state.track.text_color) {
+                textColor = this.schedule.state.track.text_color;
+            }
+            return { 'backgroundColor': bgColor, 'color': textColor }
         },
-        components: { Event, Banner }
-    }
+        summitScheduleUrl() {
+            return 'https://2024ocpglobal.fnvirtual.app/a/schedule'
+        },
+        virtualSessionUrl() {
+            let url = 'https://2024ocpglobal.fnvirtual.app';
+            let curr = this.schedule.state.events.curr
+            if (curr) url = `${url}/a/event/${curr.id}`
+            return url
+        },
+        getDefaultIcon() {
+            return 'assets/images/ocp-2024/icons/OCP23_Activity_Icon_GLOLogo.svg';
+        }
+    },
+    watch: {
+        'schedule.state.track': {
+            immediate: true,
+            handler(newTrack) {
+                if (newTrack && newTrack.id) {
+                    this.attemptedExtensions = [];
+                    this.setTrackIcon(newTrack.id);
+                } else {
+                    this.trackIconUrl = this.getDefaultIcon;
+                }
+            }
+        }
+    },
+    methods: {
+        formatTrackName(name) {
+            return name.replace('EW: ', '');
+        },
+        formatRoomName(name) {
+            if (name.match(/^\d/)) {
+                return name.replace(/\s/g, '');
+            }
+            if (name.startsWith('Marriott')) {
+                return name.replace('Marriott ', '');
+            }
+            return name
+        },
+        syncStart(item) {
+            this.schedule.setOffset(
+                item.start_date - moment.utc().unix() - 65
+            )
+        },
+        syncEnd(item) {
+            this.schedule.setOffset(
+                item.end_date - moment.utc().unix() - 5
+            )
+        },
+        setTrackIcon(trackId) {
+            const baseUrl = `https://spaces.fnvirtual.app/OCPGlobalSummitandSymposium2024/Creative/CategoryIconsSigns/${trackId}`;
+            const extensions = ['png', 'jpg'];
 
+            const tryLoadImage = (index) => {
+                if (index >= extensions.length) {
+                    // All attempts failed, set to default
+                    this.trackIconUrl = this.getDefaultIcon;
+                    return;
+                }
+                const url = `${baseUrl}.${extensions[index]}`;
+                // Create a new Image to test if it exists
+                const img = new Image();
+                img.onload = () => {
+                    this.trackIconUrl = url;
+                };
+                img.onerror = () => {
+                    tryLoadImage(index + 1);
+                };
+                img.src = url;
+            };
+
+            tryLoadImage(0);
+        },
+        handleImageError(event) {
+            if (this.attemptedExtensions.length === 0) {
+                // Attempt to switch to .jpg if initial load was .png
+                this.attemptedExtensions.push('png');
+                const trackId = this.schedule.state.track.id;
+                const newUrl = `https://spaces.fnvirtual.app/OCPGlobalSummitandSymposium2024/Creative/CategoryIconsSigns/${trackId}.jpg`;
+                // Try loading the jpg
+                const img = new Image();
+                img.onload = () => {
+                    this.trackIconUrl = newUrl;
+                };
+                img.onerror = () => {
+                    // Fallback to default icon
+                    this.trackIconUrl = this.getDefaultIcon;
+                };
+                img.src = newUrl;
+            } else {
+                // Already attempted jpg, fallback to default
+                this.trackIconUrl = this.getDefaultIcon;
+            }
+        }
+    },
+    mounted() {
+        // Initialize trackIconUrl
+        if (this.schedule.state.track && this.schedule.state.track.id) {
+            this.setTrackIcon(this.schedule.state.track.id);
+        } else {
+            this.trackIconUrl = this.getDefaultIcon;
+        }
+    },
+    components: { Event, Banner }
+}
 </script>
 
 <style>
-    
     #app {
         color: white;
-        font-family: "franklin-gothic-urw",sans-serif;
+        font-family: "franklin-gothic-urw", sans-serif;
         font-weight: 500;
     }
 
@@ -211,7 +288,7 @@
     .debug a {
         color: yellow;
     }
-    
+
     .highlight {
         color: #191A4F;
         background-color: #8DC63F;
@@ -220,14 +297,14 @@
         font-weight: 500;
         letter-spacing: -1px;
     }
-    
+
     .track {
         font-size: 3.25rem;
         font-weight: 500;
         color: #191A4F;
         text-align: center;
     }
-    
+
     .track-image {
         position: absolute;
         width: 200px;
@@ -263,5 +340,4 @@
         width: 150px;
         text-align: right;
     }
-
 </style>
