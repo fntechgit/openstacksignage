@@ -109,13 +109,8 @@
         <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 26rem;"></event>
 
         <!-- No Presentations Message -->
-        <div class="container-fluid" v-else-if="!schedule.state.events.curr">
-            <div class="row p-7 no-presentations">
-                <div class="col-12 text-left">
-                    All presentations are finished for today
-                </div>
-            </div>
-            <img class="track-image" :src="getDefaultIcon" alt="Default Icon">
+        <div v-else-if="!schedule.state.events.curr" class="no-presentations-fullscreen">
+            <img class="fullscreen-placeholder-image" src="assets/images/ocp-2024/OCP24G_FNSIGN_Placeholder.png" alt="No Presentations Placeholder">
         </div>
 
         <!-- QR Code and Static Banner -->
@@ -310,6 +305,23 @@ export default {
         width: 200px;
         top: 1464px;
         left: 828px;
+    }
+
+    .no-presentations-fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fullscreen-placeholder-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .time {
