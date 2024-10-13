@@ -119,6 +119,7 @@
             <span class="fixed-bottom qr-code-message">Scan here to view on the summit platform</span>
         </div>
         <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
+        <banner class="fixed-bottom" :banner="schedule.state.scheduled_banners.curr" v-if="schedule.state.scheduled_banners.curr"></banner>
     </div>
 </template>
 
@@ -169,7 +170,7 @@ export default {
             return url
         },
         getDefaultIcon() {
-            return 'assets/images/ocp-2024/icons/OCP23_Activity_Icon_GLOLogo.svg';
+            return 'assets/images/ocp-2024/icons/DEFAULT.png';
         }
     },
     watch: {
