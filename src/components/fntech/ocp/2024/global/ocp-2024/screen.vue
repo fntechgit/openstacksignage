@@ -79,8 +79,6 @@
             <img
                 class="track-image"
                 :src="trackIconUrl"
-                alt="Track Icon"
-                @error="handleImageError"
             >
         </div>
 
@@ -232,27 +230,6 @@ export default {
             };
 
             tryLoadImage(0);
-        },
-        handleImageError(event) {
-            if (this.attemptedExtensions.length === 0) {
-                // Attempt to switch to .jpg if initial load was .png
-                this.attemptedExtensions.push('png');
-                const trackId = this.schedule.state.track.id;
-                const newUrl = `https://spaces.fnvirtual.app/OCPGlobalSummitandSymposium2024/Creative/CategoryIconsSigns/${trackId}.jpg`;
-                // Try loading the jpg
-                const img = new Image();
-                img.onload = () => {
-                    this.trackIconUrl = newUrl;
-                };
-                img.onerror = () => {
-                    // Fallback to default icon
-                    this.trackIconUrl = this.getDefaultIcon;
-                };
-                img.src = newUrl;
-            } else {
-                // Already attempted jpg, fallback to default
-                this.trackIconUrl = this.getDefaultIcon;
-            }
         }
     },
     mounted() {
