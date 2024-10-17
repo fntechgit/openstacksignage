@@ -104,7 +104,7 @@
         v-if="schedule.state.events.curr"></event>
         
         <!-- Next Event -->
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 27rem;"></event>
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 24rem;"></event>
 
         <!-- No Presentations Message -->
         <div v-else-if="!schedule.state.events.curr" class="no-presentations-fullscreen">
