@@ -6,13 +6,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-12 pt-4 name" v-bind:class="{ 'pb-2': next && !event.speakers.length }">
+            <div class="col-12 pt-4 name" v-bind:class="{ 'pb-2': next && (!showSpeakers || !event.speakers.length) }">
                 {{ event.title }}
             </div>
         </div>
-        <div class="row" v-if="!next && event.speakers.length">
+        <div class="row" v-if="showSpeakers && event.speakers.length">
             <div class="col-12 text-uppercase speakers" v-bind:class="next ? 'pt-4' : 'pt-5'">
-                <div class="pb-1" v-for="speaker in event.speakers"> 
+                <div class="pb-1" v-for="speaker in event.speakers" :key="speaker.id">
                     {{ speaker.first_name }} {{ speaker.last_name }}
                 </div>
             </div>
@@ -28,7 +28,15 @@
 <script>
 
     export default {
-        props: ['event', 'next', 'schedule'],
+        props: {
+            event: Object,
+            next: Boolean,
+            schedule: Object,
+            showSpeakers: {
+                type: Boolean,
+                default: true
+            }
+        },
         computed: {
             room() {
                 return event => event && this.$store.getters.room(
