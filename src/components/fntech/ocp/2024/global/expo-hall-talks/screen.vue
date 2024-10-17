@@ -104,7 +104,7 @@
         v-if="schedule.state.events.curr"></event>
         
         <!-- Next Event -->
-        <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 26rem;"></event>
+        <event :schedule="schedule" :event="schedule.state.events.next" :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)" v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }" style="bottom: 27rem;"></event>
 
         <!-- No Presentations Message -->
         <div v-else-if="!schedule.state.events.curr" class="no-presentations-fullscreen">
@@ -148,15 +148,23 @@ export default {
             }
         },
         trackStyle() {
-            let bgColor = '#ffffff';
-            let textColor = '#191A4F';
-            if (this.schedule.state.track && this.schedule.state.track.color) {
-                bgColor = this.schedule.state.track.color;
+            const defaultStyles = {
+                backgroundColor: "#ffffff",
+                color: "#191A4F",
+                fontSize: "3.25rem"
+            };
+            const track = this.schedule.state.track || {};
+            const trackName = track.name || "";
+            if (trackName.length > 32) {
+                defaultStyles.fontSize = "2.5rem";
             }
-            if (this.schedule.state.track && this.schedule.state.track.text_color) {
-                textColor = this.schedule.state.track.text_color;
+            if (track.color) {
+                defaultStyles.backgroundColor = track.color;
             }
-            return { 'backgroundColor': bgColor, 'color': textColor }
+            if (track.text_color) {
+                defaultStyles.color = track.text_color;
+            }
+            return defaultStyles;
         },
         summitScheduleUrl() {
             return 'https://2024ocpglobal.fnvirtual.app/a/schedule'
