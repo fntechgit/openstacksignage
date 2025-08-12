@@ -85,7 +85,7 @@ class RealtimeUpdates
                 });
 
                 // Overflow event channel
-                const overflowChannel = this._client.channels.get(`${summitId}:OVERFLOW*`);
+                const overflowChannel = this._client.channels.get(`${summitId}:OVERFLOW:*`);
 
                 overflowChannel.subscribe((message) => {
                     const {data: payload} = message;
