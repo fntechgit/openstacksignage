@@ -19,11 +19,26 @@ class OverflowActivitySynchStrategy extends AbstractSynchStrategy {
         let eventsData = [...this.allEvents];
 
         // Find the event and update its overflow_url        
-        const eventIndex = this.allIDXEvents[event_id];
+        let eventIndex = this.allIDXEvents[event_id];
 
         if (eventIndex === undefined) {
-            console.log(`OverflowActivitySynchStrategy::overflow event ${event_id} not found in events`);
-            return Promise.reject(`OverflowActivitySynchStrategy::Event ${event_id} not found`);
+            console.log(`OverflowActivitySynchStrategy::overflow event ${event_id} not found in index, checking events data`);
+
+            // fallback: search in events data
+            const event = eventsData.find((e, index) => {
+                if (e.id === event_id) {
+                    eventIndex = index;
+                    return true;
+                }
+                return false;
+            });
+            
+            if (!event) {
+                console.log(`OverflowActivitySynchStrategy::overflow event ${event_id} not found in events data either`);
+                return Promise.reject(`OverflowActivitySynchStrategy::Event ${event_id} not found`);
+            }
+            
+            console.log(`OverflowActivitySynchStrategy::found event ${event_id} at position ${eventIndex} via fallback search`);
         }
 
         eventsData[eventIndex].overflow_url = overflow_url;
