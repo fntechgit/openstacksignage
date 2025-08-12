@@ -3,12 +3,17 @@ import AbstractSynchStrategy from "./abstract_synch_strategy";
 /**
  * OverflowActivitySynchStrategy
  */
-class OverflowActivitySynchStrategy extends AbstractSynchStrategy{
+class OverflowActivitySynchStrategy extends AbstractSynchStrategy {
 
-    async process(payload){
+    async process(payload) {
 
-        const {event_id, overflow_url} = payload;
-        
+        const { entity_id: event_id, params: { overflow_url } = {} } = payload;
+
+        if (!event_id || !overflow_url) {
+            console.log(`OverflowActivitySynchStrategy::missing required fields - event_id: ${event_id}, overflow_url: ${overflow_url}`);
+            return Promise.reject(`OverflowActivitySynchStrategy::missing required fields`);
+        }
+
         console.log(`OverflowActivitySynchStrategy::overflow event ${event_id}`, payload);
 
         let eventsData = [...this.allEvents];
