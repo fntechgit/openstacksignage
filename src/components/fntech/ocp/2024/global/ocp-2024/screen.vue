@@ -120,7 +120,7 @@
 
         <!-- QR Code and Static Banner -->
         <div v-if="schedule.state.events.curr">
-            <qr-code class="fixed-bottom qr-code" :size="122" color="#ffffff" bg-color="transparent" :text="virtualSessionUrl"></qr-code>
+            <qr-code class="fixed-bottom qr-code" :size="122" color="#ffffff" bg-color="transparent" error-level="L" :text="virtualSessionUrl"></qr-code>
             <span class="fixed-bottom qr-code-message">
                 {{ schedule.state.events.curr && schedule.state.events.curr.overflow_url ? 
                    'Session is full. Scan to watch on your device' : 
