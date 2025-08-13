@@ -83,6 +83,31 @@ class RealtimeUpdates
                         allIDXEvents: JSON.stringify(model.getEventsIdx()),
                     });
                 });
+
+                // Overflow event channel
+                const overflowChannel = this._client.channels.get(`${summitId}:OVERFLOW:*`);
+
+                overflowChannel.subscribe((message) => {
+                    const {data: payload} = message;
+                    console.log('Event Overflow Change received', payload);
+                    console.log('Overflow payload structure:', JSON.stringify(payload, null, 2));
+                    
+                    if (!this._worker) {
+                        console.log('RealtimeUpdates worker is null');
+                        return;
+                    }
+
+                    const model = $store.getters.schedule;
+                    const summit = $store.getters.summit;
+
+                    this._worker.postMessage({
+                        location: JSON.stringify(location),
+                        noveltiesArray: JSON.stringify([payload]),
+                        summit: JSON.stringify(summit),
+                        allEvents: JSON.stringify(model.getEvents()),
+                        allIDXEvents: JSON.stringify(model.getEventsIdx()),
+                    });
+                });
             });
 
         })

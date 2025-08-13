@@ -121,7 +121,11 @@
         <!-- QR Code and Static Banner -->
         <div v-if="schedule.state.events.curr">
             <qr-code class="fixed-bottom qr-code" :size="122" color="#ffffff" bg-color="transparent" :text="virtualSessionUrl"></qr-code>
-            <span class="fixed-bottom qr-code-message">Scan here to view on the summit platform</span>
+            <span class="fixed-bottom qr-code-message">
+                {{ schedule.state.events.curr && schedule.state.events.curr.overflow_url ? 
+                   'Session is full. Scan to watch on your device' : 
+                   'Scan here to view on the summit platform' }}
+            </span>
         </div>
         <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
         <banner class="fixed-bottom" :banner="schedule.state.scheduled_banners.curr" v-if="schedule.state.scheduled_banners.curr"></banner>
@@ -177,8 +181,11 @@ export default {
             return 'https://2024ocpglobal.fnvirtual.app/a/schedule'
         },
         virtualSessionUrl() {
-            let url = 'https://2024ocpglobal.fnvirtual.app';
             let curr = this.schedule.state.events.curr
+            if (curr && curr.overflow_url) {
+                return curr.overflow_url
+            }
+            let url = 'https://2024ocpglobal.fnvirtual.app';
             if (curr) url = `${url}/a/event/${curr.id}`
             return url
         },
