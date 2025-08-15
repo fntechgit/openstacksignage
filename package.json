@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "ably": "^1.2.39",
+    "ably": "^2.11.0",
     "axios": "1.3.5",
     "core-js": "^3.10.0",
     "firebase": "4.5.1",
