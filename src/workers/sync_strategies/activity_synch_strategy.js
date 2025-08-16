@@ -50,7 +50,7 @@ class ActivitySynchStrategy extends AbstractSynchStrategy{
             const formerEntity = formerIdx >= 0 ? eventsData[formerIdx] : null;
             console.log(`ActivitySynchStrategy::process formerIdx ${formerIdx} formerEntity `, formerEntity);
             const currentLocationId = getEventLocationId(entity);
-            if(currentLocationId !== locationId){
+            if(parseInt(currentLocationId) !== parseInt(locationId)){
                 console.log(`ActivitySynchStrategy::process currentLocationId ${currentLocationId} <> locationId ${locationId}`);
                 // unpublished: remove
                 eventsData = eventsData.filter((e) => e.id !== entity_id);
