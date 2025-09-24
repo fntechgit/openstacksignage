@@ -69,7 +69,7 @@ export default {
             this.iconUrl = '';
         },
         loadTrackIcon(trackId) {
-            const baseUrl = `https://spaces.fnvirtual.app/OCPGlobalSummitandSymposium2024/Creative/CategoryIconsSigns/${trackId}`;
+            const baseUrl = `https://spaces.fnvirtual.app/OCPGlobalSummitandSymposium2025/Creative/CategoryIconsSigns/${trackId}`;
             const extensions = ['png', 'jpg'];
             
             this.tryLoadImage(baseUrl, extensions, 0);
