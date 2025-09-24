@@ -5,6 +5,11 @@ const path = require('path');
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
+  stats: {
+    warnings: false,
+    errors: true,
+    errorDetails: true
+  },
 
   // ensure "manifest" exists because common injects ['manifest', entryName]
   optimization: {
@@ -21,8 +26,11 @@ module.exports = merge(common, {
     port: 8081,
     allowedHosts: 'all',
     client: {
-      overlay: true,
-      logging: 'info',
+      overlay: {
+        warnings: false,
+        errors: true
+      },
+      logging: 'error',
     },
   },
 
