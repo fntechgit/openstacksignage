@@ -213,9 +213,8 @@ export default {
                 return curr.overflow_url
             }
             
-            let url = 'https://2025ocpglobal.fnvirtual.app'
-            if (curr) url = `${url}/a/event/${curr.id}`
-            return url
+            // For regular events, always use the schedule URL
+            return 'https://2025ocpglobal.fnvirtual.app/a/schedule/'
         },
         playIconDataUrl() {
             // Play button as white ring with triangular cutout
