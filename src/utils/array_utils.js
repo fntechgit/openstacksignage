@@ -13,3 +13,10 @@ export const insertSorted = (arr, elem, fnCheck) =>
     arr[i + 1] = elem;
     return i+1;
 }
+
+export const rebuildIndex = (array, key = 'id') => {
+    return array.reduce((acc, item, index) => {
+        acc[item[key]] = index;
+        return acc;
+    }, {});
+};
