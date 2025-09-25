@@ -231,8 +231,8 @@ export default {
             return 'data:image/svg+xml;base64,' + btoa(svg);
         },
         qrErrorLevel() {
-            // Use high error correction when showing image, low when not
-            return this.isOverflowEvent ? 'H' : 'L';
+            // Use medium error correction when showing image, low when not
+            return this.isOverflowEvent ? 'M' : 'L';
         },
         qrImage() {
             // Only show play icon for overflow events
