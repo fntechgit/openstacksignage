@@ -24,7 +24,19 @@ class RealtimeUpdates
 
         this._worker.onmessage = (event) => {
             let {data} = event;
-            // do model update
+            // persist on storage overflow_url
+            if(data?.eventsData && data?.summit){
+               data.eventsData.forEach(event => {
+                    if(event.hasOwnProperty('overflow_url')) { // so we can save empty values too
+                        try {
+                            const cacheKey = `signage:overflow:${data?.summit?.id}:${event.id}`;
+                            localStorage.setItem(cacheKey, event.overflow_url);
+                        } catch (e) {
+                            // ignore storage issues (private mode, quota, etc.)
+                        }
+                    }
+                })
+            }
             console.log('RealtimeUpdates processed', data);
             $store.dispatch('updateEvents', data);
         }
