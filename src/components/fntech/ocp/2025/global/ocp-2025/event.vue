@@ -11,7 +11,7 @@
                 {{ event.title }}
             </div>
         </div>
-        <div class="row" v-if="showSpeakers && event.speakers.length">
+        <div class="row" v-if="showSpeakers && event?.speakers?.length">
             <div class="col-12 speakers" v-bind:class="next ? 'pt-4' : 'pt-5'">
                 <div class="pb-1" v-for="speaker in event.speakers" :key="speaker.id">
                     {{ speaker.first_name }} {{ speaker.last_name }}
