@@ -157,7 +157,7 @@ export const $store = new Vuex.Store({
             }, { indices: false })
 
             return axios.get(getEndpoint(
-                `summits/${summit_id}/published-events?${query}`
+                `summits/${summit_id}/events/published?${query}`
             ))
         },
         loadBanners(context, location) {
