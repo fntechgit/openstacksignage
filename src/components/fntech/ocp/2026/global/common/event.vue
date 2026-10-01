@@ -1,20 +1,20 @@
 <template>
-    <div class="container-fluid pb-7 event" :class="{ next, 'pt-5': !next }">
+    <div class="container-fluid event" :class="{ next }">
         <div class="row" v-if="next">
-            <div class="col-12 pt-5 pb-2 text-uppercase">
-                <div class="next-session-border" v-if="hasCurrent"></div>
+            <div class="col-12 pb-2 text-uppercase next-session-heading">
                 <span class="next-session-label">Next Session</span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 name" v-bind:class="{ 'pt-4': !next, 'pb-2': next && (!showSpeakers || !event.speakers.length) }">
-                {{ event.title }}
+        <div class="row name-row">
+            <div class="col-12 name" v-bind:class="{ 'pt-4': !next, 'pb-2': next && (!showSpeakers || !speakerNames.length) }">
+                <text-fit v-if="next" :max="44" :min="24">{{ event.title }}</text-fit>
+                <template v-else>{{ event.title }}</template>
             </div>
         </div>
-        <div class="row" v-if="showSpeakers && event.speakers.length">
+        <div class="row" v-if="showSpeakers && speakerNames.length">
             <div class="col-12 speakers">
-                <div class="pb-1" v-for="speaker in event.speakers" :key="speaker.id">
-                    {{ speaker.first_name }} {{ speaker.last_name }}
+                <div class="pb-1" v-for="name in speakerNames" :key="name">
+                    {{ name }}
                 </div>
             </div>
         </div>
@@ -28,7 +28,14 @@
 
 <script>
 
+    import TextFit from './text-fit.vue'
+
+    // A panel session runs to 25 speakers, which is taller than the whole sign.
+    // Four names fit the space design drew and still say who is on stage.
+    const SPEAKER_LIMIT = 4
+
     export default {
+        components: { TextFit },
         props: {
             event: Object,
             next: Boolean,
@@ -36,13 +43,23 @@
             showSpeakers: {
                 type: Boolean,
                 default: true
-            },
-            hasCurrent: {
-                type: Boolean,
-                default: false
             }
         },
         computed: {
+            speakerNames() {
+                const speakers = this.event && this.event.speakers || []
+                const names = speakers.map(
+                    speaker => `${speaker.first_name || ''} ${speaker.last_name || ''}`.trim()
+                )
+
+                if (names.length <= SPEAKER_LIMIT) {
+                    return names
+                }
+
+                return names.slice(0, SPEAKER_LIMIT).concat(
+                    [`and ${names.length - SPEAKER_LIMIT} more`]
+                )
+            },
             room() {
                 return event => event && this.$store.getters.room(
                     event.location_id
@@ -82,8 +99,15 @@
         white-space: nowrap;
     }
 
+    /* Debug only: shows how many speakers the session carries against how many
+       the block renders, so a missing name is visible at a glance. */
+
     .event {
         color: white;
+        /* Spacing lives here rather than on utility classes, so now-and-next
+           can set its own without having to outrank them. */
+        padding-top: 48px;
+        padding-bottom: 96px;
         /* Figma content column: x=88, 904 wide. Bootstrap's row/col gutters are
            zeroed so this padding is the only one. */
         padding-left: 88px;
@@ -117,6 +141,25 @@
         padding-top: 14px;
     }
 
+    /* The next block is given a height by now-and-next. Its heading and time
+       keep their own size and the title takes what is left, which is what
+       text-fit measures against. */
+    .event.next {
+        padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .event.next .name-row {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .event.next .name-row .name {
+        height: 100%;
+    }
+
     /* The time sits a little further below the speakers than the speakers sit
        below the title, so it reads as its own line rather than part of them. */
     .event .when {
@@ -145,6 +188,10 @@
     }
 
     /* Figma draws this at 24px; lifted a step so the section heading carries. */
+    .next-session-heading {
+        padding-top: 48px;
+    }
+
     .next-session-label {
         color: #8DC63F;
         font-size: 30px;
@@ -153,10 +200,4 @@
         letter-spacing: 3px;
     }
 
-    .next-session-border {
-        width: 100%;
-        height: 2px;
-        background-color: #8DC63F;
-        margin-bottom: 44px;
-    }
 </style>

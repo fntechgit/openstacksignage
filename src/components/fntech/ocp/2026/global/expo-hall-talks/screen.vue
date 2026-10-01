@@ -89,7 +89,7 @@
         <!-- Room and Time Information - Normal Mode -->
         <div class="container-fluid room-bar" v-if="(hasEvents || isEndOfDay) && !isOverflowEvent">
             <div class="room-header">
-                <div class="room-title text-uppercase" v-bind:style="roomStyle">Expo Hall</div>
+                <room-name class="room-title" :name="schedule.room.name"></room-name>
                 <clock :schedule="schedule"></clock>
             </div>
         </div>
@@ -98,7 +98,7 @@
         <div class="room-overflow-container" v-if="(hasEvents || isEndOfDay) && isOverflowEvent">
             <div class="room-overflow-wrapper">
                 <div class="room-overflow-text">
-                    <div class="room-name text-uppercase" v-bind:style="roomStyle">Expo Hall</div>
+                    <room-name class="room-name" :name="schedule.room.name"></room-name>
                     <div class="room-full-text">This room is full</div>
                 </div>
                 <stream-qr :url="virtualSessionUrl"></stream-qr>
@@ -109,20 +109,7 @@
         <banner :banner="schedule.state.scheduled_banners.curr"
                v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
 
-        <!-- Current Event -->
-        <event :schedule="schedule" :event="schedule.state.events.curr"
-        v-if="schedule.state.events.curr"></event>
-        
-        <!-- Next Event -->
-        <event
-            :schedule="schedule"
-            :event="schedule.state.events.next"
-            :next=true v-if="schedule.state.events.next && schedule.isToday(schedule.state.events.next.start_date)"
-            :showSpeakers="!schedule.state.events.curr"
-            :hasCurrent="!!schedule.state.events.curr"
-            v-bind:class="{ 'fixed-bottom': schedule.state.events.curr }"
-            style="bottom: 24.5rem;">
-        </event>
+        <now-and-next :schedule="schedule"></now-and-next>
 
         <!-- No Presentations Message -->
         <div class="container-fluid" v-if="isEndOfDay">
@@ -143,51 +130,23 @@
 <script>
 import 'assets/css/ocp/2019/global/theme.scss'
 
-import Event from './event.vue'
+import NowAndNext from '../common/now-and-next.vue'
 import Banner from './banner.vue'
 import Clock from '../common/clock.vue'
+import RoomName from '../common/room-name.vue'
 import TrackIcon from '../common/track-icon.vue'
 import FnappPromo from '../common/fnapp-promo.vue'
 import StreamQr from '../common/stream-qr.vue'
-import moment from 'moment'
 
 import { mapGetters } from 'vuex'
+import signScreen from '../common/sign-screen'
 
 export default {
-    data() {
-        return {}
-    },
+    mixins: [signScreen],
     computed: {
         ...mapGetters({
             schedule: 'schedule'
         }),
-        roomStyle() {
-            return {
-                'font-size': '160px',
-                'line-height': '120px',
-                'letter-spacing': '-0.02em',
-                'white-space': 'nowrap',
-            }
-        },
-        trackStyle() {
-            const defaultStyles = {
-                backgroundColor: "#ffffff",
-                color: "#191A4F",
-                fontSize: "48px"
-            };
-            const track = this.schedule.state.track || {};
-            const trackName = track.name || "";
-            if (trackName.length > 32) {
-                defaultStyles.fontSize = "40px";
-            }
-            if (track.color) {
-                defaultStyles.backgroundColor = track.color;
-            }
-            if (track.text_color) {
-                defaultStyles.color = track.text_color;
-            }
-            return defaultStyles;
-        },
         virtualSessionUrl() {
             let curr = this.schedule.state.events.curr
             
@@ -198,15 +157,6 @@ export default {
             let url = 'https://2026ocpglobal.fnvirtual.app'
             if (curr) url = `${url}/a/event/${curr.id}`
             return url
-        },
-        isOverflowEvent() {
-            const curr = this.schedule.state.events.curr;
-            return !!(curr && curr.overflow_url);
-        },
-        hasEvents() {
-            const hasCurrentEvent = !!this.schedule.state.events.curr;
-            const hasUpcomingToday = this.schedule.state.events.next && this.schedule.isToday(this.schedule.state.events.next.start_date);
-            return hasCurrentEvent || hasUpcomingToday;
         },
         isEndOfDay() {
             // Show "end of day" message only if:
@@ -238,40 +188,25 @@ export default {
                 // Events are scheduled OR end of day - show regular background
                 body.style.backgroundImage = "url('assets/images/ocp-2026/OCP26G_Background.png')";
             }
-        },
-        formatTrackName(name) {
-            return name.replace('EW: ', '');
-        },
-        formatRoomName(name) {
-            if (name.match(/^\d/)) {
-                return name.replace(/\s/g, '');
-            }
-            if (name.startsWith('Marriott')) {
-                return name.replace('Marriott ', '');
-            }
-            return name
-        },
-        syncStart(item) {
-            this.schedule.setOffset(
-                item.start_date - moment.utc().unix() - 65
-            )
-        },
-        syncEnd(item) {
-            this.schedule.setOffset(
-                item.end_date - moment.utc().unix() - 5
-            )
         }
     },
     mounted() {
         // Initialize background image
         this.updateBackgroundImage();
     },
-    components: { Event, Banner, Clock, TrackIcon, FnappPromo, StreamQr }
+    components: { RoomName, NowAndNext, Banner, Clock, TrackIcon, FnappPromo, StreamQr }
 }
 </script>
 
 <style>
+
     #app {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        /* The app promo is fixed over the lower part of the screen; this keeps
+           the sessions clear of it. */
+        padding-bottom: 392px;
         color: white;
         font-family: "Libre Franklin", "franklin-gothic-urw", sans-serif;
         font-weight: 500;
@@ -309,8 +244,17 @@ export default {
         padding-right: 88px;
     }
 
+    /* Line this up with the session content column rather than the row's own
+       96px padding. */
+    .no-presentations {
+        padding-left: 88px !important;
+        padding-right: 88px !important;
+    }
 
-
+    .no-presentations > [class*="col"] {
+        padding-left: 0;
+        padding-right: 0;
+    }
 
     .no-presentations {
         font-size: 4.25rem;
@@ -321,19 +265,27 @@ export default {
 
     /* Figma puts the room name at x=81 and the clock's right edge at x=989. */
     .room-bar {
-        padding: 84px 91px 16px 81px;
+        /* Same gutter either side, so the clock sits as far from the right edge
+           as the room name does from the left. */
+        padding: 84px 81px 16px 81px;
     }
 
     .room-header {
         display: flex;
         justify-content: space-between;
-        /* Figma bottom-aligns the clock with the room name. */
-        align-items: flex-end;
+        /* Figma bottom-aligns the clock with the room name, but a name that
+           wraps would then drag the clock down the screen. Aligning to the top
+           of the row keeps it at the same place whatever the name does. */
+        align-items: flex-start;
     }
 
+    /* Trim the line box down to the capitals so its top edge is the ink edge,
+       not the font's ascent. The header row aligns to the top, so this is what
+       puts the room name level with the clock at any size or line count. */
     .room-title {
+        text-box: trim-both cap alphabetic;
         flex: 1;
-        max-width: 620px;
+        max-width: 650px;
     }
 
     /* Room overflow header styling */
@@ -342,8 +294,8 @@ export default {
         width: 100vw;
         margin-left: calc(-50vw + 50%);
         background-color: rgb(192, 47, 29);
-        /* The track bar ends at y=88 and the band starts at 139. Its height comes
-           from the room name, which takes two lines in the longer rooms. */
+        /* Sits clear of the track bar above it. Its own height comes from the
+           room name, which runs to two lines in the longer rooms. */
         margin-top: 51px;
     }
 
@@ -351,7 +303,10 @@ export default {
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
-        padding: 35px 14px 24px 81px;
+        /* Both text boxes are trimmed to their ink, so these are the distances
+           actually seen: the name sits as far from the top as "this room is
+           full" sits from the bottom. */
+        padding: 35px 14px 35px 81px;
     }
 
     .room-overflow-text {
@@ -365,12 +320,18 @@ export default {
 
     .room-overflow-wrapper .room-name {
         color: #F5F5F5;
+        /* Narrower than the normal header's cap on purpose: the stream QR
+           starts at x=738 where the clock starts at 771, so the name has to
+           stop earlier to leave the same gap beside it. */
         max-width: 620px;
-        /* Inherits roomStyle computed property for consistent sizing */
+        /* Trim the line box to the capitals, as the normal header does, so the
+           name starts level with the QR beside it at any size. */
+        text-box: trim-both cap alphabetic;
     }
 
     .room-overflow-wrapper .room-full-text {
         color: #FFFFFF;
+        text-box: trim-both cap alphabetic;
         margin-top: 24px;
         margin-left: 10px;
         font-size: 44px;
