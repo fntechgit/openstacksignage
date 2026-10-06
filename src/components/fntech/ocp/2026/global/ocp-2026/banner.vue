@@ -55,7 +55,7 @@
 
     .ticker-wrap {
         position: fixed;
-        bottom: 3px;
+        bottom: 20px;
         width: 100%;
         overflow: hidden;
         height: 6rem;

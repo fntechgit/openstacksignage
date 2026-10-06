@@ -105,10 +105,6 @@
             </div>
         </div>
 
-        <!-- Primary Banner -->
-        <banner :banner="schedule.state.scheduled_banners.curr"
-               v-if="schedule.state.scheduled_banners.curr && schedule.state.scheduled_banners.curr.type == 'Primary'"></banner>
-
         <now-and-next :schedule="schedule"></now-and-next>
 
         <!-- No Presentations Message -->
@@ -120,10 +116,9 @@
             </div>
         </div>
 
-        <!-- App Promo and Static Banner -->
+        <!-- App Promo and Banner -->
         <fnapp-promo v-if="hasEvents || isEndOfDay"></fnapp-promo>
-        <banner class="fixed-bottom" :banner="schedule.state.static_banner" v-if="schedule.state.static_banner"></banner>
-        <banner class="fixed-bottom" :banner="schedule.state.scheduled_banners.curr" v-if="schedule.state.scheduled_banners.curr"></banner>
+        <banner class="fixed-bottom" :banner="bottomBanner" v-if="bottomBanner"></banner>
     </div>
 </template>
 

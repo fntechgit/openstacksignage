@@ -34,6 +34,12 @@ export default {
 
             return !!this.schedule.state.events.curr
                 || !!(next && this.schedule.isToday(next.start_date))
+        },
+        // The bottom strip holds one banner. A scheduled banner, while it is
+        // live, takes the place of the static one rather than scrolling over it.
+        bottomBanner() {
+            return this.schedule.state.scheduled_banners.curr
+                || this.schedule.state.static_banner
         }
     },
     methods: {
